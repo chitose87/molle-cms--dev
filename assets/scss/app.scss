@@ -1,0 +1,86 @@
+$spacers: ();
+$spacers: map-merge(
+    (
+      0: 0,
+      1: ($spacer * .25),
+      2: ($spacer * .5),
+      3: $spacer,
+      4: ($spacer * 1.5),
+      5: ($spacer * 3),
+      6: ($spacer * 4),
+      7: ($spacer * 5),
+      8: ($spacer * 6),
+      9: ($spacer * 7),
+      10: ($spacer * 8),
+    ),
+    $spacers
+);
+
+
+@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-vue/src/index.scss';
+
+@each $color, $value in $colors {
+  @include bg-variant(".bg-#{$color}", $value, true);
+}
+
+h1, .h1 {
+  margin-top: 4rem;
+  margin-bottom: 3.5rem
+}
+
+h2, .h2 {
+  margin-top: 3.5rem;
+  margin-bottom: 3rem
+}
+
+h3, .h3 {
+  margin-top: 3rem;
+  margin-bottom: 2.5rem
+}
+
+h4, .h4 {
+  margin-top: 2.5rem;
+  margin-bottom: 2rem
+}
+
+h5, .h5 {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem
+}
+
+h6, .h6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem
+}
+
+.isPc {
+  @include mediaquery-sm {
+    display: none;
+  }
+}
+
+.isSp {
+  @include mediaquery-not-sm {
+    display: none;
+  }
+}
+
+.resize-h {
+  resize: horizontal;
+}
+
+.a-rolling {
+  animation: a-rolling 1s linear 0s infinite forwards running;
+  @keyframes a-rolling {
+    0% {
+      transform: rotate(0);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

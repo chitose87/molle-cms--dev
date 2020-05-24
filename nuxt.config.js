@@ -1,3 +1,17 @@
+require('dotenv').config();
+
+const firebase = require("firebase/app");
+require("firebase/auth");
+require("firebase/firestore");
+
+firebase.initializeApp({
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  databaseURL: process.env.databaseURL,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+});
 
 export default {
   mode: 'universal',
@@ -7,27 +21,30 @@ export default {
   head: {
     title: process.env.npm_package_name || '',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: process.env.npm_package_description || ''}
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ]
   },
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: {color: '#fff'},
   /*
   ** Global CSS
   */
   css: [
+    '@/assets/scss/app.scss'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    // '~/plugins/Modules.ts',
+    // {src: "~/plugins/index.ts", ssr: false}
   ],
   /*
   ** Nuxt.js dev-modules
@@ -41,15 +58,56 @@ export default {
   modules: [
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
+    'bootstrap-vue/nuxt',
+    // {css: false},
+    '@nuxtjs/style-resources',
   ],
+  bootstrapVue: {
+    bootstrapCSS: false, // or `css`
+    bootstrapVueCSS: false // or `bvCSS`
+    ,icons: true
+  },
+  styleResources: {
+    scss: [
+      '~/assets/scss/_variables.scss',
+    ]
+  },
   /*
   ** Build configuration
   */
   build: {
-    /*
-    ** You can extend webpack config here
-    */
-    extend (config, ctx) {
+    extractCSS: true,
+    filenames: {
+      app: ({isDev}) => true ? '[name]-app.js?[hash]' : '[contenthash].js',
+      chunk: ({isDev}) => true ? '[name].js?[hash]' : '[contenthash].js',
+      css: ({isDev}) => true ? '[name].css?[hash]' : '[contenthash].css',
+      img: ({isDev}) => isDev ? '[path][name].[ext]' : 'img/[contenthash:7].[ext]',
+      font: ({isDev}) => isDev ? '[path][name].[ext]' : 'fonts/[contenthash:7].[ext]',
+      video: ({isDev}) => isDev ? '[path][name].[ext]' : 'videos/[contenthash:7].[ext]'
+    },
+    extend(config, ctx) {
+    }
+  },
+  generate: {
+    // subFolders: false,
+    routes() {
+      return new Promise((resolve, reject) => {
+        firebase.auth().onAuthStateChanged((user) => {
+          firebase.firestore().collection("routes")
+            .get()
+            .then((querySnapshot) => {
+              let list = [];
+              querySnapshot.forEach((doc) => {
+                let data = doc.data();
+                list.push({
+                  route: `${data.path}`
+                  , payload: data
+                })
+              });
+              resolve(list);
+            })
+        });
+      });
     }
   }
 }

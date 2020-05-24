@@ -1,19 +1,14 @@
 <template lang="pug">
-  .hoge
-    p topPage
 </template>
 
 <script lang="ts">
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
 
   @Component({
-    layout: "static",
     components: {}
   })
-  export default class TopPage extends Vue {
+  export default class Headline extends Vue {
 
-    mounted() {
-    }
   }
 </script>
 
