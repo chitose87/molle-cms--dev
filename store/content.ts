@@ -4,10 +4,10 @@ import {Module, VuexModule, Mutation} from 'vuex-module-decorators'
 
 export default class content extends VuexModule {
   pages: any = {};
-  presetOutline: any = {
+  presetOutlines: any = {
     0: {name: "Headline"},
   };
-  outline: any = this.presetOutline;
+  outlines: any = this.presetOutlines;
   values: any = {};
 
   @Mutation
@@ -20,10 +20,10 @@ export default class content extends VuexModule {
   }
 
   @Mutation
-  updateOutline(firestoreQuerySnapshot: any) {
-    this.outline = Object.assign({}, this.presetOutline);
+  updateOutlines(firestoreQuerySnapshot: any) {
+    this.outlines = Object.assign({}, this.presetOutlines);
     firestoreQuerySnapshot.forEach((firestoreQueryDocumentSnapshot: any) => {
-      this.outline[firestoreQueryDocumentSnapshot.id] = firestoreQueryDocumentSnapshot.data();
+      this.outlines[firestoreQueryDocumentSnapshot.id] = firestoreQueryDocumentSnapshot.data();
     });
   }
 

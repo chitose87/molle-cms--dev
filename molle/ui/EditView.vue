@@ -4,9 +4,12 @@
     .container(v-if="pageData")
       span(v-html="pageData.path")
       div(v-for="(item,key) in pageData.items")
-        span {{key}}
-        span {{item.id}}
         span {{item.index}}
+        span {{item.id}}
+        component(
+          :is="contentStore.outlines[item.moduleId].name"
+          :itemData="item"
+        )
 
       //div
         select.form-control(v-model="itemOption.name")

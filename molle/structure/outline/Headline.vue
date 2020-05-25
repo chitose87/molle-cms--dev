@@ -1,9 +1,16 @@
 <template lang="pug">
   .module
+    span {{itemData.id}}
+    span {{itemData.valueRef}}
+    span {{itemData.moduleId}}
+
+    form(@submit.prevent="update(`index`)")
+      input(type="number" v-model="itemData.index")
+      button.btn.btn-link(type="submit") done
+
     component(
       :is="lv"
     )
-      span(v-html="text")
 
     div
       select(v-model="lv" @change="update")
@@ -19,28 +26,39 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
+  import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
+  import firebase from "firebase";
 
   @Component({
     components: {}
   })
   export default class Headline extends Vue {
+    @Prop() itemData?: any;
     text: string = "";
     lv: string = "h3";
 
     mounted() {
-
     }
+
     // change(value: string) {
     //   this.text = value;
     // }
 
-    update() {
+    update(key: string) {
+      let updateData: any = {};
+      updateData[key] = this.itemData[key];
 
+      firebase.firestore()
+        .collection(`pages/${this.$route.query.id}/items`)
+        .doc(this.itemData.id)
+        .update(updateData);
     }
   }
 </script>
 
 <style lang="scss">
-
+  .module {
+    border: 1px solid gray;
+    padding: 1rem;
+  }
 </style>

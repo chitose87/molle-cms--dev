@@ -48,8 +48,8 @@
           firebase.firestore().collection("pages")
             .onSnapshot(contentStore.updatePages);
 
-          //firebase.firestore().collection("outline")
-            //.onSnapshot(contentStore.updateOutline);
+          firebase.firestore().collection("outlines")
+            .onSnapshot(contentStore.updateOutlines);
 
           // firebase.firestore().collection("values")
           //   .onSnapshot(contentStore.updateValues);
