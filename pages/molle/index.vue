@@ -1,25 +1,24 @@
 <template lang="pug">
   no-ssr
     .molle
-      button.btn.btn-primary(@click="addPage") 新規
-      ul.list-group.list-group-flush
-        li.list-group-item(v-for="(item,key) in pageStore.list")
-          form(@submit.prevent="changePath(key)")
-            input(:value="item.path" @blur="changePath(key)" :ref="key")
-
+      div(v-if="$route.hash==='#page-edit'")
+        EditView
+      div(v-else)
+        PageList
 
 </template>
 
 <script lang="ts">
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
-  import {pageStore} from "~/utils/store-accessor";
+  import {contentStore} from "~/utils/store-accessor";
   import * as firebase from "~/node_modules/firebase";
+  import PageList from "~/molle/ui/PageList.vue";
+  import EditView from "~/molle/ui/EditView.vue";
 
   @Component({
-    components: {}
+    components: {EditView, PageList}
   })
   export default class MolleTopPage extends Vue {
-    pageStore = pageStore;
 
     head() {
       return {
@@ -46,31 +45,16 @@
         //routes index
         firebase.auth().onAuthStateChanged((user) => {
           console.log(user);
-          firebase.firestore().collection("routes").onSnapshot(pageStore.updateList);
+          firebase.firestore().collection("pages")
+            .onSnapshot(contentStore.updatePages);
+
+          //firebase.firestore().collection("outline")
+            //.onSnapshot(contentStore.updateOutline);
+
+          // firebase.firestore().collection("values")
+          //   .onSnapshot(contentStore.updateValues);
         });
       }
-    }
-
-    addPage() {
-      firebase.firestore().collection("routes")
-        .add({
-          name: "Tokyo",
-          path: "Japan"
-        })
-        .then((docRef) => {
-          console.log("Document written with ID: ", docRef.id);
-        })
-        .catch((error) => {
-          console.error("Error adding document: ", error);
-        });
-    }
-
-    /**
-     *
-     * @param key
-     */
-    changePath(key: string) {
-      console.log(key, this.$refs[key]);
     }
   }
 </script>

@@ -1,14 +1,14 @@
 import {Store} from 'vuex'
 import {getModule} from 'vuex-module-decorators'
-import Page from "~/store/page";
+import Content from "~/store/content";
 
-let pageStore: Page;
+let contentStore: Content;
 
 function initialiseStores(store: Store<any>): void {
-  pageStore = getModule(Page, store);
+  contentStore = getModule(Content, store);
 }
 
 export {
-  pageStore,
+  contentStore,
   initialiseStores
 }

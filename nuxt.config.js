@@ -43,7 +43,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    // '~/plugins/Modules.ts',
+    '~/plugins/Modules.ts',
     // {src: "~/plugins/index.ts", ssr: false}
   ],
   /*
