@@ -63,23 +63,16 @@
         this.pageData.items.length = 0;
 
         this.itemsRef = firebase.firestore().collection(`pages/${this.id}/items`);
-        this.unsubscribe = this.itemsRef.onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
-          this.pageData.items.length = 0;
-          snapshot.forEach((snap: firebase.firestore.QueryDocumentSnapshot) => {
-            let data = snap.data();
-            data.id = snap.id;
-
-            //sort
-            for (let i = 0; i < this.pageData.items.length; i++) {
-              let via = this.pageData.items[i];
-              if (data.index < via.index) {
-                this.pageData.items.splice(i, 0, data);
-                return
-              }
-            }
-            this.pageData.items.push(data);
+        this.unsubscribe = this.itemsRef
+          .orderBy("index")
+          .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
+            this.pageData.items.length = 0;
+            snapshot.forEach((snap: firebase.firestore.QueryDocumentSnapshot) => {
+              let data = snap.data();
+              data.id = snap.id;
+              this.pageData.items.push(data);
+            });
           });
-        });
       }
       return this.$route.query.id;
     }

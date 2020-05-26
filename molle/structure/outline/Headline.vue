@@ -1,19 +1,30 @@
 <template lang="pug">
   .module
     span {{itemData.id}}
-    span {{itemData.valueRef}}
+    //span {{itemData.valueRef}}
     span {{itemData.moduleId}}
 
-    form(@submit.prevent="update(`index`)")
-      input(type="number" v-model="itemData.index")
+    //index
+    form(@submit.prevent="updateItemData(`index`)")
+      label index
+        input(type="number" v-model="itemData.index")
       button.btn.btn-link(type="submit") done
+
+    div(v-if="contentStore.values")
+      div(v-if="itemData.valueRef")
+        label valueRef
+          select(:value="itemData.valueRef.id" @change="updateItemDataValueRef($event.target.value)")
+            option(v-for="(item,key) in contentStore.values"
+              :value="key"
+              v-html="item.displayName||`[ ${key} ]`"
+            )
+      ValueComp(:valueRef="itemData.valueRef")
 
     component(
       :is="lv"
     )
-
     div
-      select(v-model="lv" @change="update")
+      //select(v-model="lv" @change="update")
         option h1
         option h2
         option h3
@@ -21,30 +32,35 @@
         option h5
         option h6
 
-      input(type="text" v-model="text" @change="update")
+      //input(type="text" v-model="text" @change="update")
 
 </template>
 
 <script lang="ts">
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
+  import {contentStore} from "~/utils/store-accessor";
+  import ValueComp from "~/components/ValueComp.vue";
 
   @Component({
-    components: {}
+    components: {ValueComp}
   })
   export default class Headline extends Vue {
+    contentStore = contentStore;
+
     @Prop() itemData?: any;
     text: string = "";
     lv: string = "h3";
 
     mounted() {
+
+      console.log("mounted", this.itemData.valueRef)
+      if (!this.itemData.valueRef) {
+        this.itemData.valueRef = firebase.firestore().doc(`values/${this.itemData.id}`);
+      }
     }
 
-    // change(value: string) {
-    //   this.text = value;
-    // }
-
-    update(key: string) {
+    updateItemData(key: string) {
       let updateData: any = {};
       updateData[key] = this.itemData[key];
 
@@ -52,6 +68,15 @@
         .collection(`pages/${this.$route.query.id}/items`)
         .doc(this.itemData.id)
         .update(updateData);
+    }
+
+    updateItemDataValueRef(id: string) {
+      firebase.firestore()
+        .collection(`pages/${this.$route.query.id}/items`)
+        .doc(this.itemData.id)
+        .update({
+          valueRef: firebase.firestore().doc(`values/${id}`)
+        });
     }
   }
 </script>

@@ -51,8 +51,8 @@
           firebase.firestore().collection("outlines")
             .onSnapshot(contentStore.updateOutlines);
 
-          // firebase.firestore().collection("values")
-          //   .onSnapshot(contentStore.updateValues);
+          firebase.firestore().collection("values")
+            .onSnapshot(contentStore.updateValues);
         });
       }
     }

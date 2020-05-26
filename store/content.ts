@@ -9,6 +9,7 @@ export default class content extends VuexModule {
   };
   outlines: any = this.presetOutlines;
   values: any = {};
+  valueRefs: any = [];
 
   @Mutation
   updatePages(firestoreQuerySnapshot: any) {
