@@ -3,12 +3,12 @@
     span(v-html="getId()")
     .container(v-if="pageData")
       span(v-html="pageData.path")
-      div(v-for="(item,key) in pageData.items")
-        span {{item.index}}
-        span {{item.id}}
+      div(v-for="(pageItem,key) in pageData.items")
+        span {{pageItem.index}}
+        span {{pageItem.id}}
         component(
-          :is="contentStore.outlines[item.moduleId].name"
-          :itemData="item"
+          :is="contentStore.outlines[pageItem.moduleId].name"
+          :itemData="pageItem"
         )
 
       //div
@@ -18,6 +18,7 @@
           v-if="itemOption.name"
           //:is="itemOption.name"
             )
+        
       button.btn.btn-primary(@click="pushModule()") Module追加
 
 </template>
@@ -26,6 +27,7 @@
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
+  import {IPage, IPageItem} from "~/molle/interface/Page";
 
   @Component({
     components: {}
@@ -37,7 +39,7 @@
     itemsRef?: firebase.firestore.CollectionReference;
     unsubscribe?: () => void;
 
-    pageData: any = {
+    pageData: IPage = {
       path: "loading",
       items: [],
     };
@@ -68,7 +70,7 @@
           .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
             this.pageData.items.length = 0;
             snapshot.forEach((snap: firebase.firestore.QueryDocumentSnapshot) => {
-              let data = snap.data();
+              let data: IPageItem = <IPageItem>snap.data();
               data.id = snap.id;
               this.pageData.items.push(data);
             });
@@ -83,7 +85,7 @@
     pushModule() {
       let index;
       try {
-        index = this.pageData.items[this.pageData.items.length - 1].index + 100;
+        index = this.pageData.items[this.pageData.items.length - 1].index! + 100;
       } catch (e) {
         index = 100;
       }

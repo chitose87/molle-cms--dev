@@ -18,13 +18,14 @@
               :value="key"
               v-html="item.displayName||`[ ${key} ]`"
             )
-      ValueComp(:valueRef="itemData.valueRef")
+      //ValueComp(:valueRef="itemData.valueRef" :hoge="(v)=>{this.v=v}")
 
     component(
       :is="lv"
+      v-html="v"
     )
     div
-      //select(v-model="lv" @change="update")
+      select(v-model="lv")
         option h1
         option h2
         option h3
@@ -41,6 +42,7 @@
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
   import ValueComp from "~/components/ValueComp.vue";
+  import {IPageItem, IPageItemType} from "~/molle/interface/Page";
 
   @Component({
     components: {ValueComp}
@@ -48,32 +50,36 @@
   export default class Headline extends Vue {
     contentStore = contentStore;
 
-    @Prop() itemData?: any;
+    @Prop() itemData?: IPageItem;
     text: string = "";
     lv: string = "h3";
 
+    v: string = "";
+
+
     mounted() {
 
-      console.log("mounted", this.itemData.valueRef)
-      if (!this.itemData.valueRef) {
-        this.itemData.valueRef = firebase.firestore().doc(`values/${this.itemData.id}`);
+      console.log("mounted", this.itemData!.valueRef)
+      if (!this.itemData!.valueRef) {
+        this.itemData!.valueRef = firebase.firestore().doc(`values/${this.itemData!.id}`);
       }
     }
 
-    updateItemData(key: string) {
-      let updateData: any = {};
-      updateData[key] = this.itemData[key];
+
+    updateItemData(key: IPageItemType) {
+      let updateData: IPageItem = <IPageItem>{};
+      updateData[key] = this.itemData![key];
 
       firebase.firestore()
         .collection(`pages/${this.$route.query.id}/items`)
-        .doc(this.itemData.id)
+        .doc(this.itemData!.id)
         .update(updateData);
     }
 
     updateItemDataValueRef(id: string) {
       firebase.firestore()
         .collection(`pages/${this.$route.query.id}/items`)
-        .doc(this.itemData.id)
+        .doc(this.itemData!.id)
         .update({
           valueRef: firebase.firestore().doc(`values/${id}`)
         });

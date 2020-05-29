@@ -5,25 +5,45 @@
       span ID:
       span(v-html="getId()")
     div(v-if="valueMeta")
-      form(@submit.prevent="updateValueMeta(`displayName`)")
-        label valueMeta.displayName
-          input(type="text" v-model="valueMeta.displayName")
+      form(@submit.prevent="updateValueMeta(`name`)")
+        label name
+          input(type="text" v-model="valueMeta.name")
         button.btn.btn-link(type="submit") 更新
 
-      //form(@submit.prevent="updateValueMeta(`displayName`)")
-        label valueMeta.displayName
-          input(type="text" v-model="valueMeta.displayName")
+      form(@submit.prevent="updateValueMeta(`type`)")
+        label Type:
+          select(v-model="valueMeta.type")
+            option(v-for="(item,key) in valueTypes"
+              :value="key" v-html="item.label"
+            )
         button.btn.btn-link(type="submit") 更新
 
-    hr
-    div(v-if="valueBody")
+      form(@submit.prevent="updateValueMeta(`value`)")
+        label Value:
+          input(v-if="valueMeta.type === 'text'" type="text" v-model="valueMeta.value")
+          input(v-if="valueMeta.type === 'number'" type="number" v-model="valueMeta.value")
+          textarea(v-if="valueMeta.type === 'html'" v-model="valueMeta.value")
+          textarea(v-if="valueMeta.type === 'paragraph'" v-model="valueMeta.value")
+
+        div(v-if="valueMeta.type === 'img'"
+          :func="typeof valueMeta.value=='object'?false:valueMeta.value={}")
+          label src:
+            input(type="text" v-model="valueMeta.value.src")
+          label sp:
+            input(type="text" v-model="valueMeta.value.sp")
+          label alt:
+            input(type="text" v-model="valueMeta.value.alt")
+        button.btn.btn-link(type="submit") 更新
+
+    //hr
+    //div(v-if="valueBody")
       div(v-for="(item,key) in valueBody")
         form(@submit.prevent="updateField(key)")
           span {{key}} |
           label Type:
             select(v-model="item.type")
               option(v-for="(item,key) in $fieldType"
-                :value="key" v-html="item.label"
+      //          :value="key" v-html="item.label"
               )
           label Value:
             input(v-if="item.type === 'text'" type="text" v-model="item.value")
@@ -32,7 +52,7 @@
             textarea(v-if="item.type === 'paragraph'" v-model="item.value")
 
             div(v-if="item.type === 'img'"
-              :func="typeof item.value=='object'?false:item.value={}")
+      //        :func="typeof item.value=='object'?false:item.value={}")
               label src:
                 input(type="text" v-model="item.value.src")
               label sp:
@@ -49,7 +69,7 @@
         label Type:
           select(v-model="addField.type")
             option(v-for="(item,key) in $fieldType"
-              :value="key" v-html="item.label"
+        //      :value="key" v-html="item.label"
             )
         label Value:
           input(v-if="addField.type === 'text'" type="text" v-model="addField.value")
@@ -58,7 +78,7 @@
           textarea(v-if="addField.type === 'paragraph'" v-model="addField.value")
 
           div(v-if="addField.type === 'img'"
-            :func="typeof addField.value=='object'?false:addField.value={}")
+          //  :func="typeof addField.value=='object'?false:addField.value={}")
             label src:
               input(type="text" v-model="addField.value.src")
             label sp:
@@ -72,13 +92,17 @@
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
+  import {ValueTypes} from "~/molle/interface/Value";
 
   @Component({
     components: {}
   })
   export default class ValueComp extends Vue {
     contentStore = contentStore;
+    valueTypes = ValueTypes;
+
     @Prop() valueRef?: firebase.firestore.DocumentReference;
+    @Prop() hoge?: (value: any) => void;
     private id: string = "";
 
     valueMeta: any = {};
@@ -134,6 +158,11 @@
       updateData[key] = this.valueMeta[key];
 
       this.valueRef!.update(updateData);
+
+      if (key == "value") {
+        this.hoge!(this.valueMeta.value);
+        //  this.hoge = this.valueMeta.value;
+      }
     }
 
     /**
