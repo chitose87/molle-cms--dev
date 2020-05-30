@@ -1,4 +1,7 @@
 export interface IValue {
+  // id?: string;
+  ref?: any;
+
   name?: string;
   type?: IValueType;
   value?: any;

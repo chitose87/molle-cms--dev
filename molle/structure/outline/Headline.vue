@@ -11,18 +11,18 @@
       button.btn.btn-link(type="submit") done
 
     div(v-if="contentStore.values")
-      div(v-if="itemData.valueRef")
-        label valueRef
-          select(:value="itemData.valueRef.id" @change="updateItemDataValueRef($event.target.value)")
-            option(v-for="(item,key) in contentStore.values"
-              :value="key"
-              v-html="item.displayName||`[ ${key} ]`"
-            )
+      span contentStore.values
+      div(v-if="valueData.ref.id")
+        ValueComp(:valueData="valueData" :itemDataRef="itemData.ref")
+        //span {{valueData.name}}
+
+
+
       //ValueComp(:valueRef="itemData.valueRef" :hoge="(v)=>{this.v=v}")
 
     component(
       :is="lv"
-      v-html="v"
+      v-html="valueData.value"
     )
     div
       select(v-model="lv")
@@ -38,33 +38,41 @@
 </template>
 
 <script lang="ts">
-  import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
+  import {Component, Prop, Provide, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
-  import ValueComp from "~/components/ValueComp.vue";
+  // import ValueComp from "~/components/ValueComp.vue";
   import {IPageItem, IPageItemType} from "~/molle/interface/Page";
+  import {IValue, ValueTypes} from "~/molle/interface/Value";
+  import ValueComp from "~/components/ValueComp.vue";
 
   @Component({
     components: {ValueComp}
   })
   export default class Headline extends Vue {
     contentStore = contentStore;
+    valueTypes = ValueTypes;
 
     @Prop() itemData?: IPageItem;
+
+    valueData: IValue = {ref: {}};
     text: string = "";
     lv: string = "h3";
+    //value
+    unsubscribe?: () => void;
+    weit: number = 0;
 
-    v: string = "";
+    // v: string = "";
 
 
     mounted() {
-
-      console.log("mounted", this.itemData!.valueRef)
-      if (!this.itemData!.valueRef) {
-        this.itemData!.valueRef = firebase.firestore().doc(`values/${this.itemData!.id}`);
+      console.log("mounted", this.itemData!.ref.id, this.itemData!.valueRef)
+      if (this.itemData && !this.itemData!.valueRef) {
+        this.itemData.ref.update({valueRef: firebase.firestore().doc(`values/${this.itemData.ref.id}`)});
+      } else {
+        this.changeItemData(null, null)
       }
     }
-
 
     updateItemData(key: IPageItemType) {
       let updateData: IPageItem = <IPageItem>{};
@@ -72,18 +80,46 @@
 
       firebase.firestore()
         .collection(`pages/${this.$route.query.id}/items`)
-        .doc(this.itemData!.id)
+        .doc(this.itemData!.ref.id)
         .update(updateData);
     }
 
-    updateItemDataValueRef(id: string) {
-      firebase.firestore()
-        .collection(`pages/${this.$route.query.id}/items`)
-        .doc(this.itemData!.id)
-        .update({
-          valueRef: firebase.firestore().doc(`values/${id}`)
+    /**
+     *
+     * @param newer
+     * @param older
+     */
+    @Watch("itemData")
+    changeItemData(newer: any, older: any) {
+      // console.log("changeItemData")
+      if (this.unsubscribe) this.unsubscribe();
+
+      this.unsubscribe = this.itemData!.valueRef
+        .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+          if (!snap.exists) {
+            snap.ref.set({});
+          } else {
+            let v: IValue = <IValue>snap.data();
+            this.valueData.name = v.name;
+            this.valueData.type = v.type;
+            this.valueData.value = v.value;
+            this.valueData.ref = snap.ref;
+          }
         });
     }
+
+    updateValueData() {
+      // window.clearTimeout(this.weit);
+      // this.weit = window.setTimeout((valueRef: firebase.firestore.DocumentReference, valueData: IValue) => {
+      //   console.log("updateValueData", valueRef, valueData)
+      //   valueRef.update(valueData);
+      // }, 1000, this.itemData!.valueRef, this.valueData);
+    }
+
+    // @Watch("valueData")
+    // hoge(newer: any, older: any) {
+    //   console.log("hoge", newer.name, older)
+    // }
   }
 </script>
 

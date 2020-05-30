@@ -4,11 +4,11 @@ export interface IPage {
 }
 
 export interface IPageItem {
-  id?: string;
+  ref?: any;
   index?: number;
   moduleId?: string;
 
   valueRef?: any;
 }
 
-export type IPageItemType = "id" | "index" | "moduleId" | "valueRef";
+export type IPageItemType = "ref" | "index" | "moduleId" | "valueRef";

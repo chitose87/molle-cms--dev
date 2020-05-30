@@ -71,7 +71,7 @@
             this.pageData.items.length = 0;
             snapshot.forEach((snap: firebase.firestore.QueryDocumentSnapshot) => {
               let data: IPageItem = <IPageItem>snap.data();
-              data.id = snap.id;
+              data.ref = snap.ref;
               this.pageData.items.push(data);
             });
           });
