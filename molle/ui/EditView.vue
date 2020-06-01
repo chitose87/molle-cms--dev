@@ -5,7 +5,8 @@
       span(v-html="pageData.path")
       div(v-for="(pageItem,key) in pageData.items")
         span {{pageItem.index}}
-        span {{pageItem.id}}
+        span /
+        span {{pageItem.ref.id}}
         component(
           :is="contentStore.outlines[pageItem.moduleId].name"
           :itemData="pageItem"
@@ -18,8 +19,8 @@
           v-if="itemOption.name"
           //:is="itemOption.name"
             )
-        
-      button.btn.btn-primary(@click="pushModule()") Module追加
+
+    button.btn.btn-primary(@click="pushModule()") Module追加
 
 </template>
 
@@ -28,6 +29,7 @@
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
   import {IPage, IPageItem} from "~/molle/interface/Page";
+  import {IValue} from "~/molle/interface/Value";
 
   @Component({
     components: {}
@@ -38,6 +40,7 @@
     id: string = "";
     itemsRef?: firebase.firestore.CollectionReference;
     unsubscribe?: () => void;
+    unsubscribeValues?: () => void;
 
     pageData: IPage = {
       path: "loading",
@@ -55,9 +58,8 @@
 
         this.id = <string>this.$route.query.id;
         //現在のwatchを停止
-        if (this.unsubscribe) {
-          this.unsubscribe();
-        }
+        if (this.unsubscribe) this.unsubscribe();
+        if (this.unsubscribeValues) this.unsubscribeValues();
 
         let data = contentStore.pages[this.id];
         //init pageData
@@ -68,13 +70,19 @@
         this.unsubscribe = this.itemsRef
           .orderBy("index")
           .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
+            console.log(`--pages/${this.id}/items`);
             this.pageData.items.length = 0;
             snapshot.forEach((snap: firebase.firestore.QueryDocumentSnapshot) => {
+              console.log(snap.ref.path)
               let data: IPageItem = <IPageItem>snap.data();
               data.ref = snap.ref;
               this.pageData.items.push(data);
             });
           });
+
+        //values
+        this.unsubscribeValues = firebase.firestore().collection(`pages/${this.id}/values`)
+          .onSnapshot(contentStore.updateValues);
       }
       return this.$route.query.id;
     }
@@ -91,18 +99,17 @@
       }
       this.itemsRef!.add({
         moduleId: "0",
-        valueRef: null,
+        // valueRef: null,
         index: index,
-        joint: {
-          text: "title"
-        }
+        // joint: {
+        //   text: "title"
+        // }
       })
     }
 
     destroyed() {
-      if (this.unsubscribe) {
-        this.unsubscribe();
-      }
+      if (this.unsubscribe) this.unsubscribe();
+      if (this.unsubscribeValues) this.unsubscribeValues();
     }
   }
 </script>

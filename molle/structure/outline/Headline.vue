@@ -5,20 +5,14 @@
     span {{itemData.moduleId}}
 
     //index
-    form(@submit.prevent="updateItemData(`index`)")
+    form(@submit.prevent="itemData.ref.update({index:Number.parseFloat(itemData.index)})")
       label index
         input(type="number" v-model="itemData.index")
       button.btn.btn-link(type="submit") done
 
     div(v-if="contentStore.values")
-      span contentStore.values
       div(v-if="valueData.ref.id")
-        ValueComp(:valueData="valueData" :itemDataRef="itemData.ref")
-        //span {{valueData.name}}
-
-
-
-      //ValueComp(:valueRef="itemData.valueRef" :hoge="(v)=>{this.v=v}")
+        ValueComp(:valueData="valueData" :types="types")
 
     component(
       :is="lv"
@@ -34,7 +28,7 @@
         option h6
 
       //input(type="text" v-model="text" @change="update")
-
+    button.btn.btn-danger(@click="deleteModule()") 削除
 </template>
 
 <script lang="ts">
@@ -43,7 +37,7 @@
   import {contentStore} from "~/utils/store-accessor";
   // import ValueComp from "~/components/ValueComp.vue";
   import {IPageItem, IPageItemType} from "~/molle/interface/Page";
-  import {IValue, ValueTypes} from "~/molle/interface/Value";
+  import {IValue, IValueType, ValueTypes} from "~/molle/interface/Value";
   import ValueComp from "~/components/ValueComp.vue";
 
   @Component({
@@ -54,6 +48,7 @@
     valueTypes = ValueTypes;
 
     @Prop() itemData?: IPageItem;
+    readonly types: IValueType[] = [ValueTypes.text];
 
     valueData: IValue = {ref: {}};
     text: string = "";
@@ -66,22 +61,19 @@
 
 
     mounted() {
-      console.log("mounted", this.itemData!.ref.id, this.itemData!.valueRef)
-      if (this.itemData && !this.itemData!.valueRef) {
-        this.itemData.ref.update({valueRef: firebase.firestore().doc(`values/${this.itemData.ref.id}`)});
-      } else {
-        this.changeItemData(null, null)
-      }
+      // console.log("mounted", this.itemData!.ref.id, this.itemData!.valueRef)
+      // if (this.itemData && !this.itemData!.valueRef) {
+      //   this.itemData.ref.update({valueRef: firebase.firestore().doc(`values/${this.itemData.ref.id}`)});
+      // } else {
+      this.changeItemData(null, null)
+      // }
     }
 
     updateItemData(key: IPageItemType) {
       let updateData: IPageItem = <IPageItem>{};
       updateData[key] = this.itemData![key];
 
-      firebase.firestore()
-        .collection(`pages/${this.$route.query.id}/items`)
-        .doc(this.itemData!.ref.id)
-        .update(updateData);
+      this.itemData!.ref.update(updateData);
     }
 
     /**
@@ -90,22 +82,19 @@
      * @param older
      */
     @Watch("itemData")
+    @Watch("contentStore.values")
     changeItemData(newer: any, older: any) {
-      // console.log("changeItemData")
-      if (this.unsubscribe) this.unsubscribe();
 
-      this.unsubscribe = this.itemData!.valueRef
-        .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-          if (!snap.exists) {
-            snap.ref.set({});
-          } else {
-            let v: IValue = <IValue>snap.data();
-            this.valueData.name = v.name;
-            this.valueData.type = v.type;
-            this.valueData.value = v.value;
-            this.valueData.ref = snap.ref;
-          }
-        });
+      console.log("changeItemData",contentStore.values[this.itemData!.ref.id])
+      let v = Object.assign({}, contentStore.values[this.itemData!.ref.id]);
+      v.type = v.type || this.types[0].val;
+      v.ref = this.itemData!.ref.parent.parent.collection("values").doc(this.itemData!.ref.id);
+      this.valueData = v;
+    }
+
+    deleteModule() {
+      firebase.firestore().doc(`values/${this.itemData!.ref.id}`).delete();
+      this.itemData!.ref.delete();
     }
 
     updateValueData() {
@@ -120,6 +109,11 @@
     // hoge(newer: any, older: any) {
     //   console.log("hoge", newer.name, older)
     // }
+    destroyed() {
+      if (this.unsubscribe) {
+        this.unsubscribe();
+      }
+    }
   }
 </script>
 

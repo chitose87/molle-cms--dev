@@ -8,7 +8,7 @@ export interface IPageItem {
   index?: number;
   moduleId?: string;
 
-  valueRef?: any;
+  // valueRef?: any;
 }
 
-export type IPageItemType = "ref" | "index" | "moduleId" | "valueRef";
+export type IPageItemType = "ref" | "index" | "moduleId";
