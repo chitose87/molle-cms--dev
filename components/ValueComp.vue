@@ -26,7 +26,7 @@
           div(v-if="valueData.superValue")
             span superValue=
             span(v-html="valueData.superValue")
-          textarea( v-model="valueData.value")
+          textarea(v-model="valueData.value")
 
         input(v-if="valueData.type === 'number'" type="number" v-model="valueData.value" )
         textarea(v-if="valueData.type === 'html'" v-model="valueData.value" )

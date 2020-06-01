@@ -1,34 +1,37 @@
 <template lang="pug">
   .module
-    span {{itemData.id}}
-    //span {{itemData.valueRef}}
-    span {{itemData.moduleId}}
-
-    //index
-    form(@submit.prevent="itemData.ref.update({index:Number.parseFloat(itemData.index)})")
-      label index
-        input(type="number" v-model="itemData.index")
-      button.btn.btn-link(type="submit") done
-
-    div(v-if="contentStore.values")
-      div(v-if="valueData.ref.id")
-        ValueComp(:valueData="valueData" :types="types")
-
     component(
       :is="lv"
-      v-html="valueData.value"
+      v-html="valueData.value || valueData.superValue"
     )
-    div
-      select(v-model="lv")
-        option h1
-        option h2
-        option h3
-        option h4
-        option h5
-        option h6
+    //span {{itemData.id}}
+    //span {{itemData.valueRef}}
+    //span {{itemData.moduleId}}
 
-      //input(type="text" v-model="text" @change="update")
-    button.btn.btn-danger(@click="deleteModule()") 削除
+    .editer(:status="isEdit?'show':'hidden'")
+      button.toggle(@click="isEdit=!isEdit") 閉じる
+      div(v-if="isEdit")
+        //index
+        form(@submit.prevent="itemData.ref.update({index:Number.parseFloat(itemData.index)})")
+          label index
+            input(type="number" v-model="itemData.index")
+          button.btn.btn-link(type="submit") done
+
+        div(v-if="contentStore.values")
+          div(v-if="valueData.ref.id")
+            ValueComp(:valueData="valueData" :types="types")
+
+        div
+          select(v-model="lv")
+            option h1
+            option h2
+            option h3
+            option h4
+            option h5
+            option h6
+
+          //input(type="text" v-model="text" @change="update")
+        button.btn.btn-danger(@click="deleteModule()") 削除
 </template>
 
 <script lang="ts">
@@ -50,6 +53,7 @@
     @Prop() itemData?: IPageItem;
     readonly types: IValueType[] = [ValueTypes.text];
 
+    isEdit = false;
     valueData: IValue = {ref: {}};
     text: string = "";
     lv: string = "h3";
@@ -85,7 +89,7 @@
     @Watch("contentStore.values")
     changeItemData(newer: any, older: any) {
 
-      console.log("changeItemData",contentStore.values[this.itemData!.ref.id])
+      console.log("changeItemData", contentStore.values[this.itemData!.ref.id])
       let v = Object.assign({}, contentStore.values[this.itemData!.ref.id]);
       v.type = v.type || this.types[0].val;
       v.ref = this.itemData!.ref.parent.parent.collection("values").doc(this.itemData!.ref.id);
@@ -119,7 +123,43 @@
 
 <style lang="scss">
   .module {
-    border: 1px solid gray;
-    padding: 1rem;
+    position: relative;
   }
+
+  .editer {
+    position: absolute;
+
+    &[status=hidden] {
+      z-index: $zindex-fixed - 1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      .toggle {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+
+        &:hover {
+          opacity: 0.1;
+        }
+      }
+    }
+
+    &[status=show] {
+      z-index: $zindex-fixed;
+      border: 1px solid gray;
+      padding: 1rem;
+      background-color: lightblue;
+    }
+  }
+
+  /*.module {*/
+  /*  border: 1px solid gray;*/
+  /*  padding: 1rem;*/
+  /*}*/
 </style>
