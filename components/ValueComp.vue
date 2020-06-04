@@ -142,8 +142,8 @@
       let update: IValue = {
         name: this.valueData!.name || "",
         type: this.valueData!.type,
-        value: this.valueData!.value,
       };
+      if (this.valueData!.value) update.value = this.valueData!.value;
       this.valueData!.ref.update(update);
     }
   }

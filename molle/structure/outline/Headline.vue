@@ -17,9 +17,7 @@
             input(type="number" v-model="itemData.index")
           button.btn.btn-link(type="submit") done
 
-        div(v-if="contentStore.values")
-          div(v-if="valueData.ref.id")
-            ValueComp(:valueData="valueData" :types="types")
+        ValueComp(:valueData="valueData" :types="types")
 
         div
           select(v-model="lv")
@@ -38,7 +36,6 @@
   import {Component, Prop, Provide, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
-  // import ValueComp from "~/components/ValueComp.vue";
   import {IPageItem, IPageItemType} from "~/molle/interface/Page";
   import {IValue, IValueType, ValueTypes} from "~/molle/interface/Value";
   import ValueComp from "~/components/ValueComp.vue";
@@ -53,7 +50,7 @@
     @Prop() itemData?: IPageItem;
     readonly types: IValueType[] = [ValueTypes.text];
 
-    isEdit = false;
+    isEdit = true;
     valueData: IValue = {ref: {}};
     text: string = "";
     lv: string = "h3";
@@ -93,12 +90,25 @@
       let v = Object.assign({}, contentStore.values[this.itemData!.ref.id]);
       v.type = v.type || this.types[0].val;
       v.ref = this.itemData!.ref.parent.parent.collection("values").doc(this.itemData!.ref.id);
+      v.ref.get().then((snap: firebase.firestore.DocumentSnapshot) => {
+        let data = snap.data() || {};
+        let flag = false;
+        if (
+          !data.type
+          || this.types.every((type) => type != data.type)
+        ) {
+          data.type = this.types[0].val;
+          flag = true;
+        }
+        if (flag) v.ref.update(data);
+      });
       this.valueData = v;
     }
 
     deleteModule() {
-      firebase.firestore().doc(`values/${this.itemData!.ref.id}`).delete();
+      contentStore.removeValue(this.valueData.ref.id);
       this.itemData!.ref.delete();
+      this.valueData!.ref.delete();
     }
 
     updateValueData() {
@@ -126,7 +136,7 @@
     position: relative;
   }
 
-  .editer {
+  .editer-h {
     position: absolute;
 
     &[status=hidden] {
@@ -157,9 +167,4 @@
       background-color: lightblue;
     }
   }
-
-  /*.module {*/
-  /*  border: 1px solid gray;*/
-  /*  padding: 1rem;*/
-  /*}*/
 </style>

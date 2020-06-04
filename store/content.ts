@@ -49,6 +49,18 @@ export default class content extends VuexModule {
       };
     });
     //
+
+    console.log(values);
+    this.values = content.updateTree(values);
+  }
+
+  @Mutation
+  removeValue(id: string) {
+    delete this.values[id];
+    content.updateTree(this.values);
+  }
+
+  static updateTree(values: any) {
     // extends tree
     // reset
     for (let key in values) {
@@ -97,8 +109,6 @@ export default class content extends VuexModule {
         func(item, item.value);
       }
     }
-
-    console.log(values);
-    this.values = values;
+    return values;
   }
 }

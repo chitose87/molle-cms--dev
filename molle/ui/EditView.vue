@@ -12,6 +12,8 @@
           :itemData="pageItem"
         )
 
+    ValueTreeComp
+
       //div
         select.form-control(v-model="itemOption.name")
           option(v-for="(item,key) in contentStore.items" :value="item.name") {{item.name}}
@@ -30,15 +32,17 @@
   import {contentStore} from "~/utils/store-accessor";
   import {IPage, IPageItem} from "~/molle/interface/Page";
   import {IValue} from "~/molle/interface/Value";
+  import ValueTreeComp from "~/components/ValueTreeComp.vue";
 
   @Component({
-    components: {}
+    components: {ValueTreeComp}
   })
   export default class EditView extends Vue {
     contentStore = contentStore;
 
     id: string = "";
     itemsRef?: firebase.firestore.CollectionReference;
+    valuesRef?: firebase.firestore.CollectionReference;
     unsubscribe?: () => void;
     unsubscribeValues?: () => void;
 
@@ -81,7 +85,8 @@
           });
 
         //values
-        this.unsubscribeValues = firebase.firestore().collection(`pages/${this.id}/values`)
+        this.valuesRef = firebase.firestore().collection(`pages/${this.id}/values`);
+        this.unsubscribeValues = this.valuesRef
           .onSnapshot(contentStore.updateValues);
       }
       return this.$route.query.id;
@@ -104,7 +109,9 @@
         // joint: {
         //   text: "title"
         // }
-      })
+      }).then((e) => {
+        this.valuesRef!.doc(e.id).set({});
+      });
     }
 
     destroyed() {
