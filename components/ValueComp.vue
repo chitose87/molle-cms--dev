@@ -14,7 +14,7 @@
             span(v-html="item.name||`[ ${key} ]`")
             //span(v-html="item.extends.")?
 
-    div
+    form(@submit.prevent @change="update()")
       label name
         input(type="text" v-model="valueData.name")
       p type {{valueData.type}}
@@ -38,9 +38,6 @@
             input(type="text" v-model="valueData.value.sp" )
           label alt:
             input(type="text" v-model="valueData.value.alt" )
-      button.btn.btn-primary(@click="save()") 保存
-      //button.btn(@click="save()") シンボル化
-      //button.btn(@click="save()") シンボルから選ぶ
 
 </template>
 
@@ -67,45 +64,6 @@
 
     extendsModal: boolean = false;
     extendsList: { [key: string]: IValue } = <{ [key: string]: IValue }>{};
-    entryDataPoint: IValue = {};
-
-    hoge: any = {};
-
-    // @Watch("valueData.ref")
-    // hoge(newer: any, older: any) {
-    //   console.log("hoge2", newer.name, older)
-    // }
-    updateItemDataValueRef(id: string) {
-      // let ref = id ? firebase.firestore().doc(`values/${id}`) : "";
-      this.valueData!.ref.update({
-        extendsId: id
-      })
-    }
-
-    @Watch("valueData.extendsId")
-    changeValueDataExtends(newer: any, older: any) {
-      console.log("changeValueDataExtends")
-      try {
-        // this.age(this.valueData!.extends);
-      } catch (e) {
-      }
-    }
-
-    private age(ex: firebase.firestore.DocumentReference) {
-      this.hoge[ex.id] = ex.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-        let v: IValue = <IValue>snap.data();
-        this.entryDataPoint.name = v.name;
-        this.entryDataPoint.type = v.type;
-        this.entryDataPoint.value = v.value;
-        // this.entryDataPoint.ref = snap.ref;
-
-        // if (v.extends) {
-        //   this.age(v.extends);
-        // } else {
-        //end point
-        // }
-      });
-    }
 
     openExtendsModal() {
       let list: { [key: string]: IValue } = <{ [key: string]: IValue }>{};
@@ -138,7 +96,7 @@
       this.valueData!.ref.update({extendsId: id ? id : ""});
     }
 
-    save() {
+    update() {
       let update: IValue = {
         name: this.valueData!.name || "",
         type: this.valueData!.type,

@@ -1,7 +1,9 @@
 <template lang="pug">
   no-ssr
     .molle
-      div(v-if="$route.hash==='#page-edit'")
+      div(v-if="!Object.keys(contentStore.pages).length")
+        p ...weiting
+      div(v-else-if="$route.hash==='#page-edit'")
         EditView
       div(v-else)
         PageList
@@ -19,6 +21,7 @@
     components: {EditView, PageList}
   })
   export default class MolleTopPage extends Vue {
+    contentStore = contentStore;
 
     head() {
       return {

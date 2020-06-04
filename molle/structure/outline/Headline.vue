@@ -30,7 +30,6 @@
             option h5
             option h6
 
-          //input(type="text" v-model="text" @change="update")
         button.btn.btn-danger(@click="deleteModule()") 削除
 </template>
 
@@ -60,24 +59,32 @@
       color: {default: "", select: ["", "dark"]},
     });
 
+    unsubscribes: (() => void)[] = [];
     isEdit = true;
     valueData: IValue = {ref: {}};
-    text: string = "";
     lv: string = "h3";
-    //value
-    unsubscribe?: () => void;
-    weit: number = 0;
-
-    // v: string = "";
-
 
     mounted() {
-      // console.log("mounted", this.itemData!.ref.id, this.itemData!.valueRef)
-      // if (this.itemData && !this.itemData!.valueRef) {
-      //   this.itemData.ref.update({valueRef: firebase.firestore().doc(`values/${this.itemData.ref.id}`)});
-      // } else {
-      this.changeItemData(null, null)
-      // }
+      // console.log("mounted", this.itemData!.ref.id)
+
+      this.valueData.ref = this.itemData!.ref.parent.parent.collection("values").doc(this.itemData!.ref.id);
+      this.valueData.ref.get()
+        .then((snap: firebase.firestore.DocumentSnapshot) => {
+          if (!snap.exists) {
+            this.valueData.ref.set({
+              type: this.types[0].val
+            });
+          } else {
+            let data = snap.data();
+            if (!data!.type || this.types.every((type) => type.val != data!.type)) {
+              this.valueData.ref.update({
+                type: this.types[0].val
+              });
+            }
+          }
+        });
+
+      this.changeContentStore();
     }
 
     updateItemData(key: IPageItemType) {
@@ -92,26 +99,12 @@
      * @param newer
      * @param older
      */
-    @Watch("itemData")
+    // @Watch("itemData")
     @Watch("contentStore.values")
-    changeItemData(newer: any, older: any) {
-
-      console.log("changeItemData", contentStore.values[this.itemData!.ref.id])
+    changeContentStore() {
+      // console.log("changeContentStore", contentStore.values[this.itemData!.ref.id]);
       let v = Object.assign({}, contentStore.values[this.itemData!.ref.id]);
-      v.type = v.type || this.types[0].val;
-      v.ref = this.itemData!.ref.parent.parent.collection("values").doc(this.itemData!.ref.id);
-      v.ref.get().then((snap: firebase.firestore.DocumentSnapshot) => {
-        let data = snap.data() || {};
-        let flag = false;
-        if (
-          !data.type
-          || this.types.every((type) => type != data.type)
-        ) {
-          data.type = this.types[0].val;
-          flag = true;
-        }
-        if (flag) v.ref.update(data);
-      });
+      v.ref = this.valueData.ref;
       this.valueData = v;
     }
 
@@ -121,21 +114,9 @@
       this.valueData!.ref.delete();
     }
 
-    updateValueData() {
-      // window.clearTimeout(this.weit);
-      // this.weit = window.setTimeout((valueRef: firebase.firestore.DocumentReference, valueData: IValue) => {
-      //   console.log("updateValueData", valueRef, valueData)
-      //   valueRef.update(valueData);
-      // }, 1000, this.itemData!.valueRef, this.valueData);
-    }
-
-    // @Watch("valueData")
-    // hoge(newer: any, older: any) {
-    //   console.log("hoge", newer.name, older)
-    // }
     destroyed() {
-      if (this.unsubscribe) {
-        this.unsubscribe();
+      while (this.unsubscribes.length) {
+        this.unsubscribes.shift()!();
       }
     }
   }

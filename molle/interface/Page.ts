@@ -1,6 +1,8 @@
 export interface IPage {
   path: string;
   items: IPageItem[];
+  styles: any[];
+  // values
 }
 
 export interface IPageItem {
