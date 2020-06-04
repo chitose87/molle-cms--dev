@@ -2,6 +2,7 @@
   .module
     component(
       :is="lv"
+      :class="styleParam.getClass({})"
       v-html="valueData.value || valueData.superValue"
     )
     //span {{itemData.id}}
@@ -18,6 +19,7 @@
           button.btn.btn-link(type="submit") done
 
         ValueComp(:valueData="valueData" :types="types")
+        StyleComp(:itemData="itemData" :styleParam="styleParam")
 
         div
           select(v-model="lv")
@@ -39,9 +41,11 @@
   import {IPageItem, IPageItemType} from "~/molle/interface/Page";
   import {IValue, IValueType, ValueTypes} from "~/molle/interface/Value";
   import ValueComp from "~/components/ValueComp.vue";
+  import StyleComp from "~/components/StyleComp.vue";
+  import {StyleAlign, StyleParam} from "~/molle/structure/StyleParam";
 
   @Component({
-    components: {ValueComp}
+    components: {StyleComp, ValueComp}
   })
   export default class Headline extends Vue {
     contentStore = contentStore;
@@ -49,6 +53,12 @@
 
     @Prop() itemData?: IPageItem;
     readonly types: IValueType[] = [ValueTypes.text];
+    styleParam: StyleParam = new StyleParam({
+      border: false,
+      align: StyleAlign.None,
+      theme: {default: "", select: ["", "test"]},
+      color: {default: "", select: ["", "dark"]},
+    });
 
     isEdit = true;
     valueData: IValue = {ref: {}};
@@ -134,6 +144,16 @@
 <style lang="scss">
   .module {
     position: relative;
+
+    .test {
+      width: 50%;
+      margin: auto;
+    }
+
+    .dark {
+      background-color: $black;
+      color: $white;
+    }
   }
 
   .editer-h {

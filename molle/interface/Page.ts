@@ -5,8 +5,10 @@ export interface IPage {
 
 export interface IPageItem {
   ref?: any;
+
   index?: number;
   moduleId?: string;
+  style?: any;
 
   // valueRef?: any;
 }
