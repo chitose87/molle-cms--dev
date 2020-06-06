@@ -43,9 +43,8 @@
 
 <script lang="ts">
   import {Component, Inject, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-  import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
-  import {IValue, IValueType, ValueTypes} from "~/molle/interface/Value";
+  import {IValueStoreData, ValueProfile} from "~/molle/interface/ValueProfile";
 
   @Component({
     components: {}
@@ -56,28 +55,26 @@
    */
   export default class ValueComp extends Vue {
     contentStore = contentStore;
-    valueTypes = ValueTypes;
 
-    @Prop() valueData?: IValue;
-    @Prop() types?: IValueType[];
-    // @Prop() itemDataRef?: firebase.firestore.DocumentReference;
+    @Prop() valueData?: IValueStoreData;
+    @Prop() valueProfile?: ValueProfile;
 
     extendsModal: boolean = false;
-    extendsList: { [key: string]: IValue } = <{ [key: string]: IValue }>{};
+    extendsList: { [key: string]: IValueStoreData } = {};
 
     openExtendsModal() {
-      let list: { [key: string]: IValue } = <{ [key: string]: IValue }>{};
+      let list: { [key: string]: IValueStoreData } = {};
       // console.log(this.valueData)
       for (let key in contentStore.values) {
-        let item: IValue = contentStore.values[key];
+        let item: IValueStoreData = contentStore.values[key];
         console.log(item);
-        a:for (let i of this.types!) {
+        a:for (let i of this.valueProfile!.types!) {
           if (i.val == item.type) {
             //not self & parents
             let viaId = key;
             while (viaId) {
               // console.log(viaId, this.valueData!.ref)
-              if (viaId == this.valueData!.ref.id) {
+              if (viaId == this.valueData!.ref!.id) {
                 continue a;
               }
               viaId = contentStore.values[viaId].extendsId;
@@ -93,16 +90,16 @@
 
     closeExtendsModal(id?: string) {
       this.extendsModal = false;
-      this.valueData!.ref.update({extendsId: id ? id : ""});
+      this.valueData!.ref!.update({extendsId: id ? id : ""});
     }
 
     update() {
-      let update: IValue = {
+      let update: IValueStoreData = {
         name: this.valueData!.name || "",
         type: this.valueData!.type,
       };
       if (this.valueData!.value) update.value = this.valueData!.value;
-      this.valueData!.ref.update(update);
+      this.valueData!.ref!.update(update);
     }
   }
 </script>

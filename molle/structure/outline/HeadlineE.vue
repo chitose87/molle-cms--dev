@@ -15,7 +15,7 @@
             input(type="number" v-model="itemData.index")
           button.btn.btn-link(type="submit") done
 
-        ValueComp(:valueData="valueData" :types="types")
+        ValueComp(:valueData="valueData" :valueProfile="valueProfile")
         StyleComp(:styleData="styleData" :styleProfile="styleProfile")
 
         form(@submit.prevent @change="update()")
@@ -35,10 +35,10 @@
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
   import {IPageItem, IPageItemType} from "~/molle/interface/Page";
-  import {IValue, IValueType, ValueTypes} from "~/molle/interface/Value";
   import ValueComp from "~/components/ValueComp.vue";
   import StyleComp from "~/components/StyleComp.vue";
   import {IStyleStoreData, StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
+  import {IValueStoreData, ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
 
   @Component({
     components: {StyleComp, ValueComp}
@@ -46,6 +46,13 @@
   export default class HeadlineE extends Vue {
     contentStore = contentStore;
 
+    //value setting
+    static valueProfile: ValueProfile = new ValueProfile({
+      types: [ValueType.text]
+    });
+    valueProfile: ValueProfile = HeadlineE.valueProfile;
+
+    //style setting
     static styleProfile: StyleProfile = new StyleProfile({
       border: false,
       align: StyleAlign.None,
@@ -56,12 +63,10 @@
 
 
     @Prop() itemData?: IPageItem;
-    valueData: IValue = {ref: {}};
+    valueData: IValueStoreData = {};
     styleData: IStyleStoreData = this.styleProfile.getDefaultData();
 
     isEdit = true;
-    // settings
-    readonly types: IValueType[] = [ValueTypes.text];
     unsubscribes: (() => void)[] = [];
 
     beforeMount() {
@@ -74,17 +79,17 @@
 
     mounted() {
       this.valueData.ref = this.itemData!.ref.parent.parent.collection("values").doc(this.itemData!.ref.id);
-      this.valueData.ref.get()
+      this.valueData.ref!.get()
         .then((snap: firebase.firestore.DocumentSnapshot) => {
           if (!snap.exists) {
-            this.valueData.ref.set({
-              type: this.types[0].val
+            this.valueData.ref!.set({
+              type: this.valueProfile.types[0].val
             });
           } else {
             let data = snap.data();
-            if (!data!.type || this.types.every((type) => type.val != data!.type)) {
-              this.valueData.ref.update({
-                type: this.types[0].val
+            if (!data!.type || this.valueProfile.types.every((type) => type.val != data!.type)) {
+              this.valueData.ref!.update({
+                type: this.valueProfile.types[0].val
               });
             }
           }
@@ -120,9 +125,9 @@
     }
 
     deleteModule() {
-      contentStore.removeValue(this.valueData.ref.id);
+      contentStore.removeValue(this.valueData.ref!.id);
       this.itemData!.ref.delete();
-      this.valueData!.ref.delete();
+      this.valueData!.ref!.delete();
     }
 
     destroyed() {

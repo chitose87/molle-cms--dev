@@ -1,6 +1,6 @@
 import {Module, VuexModule, Mutation} from 'vuex-module-decorators'
-import {IValue} from "~/molle/interface/Value";
 import {contentStore} from "~/utils/store-accessor";
+import {IValueStoreData} from "~/molle/interface/ValueProfile";
 
 @Module({name: 'content', stateFactory: true, namespaced: true})
 
@@ -64,12 +64,12 @@ export default class content extends VuexModule {
     // extends tree
     // reset
     for (let key in values) {
-      let item: IValue = values[key];
+      let item: IValueStoreData = values[key];
       item.childrenId = [];
     }
     // set
     for (let key in values) {
-      let item: IValue = values[key];
+      let item: IValueStoreData = values[key];
       if (item.extendsId) {
         values[item.extendsId].childrenId.push(key)
       }
@@ -77,7 +77,7 @@ export default class content extends VuexModule {
 
     // todo
     // superValue
-    let func = (item: IValue, _superValue: any) => {
+    let func = (item: IValueStoreData, _superValue: any) => {
       // console.log(item, _superValue);
       //itemのchildrenに_superValueを設定する
       if (!item.childrenId!.length) return;
@@ -103,7 +103,7 @@ export default class content extends VuexModule {
 
     //拡張無しのitemからスタート
     for (let key in values) {
-      let item: IValue = values[key];
+      let item: IValueStoreData = values[key];
 
       if (!item.extendsId) {
         func(item, item.value);

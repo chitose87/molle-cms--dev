@@ -37,9 +37,7 @@
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
   import {IPage, IPageItem} from "~/molle/interface/Page";
-  import {IValue} from "~/molle/interface/Value";
   import ValueTreeComp from "~/components/ValueTreeComp.vue";
-  import {Context} from '@nuxt/types';
 
   @Component({
     components: {ValueTreeComp}

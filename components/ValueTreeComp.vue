@@ -11,18 +11,16 @@
 </template>
 
 <script lang="ts">
-  import {Component, Inject, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-  import firebase from "firebase";
+  import {Component, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import {contentStore} from "~/utils/store-accessor";
-  import {IValue, IValueType, ValueTypes} from "~/molle/interface/Value";
   import ValueTreeItemComp from "~/components/ValueTreeItemComp.vue";
+  import {IValueStoreData} from "~/molle/interface/ValueProfile";
 
   @Component({
     components: {ValueTreeItemComp}
   })
   export default class ValueTreeComp extends Vue {
     contentStore = contentStore;
-    valueTypes = ValueTypes;
 
     tree: string[] = [];
 
@@ -36,7 +34,7 @@
       if (contentStore.values) {
         let tree = [];
         for (let id in contentStore.values) {
-          let item: IValue = contentStore.values[id];
+          let item: IValueStoreData = contentStore.values[id];
           if (!item.extendsId) {
             tree.push(id);
           }

@@ -8,20 +8,18 @@
 </template>
 
 <script lang="ts">
-  import {Component, Inject, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-  import firebase from "firebase";
+  import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import {contentStore} from "~/utils/store-accessor";
-  import {IValue, IValueType, ValueTypes} from "~/molle/interface/Value";
+  import {IValueStoreData} from "~/molle/interface/ValueProfile";
 
   @Component({
     components: {}
   })
   export default class ValueTreeItemComp extends Vue {
     contentStore = contentStore;
-    valueTypes = ValueTypes;
 
     @Prop() id?: string;
-    value: IValue | null = null;
+    value: IValueStoreData | null = null;
 
     mounted() {
       this.updateValue();
