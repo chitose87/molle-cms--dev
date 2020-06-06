@@ -1,5 +1,6 @@
 <template lang="pug">
   .editView
+    p {{r}}
     div(v-if="!contentStore.pages[$route.query.id]")
       span not fond. {{$route.query.id}}
     div(v-else-if="!ready.values")
@@ -13,7 +14,7 @@
           //span {{pageItem.ref.id}}
         component(
           v-for="(item,key) in items"
-          :is="contentStore.outlines[item.moduleId].name"
+          :is="contentStore.outlines[item.moduleId].name+'E'"
           :itemData="item"
         )
 
@@ -38,12 +39,15 @@
   import {IPage, IPageItem} from "~/molle/interface/Page";
   import {IValue} from "~/molle/interface/Value";
   import ValueTreeComp from "~/components/ValueTreeComp.vue";
+  import {Context} from '@nuxt/types';
 
   @Component({
     components: {ValueTreeComp}
   })
   export default class EditView extends Vue {
     contentStore = contentStore;
+
+    r:number=0;
 
     ready = {
       values: false,
@@ -58,6 +62,17 @@
 
     path: string = "loading";
     items: IPageItem[] = [];
+
+    // asyncData(context: Context) {
+    //   // return {firebaseData: context.payload}
+    //   return new Promise((resolve) => {
+    //     setTimeout(() => {
+    //       alert("hoge")
+    //       // this.r = Math.random();
+    //       resolve({r: Math.random()});
+    //     }, 2000)
+    //   });
+    // }
 
     mounted() {
       console.log("mounted", this.$route.query.id);

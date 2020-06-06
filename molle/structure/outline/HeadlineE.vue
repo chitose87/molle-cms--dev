@@ -1,13 +1,10 @@
 <template lang="pug">
-  .module
-    component(
-      :is="lv"
-      :class="styleParam.getClass({})"
-      v-html="valueData.value || valueData.superValue"
+  .e
+    Headline(
+      :itemData="itemData"
+      :valueData="valueData"
+      :styleData="styleData"
     )
-    //span {{itemData.id}}
-    //span {{itemData.valueRef}}
-    //span {{itemData.moduleId}}
 
     .editer(:status="isEdit?'show':'hidden'")
       button.toggle(@click="isEdit=!isEdit") 閉じる
@@ -19,16 +16,16 @@
           button.btn.btn-link(type="submit") done
 
         ValueComp(:valueData="valueData" :types="types")
-        StyleComp(:itemData="itemData" :styleParam="styleParam")
+        StyleComp(:styleData="styleData" :styleProfile="styleProfile")
 
-        div
-          select(v-model="lv")
-            option h1
-            option h2
-            option h3
-            option h4
-            option h5
-            option h6
+        form(@submit.prevent @change="update()")
+          select(v-model="itemData.option.lv")
+            option(value="h1") h1
+            option(value="h2") h2
+            option(value="h3") h3
+            option(value="h4") h4
+            option(value="h5") h5
+            option(value="h6") h6
 
         button.btn.btn-danger(@click="deleteModule()") 削除
 </template>
@@ -41,32 +38,41 @@
   import {IValue, IValueType, ValueTypes} from "~/molle/interface/Value";
   import ValueComp from "~/components/ValueComp.vue";
   import StyleComp from "~/components/StyleComp.vue";
-  import {StyleAlign, StyleParam} from "~/molle/structure/StyleParam";
+  import {IStyleStoreData, StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
 
   @Component({
     components: {StyleComp, ValueComp}
   })
-  export default class Headline extends Vue {
+  export default class HeadlineE extends Vue {
     contentStore = contentStore;
-    valueTypes = ValueTypes;
 
-    @Prop() itemData?: IPageItem;
-    readonly types: IValueType[] = [ValueTypes.text];
-    styleParam: StyleParam = new StyleParam({
+    static styleProfile: StyleProfile = new StyleProfile({
       border: false,
       align: StyleAlign.None,
       theme: {default: "", select: ["", "test"]},
       color: {default: "", select: ["", "dark"]},
     });
+    styleProfile: StyleProfile = HeadlineE.styleProfile;
 
-    unsubscribes: (() => void)[] = [];
-    isEdit = true;
+
+    @Prop() itemData?: IPageItem;
     valueData: IValue = {ref: {}};
-    lv: string = "h3";
+    styleData: IStyleStoreData = this.styleProfile.getDefaultData();
+
+    isEdit = true;
+    // settings
+    readonly types: IValueType[] = [ValueTypes.text];
+    unsubscribes: (() => void)[] = [];
+
+    beforeMount() {
+      if (!this.itemData!.option) this.itemData!.option = {};
+      if (!this.itemData!.option.lv) {
+        this.itemData!.option.lv = "h3";
+        this.update();
+      }
+    }
 
     mounted() {
-      // console.log("mounted", this.itemData!.ref.id)
-
       this.valueData.ref = this.itemData!.ref.parent.parent.collection("values").doc(this.itemData!.ref.id);
       this.valueData.ref.get()
         .then((snap: firebase.firestore.DocumentSnapshot) => {
@@ -84,22 +90,27 @@
           }
         });
 
+      this.styleData.ref = this.itemData!.ref.parent.parent.collection("styles").doc(this.itemData!.ref.id);
+      this.unsubscribes.push(
+        this.styleData.ref!.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+          if (!snap.exists) {
+            this.styleData.ref!.set({});
+            return;
+          }
+          this.styleData = Object.assign(this.styleData, snap.data());
+        })
+      );
+
       this.changeContentStore();
     }
 
-    updateItemData(key: IPageItemType) {
+    update() {
       let updateData: IPageItem = <IPageItem>{};
-      updateData[key] = this.itemData![key];
+      updateData.option = this.itemData!.option;
 
       this.itemData!.ref.update(updateData);
     }
 
-    /**
-     *
-     * @param newer
-     * @param older
-     */
-    // @Watch("itemData")
     @Watch("contentStore.values")
     changeContentStore() {
       // console.log("changeContentStore", contentStore.values[this.itemData!.ref.id]);
@@ -123,18 +134,7 @@
 </script>
 
 <style lang="scss">
-  .module {
-    position: relative;
-
-    .test {
-      width: 50%;
-      margin: auto;
-    }
-
-    .dark {
-      background-color: $black;
-      color: $white;
-    }
+  .e {
   }
 
   .editer-h {

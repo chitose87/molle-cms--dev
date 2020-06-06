@@ -56,7 +56,41 @@
 
           // firebase.firestore().collection("values")
           //   .onSnapshot(contentStore.updateValues);
+
+          // node test
+          let pages = firebase.firestore().collection("pages").get();
+          let outlines = firebase.firestore().collection("outlines").get();
+          let items = firebase.firestore().collectionGroup("items").get();
+          let values = firebase.firestore().collectionGroup("values").get();
+          let styles = firebase.firestore().collectionGroup("styles").get();
+          Promise.all([pages, outlines, items, values, styles])
+            .then(([pages, outlines, items, values, styles]) => {
+
+              let allData: any = {
+                pages: {}, outlines: {}, items: {}, values: {}, styles: {}
+              };
+
+              pages.forEach((snap) => {
+                allData.pages[snap.id] = snap.data()
+              });
+              outlines.forEach((snap) => {
+                allData.outlines[snap.id] = snap.data()
+              });
+              items.forEach((snap) => {
+                allData.items[snap.id] = snap.data()
+              });
+              values.forEach((snap) => {
+                allData.values[snap.id] = snap.data()
+              });
+              styles.forEach((snap) => {
+                allData.styles[snap.id] = snap.data()
+              });
+
+              console.log(allData);
+            })
         });
+
+
       }
     }
   }

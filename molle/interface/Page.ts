@@ -1,7 +1,7 @@
 export interface IPage {
   path: string;
   items: IPageItem[];
-  styles: any[];
+  // styles: any[];
   // values
 }
 
@@ -10,7 +10,8 @@ export interface IPageItem {
 
   index?: number;
   moduleId?: string;
-  style?: any;
+  option?: any;
+  // style?: any;
 
   // valueRef?: any;
 }

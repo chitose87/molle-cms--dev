@@ -1,6 +1,7 @@
 import {Vue} from "~/node_modules/vue-property-decorator";
-import Headline from "~/molle/structure/outline/Headline.vue";
-// import {ValueType} from "~/molle/interface/Value";
+import HeadlineE from "~/molle/structure/outline/HeadlineE.vue";
+import Headline from "~/molle/ssr/module/Headline.vue";
+// import {ValueType} from "~/molle/interface/Value";[
 
 // declare module 'vue/types/vue' {
 //   interface Vue {
@@ -15,4 +16,5 @@ import Headline from "~/molle/structure/outline/Headline.vue";
 // }
 
 Vue.component("Headline", Headline);
+Vue.component("HeadlineE", HeadlineE);
 // Vue.prototype.$fieldType = ValueType;

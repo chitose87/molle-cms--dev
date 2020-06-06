@@ -2,39 +2,36 @@
   .style-comp
     form(@submit.prevent @change="update()")
       //Border
-      div(v-if="styleParam.permission.border")
+      div(v-if="styleProfile.permission.border")
         label 枠線
-          input(v-model="styleParam.value.border" type="checkbox")
+          input(v-model="styleData.border" type="checkbox")
 
       //TextHorizontal
-      div(v-if="styleParam.permission.align")
+      div(v-if="styleProfile.permission.align")
         label 行揃え
-          select(v-model="styleParam.value.align")
+          select(v-model="styleData.align")
             option(v-for="item in styleAlign" :value="item.value" v-html="item.label")
 
       //
-      div(v-if="styleParam.permission.theme")
+      div(v-if="styleProfile.permission.theme")
         label Style Theme
-          select(v-model="styleParam.value.theme")
-            option(v-for="theme in styleParam.themeCollection" :val="theme" v-html="theme")
+          select(v-model="styleData.theme")
+            option(v-for="theme in styleProfile.themeCollection" :val="theme" v-html="theme")
 
-      div(v-if="styleParam.permission.color")
+      div(v-if="styleProfile.permission.color")
         label Color Theme
-          select(v-model="styleParam.value.color")
-            option(v-for="color in styleParam.colorCollection" :val="color" v-html="color")
+          select(v-model="styleData.color")
+            option(v-for="color in styleProfile.colorCollection" :val="color" v-html="color")
 
-      p
-        label Free Area
-          textarea()
+      label Free Area
+        textarea(v-model="styleData.css")
 
 </template>
 
 <script lang="ts">
-  import {Component, Inject, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-  import firebase from "firebase";
+  import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
   import {contentStore} from "~/utils/store-accessor";
-  import {StyleAlign, StyleParam} from "~/molle/structure/StyleParam";
-  import {IPageItem} from "~/molle/interface/Page";
+  import {IStyleStoreData, StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
 
   @Component({
     components: {}
@@ -43,25 +40,14 @@
     contentStore = contentStore;
     styleAlign = StyleAlign;
 
-    @Prop() itemData?: IPageItem;
-    @Prop() styleParam?: StyleParam;
+    @Prop() styleData?: IStyleStoreData;
+    @Prop() styleProfile?: StyleProfile;
 
     mounted() {
-      this.updateItemData();
-    }
-
-    @Watch("itemData")
-    updateItemData() {
-      if (this.itemData!.style) {
-        Object.assign(this.styleParam!.value, this.itemData!.style);
-      }
     }
 
     update() {
-      let updateData: IPageItem = <IPageItem>{};
-      updateData.style = this.styleParam!.value;
-
-      this.itemData!.ref.update(updateData);
+      this.styleData!.ref!.update(this.styleData!);
     }
   }
 </script>
