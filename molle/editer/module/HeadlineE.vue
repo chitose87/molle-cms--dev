@@ -32,7 +32,7 @@
 
 <script lang="ts">
   import {Component, Prop, Provide, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-  import firebase from "firebase";
+  import firebase from "~/node_modules/firebase";
   import {contentStore} from "~/utils/store-accessor";
   import ValueComp from "~/components/ValueComp.vue";
   import StyleComp from "~/components/StyleComp.vue";

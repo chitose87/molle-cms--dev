@@ -1,6 +1,6 @@
 import {Vue} from "~/node_modules/vue-property-decorator";
-import HeadlineE from "~/molle/structure/outline/HeadlineE.vue";
-import Headline from "~/molle/ssr/module/Headline.vue";
+// import HeadlineE from "~/molle/editer/module/HeadlineE.vue";
+// import Headline from "~/molle/ssr/module/Headline.vue";
 // import {ValueType} from "~/molle/interface/Value";[
 
 // declare module 'vue/types/vue' {
@@ -15,6 +15,6 @@ import Headline from "~/molle/ssr/module/Headline.vue";
 //   }
 // }
 
-Vue.component("Headline", Headline);
-Vue.component("HeadlineE", HeadlineE);
+// Vue.component("Headline", Headline);
+// Vue.component("HeadlineE", HeadlineE);
 // Vue.prototype.$fieldType = ValueType;

@@ -1,6 +1,5 @@
 <template lang="pug">
   .editView
-    p {{r}}
     div(v-if="!contentStore.pages[$route.query.id]")
       span not fond. {{$route.query.id}}
     div(v-else-if="!ready.values")
@@ -14,11 +13,13 @@
           //span {{pageItem.ref.id}}
         component(
           v-for="(item,key) in items"
+          :key="key"
           :is="contentStore.outlines[item.moduleId].name+'E'"
           :itemData="item"
         )
 
       ValueTreeComp
+
 
       //div
         select.form-control(v-model="itemOption.name")
@@ -38,14 +39,14 @@
   import {contentStore} from "~/utils/store-accessor";
   import ValueTreeComp from "~/components/ValueTreeComp.vue";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
+  import {setMolleEditerModules} from "~/molle/editer/module/index";
 
   @Component({
     components: {ValueTreeComp}
   })
   export default class EditView extends Vue {
     contentStore = contentStore;
-
-    r:number=0;
+    setMolleEditerModules = setMolleEditerModules();
 
     ready = {
       values: false,
@@ -56,21 +57,12 @@
 
     itemsRef?: firebase.firestore.CollectionReference;
     valuesRef?: firebase.firestore.CollectionReference;
-    // stylesRef?: firebase.firestore.CollectionReference;
 
     path: string = "loading";
     items: IItemStoreData[] = [];
 
-    // asyncData(context: Context) {
-    //   // return {firebaseData: context.payload}
-    //   return new Promise((resolve) => {
-    //     setTimeout(() => {
-    //       alert("hoge")
-    //       // this.r = Math.random();
-    //       resolve({r: Math.random()});
-    //     }, 2000)
-    //   });
-    // }
+    created() {
+    }
 
     mounted() {
       console.log("mounted", this.$route.query.id);
@@ -107,16 +99,6 @@
             if (!this.ready.values) this.$nextTick(() => this.ready.values = true);
           })
       );
-      //
-      // //styles
-      // this.stylesRef = firebase.firestore().collection(`pages/${this.$route.query.id}/styles`);
-      // this.unsubscribes.push(
-      //   this.stylesRef
-      //     .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
-      //       // contentStore.updateValues(snapshot);
-      //       if (!this.ready.styles) this.$nextTick(() => this.ready.styles = true);
-      //     })
-      // );
     }
 
     /**
