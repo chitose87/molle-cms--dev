@@ -34,11 +34,11 @@
   import {Component, Prop, Provide, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
-  import {IPageItem, IPageItemType} from "~/molle/interface/Page";
   import ValueComp from "~/components/ValueComp.vue";
   import StyleComp from "~/components/StyleComp.vue";
   import {IStyleStoreData, StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
   import {IValueStoreData, ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
+  import {IItemStoreData} from "~/molle/interface/ItemProfile";
 
   @Component({
     components: {StyleComp, ValueComp}
@@ -61,8 +61,7 @@
     });
     styleProfile: StyleProfile = HeadlineE.styleProfile;
 
-
-    @Prop() itemData?: IPageItem;
+    @Prop() itemData?: IItemStoreData;
     valueData: IValueStoreData = {};
     styleData: IStyleStoreData = this.styleProfile.getDefaultData();
 
@@ -78,7 +77,7 @@
     }
 
     mounted() {
-      this.valueData.ref = this.itemData!.ref.parent.parent.collection("values").doc(this.itemData!.ref.id);
+      this.valueData.ref = this.itemData!.ref!.parent!.parent!.collection("values").doc(this.itemData!.ref!.id);
       this.valueData.ref!.get()
         .then((snap: firebase.firestore.DocumentSnapshot) => {
           if (!snap.exists) {
@@ -95,7 +94,7 @@
           }
         });
 
-      this.styleData.ref = this.itemData!.ref.parent.parent.collection("styles").doc(this.itemData!.ref.id);
+      this.styleData.ref = this.itemData!.ref!.parent!.parent!.collection("styles").doc(this.itemData!.ref!.id);
       this.unsubscribes.push(
         this.styleData.ref!.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
           if (!snap.exists) {
@@ -110,23 +109,23 @@
     }
 
     update() {
-      let updateData: IPageItem = <IPageItem>{};
+      let updateData: IItemStoreData = <IItemStoreData>{};
       updateData.option = this.itemData!.option;
 
-      this.itemData!.ref.update(updateData);
+      this.itemData!.ref!.update(updateData);
     }
 
     @Watch("contentStore.values")
     changeContentStore() {
       // console.log("changeContentStore", contentStore.values[this.itemData!.ref.id]);
-      let v = Object.assign({}, contentStore.values[this.itemData!.ref.id]);
+      let v = Object.assign({}, contentStore.values[this.itemData!.ref!.id]);
       v.ref = this.valueData.ref;
       this.valueData = v;
     }
 
     deleteModule() {
       contentStore.removeValue(this.valueData.ref!.id);
-      this.itemData!.ref.delete();
+      this.itemData!.ref!.delete();
       this.valueData!.ref!.delete();
     }
 

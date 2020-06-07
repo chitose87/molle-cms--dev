@@ -36,8 +36,8 @@
   import {Component, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
-  import {IPage, IPageItem} from "~/molle/interface/Page";
   import ValueTreeComp from "~/components/ValueTreeComp.vue";
+  import {IItemStoreData} from "~/molle/interface/ItemProfile";
 
   @Component({
     components: {ValueTreeComp}
@@ -59,7 +59,7 @@
     // stylesRef?: firebase.firestore.CollectionReference;
 
     path: string = "loading";
-    items: IPageItem[] = [];
+    items: IItemStoreData[] = [];
 
     // asyncData(context: Context) {
     //   // return {firebaseData: context.payload}
@@ -91,7 +91,7 @@
             this.items.length = 0;
             snapshot.forEach((snap: firebase.firestore.QueryDocumentSnapshot) => {
               console.log(snap.ref.path)
-              let data: IPageItem = <IPageItem>snap.data();
+              let data: IItemStoreData = <IItemStoreData>snap.data();
               data.ref = snap.ref;
               this.items.push(data);
             });
