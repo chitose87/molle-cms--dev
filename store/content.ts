@@ -6,10 +6,10 @@ import {IValueStoreData} from "~/molle/interface/ValueProfile";
 
 export default class content extends VuexModule {
   pages: any = {};
-  presetOutlines: any = {
+  static presetOutlines: any = {
     0: {name: "Headline"},
   };
-  outlines: any = this.presetOutlines;
+  outlines: any = content.presetOutlines;
   values: any = {};//横断データ　古いデータを含む可能性あり
   valueRefs: any = [];
 
@@ -24,7 +24,7 @@ export default class content extends VuexModule {
 
   @Mutation
   updateOutlines(firestoreQuerySnapshot: any) {
-    this.outlines = Object.assign({}, this.presetOutlines);
+    this.outlines = Object.assign({}, content.presetOutlines);
     firestoreQuerySnapshot.forEach((firestoreQueryDocumentSnapshot: any) => {
       this.outlines[firestoreQueryDocumentSnapshot.id] = firestoreQueryDocumentSnapshot.data();
     });

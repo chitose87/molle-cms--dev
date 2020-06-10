@@ -94,58 +94,63 @@ export default {
       return new Promise((resolve, reject) => {
         firebase.auth().onAuthStateChanged((user) => {
 
-          // let pages = firebase.firestore().collection("pages").get();
-          // let outlines = firebase.firestore().collection("outlines").get();
-          // let items = firebase.firestore().collectionGroup("items").get();
-          // let values = firebase.firestore().collectionGroup("values").get();
-          // let styles = firebase.firestore().collectionGroup("styles").get();
-          // Promise.all([pages, outlines, items, values, styles])
-          //   .then(([pages, outlines, items, values, styles]) => {
-          //
-          //     let allData = {
-          //       pages: {}, outlines: {}, items: {}, values: {}, styles: {}
-          //     };
-          //     let list = [];
-          //
-          //     pages.forEach((snap) => {
-          //       let data = snap.data();
-          //       allData.pages[snap.id] = data;
-          //       list.push({
-          //         route: `${data.path}`
-          //         , payload: {id: snap.id, allData: allData}
-          //       })
-          //     });
-          //     outlines.forEach((snap) => {
-          //       allData.outlines[snap.id] = snap.data()
-          //     });
-          //     items.forEach((snap) => {
-          //       allData.items[snap.id] = snap.data()
-          //     });
-          //     values.forEach((snap) => {
-          //       allData.values[snap.id] = snap.data()
-          //     });
-          //     styles.forEach((snap) => {
-          //       allData.styles[snap.id] = snap.data()
-          //     });
-          //
-          //     // console.log(allData);
-          //     resolve(list);
-          //   });
+          let pages = firebase.firestore().collection("pages").get();
+          let outlines = firebase.firestore().collection("outlines").get();
+          let items = firebase.firestore().collectionGroup("items").get();
+          let values = firebase.firestore().collectionGroup("values").get();
+          let styles = firebase.firestore().collectionGroup("styles").get();
+          Promise.all([pages, outlines, items, values, styles])
+            .then(([pages, outlines, items, values, styles]) => {
 
-          firebase.firestore().collection("pages")
-            .get()
-            .then((querySnapshot) => {
+              let allData = {
+                pages: {}, outlines: {}, items: {}, values: {}, styles: {}
+              };
               let list = [];
-              querySnapshot.forEach((doc) => {
-                let data = doc.data();
-                console.log(data.path);
+
+              pages.forEach((snap) => {
+                let data = snap.data();
+                data.items = [];
+                allData.pages[snap.id] = data;
                 list.push({
                   route: `${data.path}`
-                  , payload: data
+                  , payload: {id: snap.id, allData: allData}
                 })
               });
+              outlines.forEach((snap) => {
+                allData.outlines[snap.id] = snap.data()
+              });
+              items.forEach((snap) => {
+                allData.items[snap.id] = snap.data();
+                try {
+                  allData.pages[snap.ref.parent.parent.id].items.push(snap.id);
+                } catch (e) {
+
+                }
+              });
+              values.forEach((snap) => {
+                allData.values[snap.id] = snap.data();
+              });
+              styles.forEach((snap) => {
+                allData.styles[snap.id] = snap.data()
+              });
+
               resolve(list);
-            })
+            });
+
+          // firebase.firestore().collection("pages")
+          //   .get()
+          //   .then((querySnapshot) => {
+          //     let list = [];
+          //     querySnapshot.forEach((doc) => {
+          //       let data = doc.data();
+          //       console.log(data.path);
+          //       list.push({
+          //         route: `${data.path}`
+          //         , payload: data
+          //       })
+          //     });
+          //     resolve(list);
+          //   })
         });
       });
     }

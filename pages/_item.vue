@@ -1,31 +1,38 @@
 <template lang="pug">
-  .hoge
-    p lv0
-    p {{r}}
-    //p(v-html="firebaseData.id")
-    //p(v-html="firebaseData.allData.pages[firebaseData.id].path")
+  div
+    PreView(:payload="payload")
 
 </template>
 
 <script lang="ts">
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
-  import {Context} from '@nuxt/types';
+  import content from "~/store/content";
+  import PreView from "~/molle/PreView.vue";
 
   @Component({
-    components: {}
+    components: {PreView}
   })
   export default class DynamicPage1 extends Vue {
-    firebaseData: any;
-    r: number = 0;
+    payload?: {
+      id: string,
+      allData: {
+        pages: any,
+        outlines: any,
+        items: any,
+        values: any,
+        styles: any
+      }
+    };
 
-    async asyncData(context: Context) {
-      // return {firebaseData: context.payload}
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          // this.r = Math.random();
-          resolve({r: Math.random()});
-        }, 2000)
-      });
+    async asyncData(context: any) {
+      let payload = context.payload;
+      if (!payload.allData.isTree) {
+        payload.allData.values = content.updateTree(payload.allData.values);
+        payload.allData.outlines = Object.assign(payload.allData.outlines, content.presetOutlines);
+        payload.allData.isTree = true;
+        console.log(payload.allData);
+      }
+      return {payload: payload};
     }
   }
 </script>

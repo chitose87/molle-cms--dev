@@ -39,7 +39,7 @@
   import {contentStore} from "~/utils/store-accessor";
   import ValueTreeComp from "~/components/ValueTreeComp.vue";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
-  import {setMolleEditerModules} from "~/molle/editer/module/index";
+  import {setMolleEditerModules} from "~/molle/editer/module";
 
   @Component({
     components: {ValueTreeComp}
