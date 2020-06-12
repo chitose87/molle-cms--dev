@@ -37,13 +37,11 @@
   import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
-  import ValueTreeComp from "~/components/ValueTreeComp.vue";
-  import {IItemStoreData} from "~/molle/interface/ItemProfile";
+  import ValueTreeComp from "~/molle/ui/ValueTreeComp.vue";
   import {setMolleEditerModules} from "~/molle/editer/module";
-  import AddModuleComp from "~/components/AddModuleComp.vue";
 
   @Component({
-    components: {AddModuleComp, ValueTreeComp}
+    components: {ValueTreeComp}
   })
   export default class EditView extends Vue {
     contentStore = contentStore;

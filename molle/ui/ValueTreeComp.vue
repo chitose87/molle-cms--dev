@@ -7,13 +7,12 @@
     //.list-group-flush
       button.list-group-item.list-group-item-action
 
-
 </template>
 
 <script lang="ts">
   import {Component, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import {contentStore} from "~/utils/store-accessor";
-  import ValueTreeItemComp from "~/components/ValueTreeItemComp.vue";
+  import ValueTreeItemComp from "~/molle/ui/ValueTreeItemComp.vue";
   import {IValueStoreData} from "~/molle/interface/ValueProfile";
 
   @Component({

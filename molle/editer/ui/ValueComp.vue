@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-  import {Component, Inject, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
+  import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
   import {contentStore} from "~/utils/store-accessor";
   import {IValueStoreData, ValueProfile} from "~/molle/interface/ValueProfile";
 

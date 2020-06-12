@@ -12,9 +12,9 @@ export class ModuleE extends Module {
   @Prop() itemData?: IItemStoreData;
   itemRef: firebase.firestore.DocumentReference;
   valueData: IValueStoreData = {};
-  styleData: IStyleStoreData = {};
-  valueProfile: ValueProfile = <ValueProfile>{};
-  styleProfile: StyleProfile = <StyleProfile>{};
+  styleData?: IStyleStoreData;
+  valueProfile?: ValueProfile;
+  styleProfile?: StyleProfile;
 
   unsubscribes: (() => void)[] = [];
 
@@ -24,19 +24,25 @@ export class ModuleE extends Module {
   }
 
   _created() {
+    if (!this.valueProfile) {
+      throw new Error("valueProfileの設定が必要です");
+    }
+    if (!this.styleData) {
+      throw new Error("styleDataの設定が必要です");
+    }
 
     this.valueData.ref = this.itemRef.parent!.parent!.collection("values").doc(this.itemRef.id);
     this.valueData.ref!.get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
         if (!snap.exists) {
           this.valueData.ref!.set({
-            type: this.valueProfile.types[0].val
+            type: this.valueProfile!.types[0].val
           });
         } else {
           let data = snap.data();
-          if (!data!.type || this.valueProfile.types.every((type) => type.val != data!.type)) {
+          if (!data!.type || this.valueProfile!.types.every((type) => type.val != data!.type)) {
             this.valueData.ref!.update({
-              type: this.valueProfile.types[0].val
+              type: this.valueProfile!.types[0].val
             });
           }
         }
@@ -46,7 +52,7 @@ export class ModuleE extends Module {
     this.unsubscribes.push(
       this.styleData.ref!.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         if (!snap.exists) {
-          this.styleData.ref!.set({});
+          this.styleData!.ref!.set({});
           return;
         }
         this.styleData = Object.assign(this.styleData, snap.data());

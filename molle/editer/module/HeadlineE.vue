@@ -6,59 +6,46 @@
       :styleData="styleData"
     )
 
-    div(ref="hoge")
-      form(@submit.prevent @change="update()")
-        select(v-model="itemData.option.lv")
-          option(value="h1") h1
-          option(value="h2") h2
-          option(value="h3") h3
-          option(value="h4") h4
-          option(value="h5") h5
-          option(value="h6") h6
+    ModuleEditorComp(:itemOption="itemOption")
 
-    ModuleEditorComp
-
-    //.editer(:status="isEdit?'show':'hidden'")
-      button.toggle(@click="isEdit=!isEdit") 閉じる
-      div(v-if="isEdit")
-        ValueComp(:valueData="valueData" :valueProfile="valueProfile")
-        StyleComp(:styleData="styleData" :styleProfile="styleProfile")
-
-        button.btn.btn-danger(@click="deleteModule()") 削除
 </template>
 
 <script lang="ts">
   import {Component} from "~/node_modules/nuxt-property-decorator";
-  import ValueComp from "~/components/ValueComp.vue";
-  import StyleComp from "~/components/StyleComp.vue";
-  import {StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
+  import ValueComp from "~/molle/editer/ui/ValueComp.vue";
+  import StyleComp from "~/molle/editer/ui/StyleComp.vue";
+  import {IStyleStoreData, StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
   import {ModuleE} from "~/molle/editer/module/ModuleE";
-  import ModuleEditorComp from "~/components/ModuleEditorComp.vue";
+  import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
+  import {ItemOptionSelectProfile} from "~/molle/editer/module/item-option/Select.vue";
 
   @Component({
     components: {ModuleEditorComp, StyleComp, ValueComp}
   })
   export default class HeadlineE extends ModuleE {
+    itemOption = [
+      new ItemOptionSelectProfile({
+        id: "lv",
+        label:"見出しレベル",
+        default: "h3",
+        select: ["h1", "h2", "h3", "h4", "h5", "h6"]
+      })
+    ];
+
     //value setting
-    static valueProfile: ValueProfile = new ValueProfile({
+    valueProfile: ValueProfile = new ValueProfile({
       types: [ValueType.text]
     });
 
     //style setting
-    static styleProfile: StyleProfile = new StyleProfile({
+    styleProfile: StyleProfile = new StyleProfile({
       border: false,
       align: StyleAlign.None,
       theme: {default: "", select: ["", "test"]},
       color: {default: "", select: ["", "dark"]},
     });
-
-    constructor(...args: any[]) {
-      super(args);
-      this.valueProfile = HeadlineE.valueProfile;
-      this.styleProfile = HeadlineE.styleProfile;
-      this.styleData = this.styleProfile.getDefaultData();
-    }
+    styleData: IStyleStoreData = this.styleProfile.getDefaultData();
 
     created() {
       this._created();
