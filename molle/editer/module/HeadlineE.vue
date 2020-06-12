@@ -6,51 +6,44 @@
       :styleData="styleData"
     )
 
-    .editer(:status="isEdit?'show':'hidden'")
+    div(ref="hoge")
+      form(@submit.prevent @change="update()")
+        select(v-model="itemData.option.lv")
+          option(value="h1") h1
+          option(value="h2") h2
+          option(value="h3") h3
+          option(value="h4") h4
+          option(value="h5") h5
+          option(value="h6") h6
+
+    ModuleEditorComp
+
+    //.editer(:status="isEdit?'show':'hidden'")
       button.toggle(@click="isEdit=!isEdit") 閉じる
       div(v-if="isEdit")
-        //index
-        form(@submit.prevent="itemData.ref.update({index:Number.parseFloat(itemData.index)})")
-          label index
-            input(type="number" v-model="itemData.index")
-          button.btn.btn-link(type="submit") done
-
         ValueComp(:valueData="valueData" :valueProfile="valueProfile")
         StyleComp(:styleData="styleData" :styleProfile="styleProfile")
-
-        form(@submit.prevent @change="update()")
-          select(v-model="itemData.option.lv")
-            option(value="h1") h1
-            option(value="h2") h2
-            option(value="h3") h3
-            option(value="h4") h4
-            option(value="h5") h5
-            option(value="h6") h6
 
         button.btn.btn-danger(@click="deleteModule()") 削除
 </template>
 
 <script lang="ts">
-  import {Component, Prop, Provide, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-  import firebase from "~/node_modules/firebase";
-  import {contentStore} from "~/utils/store-accessor";
+  import {Component} from "~/node_modules/nuxt-property-decorator";
   import ValueComp from "~/components/ValueComp.vue";
   import StyleComp from "~/components/StyleComp.vue";
-  import {IStyleStoreData, StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
-  import {IValueStoreData, ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
-  import {IItemStoreData} from "~/molle/interface/ItemProfile";
+  import {StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
+  import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
+  import {ModuleE} from "~/molle/editer/module/ModuleE";
+  import ModuleEditorComp from "~/components/ModuleEditorComp.vue";
 
   @Component({
-    components: {StyleComp, ValueComp}
+    components: {ModuleEditorComp, StyleComp, ValueComp}
   })
-  export default class HeadlineE extends Vue {
-    contentStore = contentStore;
-
+  export default class HeadlineE extends ModuleE {
     //value setting
     static valueProfile: ValueProfile = new ValueProfile({
       types: [ValueType.text]
     });
-    valueProfile: ValueProfile = HeadlineE.valueProfile;
 
     //style setting
     static styleProfile: StyleProfile = new StyleProfile({
@@ -59,81 +52,106 @@
       theme: {default: "", select: ["", "test"]},
       color: {default: "", select: ["", "dark"]},
     });
-    styleProfile: StyleProfile = HeadlineE.styleProfile;
 
-    @Prop() itemData?: IItemStoreData;
-    valueData: IValueStoreData = {};
-    styleData: IStyleStoreData = this.styleProfile.getDefaultData();
+    constructor(...args: any[]) {
+      super(args);
+      this.valueProfile = HeadlineE.valueProfile;
+      this.styleProfile = HeadlineE.styleProfile;
+      this.styleData = this.styleProfile.getDefaultData();
+    }
 
-    isEdit = true;
-    unsubscribes: (() => void)[] = [];
-
-    beforeMount() {
-      if (!this.itemData!.option) this.itemData!.option = {};
-      if (!this.itemData!.option.lv) {
-        this.itemData!.option.lv = "h3";
-        this.update();
-      }
+    created() {
+      this._created();
     }
 
     mounted() {
-      this.valueData.ref = this.itemData!.ref!.parent!.parent!.collection("values").doc(this.itemData!.ref!.id);
-      this.valueData.ref!.get()
-        .then((snap: firebase.firestore.DocumentSnapshot) => {
-          if (!snap.exists) {
-            this.valueData.ref!.set({
-              type: this.valueProfile.types[0].val
-            });
-          } else {
-            let data = snap.data();
-            if (!data!.type || this.valueProfile.types.every((type) => type.val != data!.type)) {
-              this.valueData.ref!.update({
-                type: this.valueProfile.types[0].val
-              });
-            }
-          }
-        });
+      this.changeContentStoreValues();
 
-      this.styleData.ref = this.itemData!.ref!.parent!.parent!.collection("styles").doc(this.itemData!.ref!.id);
-      this.unsubscribes.push(
-        this.styleData.ref!.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-          if (!snap.exists) {
-            this.styleData.ref!.set({});
-            return;
-          }
-          this.styleData = Object.assign(this.styleData, snap.data());
-        })
-      );
-
-      this.changeContentStore();
-    }
-
-    update() {
-      let updateData: IItemStoreData = <IItemStoreData>{};
-      updateData.option = this.itemData!.option;
-
-      this.itemData!.ref!.update(updateData);
-    }
-
-    @Watch("contentStore.values")
-    changeContentStore() {
-      // console.log("changeContentStore", contentStore.values[this.itemData!.ref.id]);
-      let v = Object.assign({}, contentStore.values[this.itemData!.ref!.id]);
-      v.ref = this.valueData.ref;
-      this.valueData = v;
-    }
-
-    deleteModule() {
-      contentStore.removeValue(this.valueData.ref!.id);
-      this.itemData!.ref!.delete();
-      this.valueData!.ref!.delete();
+      console.log(this.$refs['hoge'])
     }
 
     destroyed() {
-      while (this.unsubscribes.length) {
-        this.unsubscribes.shift()!();
-      }
+      this._destroyed();
     }
+
+    //Unique Methods
+
+    // @Prop() itemData?: IItemStoreData;
+    // itemDataRef?: firebase.firestore.DocumentReference;
+    // valueData: IValueStoreData = {};
+    // styleData: IStyleStoreData = this.styleProfile.getDefaultData();
+    //
+    // isEdit = true;
+    // unsubscribes: (() => void)[] = [];
+
+    // beforeMount() {
+    //   this.itemDataRef = firebase.firestore().doc(this.itemData!.path!);
+    //   this.valueData.ref = this.itemDataRef.parent!.parent!.collection("values").doc(this.itemDataRef.id);
+    //   this.valueData.ref!.get()
+    //     .then((snap: firebase.firestore.DocumentSnapshot) => {
+    //       if (!snap.exists) {
+    //         this.valueData.ref!.set({
+    //           type: this.valueProfile.types[0].val
+    //         });
+    //       } else {
+    //         let data = snap.data();
+    //         if (!data!.type || this.valueProfile.types.every((type) => type.val != data!.type)) {
+    //           this.valueData.ref!.update({
+    //             type: this.valueProfile.types[0].val
+    //           });
+    //         }
+    //       }
+    //     });
+    //
+    //   this.styleData.ref = this.itemDataRef.parent!.parent!.collection("styles").doc(this.itemDataRef.id);
+    //   this.unsubscribes.push(
+    //     this.styleData.ref!.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+    //       if (!snap.exists) {
+    //         this.styleData.ref!.set({});
+    //         return;
+    //       }
+    //       this.styleData = Object.assign(this.styleData, snap.data());
+    //     })
+    //   );
+    //
+    //   this.changeContentStore();
+    //   //
+    //   if (!this.itemData!.option) this.itemData!.option = {};
+    //   if (!this.itemData!.option.lv) {
+    //     this.itemData!.option.lv = "h3";
+    //     this.update();
+    //   }
+    // }
+    //
+    // mounted() {
+    // }
+    //
+    // update() {
+    //   let updateData: IItemStoreData = <IItemStoreData>{};
+    //   updateData.option = this.itemData!.option;
+    //
+    //   this.itemDataRef!.update(updateData);
+    // }
+    //
+    // @Watch("contentStore.values")
+    // changeContentStore() {
+    //   // console.log("changeContentStore", contentStore.values[this.itemData!.ref.id]);
+    //   let v = Object.assign({}, contentStore.values[this.itemDataRef!.id]);
+    //   v.ref = this.valueData.ref;
+    //   this.valueData = v;
+    // }
+    //
+    // deleteModule() {
+    //   contentStore.removeValue(this.valueData.ref!.id);
+    //   this.itemDataRef!.delete();
+    //   this.valueData!.ref!.delete();
+    // }
+    //
+    // destroyed() {
+    //   while (this.unsubscribes.length) {
+    //     this.unsubscribes.shift()!();
+    //   }
+    // }
   }
 </script>
 

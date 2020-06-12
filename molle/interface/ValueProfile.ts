@@ -31,5 +31,6 @@ export const ValueType = {
   number: {label: "数字", val: "number"},
   img: {label: "画像", val: "img"},
   html: {label: "HTML", val: "html"},
+  children: {label: "ID List", val: "children"}
 } as const;
 type ValueType = typeof ValueType[keyof typeof ValueType];

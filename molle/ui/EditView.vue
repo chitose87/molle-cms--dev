@@ -2,23 +2,24 @@
   .editView
     div(v-if="!contentStore.pages[$route.query.id]")
       span not fond. {{$route.query.id}}
-    div(v-else-if="!ready.values")
+    div(v-else-if="!ready.values || !ready.items")
       p ...weiting
     div(v-else)
       .container
+        BoxE(:itemData="getItem()")
         //span(v-html="pageData.path")
         //div(v-for="(pageItem,key) in items")
           //span {{pageItem.index}}
           //span /
           //span {{pageItem.ref.id}}
-        component(
-          v-for="(item,key) in items"
-          :key="key"
-          :is="contentStore.outlines[item.moduleId].name+'E'"
-          :itemData="item"
-        )
+        //component(
+        //  v-for="(item,key) in items"
+        //  :key="key"
+        //  :is="contentStore.outlines[item.moduleId].name+'E'"
+        //  :itemData="item"
+        //)
 
-      ValueTreeComp
+      //ValueTreeComp(:items="items")
 
 
       //div
@@ -28,100 +29,108 @@
           v-if="itemOption.name"
           //:is="itemOption.name"
             )
-
-    button.btn.btn-primary(@click="pushModule()") Module追加
+    //AddModuleComp
 
 </template>
 
 <script lang="ts">
-  import {Component, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
+  import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
   import {contentStore} from "~/utils/store-accessor";
   import ValueTreeComp from "~/components/ValueTreeComp.vue";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
   import {setMolleEditerModules} from "~/molle/editer/module";
+  import AddModuleComp from "~/components/AddModuleComp.vue";
 
   @Component({
-    components: {ValueTreeComp}
+    components: {AddModuleComp, ValueTreeComp}
   })
   export default class EditView extends Vue {
     contentStore = contentStore;
     setMolleEditerModules = setMolleEditerModules();
 
+    @Prop() pageData?: {
+      id: string,
+
+      path: string,
+      main: string
+    };
+
     ready = {
+      items: false,
       values: false,
       styles: false,
     };
 
     unsubscribes: (() => void)[] = [];
 
+    pageRef?: firebase.firestore.DocumentReference;
     itemsRef?: firebase.firestore.CollectionReference;
     valuesRef?: firebase.firestore.CollectionReference;
 
     path: string = "loading";
-    items: IItemStoreData[] = [];
 
     created() {
+      this.pageRef = firebase.firestore().doc(`pages/${this.pageData!.id}`);
+      this.itemsRef = this.pageRef.collection(`items`);
+      this.valuesRef = this.pageRef.collection(`values`);
+
+      this.changePageData();
+    }
+
+    @Watch("pageData")
+    changePageData() {
+      console.log("--changePageData", this.pageData);
+
+      if (!this.pageData!.main) {
+        // ルートコンテツエリアが未設定
+        this.setFirstItem();
+      } else {
+        this.unsubscribes.push(
+          this.itemsRef!
+            .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
+              contentStore.updateItems(snapshot);
+
+              // ルートコンテツエリアが存在しなかった
+              if (!contentStore.items[this.pageData!.main]) {
+                this.itemsRef!.doc(this.pageData!.main).set({
+                  moduleId: "box",
+                });
+              } else {
+                if (!this.ready.items) this.$nextTick(() => this.ready.items = true);
+              }
+            })
+        );
+
+        //values
+        this.unsubscribes.push(
+          this.valuesRef!
+            .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
+              contentStore.updateValues(snapshot);
+              if (!this.ready.values) this.$nextTick(() => this.ready.values = true);
+            })
+        );
+      }
+    }
+
+    private setFirstItem() {
+      this.itemsRef!.add({
+        moduleId: "box",
+      }).then((e) => {
+        this.pageRef!.update({
+          main: e.id
+        });
+      });
+    }
+
+    getItem() {
+      let v = Object.assign({}, contentStore.items[this.pageData!.main]);
+      v.ref = firebase.firestore().doc(v.path);
+      return v;
     }
 
     mounted() {
       console.log("mounted", this.$route.query.id);
-      let data = contentStore.pages[<string>this.$route.query.id];
-      if (!data) return;
-
-      //init pageData
-      this.path = data.path;
-      this.items.length = 0;
-
-      // items -> items
-      this.itemsRef = firebase.firestore().collection(`pages/${this.$route.query.id}/items`);
-      this.unsubscribes.push(
-        this.itemsRef
-          .orderBy("index")
-          .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
-            console.log(`--pages/${this.$route.query.id}/items`);
-            this.items.length = 0;
-            snapshot.forEach((snap: firebase.firestore.QueryDocumentSnapshot) => {
-              console.log(snap.ref.path)
-              let data: IItemStoreData = <IItemStoreData>snap.data();
-              data.ref = snap.ref;
-              this.items.push(data);
-            });
-          })
-      );
-
-      //values
-      this.valuesRef = firebase.firestore().collection(`pages/${this.$route.query.id}/values`);
-      this.unsubscribes.push(
-        this.valuesRef
-          .onSnapshot((snapshot: firebase.firestore.QuerySnapshot) => {
-            contentStore.updateValues(snapshot);
-            if (!this.ready.values) this.$nextTick(() => this.ready.values = true);
-          })
-      );
-    }
-
-    /**
-     * モジュールを追加
-     */
-    pushModule() {
-      let index;
-      try {
-        index = this.items[this.items.length - 1].index! + 100;
-      } catch (e) {
-        index = 100;
-      }
-      this.itemsRef!.add({
-        moduleId: "0",
-        // valueRef: null,
-        index: index,
-        // joint: {
-        //   text: "title"
-        // }
-      }).then((e) => {
-        this.valuesRef!.doc(e.id).set({});
-        // this.stylesRef!.doc(e.id).set({});
-      });
     }
 
     destroyed() {

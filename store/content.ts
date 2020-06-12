@@ -8,19 +8,40 @@ export default class content extends VuexModule {
   pages: any = {};
   static presetOutlines: any = {
     0: {name: "Headline"},
+    box: {name: "Box"},
   };
+  items: any = {};//横断データ　古いデータを含む可能性あり
   outlines: any = content.presetOutlines;
   values: any = {};//横断データ　古いデータを含む可能性あり
-  valueRefs: any = [];
+
+  // valueRefs: any = [];
 
   @Mutation
   updatePages(firestoreQuerySnapshot: any) {
     console.log("--updatePages")
     this.pages = {};
     firestoreQuerySnapshot.forEach((firestoreQueryDocumentSnapshot: any) => {
-      this.pages[firestoreQueryDocumentSnapshot.id] = firestoreQueryDocumentSnapshot.data();
+      let v = firestoreQueryDocumentSnapshot.data();
+      v.id = firestoreQueryDocumentSnapshot.id;
+      this.pages[v.id] = v;
     });
   }
+
+  @Mutation
+  updateItems(firestoreQuerySnapshot: any) {
+    this.items = Object.assign({}, this.items);
+    firestoreQuerySnapshot.forEach((firestoreQueryDocumentSnapshot: any) => {
+      let v = firestoreQueryDocumentSnapshot.data();
+      v.path = firestoreQueryDocumentSnapshot.ref.path;
+      v.id = firestoreQueryDocumentSnapshot.id;
+      this.items[v.id] = v;
+    });
+  }
+
+  // @Mutation
+  // removeItem(id: string) {
+  //   delete this.items[id];
+  // }
 
   @Mutation
   updateOutlines(firestoreQuerySnapshot: any) {

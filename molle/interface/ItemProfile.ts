@@ -3,7 +3,9 @@
  * ＊refは便宜上
  */
 export interface IItemStoreData {
-  ref?: firebase.firestore.DocumentReference;
+  // ref?: firebase.firestore.DocumentReference;
+  id?:string;
+  path:string;
 
   index?: number;
   moduleId?: string;
