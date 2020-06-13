@@ -28,7 +28,7 @@
   /**
    */
   export default class ModuleEditorComp extends Vue {
-    isEdit = true;
+    isEdit = false;
 
     @Prop() itemOption?: any;
 
@@ -38,7 +38,7 @@
 </script>
 
 <style lang="scss">
-  .module-editor- {
+  .module-editor {
     position: absolute;
 
     &[status=hidden] {

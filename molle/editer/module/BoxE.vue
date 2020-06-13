@@ -1,5 +1,6 @@
 <template lang="pug">
-  .e
+  .module-e
+    ModuleEditorComp(:itemOption="itemOption")
     .box(
       :class="getClass()"
     )
@@ -9,7 +10,6 @@
         :is="getName(id) + 'E'"
         :itemData="contentStore.items[id]"
       )
-    ModuleEditorComp(:itemOption="itemOption")
 </template>
 
 <script lang="ts">

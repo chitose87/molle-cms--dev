@@ -1,5 +1,5 @@
 <template lang="pug">
-  .e
+  .module-e
     Headline(
       :itemData="itemData"
       :valueData="valueData"

@@ -7,29 +7,8 @@
     div(v-else)
       .container
         BoxE(:itemData="getItem()")
-        //span(v-html="pageData.path")
-        //div(v-for="(pageItem,key) in items")
-          //span {{pageItem.index}}
-          //span /
-          //span {{pageItem.ref.id}}
-        //component(
-        //  v-for="(item,key) in items"
-        //  :key="key"
-        //  :is="contentStore.outlines[item.moduleId].name+'E'"
-        //  :itemData="item"
-        //)
 
-      //ValueTreeComp(:items="items")
-
-
-      //div
-        select.form-control(v-model="itemOption.name")
-          option(v-for="(item,key) in contentStore.items" :value="item.name") {{item.name}}
-        component(
-          v-if="itemOption.name"
-          //:is="itemOption.name"
-            )
-    //AddModuleComp
+      ValueTreeComp()
 
 </template>
 
@@ -140,5 +119,7 @@
 </script>
 
 <style lang="scss">
-
+  .module-e {
+    position: relative;
+  }
 </style>
