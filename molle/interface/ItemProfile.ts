@@ -2,21 +2,52 @@
  * Moduleのデータ型（FireStore互換）
  * ＊refは便宜上
  */
-export interface IItemStoreData {
-  // ref?: firebase.firestore.DocumentReference;
-  id?:string;
-  path:string;
+import {ItemStoreDataMgr} from "~/molle/editer/ItemStoreDataMgr";
+import * as firebase from "~/node_modules/firebase";
 
-  index?: number;
-  moduleId?: string;
+export interface IItemStoreData {
+  //ロジックの中で設定される
+  ref: firebase.firestore.DocumentReference;
+  // id: string;
+  // path: string;
+  children?: string[];
+  superValue?: any//TODO<IValueStoreData>;
+
+  //firestore互換
+  name?: string;
+  moduleId: string;
   option?: any;
+
+  //value
+  type?: string;
+
+  value?: any;
+  extends?: string;
+
+  //style
+  style: {
+    theme?: string,
+    color?: string,
+    border?: boolean,
+    align?: string,
+  }
 }
 
 /**
  * ModuleのItem設定
  */
 export class ItemProfile {
-  constructor(opt: {}) {
+  itemData?: IItemStoreData;
+
+  constructor(ref: firebase.firestore.DocumentReference) {
+    ItemStoreDataMgr.watch(
+      this,
+      ref,
+      (itemData: IItemStoreData) => {
+        console.log("ItemProfile", itemData);
+        this.itemData = itemData;
+      }
+    );
   }
 }
 

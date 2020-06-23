@@ -1,7 +1,6 @@
 <template lang="pug">
   .module
-    component(
-      :is="itemData.option.lv"
+    p(
       v-html="itemData.value || itemData.superValue"
       :class="getClass()"
     )
@@ -9,15 +8,14 @@
 </template>
 
 <script lang="ts">
-  import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
+  import {Component, Prop} from "~/node_modules/nuxt-property-decorator";
   import {Module} from "~/molle/ssr/module/Module";
 
   @Component({
     components: {}
   })
-  export default class Headline extends Module {
+  export default class Paragraph extends Module {
     @Prop() itemData?: any;
-    @Prop() styleData?: any;
   }
 </script>
 

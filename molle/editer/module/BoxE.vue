@@ -2,13 +2,15 @@
   .module-e
     ModuleEditorComp(:itemOption="itemOption")
     .box(
+      v-if="itemData"
       :class="getClass()"
     )
       component(
-        v-for="id in valueData.value"
-        :key="id"
-        :is="getName(id) + 'E'"
-        :itemData="contentStore.items[id]"
+        v-for="itemData in children"
+        v-if="itemData"
+        :key="itemData.ref.id"
+        :is="itemData.moduleId +'E'"
+        :itemData="itemData"
       )
 </template>
 
@@ -22,11 +24,19 @@
   import {ModuleE} from "~/molle/editer/module/ModuleE";
   import {ItemOptionAddModuleProfile} from "~/molle/editer/module/item-option/AddModule.vue";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
+  import {IItemStoreData, ItemProfile} from "~/molle/interface/ItemProfile";
+  import {ItemStoreDataMgr} from "~/molle/editer/ItemStoreDataMgr";
 
   @Component({
     components: {ModuleEditorComp, StyleComp, ValueComp}
   })
   export default class BoxE extends ModuleE {
+    static placeholder = {
+      moduleId: "Box",
+      value: [],
+      type: "children",
+    };
+
     itemOption = [
       new ItemOptionAddModuleProfile({
         added: this.onAddModule
@@ -45,46 +55,49 @@
     });
     styleData: IStyleStoreData = this.styleProfile.getDefaultData();
 
+    children: IItemStoreData[] = [];
+
     created() {
-      this._created();
-    }
+      //モジュールをwatch
+      ItemStoreDataMgr.watch(this, this.itemData!.ref!,
+        (itemData: IItemStoreData) => {
+          this.$set(this, "itemData", itemData);
 
-    mounted() {
-      this.changeContentStoreValues();
-    }
-
-    destroyed() {
-      this._destroyed();
-    }
-
-    //Unique Methods
-
-    getName(id: string) {
-      let moduleId = this.contentStore.items[id].moduleId;
-      // console.log(id,moduleId,this.contentStore.outlines[moduleId])
-      return this.contentStore.outlines[moduleId].name;
-    }
-
-    @Watch("valueData")
-    changeValueData() {
-      let value: string[] = this.valueData.value;
-
-      //validation
-      if (!Array.isArray(this.valueData.value)) value = [];
-      else {
-        value = value.filter((id) => !!this.contentStore.items[id]);
-      }
-
-      if (!this.valueData.value || this.valueData.value.length != value.length) {
-        this.valueData.value = value;
-      }
+          //モジュールのvalueの中身をそれぞれwatch
+          // this.children.length = 0;
+          for (let i in itemData.value) {
+            let ref = itemData.value[i];
+            // this.children.push(<any>{ref: ref});
+            ItemStoreDataMgr.watch(this, ref,
+              (_itemData: IItemStoreData) => {
+                if (itemData.value.every((ele: any) => ele.id != ref.id)) {
+                  //多分　valueから消えたやつなのでunwatch
+                  console.log(ref.id);
+                  ItemStoreDataMgr.unwatch(this, ref.id);
+                  return;
+                }
+                console.log("set", i, _itemData);
+                this.$set(this.children, i, _itemData);
+              }
+            )
+          }
+        },
+        {
+          moduleId: "box",
+          type: "children",
+        }
+      );
     }
 
     onAddModule(ref: firebase.firestore.DocumentReference) {
-      let update = {
-        value: [...this.valueData.value, ref.id]
-      };
-      this.valueData!.ref!.update(update);
+      let value;
+      console.log(this.itemData!.value,Array.isArray(this.itemData!.value))
+      if (Array.isArray(this.itemData!.value)) {
+        value = [...this.itemData!.value, ref];
+      } else {
+        value = [ref];
+      }
+      this.itemData!.ref.update({value: value});
     }
 
   }

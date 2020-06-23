@@ -4,8 +4,6 @@
     .list-group
       .list-group-item.list-group-item-action(v-for="item in tree")
         ValueTreeItemComp(:id="item")
-    //.list-group-flush
-      button.list-group-item.list-group-item-action
 
 </template>
 
@@ -50,5 +48,7 @@
     position: fixed;
     top: 0;
     right: 0;
+
+    z-index:$zindex-fixed;
   }
 </style>

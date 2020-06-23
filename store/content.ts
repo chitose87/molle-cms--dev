@@ -6,12 +6,13 @@ import {IValueStoreData} from "~/molle/interface/ValueProfile";
 
 export default class content extends VuexModule {
   pages: any = {};
-  static presetOutlines: any = {
-    0: {name: "Headline"},
-    box: {name: "Box"},
-  };
+  // static presetOutlines: any = {
+  //   paragraph: {name: "Paragraph"},
+  //   headline: {name: "Headline"},
+  //   box: {name: "Box"},
+  // };
   items: any = {};//横断データ　古いデータを含む可能性あり
-  outlines: any = content.presetOutlines;
+  // outlines: any = content.presetOutlines;
   values: any = {};//横断データ　古いデータを含む可能性あり
 
   // valueRefs: any = [];
@@ -21,17 +22,22 @@ export default class content extends VuexModule {
     console.log("--updatePages")
     this.pages = {};
     firestoreQuerySnapshot.forEach((firestoreQueryDocumentSnapshot: any) => {
-      let v = firestoreQueryDocumentSnapshot.data();
+      let v = firestoreQueryDocumentSnapshot.store();
       v.id = firestoreQueryDocumentSnapshot.id;
       this.pages[v.id] = v;
     });
   }
 
   @Mutation
+  addItem(itemData: any) {
+    this.items[itemData.id] = itemData;
+  }
+
+  @Mutation
   updateItems(firestoreQuerySnapshot: any) {
     this.items = Object.assign({}, this.items);
     firestoreQuerySnapshot.forEach((firestoreQueryDocumentSnapshot: any) => {
-      let v = firestoreQueryDocumentSnapshot.data();
+      let v = firestoreQueryDocumentSnapshot.store();
       v.path = firestoreQueryDocumentSnapshot.ref.path;
       v.id = firestoreQueryDocumentSnapshot.id;
       this.items[v.id] = v;
@@ -43,24 +49,25 @@ export default class content extends VuexModule {
   //   delete this.items[id];
   // }
 
-  @Mutation
-  updateOutlines(firestoreQuerySnapshot: any) {
-    this.outlines = Object.assign({}, content.presetOutlines);
-    firestoreQuerySnapshot.forEach((firestoreQueryDocumentSnapshot: any) => {
-      this.outlines[firestoreQueryDocumentSnapshot.id] = firestoreQueryDocumentSnapshot.data();
-    });
-  }
+  // @Mutation
+  // updateOutlines(firestoreQuerySnapshot: any) {
+  //   this.outlines = Object.assign({}, content.presetOutlines);
+  //   firestoreQuerySnapshot.forEach((firestoreQueryDocumentSnapshot: any) => {
+  //     this.outlines[firestoreQueryDocumentSnapshot.id] = firestoreQueryDocumentSnapshot.store();
+  //   });
+  // }
 
   @Mutation
   updateValues(firestoreQuerySnapshot: any) {
     // this.values = Object.assign({}, firestoreQuerySnapshot);
     console.log("--updateValues")
     // this.values = {};
-    let values = Object.assign({}, this.values);
+    // let values = Object.assign({}, this.values);
     // let values = Object.assign({}, this.values);
     firestoreQuerySnapshot.forEach((firestoreQueryDocumentSnapshot: any) => {
-      let v = firestoreQueryDocumentSnapshot.data();
-      values[firestoreQueryDocumentSnapshot.id] = {
+      let v = firestoreQueryDocumentSnapshot.store();
+      this.values[firestoreQueryDocumentSnapshot.id] = {
+        path: firestoreQueryDocumentSnapshot.ref.path,
         name: v.name,
         type: v.type,
         value: v.value,
@@ -71,8 +78,9 @@ export default class content extends VuexModule {
     });
     //
 
-    console.log(values);
-    this.values = content.updateTree(values);
+    content.updateTree(this.values);
+    // this.values = values;
+    // this.values = content.updateTree(values);
   }
 
   @Mutation

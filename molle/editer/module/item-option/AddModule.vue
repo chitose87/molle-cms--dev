@@ -2,16 +2,16 @@
   .item-option-add-module
     form(@submit.prevent @submit="pushModule()")
       select(v-model="pushModuleSelected")
-        option(v-for="(item,key) in contentStore.outlines" :value="key" v-html="item.name+'/'+key")
+        option(v-for="(item,key) in molleModules" :value="key" v-html="key")
       button.btn.btn-primary(type="submit") Module追加
 
 </template>
 
 <script lang="ts">
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
-  import {IItemStoreData} from "~/molle/interface/ItemProfile";
   import * as firebase from "~/node_modules/firebase";
-  import {contentStore} from "~/utils/store-accessor";
+  import {molleEditerModules} from "~/molle/editer/module";
+  import {molleModules} from "~/molle/ssr/module";
 
   @Component({
     components: {}
@@ -19,23 +19,21 @@
   /**
    */
   export default class ItemOptionAddModule extends Vue {
-    contentStore = contentStore;
-
+    molleModules = molleModules;
     @Prop() profile?: ItemOptionAddModuleProfile;
-    @Prop() itemData?: IItemStoreData;
 
-    pushModuleSelected = "box";
+    pushModuleSelected = "Paragraph";
 
     pushModule() {
-      let ref = firebase.firestore().doc(this.itemData!.path).parent.parent;
-      ref!.collection("items")
-        .add({
-          moduleId: this.pushModuleSelected,
-          option: {},
-        })
+      // @ts-ignore
+      let moduleClass = molleEditerModules[this.pushModuleSelected + "E"];
+      // console.log(moduleClass, this.pushModuleSelected + "E");
+
+      let data = moduleClass.placeholder || {moduleId: this.pushModuleSelected};
+
+      firebase.firestore().collection("items")
+        .add(data)
         .then((e: firebase.firestore.DocumentReference) => {
-          ref!.collection("values").doc(e.id)
-            .set({});
           this.profile!.added(e);
         });
     }

@@ -1,6 +1,18 @@
 <template lang="pug">
   .value-tree-item-comp
-    button.btn.btn-sm.btn-outline-secondary {{(value && value.name) || id}}
+    button.btn.btn-sm.btn-outline-secondary
+      span id:
+      b(v-html="id")
+      div(v-if="value")
+        div(v-if="value.name")
+          span name:
+          b(v-html="value.name")
+        div
+          span type:
+          b(v-html="value.type")
+        div
+          span value:
+          span(v-html="value.value")
     .list-group.mt-3(v-if="value && value.childrenId.length")
       .list-group-item.list-group-item-action.pr-0(v-for="item in value.childrenId")
         ValueTreeItemComp(:id="item")

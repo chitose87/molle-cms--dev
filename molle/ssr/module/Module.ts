@@ -1,13 +1,19 @@
 import {Vue} from "~/node_modules/nuxt-property-decorator";
 
 export class Module extends Vue {
-  styleData?: any;
+  // itemProfile?: any;
+  itemData?: any;
+  id?: string = "";
+
+  // constructor(a:any){
+  //   super(a);
+  // }
 
   getClass() {
     let obj: any = {};
 
-    for (let key in this.styleData) {
-      let value = this.styleData[key];
+    for (let key in this.itemData.style) {
+      let value = this.itemData.style[key];
       switch (key) {
         case "align":
         case "theme":

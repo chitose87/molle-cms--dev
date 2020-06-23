@@ -2,7 +2,7 @@
   .pageList
     button.btn.btn-primary(@click="addPage") 新規
     ul.list-group.list-group-flush
-      li.list-group-item(v-for="(item,key) in contentStore.pages")
+      li.list-group-item(v-for="(item,key) in store.pages")
         form(@submit.prevent="changePath(key)")
           input(:value="item.path" @blur="changePath(key)" :ref="key")
           nuxt-link(:to="{hash:'page-edit',query:{id:key}}") 編集
@@ -12,13 +12,13 @@
 <script lang="ts">
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
-  import {contentStore} from "~/utils/store-accessor";
+  import {Singleton} from "~/molle/Singleton";
 
   @Component({
     components: {}
   })
   export default class PageList extends Vue {
-    contentStore = contentStore;
+    store = Singleton.store;
 
     addPage() {
       firebase.firestore().collection("pages")

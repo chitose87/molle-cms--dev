@@ -31,7 +31,7 @@
     update(v: string) {
       let update: any = {option: {}};
       update.option[this.profile!.id] = v;
-      firebase.firestore().doc(this.itemData!.path).update(update);
+      this.itemData!.ref.update(update);
     }
   }
 

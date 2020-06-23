@@ -1,10 +1,12 @@
 <template lang="pug">
   no-ssr
     .molle
-      div(v-if="!Object.keys(contentStore.pages).length")
+      div(v-if="!Object.keys(store.pages).length")
         p ...weiting
       div(v-else-if="$route.hash==='#page-edit'")
-        EditView(:pageData="contentStore.pages[$route.query.id]")
+        div(v-if="!store.pages[$route.query.id]")
+          span not fond. {{$route.query.id}}
+        EditView(v-else :pageData="store.pages[$route.query.id]")
       div(v-else)
         PageList
 
@@ -16,12 +18,14 @@
   import * as firebase from "~/node_modules/firebase";
   import PageList from "~/molle/ui/PageList.vue";
   import EditView from "~/molle/ui/EditView.vue";
+  import {Singleton} from "~/molle/Singleton";
 
   @Component({
     components: {EditView, PageList}
   })
   export default class MolleTopPage extends Vue {
-    contentStore = contentStore;
+    // contentStore = contentStore;
+    store = Singleton.store;
 
     head() {
       return {
@@ -47,12 +51,18 @@
 
         //routes index
         firebase.auth().onAuthStateChanged((user) => {
-          console.log(user);
+          // console.log(user);
+          // firebase.firestore().collection("pages")
+          //   .onSnapshot(contentStore.updatePages);
+          //
+          // firebase.firestore().collection("outlines")
+          //   .onSnapshot(contentStore.updateOutlines);
+
           firebase.firestore().collection("pages")
-            .onSnapshot(contentStore.updatePages);
+            .onSnapshot(Singleton.updatePages);
 
           firebase.firestore().collection("outlines")
-            .onSnapshot(contentStore.updateOutlines);
+            .onSnapshot(Singleton.updateOutlines);
 
           // firebase.firestore().collection("values")
           //   .onSnapshot(contentStore.updateValues);

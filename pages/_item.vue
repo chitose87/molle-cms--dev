@@ -27,8 +27,8 @@
     async asyncData(context: any) {
       let payload = context.payload;
       if (!payload.allData.isTree) {
-        payload.allData.values = content.updateTree(payload.allData.values);
-        payload.allData.outlines = Object.assign(payload.allData.outlines, content.presetOutlines);
+        // payload.allData.values = content.updateTree(payload.allData.values);
+        // payload.allData.outlines = Object.assign(payload.allData.outlines, content.presetOutlines);
         payload.allData.isTree = true;
         console.log(payload.allData);
       }

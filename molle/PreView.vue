@@ -6,8 +6,6 @@
         :key="key"
         :is="payload.allData.outlines[payload.allData.items[key].moduleId].name"
         :itemData="payload.allData.items[key]"
-        :valueData="payload.allData.values[key]"
-        :styleData="payload.allData.styles[key]"
       )
 
 </template>

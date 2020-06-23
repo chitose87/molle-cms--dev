@@ -3,7 +3,8 @@
  * ＊refは便宜上
  */
 export interface IValueStoreData {
-  ref?: firebase.firestore.DocumentReference;
+  // ref?: firebase.firestore.DocumentReference;
+  path: string;
   childrenId?: string[];
   superValue?: IValueStoreData;
 

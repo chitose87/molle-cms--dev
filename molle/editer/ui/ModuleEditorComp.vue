@@ -2,6 +2,7 @@
   .module-editor(:status="isEdit?'show':'hidden'")
     button.toggle(@click="isEdit=!isEdit") 閉じる
     div(v-if="isEdit")
+      // todo visible 設定を足す
       div
         component(v-for="item in itemOption"
           :is="item.name"
@@ -10,8 +11,8 @@
           :itemData="$parent.itemData"
         )
 
-      ValueComp(:valueData="$parent.valueData" :valueProfile="$parent.valueProfile")
-      StyleComp(:styleData="$parent.styleData" :styleProfile="$parent.styleProfile")
+      ValueComp(:itemData="$parent.itemData" :valueProfile="$parent.valueProfile")
+      StyleComp(:itemData="$parent.itemData" :styleProfile="$parent.styleProfile")
 
       button.btn.btn-danger(@click="$parent.deleteModule()") 削除
 
@@ -63,6 +64,8 @@
     }
 
     &[status=show] {
+      top: calc(100% - 1rem);
+
       z-index: $zindex-fixed;
       border: 1px solid gray;
       padding: 1rem;

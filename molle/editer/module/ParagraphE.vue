@@ -1,10 +1,10 @@
 <template lang="pug">
   .module-e
-    Headline(
+    Paragraph(
       :itemData="itemData"
     )
 
-    ModuleEditorComp(:itemOption="itemOption")
+    ModuleEditorComp
 
 </template>
 
@@ -16,20 +16,16 @@
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
   import {ModuleE} from "~/molle/editer/module/ModuleE";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
-  import {ItemOptionSelectProfile} from "~/molle/editer/module/item-option/Select.vue";
 
   @Component({
     components: {ModuleEditorComp, StyleComp, ValueComp}
   })
-  export default class HeadlineE extends ModuleE {
-    itemOption = [
-      new ItemOptionSelectProfile({
-        id: "lv",
-        label:"見出しレベル",
-        default: "h3",
-        select: ["h1", "h2", "h3", "h4", "h5", "h6"]
-      })
-    ];
+  export default class ParagraphE extends ModuleE {
+    static placeholder = {
+      moduleId: "Paragraph",
+      value: "Lorem ipsum...",
+      type: "text",
+    };
 
     //value setting
     valueProfile: ValueProfile = new ValueProfile({
@@ -43,14 +39,9 @@
       theme: {default: "", select: ["", "test"]},
       color: {default: "", select: ["", "dark"]},
     });
-    styleData: IStyleStoreData = this.styleProfile.getDefaultData();
 
     created() {
       this._created();
-    }
-
-    mounted() {
-      // this.changeContentStoreValues();
     }
 
     destroyed() {
