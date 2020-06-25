@@ -28,7 +28,7 @@ export class FirestoreMgr {
     callBack: (itemData: IItemStoreData) => void,
     opt?: {
       initial?: any,
-      // once?: boolean,
+      once?: boolean,
       force?: boolean,
       watcher?: any,
     }
@@ -36,10 +36,22 @@ export class FirestoreMgr {
 
     let listenerList = this.listenerDic[ref.id] || [];
     let first = !!listenerList.length;
+
     //watchersに追加
     let listener: Listener = {
       callBack: callBack,
     };
+
+    //once
+    if (opt && opt.once) {
+      if (!opt.watcher) opt.watcher = {};
+      listener.callBack = (itemData: IItemStoreData) => {
+        callBack(itemData);
+        this.removelistener(ref.id, opt.watcher);
+      }
+    }
+
+    //登録
     if (opt && opt.watcher) listener.watcher = opt.watcher;
     listenerList.push(listener);
     this.listenerDic[ref.id] = listenerList;
@@ -58,15 +70,20 @@ export class FirestoreMgr {
 
       //初回でレスポンスするかどうか
       if (opt && opt.force) {
-        callBack(data);
+        listener.callBack(data);
       }
     } else {
       // ---------watchされていない
 
       this.unsubscribeDic[ref.id] = ref.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         //空だった場合
-        if (!snap.exists && opt && opt.initial) {
-          ref.set(opt.initial);
+        if (!snap.exists) {
+          if (opt && opt.initial) {
+            ref.set(opt.initial);
+          } else {
+            //todo　空で、初期化もしない場合
+            console.log("空で、初期化もない", ref.path);
+          }
           return;
         }
 
@@ -79,7 +96,7 @@ export class FirestoreMgr {
   }
 
   /**
-   *
+   * idで外す。watcherが指定されてないと全部外す。
    * @param id
    * @param watcher
    */
@@ -96,5 +113,15 @@ export class FirestoreMgr {
     }
 
     console.log(this.listenerDic)
+  }
+
+  /**
+   * watcherのやつを全部外す。
+   * @param watcher
+   */
+  static removelistenerByWatcher(watcher: any) {
+    for (let id in this.listenerDic) {
+      this.removelistener(id, watcher);
+    }
   }
 }

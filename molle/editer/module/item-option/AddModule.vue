@@ -10,8 +10,9 @@
 <script lang="ts">
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
   import * as firebase from "~/node_modules/firebase";
-  import {molleEditerModules} from "~/molle/editer/module";
+  import {InitialValue, molleEditerModules} from "~/molle/editer/module";
   import {molleModules} from "~/molle/ssr/module";
+  import {ValueType} from "~/molle/interface/ValueProfile";
 
   @Component({
     components: {}
@@ -22,14 +23,14 @@
     molleModules = molleModules;
     @Prop() profile?: ItemOptionAddModuleProfile;
 
-    pushModuleSelected = "Paragraph";
+    pushModuleSelected = InitialValue.Paragraph.moduleId;
 
     pushModule() {
       // @ts-ignore
       let moduleClass = molleEditerModules[this.pushModuleSelected + "E"];
       // console.log(moduleClass, this.pushModuleSelected + "E");
 
-      let data = moduleClass.placeholder || {moduleId: this.pushModuleSelected};
+      let data = InitialValue[this.pushModuleSelected] || {moduleId: this.pushModuleSelected, option: {}};
 
       firebase.firestore().collection("items")
         .add(data)

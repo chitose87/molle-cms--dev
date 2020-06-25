@@ -13,15 +13,30 @@ export const molleEditerModules = {
   ParagraphE: ParagraphE,
 };
 
-export const BoxInitial = {
-  moduleId: "Box",
-  value: [],
-  type: "children",
-};
+export const InitialValue = {
+  Box: {
+    moduleId: "Box",
+    value: [],
+    type: "children",
+  },
+  Headline: {
+    moduleId: "Headline",
+    value: "Lorem ipsum...",
+    type: "text",
+    option: {
+      lv: "h3"
+    }
+  },
+  Paragraph: {
+    moduleId: "Paragraph",
+    value: "Lorem ipsum...",
+    type: "text",
+  }
+} as const;
+export type InitialValue = typeof InitialValue[keyof typeof InitialValue];
 
 export function setMolleEditerModules() {
   setMolleModules();
-
 
   //item-options
   Vue.component("ItemOptionAddModule", ItemOptionAddModule);

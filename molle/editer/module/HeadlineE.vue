@@ -12,7 +12,7 @@
   import {Component} from "~/node_modules/nuxt-property-decorator";
   import ValueComp from "~/molle/editer/ui/ValueComp.vue";
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
-  import {IStyleStoreData, StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
+  import {StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
   import {ModuleE} from "~/molle/editer/module/ModuleE";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
@@ -25,8 +25,8 @@
     itemOption = [
       new ItemOptionSelectProfile({
         id: "lv",
-        label:"見出しレベル",
-        default: "h3",
+        label: "見出しレベル",
+        // default: "h3",
         select: ["h1", "h2", "h3", "h4", "h5", "h6"]
       })
     ];
@@ -43,18 +43,9 @@
       theme: {default: "", select: ["", "test"]},
       color: {default: "", select: ["", "dark"]},
     });
-    styleData: IStyleStoreData = this.styleProfile.getDefaultData();
 
     created() {
       this._created();
-    }
-
-    mounted() {
-      // this.changeContentStoreValues();
-    }
-
-    destroyed() {
-      this._destroyed();
     }
 
     //Unique Methods

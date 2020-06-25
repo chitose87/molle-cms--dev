@@ -23,11 +23,10 @@
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
   import {ItemOptionAddModuleProfile} from "~/molle/editer/module/item-option/AddModule.vue";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
-  import {ItemStoreDataMgr} from "~/molle/editer/ItemStoreDataMgr";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
   import {ModuleEContainer} from "~/molle/editer/module/ModuleEContainer";
-  import {BoxInitial} from "~/molle/editer/module/index";
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
+  import {InitialValue} from "~/molle/editer/module/index";
 
   @Component({
     components: {ModuleEditorComp, StyleComp, ValueComp}
@@ -59,20 +58,16 @@
           this.watchChildren(this.itemData!.value);
         },
         {
-          initial: BoxInitial,
+          initial: InitialValue.Box,
           force: true,
           watcher: this
         }
       );
-
-      // ItemStoreDataMgr.watch(this, this.itemData!.ref!,
-      //   (itemData: IItemStoreData) => {
-      //     this.$set(this, "itemData", itemData);
-      //     this.watchChildren(this.itemData!.value);
-      //   },
-      //   BoxInitial
-      // );
       super._created();
+    }
+
+    destroyed() {
+      FirestoreMgr.removelistenerByWatcher(this);
     }
 
     onAddModule(ref: firebase.firestore.DocumentReference) {

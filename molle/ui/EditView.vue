@@ -15,9 +15,8 @@
 <script lang="ts">
   import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
-  import {BoxInitial, setMolleEditerModules} from "~/molle/editer/module";
+  import {InitialValue, setMolleEditerModules} from "~/molle/editer/module";
   import {IItemStoreData, ItemProfile} from "~/molle/interface/ItemProfile";
-  import {ItemStoreDataMgr} from "~/molle/editer/ItemStoreDataMgr";
   import {IPageStoreData} from "~/molle/interface/IPageStoreData";
   import {Singleton} from "~/molle/Singleton";
   import ValueTreeComp from "~/molle/ui/ValueTreeComp.vue";
@@ -65,11 +64,9 @@
           this.pageData!.main,
           (itemData: IItemStoreData) => {
             this.$set(this.children, "main", itemData);
-
-            FirestoreMgr.removelistener(this.pageData!.main.id, this);
           }, {
-            initial: BoxInitial,
-            // once: true,
+            initial: InitialValue.Box,
+            once: true,
             force: true,
             watcher: this,
           }

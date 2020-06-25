@@ -22,10 +22,6 @@
 
     created() {
       if (!this.itemData!.option) this.itemData!.option = {};
-      if (!this.itemData!.option.lv) {
-        this.itemData!.option.lv = "h3";
-        this.update("h3");
-      }
     }
 
     update(v: string) {
@@ -40,18 +36,18 @@
 
     id: string;
     label: string;
-    default: string;
+    // default: string;
     select: string[];
 
     constructor(opt: {
       id: string,
       label: string,
-      default: string,
+      // default: string,
       select: string[]
     }) {
       this.id = opt.id;
       this.label = opt.label;
-      this.default = opt.default;
+      // this.default = opt.default;
       this.select = opt.select;
     }
   }
