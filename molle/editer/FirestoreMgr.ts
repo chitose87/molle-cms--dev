@@ -35,7 +35,7 @@ export class FirestoreMgr {
   ) {
 
     let listenerList = this.listenerDic[ref.id] || [];
-    let first = !!listenerList.length;
+    let first = !listenerList.length;
 
     //watchersに追加
     let listener: Listener = {
@@ -57,15 +57,18 @@ export class FirestoreMgr {
     this.listenerDic[ref.id] = listenerList;
 
     //
-    if (first) {
+    if (!first) {
       // ---------すでにwatchされている
       let data = Singleton.store.items[ref.id];
 
-      //dataが無くて、opt.initialがある場合セット
-      if (!data && opt && opt.initial) {
+      if (!data) throw new Error("dataが無い");
+
+      //opt.initialがある場合セット
+      if (opt && opt.initial) {
         data = Object.assign({ref: ref}, opt.initial);
         Singleton.store.items[ref.id] = data;
         //todo firesoterに上げる？
+        console.log(data)
       }
 
       //初回でレスポンスするかどうか

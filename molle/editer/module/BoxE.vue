@@ -1,6 +1,11 @@
 <template lang="pug">
   .module-e
-    ModuleEditorComp(:itemOption="itemOption")
+    ModuleEditorComp(
+      :itemOption="itemOption"
+      :itemData="itemData"
+      :valueProfile="valueProfile"
+      :styleProfile="styleProfile")
+
     .box(
       v-if="itemData"
       :class="getClass()"

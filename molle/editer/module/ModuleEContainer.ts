@@ -10,12 +10,13 @@ export class ModuleEContainer extends ModuleE {
    * @param childrenList
    */
   watchChildren(childrenList: firebase.firestore.DocumentReference[]) {
-    //モジュールのvalueの中身をそれぞれwatch
+    //valueの中身をそれぞれwatch
     for (let i in childrenList) {
       let ref = childrenList[i];
       FirestoreMgr.addlistener(
         ref,
         (_itemData: IItemStoreData) => {
+          console.log(_itemData.ref.id, _itemData)
           if (childrenList.every((ele: any) => ele.id != ref.id)) {
             //多分　valueから消えたやつなのでunwatch
             console.log(ref.id);

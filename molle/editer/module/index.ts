@@ -18,6 +18,7 @@ export const InitialValue = {
     moduleId: "Box",
     value: [],
     type: "children",
+    style: {},
   },
   Headline: {
     moduleId: "Headline",
@@ -25,12 +26,14 @@ export const InitialValue = {
     type: "text",
     option: {
       lv: "h3"
-    }
+    },
+    style: {},
   },
   Paragraph: {
     moduleId: "Paragraph",
     value: "Lorem ipsum...",
     type: "text",
+    style: {},
   }
 } as const;
 export type InitialValue = typeof InitialValue[keyof typeof InitialValue];

@@ -4,7 +4,10 @@
       :itemData="itemData"
     )
 
-    ModuleEditorComp
+    ModuleEditorComp(
+      :itemData="itemData"
+      :valueProfile="valueProfile"
+      :styleProfile="styleProfile")
 
 </template>
 

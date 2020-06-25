@@ -12,7 +12,8 @@
   import * as firebase from "~/node_modules/firebase";
   import {InitialValue, molleEditerModules} from "~/molle/editer/module";
   import {molleModules} from "~/molle/ssr/module";
-  import {ValueType} from "~/molle/interface/ValueProfile";
+  import {Singleton} from "~/molle/Singleton";
+  import {IItemStoreData} from "~/molle/interface/ItemProfile";
 
   @Component({
     components: {}
@@ -27,15 +28,17 @@
 
     pushModule() {
       // @ts-ignore
-      let moduleClass = molleEditerModules[this.pushModuleSelected + "E"];
-      // console.log(moduleClass, this.pushModuleSelected + "E");
-
-      let data = InitialValue[this.pushModuleSelected] || {moduleId: this.pushModuleSelected, option: {}};
+      let data: IItemStoreData = InitialValue[this.pushModuleSelected] || {
+        moduleId: this.pushModuleSelected,
+        option: {}
+      };
 
       firebase.firestore().collection("items")
         .add(data)
-        .then((e: firebase.firestore.DocumentReference) => {
-          this.profile!.added(e);
+        .then((ref: firebase.firestore.DocumentReference) => {
+          data.ref = ref;
+          Singleton.store.items[ref.id] = data;
+          this.profile!.added(ref);
         });
     }
   }

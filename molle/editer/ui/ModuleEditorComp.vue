@@ -8,11 +8,11 @@
           :is="item.name"
           :key="item.name"
           :profile="item"
-          :itemData="$parent.itemData"
+          :itemData="itemData"
         )
 
-      ValueComp(:itemData="$parent.itemData" :valueProfile="$parent.valueProfile")
-      StyleComp(:itemData="$parent.itemData" :styleProfile="$parent.styleProfile")
+      ValueComp(:itemData="itemData" :valueProfile="valueProfile")
+      StyleComp(:itemData="itemData" :styleProfile="styleProfile")
 
       button.btn.btn-danger(@click="$parent.deleteModule()") 削除
 
@@ -22,6 +22,9 @@
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
   import ValueComp from "~/molle/editer/ui/ValueComp.vue";
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
+  import {IItemStoreData} from "~/molle/interface/ItemProfile";
+  import {ValueProfile} from "~/molle/interface/ValueProfile";
+  import {StyleProfile} from "~/molle/interface/StyleProfile";
 
   @Component({
     components: {StyleComp, ValueComp}
@@ -32,6 +35,9 @@
     isEdit = false;
 
     @Prop() itemOption?: any;
+    @Prop() itemData?: IItemStoreData;
+    @Prop() valueProfile?: ValueProfile;
+    @Prop() styleProfile?: StyleProfile;
 
     mounted() {
     }

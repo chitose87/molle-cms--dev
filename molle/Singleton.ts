@@ -59,4 +59,5 @@ export class Singleton {
     Singleton.store.items[snap.id] = v;
     return v;
   }
+
 }
