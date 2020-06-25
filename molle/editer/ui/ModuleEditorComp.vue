@@ -44,10 +44,10 @@
 
     &[status=hidden] {
       z-index: $zindex-fixed - 1;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: -0.5rem;
+      left: -0.5rem;
+      width: calc(100% + 1rem);
+      height: calc(100% + 1rem);
 
       .toggle {
         position: absolute;
@@ -64,7 +64,7 @@
     }
 
     &[status=show] {
-      top: calc(100% - 1rem);
+      top: 100%;
 
       z-index: $zindex-fixed;
       border: 1px solid gray;

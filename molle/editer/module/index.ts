@@ -13,8 +13,16 @@ export const molleEditerModules = {
   ParagraphE: ParagraphE,
 };
 
+export const BoxInitial = {
+  moduleId: "Box",
+  value: [],
+  type: "children",
+};
+
 export function setMolleEditerModules() {
   setMolleModules();
+
+
   //item-options
   Vue.component("ItemOptionAddModule", ItemOptionAddModule);
   Vue.component("ItemOptionSelect", ItemOptionSelect);

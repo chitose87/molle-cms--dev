@@ -44,9 +44,9 @@
       this._created();
     }
 
-    destroyed() {
-      this._destroyed();
-    }
+    // destroyed() {
+    //   this._destroyed();
+    // }
 
     //Unique Methods
   }

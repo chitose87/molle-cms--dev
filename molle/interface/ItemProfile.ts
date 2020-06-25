@@ -8,8 +8,6 @@ import * as firebase from "~/node_modules/firebase";
 export interface IItemStoreData {
   //ロジックの中で設定される
   ref: firebase.firestore.DocumentReference;
-  // id: string;
-  // path: string;
   children?: string[];
   superValue?: any//TODO<IValueStoreData>;
 
