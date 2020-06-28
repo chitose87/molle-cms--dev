@@ -6,6 +6,7 @@ import ParagraphE from "~/molle/editer/module/ParagraphE.vue";
 
 import ItemOptionSelect from "~/molle/editer/module/item-option/Select.vue";
 import ItemOptionAddModule from "~/molle/editer/module/item-option/AddModule.vue";
+import firebase from "firebase";
 
 export const molleEditerModules = {
   BoxE: BoxE,
@@ -19,6 +20,7 @@ export const InitialValue = {
     value: [],
     type: "children",
     style: {},
+    createTime: firebase.firestore.FieldValue.serverTimestamp()
   },
   Headline: {
     moduleId: "Headline",
@@ -28,12 +30,14 @@ export const InitialValue = {
       lv: "h3"
     },
     style: {},
+    createTime: firebase.firestore.FieldValue.serverTimestamp()
   },
   Paragraph: {
     moduleId: "Paragraph",
     value: "Lorem ipsum...",
     type: "text",
     style: {},
+    createTime: firebase.firestore.FieldValue.serverTimestamp()
   }
 } as const;
 export type InitialValue = typeof InitialValue[keyof typeof InitialValue];

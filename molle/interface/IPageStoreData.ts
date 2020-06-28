@@ -6,4 +6,5 @@ export interface IPageStoreData {
 
   path: string;
   main: firebase.firestore.DocumentReference;
+  updateTime: firebase.firestore.Timestamp;
 }

@@ -1,6 +1,5 @@
 import firebase from "firebase";
 import {IItemStoreData} from "~/molle/interface/ItemProfile";
-import {contentStore} from "~/utils/store-accessor";
 import {Singleton} from "~/molle/Singleton";
 
 interface IWatcher {

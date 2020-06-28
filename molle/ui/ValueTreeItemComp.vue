@@ -2,27 +2,28 @@
   .value-tree-item-comp
     button.btn.btn-sm.btn-outline-secondary
       span id:
-      b(v-html="id")
-      div(v-if="value")
-        div(v-if="value.name")
-          span name:
-          b(v-html="value.name")
-        div
-          span type:
-          b(v-html="value.type")
-        div
-          span value:
-          span(v-html="value.value")
-    .list-group.mt-3(v-if="value && value.childrenId.length")
-      .list-group-item.list-group-item-action.pr-0(v-for="item in value.childrenId")
-        ValueTreeItemComp(:id="item")
+      b(v-html="itemData.ref.id")
+      div(v-if="itemData.name")
+        span name:
+        b(v-html="itemData.name")
+      //div
+        span type:
+        b(v-html="itemData.type")
+      div
+        span value:
+        span(v-if="itemData.type=='text'" v-html="itemData.value")
+        span(v-if="itemData.type=='children'" v-html="itemData.value.length")
+
+    .list-group.mt-3(v-if="itemData.follower")
+      .list-group-item.list-group-item-action.pr-0(v-for="item in itemData.follower")
+        ValueTreeItemComp(:itemData="item")
 
 </template>
 
 <script lang="ts">
   import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import {contentStore} from "~/utils/store-accessor";
-  import {IValueStoreData} from "~/molle/interface/ValueProfile";
+  import {IItemStoreData} from "~/molle/interface/ItemProfile";
 
   @Component({
     components: {}
@@ -30,17 +31,16 @@
   export default class ValueTreeItemComp extends Vue {
     contentStore = contentStore;
 
-    @Prop() id?: string;
-    value: IValueStoreData | null = null;
+    @Prop() itemData?: IItemStoreData;
 
     mounted() {
-      this.updateValue();
+      // this.updateValue();
     }
 
-    @Watch("contentStore.values")
-    updateValue() {
-      this.value = contentStore.values[this.id!]
-    }
+    // @Watch("contentStore.values")
+    // updateValue() {
+    //   this.value = contentStore.values[this.id!]
+    // }
   }
 </script>
 

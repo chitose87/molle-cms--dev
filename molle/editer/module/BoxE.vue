@@ -60,6 +60,7 @@
         this.itemData!.ref!,
         (itemData: IItemStoreData) => {
           this.$set(this, "itemData", itemData);
+          console.log("*********", this.itemData!.value)
           this.watchChildren(this.itemData!.value);
         },
         {
@@ -78,12 +79,16 @@
     onAddModule(ref: firebase.firestore.DocumentReference) {
       let value;
       // console.log(this.itemData!.value, Array.isArray(this.itemData!.value))
+      // console.log("----------------")
+      // console.log(Array.isArray(this.itemData!.value))
+      // console.log(this.itemData!.ref.id, this.itemData!.value)
       if (Array.isArray(this.itemData!.value)) {
         value = [...this.itemData!.value, ref];
       } else {
         value = [ref];
       }
-      this.itemData!.ref.update({value: value});
+      // console.log(value)
+      FirestoreMgr.itemUpdate(this.itemData!.ref, {value: value});
     }
   }
 </script>

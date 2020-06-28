@@ -1,14 +1,14 @@
 <template lang="pug">
   .value-comp
     p Extends:
-      span(v-html="itemData.extendsId?itemData.extendsId:'継承なし'")
+      span(v-html="itemData.extends?itemData.extends.id:'継承なし'")
       button(@click="openExtendsModal()") 変更
-      b-modal(v-model="extendsModal" centered="" title="BootstrapVue")
+      b-modal(v-model="extendsModal" centered="" title="Change Extends")
         div(v-if="extendsModal")
         .list-group-flush
           button.list-group-item.list-group-item-action(@click="closeExtendsModal(null)")
             span 継承なし
-          button.list-group-item.list-group-item-action(v-for="(item,key) in extendsList" @click="closeExtendsModal(key)")
+          button.list-group-item.list-group-item-action(v-for="(item,key) in extendsList" @click="closeExtendsModal(item)")
             span(v-html="item.value")
             | /
             span(v-html="item.name||`[ ${key} ]`")
@@ -43,10 +43,10 @@
 
 <script lang="ts">
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
-  import {contentStore} from "~/utils/store-accessor";
-  import {IValueStoreData, ValueProfile} from "~/molle/interface/ValueProfile";
-  import * as firebase from "~/node_modules/firebase";
+  import {ValueProfile} from "~/molle/interface/ValueProfile";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
+  import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
+  import {Singleton} from "~/molle/Singleton";
 
   @Component({
     components: {}
@@ -56,52 +56,60 @@
    * itemDataのupdateをする。
    */
   export default class ValueComp extends Vue {
-    contentStore = contentStore;
 
     @Prop() itemData?: IItemStoreData;
     @Prop() valueProfile?: ValueProfile;
 
     extendsModal: boolean = false;
-    extendsList: { [key: string]: IValueStoreData } = {};
+    extendsList: { [key: string]: IItemStoreData } = {};
 
     openExtendsModal() {
-      // let list: { [key: string]: IValueStoreData } = {};
-      // // console.log(this.itemData)
-      // for (let key in contentStore.values) {
-      //   let item: IValueStoreData = contentStore.values[key];
-      //   console.log(item);
-      //   a:for (let i of this.valueProfile!.types!) {
-      //     if (i.val == item.type) {
-      //       //not self & parents
-      //       let viaId = key;
-      //       while (viaId) {
-      //         // console.log(viaId, this.itemData!.ref)
-      //         if (this.itemData!.path.indexOf(viaId) >= 0) {
-      //           continue a;
-      //         }
-      //         viaId = contentStore.values[viaId].extendsId;
-      //       }
-      //       list[key] = item;
-      //       break;
-      //     }
-      //   }
-      // }
-      // this.extendsList = list;
-      // this.extendsModal = true;
+      let list: { [key: string]: IItemStoreData } = {};
+      // console.log(this.itemData)
+      for (let id in Singleton.store.items) {
+        let item = Singleton.store.items[id];
+        // console.log("--------------", item, this.valueProfile!.types);
+        a:for (let i of this.valueProfile!.types) {
+          // console.log(i)
+          if (i.val == item.type) {
+            //not self & parents
+            let viaId = id;
+            while (viaId) {
+              // console.log(viaId, this.itemData)
+              if (this.itemData!.ref.path.indexOf(viaId) >= 0) {
+                continue a;
+              }
+              if (Singleton.store.items[viaId].extends) {
+                viaId = Singleton.store.items[viaId].extends.id;
+              } else {
+                break;
+              }
+            }
+            list[id] = item;
+            break;
+          }
+        }
+      }
+      this.extendsList = list;
+      this.extendsModal = true;
     }
 
-    closeExtendsModal(id?: string) {
-      // this.extendsModal = false;
-      // firebase.firestore().doc(this.itemData!.path).update({extendsId: id ? id : ""});
+    closeExtendsModal(itemData?: IItemStoreData) {
+      this.extendsModal = false;
+      // console.log(this.itemData!.ref.id, itemData)
+      FirestoreMgr.itemUpdate(this.itemData!.ref, {extends: itemData ? itemData!.ref : null})
     }
 
     update() {
       let update: any = {
         name: this.itemData!.name || "",
         type: this.itemData!.type,
+        // updateTime: firebase.firestore.FieldValue.serverTimestamp()
       };
       if (this.itemData!.value) update.value = this.itemData!.value;
-      this.itemData!.ref.update(update);
+      // this.itemData!.ref.update(update);
+
+      FirestoreMgr.itemUpdate(this.itemData!.ref, update)
     }
   }
 </script>

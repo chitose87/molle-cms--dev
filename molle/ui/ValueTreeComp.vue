@@ -1,45 +1,49 @@
 <template lang="pug">
   .value-tree-comp
     p Value Tree
-    //.list-group
+    .list-group
       .list-group-item.list-group-item-action(v-for="item in tree")
-        ValueTreeItemComp(:id="item")
+        ValueTreeItemComp(:itemData="item")
 
 </template>
 
 <script lang="ts">
-  import {Component, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-  import {contentStore} from "~/utils/store-accessor";
+  import {Component, Vue, Watch, Prop} from "~/node_modules/nuxt-property-decorator";
   import ValueTreeItemComp from "~/molle/ui/ValueTreeItemComp.vue";
-  import {IValueStoreData} from "~/molle/interface/ValueProfile";
+  import {Singleton} from "~/molle/Singleton";
+  import {IPageStoreData} from "~/molle/interface/IPageStoreData";
+  import {IItemStoreData} from "~/molle/interface/ItemProfile";
 
   @Component({
     components: {ValueTreeItemComp}
   })
   export default class ValueTreeComp extends Vue {
-    // contentStore = contentStore;
+    @Prop() pageData?: IPageStoreData;
 
     tree: string[] = [];
 
     mounted() {
-      //this.contentStoreValues();
+      Singleton.onChange.push(() => {
+        this.refresh();
+      });
     }
 
-    // @Watch("contentStore.values")
-    // contentStoreValues() {
-    //   console.log("--contentStoreValues", contentStore.values);
-    //   if (contentStore.values) {
-    //     let tree = [];
-    //     for (let id in contentStore.values) {
-    //       let item: IValueStoreData = contentStore.values[id];
-    //       if (!item.extendsId) {
-    //         tree.push(id);
-    //       }
-    //     }
-    //     this.$set(this, "tree", tree);
-    //     console.log(tree);
-    //   }
-    // }
+    refresh() {
+      console.log("refresh");
+      let tree = [];
+      for (let id in Singleton.store.items) {
+        let item: IItemStoreData = Singleton.store.items[id];
+        if (!item.extends) {
+          tree.push(item);
+        } else {
+          let via = Singleton.store.items[item.extends.id];
+          if (!via.follower) via.follower = {};
+          via.follower[item.ref.id] = item;
+        }
+      }
+      this.$set(this, "tree", tree);
+      console.log(tree);
+    }
   }
 </script>
 
@@ -49,6 +53,6 @@
     top: 0;
     right: 0;
 
-    z-index:$zindex-fixed;
+    z-index: $zindex-fixed;
   }
 </style>

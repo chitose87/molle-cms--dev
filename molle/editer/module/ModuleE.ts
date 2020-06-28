@@ -5,6 +5,8 @@ import {StyleProfile} from "~/molle/interface/StyleProfile";
 import {contentStore} from "~/utils/store-accessor";
 import {Module} from "~/molle/ssr/module/Module";
 import {Singleton} from "~/molle/Singleton";
+import firebase from "firebase";
+import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
 
 export class ModuleE extends Module {
   contentStore = contentStore;
@@ -28,16 +30,38 @@ export class ModuleE extends Module {
       !this.itemData!.type ||
       this.valueProfile!.types.every((type) => type.val != this.itemData!.type)
     ) {
-      this.itemData!.ref.update({
-        type: this.valueProfile!.types[0].val
+      FirestoreMgr.itemUpdate(this.itemData!.ref, {
+        type: this.valueProfile!.types[0].val,
       });
+    }
+
+    //
+    // console.log(this.itemData!.extends)
+    if (this.itemData!.extends) {
+      // FirestoreMgr.addlistener(
+      //   this.itemData!.extends,
+      //   (itemData: IItemStoreData) => {
+      //     this.itemData!.superValue = itemData.value || itemData.superValue;
+      //   },
+      //   {
+      //     force: true,
+      //     watcher: this
+      //   }
+      // );
+    }
+  }
+
+  indexSwap() {
+    let parent: any = this.$parent;
+    if (parent.indexSwapChild) {
+      parent.indexSwapChild(this.itemData!.ref);
     }
   }
 
   deleteModule() {
     let parent: any = this.$parent;
     if (parent.deleteChild) {
-      parent.deleteChild(this.itemData!.ref)
+      parent.deleteChild(this.itemData!.ref);
     }
     this.itemData!.ref.delete();
   }

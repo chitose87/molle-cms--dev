@@ -10,6 +10,7 @@
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
   import * as firebase from "~/node_modules/firebase";
+  import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
 
   @Component({
     components: {}
@@ -27,7 +28,8 @@
     update(v: string) {
       let update: any = {option: {}};
       update.option[this.profile!.id] = v;
-      this.itemData!.ref.update(update);
+      FirestoreMgr.itemUpdate(this.itemData!.ref, update);
+      // this.itemData!.ref.update(update);
     }
   }
 

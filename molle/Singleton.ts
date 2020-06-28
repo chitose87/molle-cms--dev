@@ -11,6 +11,9 @@ export class Singleton {
     box: {name: "Box"},
   };
 
+  static onChange: (() => void)[] = [];
+  static onChangeFlag = true;
+
   /**
    *
    * @param query
@@ -57,7 +60,16 @@ export class Singleton {
       v = Object.assign(Singleton.store.items[snap.id], v)
     }
     Singleton.store.items[snap.id] = v;
+
+    this.changeDispatch();
     return v;
   }
 
+  private static changeDispatch() {
+    if (this.onChangeFlag) this.onChangeFlag = false;
+    requestAnimationFrame(() => {
+      this.onChange.forEach(cb => cb());
+      this.onChangeFlag = true;
+    })
+  }
 }

@@ -1,14 +1,13 @@
 <template lang="pug">
   .editView
     .container
-      //p editView
-      //| {{Object.keys(store.items)}}
-      //| {{pageData.main.id}}
       BoxE(
         v-if="children.main && children.main.ref"
         :itemData="children.main"
       )
-    ValueTreeComp
+    //ValueTreeComp(
+    //  :pageData="pageData"
+    //)
 
 </template>
 
@@ -16,7 +15,7 @@
   import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import firebase from "firebase";
   import {InitialValue, setMolleEditerModules} from "~/molle/editer/module";
-  import {IItemStoreData, ItemProfile} from "~/molle/interface/ItemProfile";
+  import {IItemStoreData} from "~/molle/interface/ItemProfile";
   import {IPageStoreData} from "~/molle/interface/IPageStoreData";
   import {Singleton} from "~/molle/Singleton";
   import ValueTreeComp from "~/molle/ui/ValueTreeComp.vue";
@@ -46,20 +45,24 @@
     }
 
     @Watch("pageData")
-    changePageData() {
+    changePageData(newer?: IPageStoreData, older?: IPageStoreData) {
       console.log("--changePageData", this.pageData);
+
+      FirestoreMgr.currentPageData = this.pageData!;
 
       if (!this.pageData!.main) {
         // ルートコンテツエリアが未設定
-        firebase.firestore().collection(`items`).add({
-          moduleId: "box",
-          type: "children",
-        }).then((e) => {
-          this.pageData!.ref.update({
-            main: e
+        firebase.firestore().collection(`items`)
+          .add(InitialValue.Box)
+          .then((e) => {
+            this.pageData!.ref.update({
+              main: e
+            });
           });
-        });
       } else {
+        if (newer && older && (newer.main.id == older.main.id)) {
+          return;
+        }
         FirestoreMgr.addlistener(
           this.pageData!.main,
           (itemData: IItemStoreData) => {

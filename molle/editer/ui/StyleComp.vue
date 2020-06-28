@@ -33,6 +33,7 @@
   import {contentStore} from "~/utils/store-accessor";
   import {StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
+  import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
 
   @Component({
     components: {}
@@ -48,9 +49,13 @@
     }
 
     update() {
-      this.itemData!.ref.update({
+      FirestoreMgr.itemUpdate(this.itemData!.ref, {
         style: this.itemData!.style
       });
+      // this.itemData!.ref.update({
+      //   style: this.itemData!.style,
+      //   updateTime: firebase.firestore.FieldValue.serverTimestamp()
+      // });
     }
   }
 </script>

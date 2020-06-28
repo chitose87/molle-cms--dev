@@ -1,6 +1,7 @@
 import {IItemStoreData} from "~/molle/interface/ItemProfile";
 import firebase from "firebase";
 import {Singleton} from "~/molle/Singleton";
+import {IPageStoreData} from "~/molle/interface/IPageStoreData";
 
 interface Listener {
   watcher?: any;
@@ -16,6 +17,35 @@ interface Listener {
 export class FirestoreMgr {
   static listenerDic: { [key: string]: Listener[] } = {};
   static unsubscribeDic: { [key: string]: () => void } = {};
+  static currentPageData?: IPageStoreData;
+
+  /**
+   *
+   * @param ref
+   * @param data
+   * @param opt
+   */
+  static itemUpdate(
+    ref: firebase.firestore.DocumentReference,
+    data: any,
+    opt?: any
+  ) {
+    console.log("itemUpdate", ref.id, data)
+    // console.trace()
+    let batch = firebase.firestore().batch();
+    data.updateTime = firebase.firestore.FieldValue.serverTimestamp();
+    batch.update(ref, data);
+
+    //
+    if (this.currentPageData) {
+      batch.update(this.currentPageData.ref, {
+        updateTime: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+    batch.commit().then((e) => {
+      console.log(e);
+    })
+  }
 
   /**
    *
@@ -33,9 +63,17 @@ export class FirestoreMgr {
       watcher?: any,
     }
   ) {
-
     let listenerList = this.listenerDic[ref.id] || [];
     let first = !listenerList.length;
+
+    if (opt && opt.watcher) {
+      for (let listener of listenerList) {
+        if (listener.watcher == opt.watcher) {
+          return;
+        }
+      }
+    }
+    console.log("addlistener", ref.id);
 
     //watchersに追加
     let listener: Listener = {
@@ -114,8 +152,6 @@ export class FirestoreMgr {
       this.unsubscribeDic[id]();
       delete this.unsubscribeDic[id];
     }
-
-    console.log(this.listenerDic)
   }
 
   /**

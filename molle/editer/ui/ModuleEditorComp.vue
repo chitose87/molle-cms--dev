@@ -2,6 +2,9 @@
   .module-editor(:status="isEdit?'show':'hidden'")
     button.toggle(@click="isEdit=!isEdit") 閉じる
     div(v-if="isEdit")
+      button(@click="$parent.indexSwap()")
+        b-icon(icon="arrow-down-up")
+
       // todo visible 設定を足す
       div
         component(v-for="item in itemOption"
