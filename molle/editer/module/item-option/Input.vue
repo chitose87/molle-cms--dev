@@ -1,24 +1,22 @@
 <template lang="pug">
-  .item-option-select
+  .item-option-input
     label {{profile.label}}
-      select(:value="itemData.option[profile.id]" @change="update($event.target.value)")
-        option(v-for="item in profile.select" :value="item" v-html="item")
+    input(type="text" :value="itemData.option[profile.id]" @change="update($event.target.value)")
 
 </template>
 
 <script lang="ts">
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
-  import * as firebase from "~/node_modules/firebase";
-  import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
+  import {FirestoreMgr} from "../../FirestoreMgr";
 
   @Component({
     components: {}
   })
   /**
    */
-  export default class ItemOptionSelect extends Vue {
-    @Prop() profile?: ItemOptionSelectProfile;
+  export default class ItemOptionInput extends Vue {
+    @Prop() profile?: ItemOptionInputProfile;
     @Prop() itemData?: IItemStoreData;
 
     created() {
@@ -32,24 +30,19 @@
     }
   }
 
-  export class ItemOptionSelectProfile {
-    name: string = "ItemOptionSelect";
+  export class ItemOptionInputProfile {
+    name: string = "ItemOptionInput";
 
     id: string;
     label: string;
-    // default: string;
-    select: string[];
+    value: string = "";
 
     constructor(opt: {
       id: string,
-      label: string,
-      // default: string,
-      select: string[]
+      label: string
     }) {
       this.id = opt.id;
       this.label = opt.label;
-      // this.default = opt.default;
-      this.select = opt.select;
     }
   }
 </script>

@@ -11,20 +11,20 @@
       :class="getClass()"
     )
       component(
-        v-for="itemData in children"
-        v-if="itemData"
-        :key="itemData.ref.id"
-        :is="itemData.moduleId +'E'"
-        :itemData="itemData"
+        v-for="child in children"
+        v-if="child"
+        :key="child.ref.id"
+        :is="child.moduleId +'E'"
+        :itemData="child"
       )
 </template>
 
 <script lang="ts">
-  import {Component, Watch} from "~/node_modules/nuxt-property-decorator";
+  import {Component, Prop, Watch} from "~/node_modules/nuxt-property-decorator";
   import firebase from "~/node_modules/firebase";
   import ValueComp from "~/molle/editer/ui/ValueComp.vue";
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
-  import {IStyleStoreData, StyleProfile} from "~/molle/interface/StyleProfile";
+  import {StyleProfile} from "~/molle/interface/StyleProfile";
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
   import {ItemOptionAddModuleProfile} from "~/molle/editer/module/item-option/AddModule.vue";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
@@ -41,6 +41,7 @@
       new ItemOptionAddModuleProfile({
         added: this.onAddModule
       })
+      // todo:containerクラス
     ];
     //value setting
     valueProfile: ValueProfile = new ValueProfile({
@@ -53,22 +54,21 @@
       // theme: {default: "", select: ["", "test"]},
       // color: {default: "", select: ["", "dark"]},
     });
-    styleData: IStyleStoreData = this.styleProfile.getDefaultData();
 
     created() {
-      FirestoreMgr.addlistener(
-        this.itemData!.ref!,
-        (itemData: IItemStoreData) => {
-          this.$set(this, "itemData", itemData);
-          console.log("*********", this.itemData!.value)
+      // FirestoreMgr.addlistener(
+      //   this.itemData!.ref!,
+      //   (itemData: IItemStoreData) => {
+      //     this.$set(this, "itemData", itemData);
+          // console.log("*********", this.itemData!.value)
           this.watchChildren(this.itemData!.value);
-        },
-        {
-          initial: InitialValue.Box,
-          force: true,
-          watcher: this
-        }
-      );
+      //   },
+      //   {
+      //     initial: InitialValue.Box,
+      //     force: true,
+      //     watcher: this
+      //   }
+      // );
       super._created();
     }
 

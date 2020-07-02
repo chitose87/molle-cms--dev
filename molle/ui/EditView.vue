@@ -5,9 +5,10 @@
         v-if="children.main && children.main.ref"
         :itemData="children.main"
       )
-    //ValueTreeComp(
-    //  :pageData="pageData"
-    //)
+    ModuleTreeComp
+    ValueTreeComp(
+      :pageData="pageData"
+    )
 
 </template>
 
@@ -20,9 +21,10 @@
   import {Singleton} from "~/molle/Singleton";
   import ValueTreeComp from "~/molle/ui/ValueTreeComp.vue";
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
+  import ModuleTreeComp from "~/molle/ui/ModuleTreeComp.vue";
 
   @Component({
-    components: {ValueTreeComp}
+    components: {ModuleTreeComp, ValueTreeComp}
   })
   export default class EditView extends Vue {
     store = Singleton.store;

@@ -1,3 +1,9 @@
+/** hoe **/
+
+$grid-columns: 12;
+$grid-gutter-width: 1rem;
+$grid-row-columns: 6;
+
 $spacers: ();
 $spacers: map-merge(
     (
@@ -15,7 +21,6 @@ $spacers: map-merge(
     ),
     $spacers
 );
-
 
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/src/index.scss';

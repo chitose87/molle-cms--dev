@@ -2,14 +2,11 @@ import {Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
 import {IItemStoreData} from "~/molle/interface/ItemProfile";
 import {ValueProfile} from "~/molle/interface/ValueProfile";
 import {StyleProfile} from "~/molle/interface/StyleProfile";
-import {contentStore} from "~/utils/store-accessor";
 import {Module} from "~/molle/ssr/module/Module";
 import {Singleton} from "~/molle/Singleton";
-import firebase from "firebase";
 import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
 
 export class ModuleE extends Module {
-  contentStore = contentStore;
   store = Singleton.store;
 
   @Prop() itemData?: IItemStoreData;
