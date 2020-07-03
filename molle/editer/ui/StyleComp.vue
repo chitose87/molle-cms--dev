@@ -1,5 +1,6 @@
 <template lang="pug">
   .style-comp
+    h4.mt-0.mb-2.border-bottom Style
     form(@submit.prevent @change="update()")
       //Border
       div(v-if="styleProfile.permission.border")

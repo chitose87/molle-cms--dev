@@ -72,6 +72,11 @@
       super._created();
     }
 
+    @Watch("itemData.value")
+    updateItemDataValue(){
+      this.watchChildren(this.itemData!.value);
+    }
+
     destroyed() {
       FirestoreMgr.removelistenerByWatcher(this);
     }
@@ -81,7 +86,7 @@
       // console.log(this.itemData!.value, Array.isArray(this.itemData!.value))
       // console.log("----------------")
       // console.log(Array.isArray(this.itemData!.value))
-      // console.log(this.itemData!.ref.id, this.itemData!.value)
+      console.log(this.itemData!.ref.id, ref.id)
       if (Array.isArray(this.itemData!.value)) {
         value = [...this.itemData!.value, ref];
       } else {

@@ -38,7 +38,7 @@
   export default class ColumnE extends ModuleEContainer {
     itemOption = [
       new ItemOptionButtonProfile({
-        label: "追加",
+        label: "カラム追加",
         click: this.onAddItem
       }),
       new ItemOptionInputProfile({

@@ -4,29 +4,30 @@
       @click="isEdit=!isEdit"
       :class="{outerFocus:outerFocus}"
     ) 閉じる
-    div(v-if="isEdit")
-      button(@click="$parent.indexSwap()")
-        b-icon(icon="arrow-down-up")
-      p
-        span(v-html="itemData.ref.id")
-      p
-        span(v-html="itemData.moduleId")
-        | /
-        span(v-html="itemData.type")
+    div.d-flex.flex-wrap.p-2(v-if="isEdit")
+      div.p-2
+        button(@click="$parent.indexSwap()")
+          b-icon(icon="arrow-down-up")
+        p
+          span(v-html="itemData.ref.id")
+        p
+          span(v-html="itemData.moduleId")
+          | /
+          span(v-html="itemData.type")
 
-      // todo visible 設定を足す
-      div
-        component(v-for="item in itemOption"
-          :is="item.name"
-          :key="item.name"
-          :profile="item"
-          :itemData="itemData"
-        )
+        // todo visible 設定を足す
+        div
+          component(v-for="item in itemOption"
+            :is="item.name"
+            :key="item.name"
+            :profile="item"
+            :itemData="itemData"
+          )
 
-      ValueComp(:itemData="itemData" :valueProfile="valueProfile")
-      StyleComp(:itemData="itemData" :styleProfile="styleProfile")
+      ValueComp.p-2(:itemData="itemData" :valueProfile="valueProfile")
+      StyleComp.p-2(:itemData="itemData" :styleProfile="styleProfile")
 
-      button.btn.btn-danger(@click="$parent.deleteModule()") 削除
+      button.btn.btn-danger.align-self-end(@click="$parent.deleteModule()") 削除
 
 </template>
 
@@ -86,8 +87,12 @@
       //top: 100%;
       //z-index: $zindex-fixed;
       border: 1px solid gray;
-      padding: 1rem;
-      background-color: lightblue;
+      background-color: var(--light);
+      .toggle{
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+      }
     }
   }
 </style>

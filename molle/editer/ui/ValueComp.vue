@@ -1,5 +1,6 @@
 <template lang="pug">
   .value-comp
+    h4.mt-0.mb-2.border-bottom Value
     p Extends:
       span(v-html="itemData.extends?itemData.extends.id:'継承なし'")
       button(@click="openExtendsModal()") 変更
@@ -116,7 +117,7 @@
 
 <style lang="scss">
   .value-comp {
-    padding: 1rem;
-    background-color: lightblue;
+    /*padding: 1rem;*/
+    /*background-color: lightblue;*/
   }
 </style>

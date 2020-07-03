@@ -4,6 +4,7 @@
       @mouseover="focus(true)"
       @mouseleave="focus(false)"
       @click="toggle()"
+      :class="{active:moduleEditor.$data.isEdit}"
     )
       div
         //span moduleId:
