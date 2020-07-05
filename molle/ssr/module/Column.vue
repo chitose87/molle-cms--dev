@@ -1,7 +1,14 @@
 <template lang="pug">
   .module
     .column
-      .column__item
+      .column__item(
+        v-for="id in itemDataProp.value"
+        :style="{flex:'0 1 30%'}"
+      )
+        Box(
+          :itemDataProp="payload.items[id]"
+          :payload="payload"
+        )
 
 </template>
 

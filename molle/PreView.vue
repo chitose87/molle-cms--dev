@@ -1,12 +1,16 @@
 <template lang="pug">
-  .editView
+  div
     .container
-      component(
-        v-for="key in payload.allData.pages[payload.id].items"
-        :key="key"
-        :is="payload.allData.outlines[payload.allData.items[key].moduleId].name"
-        :itemData="payload.allData.items[key]"
+      Box(
+        :itemDataProp="payload.items[payload.pages[payload.id].main]"
+        :payload="payload"
       )
+      //component(
+      //  v-for="key in payload.allData.pages[payload.id].items"
+      //  :key="key"
+      //  :is="payload.allData.outlines[payload.allData.items[key].moduleId].name"
+      //  :itemData="payload.allData.items[key]"
+      //)
 
 </template>
 
@@ -19,16 +23,7 @@
   })
   export default class PreView extends Vue {
     setMolleModules = setMolleModules();
-    @Prop() payload?: {
-      id: string,
-      allData: {
-        pages: any,
-        outlines: any,
-        items: any,
-        values: any,
-        styles: any
-      }
-    };
+    @Prop() payload?: any;
   }
 </script>
 

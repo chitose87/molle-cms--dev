@@ -1,8 +1,15 @@
 <template lang="pug">
   .module
     .box(
-      :class="getClass()"
+      :class="getClass(itemDataProp)"
     )
+      component(
+        v-for="id in itemDataProp.value"
+        :key="id"
+        :is="payload.items[id].moduleId"
+        :itemDataProp="payload.items[id]"
+        :payload="payload"
+      )
 
 </template>
 

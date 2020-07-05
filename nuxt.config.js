@@ -95,44 +95,67 @@ export default {
         firebase.auth().onAuthStateChanged((user) => {
 
           let pages = firebase.firestore().collection("pages").get();
-          let outlines = firebase.firestore().collection("outlines").get();
+          // let outlines = firebase.firestore().collection("outlines").get();
           let items = firebase.firestore().collectionGroup("items").get();
-          let values = firebase.firestore().collectionGroup("values").get();
-          let styles = firebase.firestore().collectionGroup("styles").get();
-          Promise.all([pages, outlines, items, values, styles])
-            .then(([pages, outlines, items, values, styles]) => {
+          // let values = firebase.firestore().collectionGroup("values").get();
+          // let styles = firebase.firestore().collectionGroup("styles").get();
+          Promise.all([pages, items])
+            .then(([pages, items]) => {
+
+              function cleaningFirestoreValue(_data) {
+                for (let key in _data) {
+                  if (_data[key]) {
+                    if (_data[key].id) {
+                      _data[key] = _data[key].id;
+                    } else if (key == "updateTime" || key == "createTime") {
+                      _data[key] = "";
+                    } else if (typeof _data[key] == "object") {
+                      cleaningFirestoreValue(_data[key]);
+                    }
+                  }
+                }
+                return _data;
+              }
 
               let allData = {
-                pages: {}, outlines: {}, items: {}, values: {}, styles: {}
+                pages: {}, items: {}
               };
               let list = [];
 
               pages.forEach((snap) => {
-                let data = snap.data();
-                data.items = [];
+                let data = cleaningFirestoreValue(snap.data());
+                // data.items = [];
                 allData.pages[snap.id] = data;
                 list.push({
                   route: `${data.path}`
-                  , payload: {id: snap.id, allData: allData}
+                  , payload: {
+                    id: snap.id,
+                    pages: allData.pages,
+                    items: allData.items,
+                  }
                 })
               });
-              outlines.forEach((snap) => {
-                allData.outlines[snap.id] = snap.data()
-              });
+              // outlines.forEach((snap) => {
+              //   allData.outlines[snap.id] = snap.data()
+              // });
               items.forEach((snap) => {
-                allData.items[snap.id] = snap.data();
-                try {
-                  allData.pages[snap.ref.parent.parent.id].items.push(snap.id);
-                } catch (e) {
+                let data = cleaningFirestoreValue(snap.data());
 
-                }
+                data.id = snap.id;
+                allData.items[snap.id] = data;
+                // allData.items[snap.id].id = snap.id;
+                // try {
+                //   allData.pages[snap.ref.parent.parent.id].items.push(snap.id);
+                // } catch (e) {
+                //
+                // }
               });
-              values.forEach((snap) => {
-                allData.values[snap.id] = snap.data();
-              });
-              styles.forEach((snap) => {
-                allData.styles[snap.id] = snap.data()
-              });
+              // values.forEach((snap) => {
+              //   allData.values[snap.id] = snap.data();
+              // });
+              // styles.forEach((snap) => {
+              //   allData.styles[snap.id] = snap.data()
+              // });
 
               resolve(list);
             });
