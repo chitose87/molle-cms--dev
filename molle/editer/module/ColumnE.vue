@@ -1,10 +1,11 @@
 <template lang="pug">
-  .module-e
+  .module-e(v-if="itemData.value")
     ModuleEditorComp(
       :itemOption="itemOption"
       :itemData="itemData"
       :valueProfile="valueProfile"
       :styleProfile="styleProfile")
+
     .module
       .column
         .column__item(
@@ -13,7 +14,7 @@
           :style="{flex:'0 1 30%'}"
         )
           BoxE(
-            :itemData="child"
+            :itemRef="child.ref"
           )
 
 </template>
@@ -31,6 +32,7 @@
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
   import {ModuleEContainer} from "~/molle/editer/module/ModuleEContainer";
   import {ItemOptionInputProfile} from "~/molle/editer/module/item-option/Input.vue";
+  import {IItemStoreData} from "~/molle/interface/ItemProfile";
 
   @Component({
     components: {ModuleEditorComp, StyleComp, ValueComp}
@@ -60,13 +62,31 @@
     });
 
     created() {
-      this.watchChildren(this.itemData!.value);
-      this._created();
+      this.init(InitialValue.Column, () => {
+        this.children.length = 0;
+        for (let i in this.itemData!.value) {
+          let childRef = this.itemData!.value[i];
+          FirestoreMgr.addlistener(
+            childRef,
+            (childItemData: IItemStoreData) => {
+              this.$set(this.children, i, {
+                ref: childItemData.ref,
+                moduleId: childItemData.moduleId
+              });
+            },
+            {
+              initial: InitialValue.Box,
+              force: true,
+              once: true
+            }
+          )
+        }
+      });
     }
 
-    destroyed() {
-      FirestoreMgr.removelistenerByWatcher(this);
-    }
+    // destroyed() {
+    //   FirestoreMgr.removelistenerByWatcher(this);
+    // }
 
     //Unique Methods
     onAddItem() {
@@ -81,7 +101,7 @@
             value = [ref];
           }
           // console.log(value)
-          FirestoreMgr.itemUpdate(this.itemData!.ref, {value: value});
+          FirestoreMgr.itemUpdate(this.itemRef!, {value: value});
         });
     }
   }

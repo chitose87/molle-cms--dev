@@ -4,7 +4,9 @@ import {ModuleE} from "~/molle/editer/module/ModuleE";
 import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
 
 export class ModuleEContainer extends ModuleE {
-  children: IItemStoreData[] = [];
+  // children: IItemStoreData[] = [];
+  // children = <{ (key: any): IItemStoreData }>{};
+  children: any[] = [];
 
   /**
    * @param childrenList
@@ -12,6 +14,7 @@ export class ModuleEContainer extends ModuleE {
   watchChildren(childrenList: firebase.firestore.DocumentReference[]) {
     //valueの中身をそれぞれwatch
     for (let i in childrenList) {
+      // this.children[i] = <IItemStoreData>{};
       let ref = childrenList[i];
       FirestoreMgr.addlistener(
         ref,
@@ -24,6 +27,8 @@ export class ModuleEContainer extends ModuleE {
             return;
           }
           // console.log("set", i, _itemData);
+          // console.log(this.children)
+          // Object.assign(this.children[i], _itemData)
           this.$set(this.children, i, _itemData);
         },
         {
@@ -39,17 +44,23 @@ export class ModuleEContainer extends ModuleE {
    * @param ref
    */
   indexSwapChild(ref: firebase.firestore.DocumentReference) {
-    for (let i = 0; i < this.children.length - 1; i++) {
-      let itemData = this.children[i];
-      if (itemData.ref.id == ref.id) {
-        this.children[i] = this.children[i + 1];
-        this.children[i + 1] = itemData;
+    let value = this.itemData!.value.concat();
 
-        this.itemData!.value[i] = this.itemData!.value[i + 1];
-        this.itemData!.value[i + 1] = itemData.ref;
+    console.log(this.children)
+    for (let i = 0; i < this.children.length-1; i++) {
+      let child: any = this.children[i];
+      console.log(child.ref.id,ref.id)
+      if (child.ref.id == ref.id) {
+        this.children[i] = this.children[i + 1];
+        this.children[i + 1] = child;
+
+        value[i] = value[i + 1];
+        value[i + 1] = child.ref;
+
+        console.log(value)
 
         this.$set(this, "children", this.children);
-        FirestoreMgr.itemUpdate(this.itemData!.ref, {value: this.itemData!.value});
+        FirestoreMgr.itemUpdate(this.itemRef!, {value: value});
         break;
       }
     }

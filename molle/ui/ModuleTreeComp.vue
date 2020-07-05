@@ -1,10 +1,9 @@
 <template lang="pug">
   .module-tree-comp
-    p Module Tree
-    button(@click="refresh()") 構造／Structure
+    button(@click="toggle=!toggle") 構造／Structure
     b-sidebar(v-model="toggle" title="構造／Structure")
-      .list-group
-        .list-group-item.list-group-item-action(v-for="item in tree")
+      .list-group(v-if="toggle")
+        .list-group-item.list-group-item-action(v-for="item in getTree()")
           ModuleTreeItemComp(:vueRef="item")
 
 </template>
@@ -17,24 +16,19 @@
     components: {ModuleTreeItemComp}
   })
   export default class ModuleTreeComp extends Vue {
-    tree: Vue[] = [];
     toggle: boolean = false;
 
     mounted() {
     }
 
-    refresh() {
-      this.toggle = !this.toggle;
-
+    getTree() {
       let tree = [];
-      if (this.toggle) {
-        for (let child of this.$parent.$children) {
-          if (child.$props && child.$props.itemData) {
-            tree.push(child);
-          }
+      for (let child of this.$parent.$children) {
+        if (child.$data && child.$data.itemData) {
+          tree.push(child);
         }
       }
-      this.$set(this, "tree", tree);
+      return tree;
     }
   }
 </script>

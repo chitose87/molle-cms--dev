@@ -13,7 +13,7 @@
     components: {}
   })
   export default class Column extends Module {
-    @Prop() itemData?: any;
+    // @Prop() itemData?: any;
   }
 </script>
 

@@ -57,7 +57,9 @@ export class Singleton {
     let v = snap.data();
     v.ref = snap.ref;
     if (Singleton.store.items[snap.id]) {
-      v = Object.assign(Singleton.store.items[snap.id], v)
+      v = Object.assign(
+        Object.assign({}, Singleton.store.items[snap.id]),
+        v);
     }
     Singleton.store.items[snap.id] = v;
 

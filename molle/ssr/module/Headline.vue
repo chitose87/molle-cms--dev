@@ -1,9 +1,9 @@
 <template lang="pug">
   .module
     component(
-      :is="itemData.option.lv"
-      v-html="itemData.value || itemData.superValue"
-      :class="getClass()"
+      :is="itemDataProp.option.lv"
+      v-html="itemDataProp.value || itemDataProp.superValue"
+      :class="getClass(itemDataProp)"
     )
 
 </template>
@@ -16,8 +16,6 @@
     components: {}
   })
   export default class Headline extends Module {
-    @Prop() itemData?: any;
-    @Prop() styleData?: any;
   }
 </script>
 

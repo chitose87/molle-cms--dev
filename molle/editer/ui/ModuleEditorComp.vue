@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-  import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
+  import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import ValueComp from "~/molle/editer/ui/ValueComp.vue";
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
@@ -88,7 +88,8 @@
       //z-index: $zindex-fixed;
       border: 1px solid gray;
       background-color: var(--light);
-      .toggle{
+
+      .toggle {
         position: absolute;
         top: 1rem;
         right: 1rem;

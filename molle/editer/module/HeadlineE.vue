@@ -1,7 +1,7 @@
 <template lang="pug">
-  .module-e
+  .module-e(v-if="itemData.value")
     Headline(
-      :itemData="itemData"
+      :itemDataProp="itemData"
     )
 
     ModuleEditorComp(
@@ -21,6 +21,7 @@
   import {ModuleE} from "~/molle/editer/module/ModuleE";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
   import {ItemOptionSelectProfile} from "~/molle/editer/module/item-option/Select.vue";
+  import {InitialValue} from "~/molle/editer/module/index";
 
   @Component({
     components: {ModuleEditorComp, StyleComp, ValueComp}
@@ -49,7 +50,7 @@
     });
 
     created() {
-      this._created();
+      this.init(InitialValue.Headline);
     }
 
     //Unique Methods

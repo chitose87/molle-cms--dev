@@ -5,11 +5,13 @@ import {StyleProfile} from "~/molle/interface/StyleProfile";
 import {Module} from "~/molle/ssr/module/Module";
 import {Singleton} from "~/molle/Singleton";
 import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
+import {InitialValue} from "~/molle/editer/module/index";
 
 export class ModuleE extends Module {
   store = Singleton.store;
 
-  @Prop() itemData?: IItemStoreData;
+  //itemData: IItemStoreData = {};
+  @Prop() itemRef?: firebase.firestore.DocumentReference;
 
   valueProfile?: ValueProfile;
   styleProfile?: StyleProfile;
@@ -18,49 +20,55 @@ export class ModuleE extends Module {
     super(args);
   }
 
-  _created() {
+  init(initialValue: InitialValue, onUpdate?: () => void) {
     if (!this.valueProfile) {
       throw new Error("valueProfileの設定が必要です");
     }
     //type が規定されたものかチェック
-    if (
-      !this.itemData!.type ||
-      this.valueProfile!.types.every((type) => type.val != this.itemData!.type)
-    ) {
-      FirestoreMgr.itemUpdate(this.itemData!.ref, {
-        type: this.valueProfile!.types[0].val,
-      });
-    }
+    //   if (
+    //     !this.itemData!.type ||
+    //     this.valueProfile!.types.every((type) => type.val != this.itemData!.type)
+    //   ) {
+    //     FirestoreMgr.itemUpdate(this.itemData!.ref, {
+    //       type: this.valueProfile!.types[0].val,
+    //     });
+    //   }
 
-    //
-    // console.log(this.itemData!.extends)
-    if (this.itemData!.extends) {
-      // FirestoreMgr.addlistener(
-      //   this.itemData!.extends,
-      //   (itemData: IItemStoreData) => {
-      //     this.itemData!.superValue = itemData.value || itemData.superValue;
-      //   },
-      //   {
-      //     force: true,
-      //     watcher: this
-      //   }
-      // );
-    }
+    FirestoreMgr.addlistener(
+      this.itemRef!,
+      (itemData: IItemStoreData) => {
+        try {
+          this.$set(this, "itemData", itemData);
+          onUpdate && this.$nextTick(onUpdate);
+        } catch (e) {
+          console.log(e);
+          FirestoreMgr.removelistenerByWatcher(this);
+        }
+      },
+      {
+        initial: initialValue,
+        force: true,
+        watcher: this
+      }
+    );
+  }
+
+  _created() {
   }
 
   indexSwap() {
     let parent: any = this.$parent;
     if (parent.indexSwapChild) {
-      parent.indexSwapChild(this.itemData!.ref);
+      parent.indexSwapChild(this.itemRef!);
     }
   }
 
   deleteModule() {
     let parent: any = this.$parent;
     if (parent.deleteChild) {
-      parent.deleteChild(this.itemData!.ref);
+      parent.deleteChild(this.itemRef!);
     }
-    this.itemData!.ref.delete();
+    this.itemRef!.delete();
   }
 
   _destroyed() {

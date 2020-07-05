@@ -30,7 +30,7 @@ export class FirestoreMgr {
     data: any,
     opt?: any
   ) {
-    console.log("itemUpdate", ref.id, data)
+    // console.log("itemUpdate", ref.id, data)
     // console.trace()
     let batch = firebase.firestore().batch();
     data.updateTime = firebase.firestore.FieldValue.serverTimestamp();
@@ -73,7 +73,7 @@ export class FirestoreMgr {
         }
       }
     }
-    console.log("addlistener", ref.id);
+    // console.log("addlistener", ref.id);
 
     //watchersに追加
     let listener: Listener = {
@@ -99,20 +99,23 @@ export class FirestoreMgr {
       // ---------すでにwatchされている
       let data = Singleton.store.items[ref.id];
 
-      if (!data) throw new Error("dataが無い");
+      if (!data) {
+        //throw new Error("dataが無い" + listenerList.length);
 
-      //opt.initialがある場合セット
-      if (opt && opt.initial) {
-        data = Object.assign({ref: ref}, opt.initial);
-        Singleton.store.items[ref.id] = data;
-        //todo firesoterに上げる？
-        console.log(data)
+        //opt.initialがある場合セット
+        // if (opt && opt.initial) {
+        //   data = Object.assign({ref: ref}, opt.initial);
+        //   Singleton.store.items[ref.id] = data;
+        //   //todo firesoterに上げる？
+        //   console.log(data)
+        // }
+      } else {
+        //初回でレスポンスするかどうか
+        if (opt && opt.force) {
+          listener.callBack(data);
+        }
       }
 
-      //初回でレスポンスするかどうか
-      if (opt && opt.force) {
-        listener.callBack(data);
-      }
     } else {
       // ---------watchされていない
 

@@ -4,11 +4,11 @@
       @mouseover="focus(true)"
       @mouseleave="focus(false)"
       @click="toggle()"
-      :class="{active:moduleEditor.$data.isEdit}"
+      :class="{active:getActive()}"
     )
       div
         //span moduleId:
-        b(v-html="vueRef.$props.itemData.moduleId")
+        b(v-html="vueRef.$data.itemData.moduleId")
       //div
         span id:
         b(v-html="vueRef.$props.itemData.ref.id")
@@ -60,6 +60,14 @@
     toggle() {
       if (this.moduleEditor) {
         this.moduleEditor.$data.isEdit = !this.moduleEditor.$data.isEdit;
+      }
+    }
+
+    getActive() {
+      try {
+        return this.moduleEditor!.$data.isEdit;
+      } catch (e) {
+        return false
       }
     }
   }

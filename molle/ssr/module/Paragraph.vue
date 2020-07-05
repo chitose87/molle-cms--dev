@@ -1,8 +1,8 @@
 <template lang="pug">
   .module
     p(
-      v-html="itemData.value || itemData.superValue"
-      :class="getClass()"
+      v-html="itemDataProp.value || itemDataProp.superValue"
+      :class="getClass(itemDataProp)"
     )
 
 </template>
@@ -15,7 +15,6 @@
     components: {}
   })
   export default class Paragraph extends Module {
-    @Prop() itemData?: any;
   }
 </script>
 

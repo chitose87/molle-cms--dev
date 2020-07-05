@@ -2,7 +2,7 @@
   .value-comp
     h4.mt-0.mb-2.border-bottom Value
     p Extends:
-      span(v-html="itemData.extends?itemData.extends.id:'継承なし'")
+      span(v-html="data.extends?data.extends.id:'継承なし'")
       button(@click="openExtendsModal()") 変更
       b-modal(v-model="extendsModal" centered="" title="Change Extends")
         div(v-if="extendsModal")
@@ -17,33 +17,33 @@
 
     form(@submit.prevent @change="update()")
       label name
-        input(type="text" v-model="itemData.name")
-      p type {{itemData.type}}
+        input(type="text" v-model="data.name")
+      p type {{data.type}}
       //label type
-        select(v-model="itemData.type" )
+        select(v-model="data.type" )
           option(v-for="(item,key) in valueTypes" :value="key" v-html="item.label")
       label ▼value
-        div(v-if="itemData.type === 'text'")
-          div(v-if="itemData.superValue")
+        div(v-if="data.type === 'text'")
+          div(v-if="data.superValue")
             span superValue=
-            span(v-html="itemData.superValue")
-          textarea(v-model="itemData.value")
+            span(v-html="data.superValue")
+          textarea(v-model="data.value")
 
-        input(v-if="itemData.type === 'number'" type="number" v-model="itemData.value" )
-        textarea(v-if="itemData.type === 'html'" v-model="itemData.value" )
+        input(v-if="data.type === 'number'" type="number" v-model="data.value" )
+        textarea(v-if="data.type === 'html'" v-model="data.value" )
 
-        div(v-if="itemData.type === 'img'" :func="typeof itemData.value=='object'?false:itemData.value={}")
+        div(v-if="data.type === 'img'" :func="typeof data.value=='object'?false:data.value={}")
           label src:
-            input(type="text" v-model="itemData.value.src" )
+            input(type="text" v-model="data.value.src" )
           label sp:
-            input(type="text" v-model="itemData.value.sp" )
+            input(type="text" v-model="data.value.sp" )
           label alt:
-            input(type="text" v-model="itemData.value.alt" )
+            input(type="text" v-model="data.value.alt" )
 
 </template>
 
 <script lang="ts">
-  import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
+  import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
   import {ValueProfile} from "~/molle/interface/ValueProfile";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
@@ -60,9 +60,19 @@
 
     @Prop() itemData?: IItemStoreData;
     @Prop() valueProfile?: ValueProfile;
+    data = <IItemStoreData>{};
 
     extendsModal: boolean = false;
     extendsList: { [key: string]: IItemStoreData } = {};
+
+    created() {
+      this.changeItemData();
+    }
+
+    @Watch("itemData")
+    changeItemData() {
+      this.$set(this, "data", this.itemData);
+    }
 
     openExtendsModal() {
       let list: { [key: string]: IItemStoreData } = {};
@@ -103,11 +113,11 @@
 
     update() {
       let update: any = {
-        name: this.itemData!.name || "",
-        type: this.itemData!.type,
+        name: this.data.name || "",
+        type: this.data.type,
         // updateTime: firebase.firestore.FieldValue.serverTimestamp()
       };
-      if (this.itemData!.value) update.value = this.itemData!.value;
+      if (this.data.value) update.value = this.data.value;
       // this.itemData!.ref.update(update);
 
       FirestoreMgr.itemUpdate(this.itemData!.ref, update)

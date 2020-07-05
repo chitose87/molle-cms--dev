@@ -2,13 +2,17 @@
   .editView
     .container
       BoxE(
-        v-if="children.main && children.main.ref"
-        :itemData="children.main"
+        v-if="pageData.main"
+        :itemRef="pageData.main"
       )
+      //BoxE(
+      //  v-if="children.main && children.main.ref"
+      //  :itemRef="children.main"
+      //)
     ModuleTreeComp
-    ValueTreeComp(
-      :pageData="pageData"
-    )
+    //ValueTreeComp(
+    //  :pageData="pageData"
+    //)
 
 </template>
 
@@ -65,17 +69,17 @@
         if (newer && older && (newer.main.id == older.main.id)) {
           return;
         }
-        FirestoreMgr.addlistener(
-          this.pageData!.main,
-          (itemData: IItemStoreData) => {
-            this.$set(this.children, "main", itemData);
-          }, {
-            initial: InitialValue.Box,
-            once: true,
-            force: true,
-            watcher: this,
-          }
-        );
+        // FirestoreMgr.addlistener(
+        //   this.pageData!.main,
+        //   (itemData: IItemStoreData) => {
+        //     this.$set(this.children, "main", itemData);
+        //   }, {
+        //     initial: InitialValue.Box,
+        //     once: true,
+        //     force: true,
+        //     watcher: this,
+        //   }
+        // );
       }
     }
 

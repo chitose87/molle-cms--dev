@@ -1,7 +1,7 @@
 <template lang="pug">
-  .module-e
+  .module-e(v-if="itemData.value")
     Paragraph(
-      :itemData="itemData"
+      :itemDataProp="itemData"
     )
 
     ModuleEditorComp(
@@ -19,6 +19,7 @@
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
   import {ModuleE} from "~/molle/editer/module/ModuleE";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
+  import {InitialValue} from "~/molle/editer/module/index";
 
   @Component({
     components: {ModuleEditorComp, StyleComp, ValueComp}
@@ -38,7 +39,7 @@
     });
 
     created() {
-      this._created();
+      this.init(InitialValue.Paragraph);
     }
 
     //Unique Methods
