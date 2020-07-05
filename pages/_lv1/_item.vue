@@ -1,22 +1,22 @@
 <template lang="pug">
-  .hoge
-    p lv0
-    //p(v-html="firebaseData.path")
+  div
+    PreView(:payload="payload")
 
 </template>
 
 <script lang="ts">
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
-  // import {Context} from '@nuxt/types';
+  import PreView from "~/molle/PreView.vue";
 
   @Component({
-    components: {}
+    components: {PreView}
   })
   export default class DynamicPage1 extends Vue {
-    // firebaseData: any;
-    // async asyncData(context: Context) {
-    //   return {firebaseData: context.payload}
-    // }
+    payload?: any;
+
+    async asyncData(context: any) {
+      return {payload: context.payload};
+    }
   }
 </script>
 
