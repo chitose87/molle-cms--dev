@@ -62,31 +62,8 @@
     });
 
     created() {
-      this.init(InitialValue.Column, () => {
-        this.children.length = 0;
-        for (let i in this.itemData!.value) {
-          let childRef = this.itemData!.value[i];
-          FirestoreMgr.addlistener(
-            childRef,
-            (childItemData: IItemStoreData) => {
-              this.$set(this.children, i, {
-                ref: childItemData.ref,
-                moduleId: childItemData.moduleId
-              });
-            },
-            {
-              initial: InitialValue.Box,
-              force: true,
-              once: true
-            }
-          )
-        }
-      });
+      this.init(InitialValue.Column);
     }
-
-    // destroyed() {
-    //   FirestoreMgr.removelistenerByWatcher(this);
-    // }
 
     //Unique Methods
     onAddItem() {

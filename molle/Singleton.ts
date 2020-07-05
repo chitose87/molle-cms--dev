@@ -42,36 +42,36 @@ export class Singleton {
    *
    * @param query
    */
-  static updateItems(query: any) {
-    Singleton.store.items = Object.assign({}, Singleton.store.items);
-    query.forEach((snap: any) => {
-      Singleton.addItem(snap);
-    });
-  }
+  // static updateItems(query: any) {
+  //   Singleton.store.items = Object.assign({}, Singleton.store.items);
+  //   query.forEach((snap: any) => {
+  //     Singleton.addItem(snap);
+  //   });
+  // }
 
   /**
    *
    * @param snap
    */
-  static addItem(snap: any) {
-    let v = snap.data();
-    v.ref = snap.ref;
-    if (Singleton.store.items[snap.id]) {
-      v = Object.assign(
-        Object.assign({}, Singleton.store.items[snap.id]),
-        v);
-    }
-    Singleton.store.items[snap.id] = v;
+  // static addItem(snap: any) {
+  //   let v = snap.data();
+  //   v.ref = snap.ref;
+  //   if (Singleton.store.items[snap.id]) {
+  //     v = Object.assign(
+  //       Object.assign({}, Singleton.store.items[snap.id]),
+  //       v);
+  //   }
+  //   Singleton.store.items[snap.id] = v;
+  //
+  //   this.changeDispatch();
+  //   return v;
+  // }
 
-    this.changeDispatch();
-    return v;
-  }
-
-  private static changeDispatch() {
-    if (this.onChangeFlag) this.onChangeFlag = false;
-    requestAnimationFrame(() => {
-      this.onChange.forEach(cb => cb());
-      this.onChangeFlag = true;
-    })
-  }
+  // private static changeDispatch() {
+  //   if (this.onChangeFlag) this.onChangeFlag = false;
+  //   requestAnimationFrame(() => {
+  //     this.onChange.forEach(cb => cb());
+  //     this.onChangeFlag = true;
+  //   })
+  // }
 }

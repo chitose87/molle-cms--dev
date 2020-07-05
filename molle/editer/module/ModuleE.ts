@@ -1,11 +1,10 @@
 import {Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-import {IItemStoreData} from "~/molle/interface/ItemProfile";
 import {ValueProfile} from "~/molle/interface/ValueProfile";
 import {StyleProfile} from "~/molle/interface/StyleProfile";
 import {Module} from "~/molle/ssr/module/Module";
 import {Singleton} from "~/molle/Singleton";
-import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
 import {InitialValue} from "~/molle/editer/module/index";
+import * as firebase from "~/node_modules/firebase";
 
 export class ModuleE extends Module {
   store = Singleton.store;
@@ -15,6 +14,8 @@ export class ModuleE extends Module {
 
   valueProfile?: ValueProfile;
   styleProfile?: StyleProfile;
+
+  unsubscribes = <(() => void)[]>[];
 
   constructor(...args: any[]) {
     super(args);
@@ -34,23 +35,22 @@ export class ModuleE extends Module {
     //     });
     //   }
 
-    FirestoreMgr.addlistener(
-      this.itemRef!,
-      (itemData: IItemStoreData) => {
-        try {
-          this.$set(this, "itemData", itemData);
-          onUpdate && this.$nextTick(onUpdate);
-        } catch (e) {
-          console.log(e);
-          FirestoreMgr.removelistenerByWatcher(this);
+    this.unsubscribes.push(
+      this.itemRef!.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+        if (!this.$el.parentNode) {
+          this.destroyed();
+          return;
         }
-      },
-      {
-        initial: initialValue,
-        force: true,
-        watcher: this
-      }
-    );
+        if (!snap.exists) {
+          this.itemRef!.set(initialValue);
+          return;
+        }
+        let itemData: any = snap.data();
+        itemData.ref = snap.ref;
+        this.$set(this, "itemData", itemData);
+        onUpdate && this.$nextTick(onUpdate);
+      })
+    )
   }
 
   _created() {
@@ -71,11 +71,10 @@ export class ModuleE extends Module {
     this.itemRef!.delete();
   }
 
-  _destroyed() {
-
-    // if (!this.unsubscribes) return;
-    // while (this.unsubscribes.length) {
-    //   this.unsubscribes.shift()!();
-    // }
+  destroyed() {
+    if (!this.unsubscribes) return;
+    while (this.unsubscribes.length) {
+      this.unsubscribes.shift()!();
+    }
   }
 }

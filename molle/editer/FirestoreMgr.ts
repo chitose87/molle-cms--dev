@@ -1,6 +1,5 @@
 import {IItemStoreData} from "~/molle/interface/ItemProfile";
 import firebase from "firebase";
-import {Singleton} from "~/molle/Singleton";
 import {IPageStoreData} from "~/molle/interface/IPageStoreData";
 
 interface Listener {
@@ -53,117 +52,117 @@ export class FirestoreMgr {
    * @param callBack
    * @param opt
    */
-  static addlistener(
-    ref: firebase.firestore.DocumentReference,
-    callBack: (itemData: IItemStoreData) => void,
-    opt?: {
-      initial?: any,
-      once?: boolean,
-      force?: boolean,
-      watcher?: any,
-    }
-  ) {
-    let listenerList = this.listenerDic[ref.id] || [];
-    let first = !listenerList.length;
-
-    if (opt && opt.watcher) {
-      for (let listener of listenerList) {
-        if (listener.watcher == opt.watcher) {
-          return;
-        }
-      }
-    }
-    // console.log("addlistener", ref.id);
-
-    //watchersに追加
-    let listener: Listener = {
-      callBack: callBack,
-    };
-
-    //once
-    if (opt && opt.once) {
-      if (!opt.watcher) opt.watcher = {};
-      listener.callBack = (itemData: IItemStoreData) => {
-        callBack(itemData);
-        this.removelistener(ref.id, opt.watcher);
-      }
-    }
-
-    //登録
-    if (opt && opt.watcher) listener.watcher = opt.watcher;
-    listenerList.push(listener);
-    this.listenerDic[ref.id] = listenerList;
-
-    //
-    if (!first) {
-      // ---------すでにwatchされている
-      let data = Singleton.store.items[ref.id];
-
-      if (!data) {
-        //throw new Error("dataが無い" + listenerList.length);
-
-        //opt.initialがある場合セット
-        // if (opt && opt.initial) {
-        //   data = Object.assign({ref: ref}, opt.initial);
-        //   Singleton.store.items[ref.id] = data;
-        //   //todo firesoterに上げる？
-        //   console.log(data)
-        // }
-      } else {
-        //初回でレスポンスするかどうか
-        if (opt && opt.force) {
-          listener.callBack(data);
-        }
-      }
-
-    } else {
-      // ---------watchされていない
-
-      this.unsubscribeDic[ref.id] = ref.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-        //空だった場合
-        if (!snap.exists) {
-          if (opt && opt.initial) {
-            ref.set(opt.initial);
-          } else {
-            //todo　空で、初期化もしない場合
-            console.log("空で、初期化もない", ref.path);
-          }
-          return;
-        }
-
-        let v = Singleton.addItem(snap);
-        for (let item of this.listenerDic[ref.id]) {
-          item.callBack(v);
-        }
-      });
-    }
-  }
+  // static addlistener(
+  //   ref: firebase.firestore.DocumentReference,
+  //   callBack: (itemData: IItemStoreData) => void,
+  //   opt?: {
+  //     initial?: any,
+  //     once?: boolean,
+  //     force?: boolean,
+  //     watcher?: any,
+  //   }
+  // ) {
+  //   let listenerList = this.listenerDic[ref.id] || [];
+  //   let first = !listenerList.length;
+  //
+  //   if (opt && opt.watcher) {
+  //     for (let listener of listenerList) {
+  //       if (listener.watcher == opt.watcher) {
+  //         return;
+  //       }
+  //     }
+  //   }
+  //   // console.log("addlistener", ref.id);
+  //
+  //   //watchersに追加
+  //   let listener: Listener = {
+  //     callBack: callBack,
+  //   };
+  //
+  //   //once
+  //   if (opt && opt.once) {
+  //     if (!opt.watcher) opt.watcher = {};
+  //     listener.callBack = (itemData: IItemStoreData) => {
+  //       callBack(itemData);
+  //       this.removelistener(ref.id, opt.watcher);
+  //     }
+  //   }
+  //
+  //   //登録
+  //   if (opt && opt.watcher) listener.watcher = opt.watcher;
+  //   listenerList.push(listener);
+  //   this.listenerDic[ref.id] = listenerList;
+  //
+  //   //
+  //   if (!first) {
+  //     // ---------すでにwatchされている
+  //     let data = Singleton.store.items[ref.id];
+  //
+  //     if (!data) {
+  //       //throw new Error("dataが無い" + listenerList.length);
+  //
+  //       //opt.initialがある場合セット
+  //       // if (opt && opt.initial) {
+  //       //   data = Object.assign({ref: ref}, opt.initial);
+  //       //   Singleton.store.items[ref.id] = data;
+  //       //   //todo firesoterに上げる？
+  //       //   console.log(data)
+  //       // }
+  //     } else {
+  //       //初回でレスポンスするかどうか
+  //       if (opt && opt.force) {
+  //         listener.callBack(data);
+  //       }
+  //     }
+  //
+  //   } else {
+  //     // ---------watchされていない
+  //
+  //     this.unsubscribeDic[ref.id] = ref.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+  //       //空だった場合
+  //       if (!snap.exists) {
+  //         if (opt && opt.initial) {
+  //           ref.set(opt.initial);
+  //         } else {
+  //           //todo　空で、初期化もしない場合
+  //           console.log("空で、初期化もない", ref.path);
+  //         }
+  //         return;
+  //       }
+  //
+  //       let v = Singleton.addItem(snap);
+  //       for (let item of this.listenerDic[ref.id]) {
+  //         item.callBack(v);
+  //       }
+  //     });
+  //   }
+  // }
 
   /**
    * idで外す。watcherが指定されてないと全部外す。
    * @param id
    * @param watcher
    */
-  static removelistener(id: string, watcher?: any) {
-    // console.log(this.listener[id])
-    if (watcher) {
-      this.listenerDic[id] = this.listenerDic[id].filter((item: Listener) => item.watcher != watcher);
-    } else {
-      this.listenerDic[id].length = 0;
-    }
-    if (this.listenerDic[id].length == 0 && this.unsubscribeDic[id]) {
-      this.unsubscribeDic[id]();
-      delete this.unsubscribeDic[id];
-    }
-  }
+  // static removelistener(id: string, watcher?: any) {
+  //   // console.log(this.listener[id])
+  //   if (watcher) {
+  //     this.listenerDic[id] = this.listenerDic[id].filter((item: Listener) => item.watcher != watcher);
+  //   } else {
+  //     this.listenerDic[id].length = 0;
+  //   }
+  //   if (this.listenerDic[id].length == 0 && this.unsubscribeDic[id]) {
+  //     this.unsubscribeDic[id]();
+  //     delete this.unsubscribeDic[id];
+  //   }
+  // }
 
-  /**
-   * watcherのやつを全部外す。
-   * @param watcher
-   */
-  static removelistenerByWatcher(watcher: any) {
-    for (let id in this.listenerDic) {
-      this.removelistener(id, watcher);
-    }
-  }
+  // /**
+  //  * watcherのやつを全部外す。
+  //  * @param watcher
+  //  */
+  // static removelistenerByWatcher(watcher: any) {
+  //   for (let id in this.listenerDic) {
+  //     this.removelistener(id, watcher);
+  //   }
+  // }
 }
