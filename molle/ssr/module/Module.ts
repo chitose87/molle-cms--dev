@@ -2,9 +2,11 @@ import {Prop, Vue} from "~/node_modules/nuxt-property-decorator";
 
 export class Module extends Vue {
   @Prop() itemDataProp?: any;
+  @Prop() reactiveValueProp?: any;
   @Prop() payload?: any;
   itemData: any = {};
   id?: string = "";
+  reactiveValue: string = "";
 
   getClass(data: any) {
     let obj: any = {};

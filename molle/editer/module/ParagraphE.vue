@@ -1,13 +1,24 @@
 <template lang="pug">
-  .module-e(v-if="itemData.value")
-    Paragraph(
-      :itemDataProp="itemData"
+  .module-e(v-if="itemData.moduleId")
+    p(
+      v-html="(reactiveValue || itemData.value || itemData.superValue || 'empty').replace(/\\n/g, '<br>')"
+      :class="getClass(itemData)"
+      ref="reactiveTarget"
+      style="visibility: hidden;"
+    )
+
+    textarea.reactive(
+      :value="reactiveValue || ''"
+      :style="reactiveStyle"
+      @input="reactiveFunc($event)"
+      placeholder="input Paragraph Text"
     )
 
     ModuleEditorComp(
       :itemData="itemData"
       :valueProfile="valueProfile"
-      :styleProfile="styleProfile")
+      :styleProfile="styleProfile"
+    )
 
 </template>
 
@@ -20,6 +31,7 @@
   import {ModuleE} from "~/molle/editer/module/ModuleE";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
   import {InitialValue} from "~/molle/editer/module/index";
+  import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
 
   @Component({
     components: {ModuleEditorComp, StyleComp, ValueComp}
@@ -38,8 +50,59 @@
       color: {default: "", select: ["", "dark"]},
     });
 
+    //reactive
+    reactiveTarget?: HTMLElement;
+    reactiveValue = "";
+    reactiveStyle: any = {};
+    private reactiveSaveTimeId: number = 0;
+
     created() {
-      this.init(InitialValue.Paragraph);
+      this.init(InitialValue.Paragraph, () => {
+        this.$set(this, "reactiveValue", this.itemData.value);
+
+        let target: any = this.$refs.reactiveTarget;
+        if (!target) return;
+        this.reactiveTarget = target.$el || target;
+
+        let v: CSSStyleDeclaration = getComputedStyle(this.reactiveTarget!, null);
+        for (let i = 0; i < v.length; i++) {
+          let name = v.item(i);
+          switch (name) {
+            case "visibility":
+            case "overflow":
+            case "position":
+            case "top":
+              break;
+            default:
+              this.reactiveStyle[name] = v.getPropertyValue(name);
+          }
+        }
+        this.reactiveStyle.overflow = "hidden";
+        this.reactiveStyle.position = "absolute";
+        this.reactiveStyle.top = "0";
+
+        this.setSize();
+      });
+    }
+
+    reactiveFunc($event: any) {
+      this.reactiveValue = $event.target.value || "";
+      requestAnimationFrame(() => this.setSize());
+
+      clearTimeout(this.reactiveSaveTimeId);
+      //@ts-ignore
+      this.reactiveSaveTimeId = setTimeout(() => {
+        FirestoreMgr.itemUpdate(this.itemRef!, {value: this.reactiveValue});
+      }, 1000);
+    }
+
+    private setSize() {
+      let nv = this.reactiveTarget!.clientHeight + "px";
+      if (this.reactiveStyle.height != nv) {
+        let obj = Object.assign({}, this.reactiveStyle);
+        obj.height = nv;
+        this.$set(this, "reactiveStyle", obj);
+      }
     }
 
     //Unique Methods
@@ -47,4 +110,7 @@
 </script>
 
 <style lang="scss">
+  .module-e {
+  }
+
 </style>
