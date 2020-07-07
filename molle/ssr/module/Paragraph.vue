@@ -1,9 +1,8 @@
 <template lang="pug">
-  .module
-    p(
-      v-html="itemDataProp.value || itemDataProp.superValue"
-      :class="getClass(itemDataProp)"
-    )
+  p(
+    v-html="itemDataProp.value || itemDataProp.superValue"
+    :class="getClass(itemDataProp)"
+  )
 
 </template>
 

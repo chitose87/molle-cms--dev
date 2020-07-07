@@ -1,46 +1,88 @@
 <template lang="pug">
   .module-editor(:status="isEdit?'show':'hidden'")
-    button.toggle(
+    button.toggle.btn.btn-dark(
       @click="isEdit=!isEdit"
       :class="{outerFocus:outerFocus}"
-    ) 閉じる
-    div.d-flex.flex-wrap.p-2(v-if="isEdit")
-      div.p-2
-        button(@click="$parent.indexSwap()")
+    ) X
+    div.p-3(v-if="isEdit")
+      div.form-inline.mb-1
+        b(v-html="itemData.moduleId")
+        | /
+        span.mr-3(v-html="itemData.ref.id")
+
+        //名前
+        label.mr-3
+          span.mr-1 Name:
+          input.form-control.form-control-sm(type="text" v-model="data.name" @change="update2('name')")
+
+        //入れ替え
+        button.btn.btn-sm.btn-secondary.mr-3(@click="$parent.indexSwap()")
           b-icon(icon="arrow-down-up")
-        p
-          span(v-html="itemData.ref.id")
-        p
-          span(v-html="itemData.moduleId")
-          | /
-          span(v-html="itemData.type")
+
+        //削除
+        button.btn.btn-sm.btn-danger.mr-3(@click="$parent.deleteModule()") 削除
 
         // todo visible 設定を足す
-        div
-          component(v-for="item in itemOption"
-            :is="item.name"
-            :key="item.name"
-            :profile="item"
-            :itemData="itemData"
-          )
+      div.mb-1.form-inline
+        component(v-for="item in itemOption"
+          :is="item.name"
+          :key="item.name"
+          :profile="item"
+          :itemData="itemData"
+        )
 
-      ValueComp.p-2(:itemData="itemData" :valueProfile="valueProfile")
-      StyleComp.p-2(:itemData="itemData" :styleProfile="styleProfile")
+      StyleComp.mb-1(:itemData="itemData" :styleProfile="styleProfile")
 
-      button.btn.btn-danger.align-self-end(@click="$parent.deleteModule()") 削除
+      //value
+      //p Extends:
+        span(v-html="data.extends?data.extends.id:'継承なし'")
+        button(@click="openExtendsModal()") 変更
+        b-modal(v-model="extendsModal" centered="" title="Change Extends")
+          div(v-if="extendsModal")
+          .list-group-flush
+            button.list-group-item.list-group-item-action(@click="closeExtendsModal(null)")
+              span 継承なし
+            button.list-group-item.list-group-item-action(v-for="(item,key) in extendsList" @click="closeExtendsModal(item)")
+              span(v-html="item.value")
+              | /
+              span(v-html="item.name||`[ ${key} ]`")
+              //span(v-html="item.extends.")?
+
+        //p type {{data.type}}
+        //label type
+          select(v-model="data.type" )
+            option(v-for="(item,key) in valueTypes" :value="key" v-html="item.label")
+      form.w-100.form-group.m-0(@submit.prevent @change="update()")
+        div(v-if="data.type === 'text'")
+          div(v-if="data.superValue")
+            span superValue=
+            span(v-html="data.superValue")
+          textarea.form-control(v-model="data.value")
+
+        input(v-if="data.type === 'number'" type="number" v-model="data.value" )
+        textarea(v-if="data.type === 'html'" v-model="data.value" )
+
+        div(v-if="data.type === 'img'" :func="typeof data.value=='object'?false:data.value={}")
+          label src:
+            input(type="text" v-model="data.value.src" )
+          label sp:
+            input(type="text" v-model="data.value.sp" )
+          label alt:
+            input(type="text" v-model="data.value.alt" )
+
 
 </template>
 
 <script lang="ts">
   import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-  import ValueComp from "~/molle/editer/ui/ValueComp.vue";
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
   import {ValueProfile} from "~/molle/interface/ValueProfile";
   import {StyleProfile} from "~/molle/interface/StyleProfile";
+  import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
 
   @Component({
-    components: {StyleComp, ValueComp}
+    components: {StyleComp}
   })
   /**
    */
@@ -53,7 +95,73 @@
     @Prop() valueProfile?: ValueProfile;
     @Prop() styleProfile?: StyleProfile;
 
-    mounted() {
+    data = <IItemStoreData>{};
+    extendsModal: boolean = false;
+    extendsList: { [key: string]: IItemStoreData } = {};
+
+    created() {
+      this.changeItemData();
+    }
+
+    @Watch("itemData")
+    changeItemData() {
+      this.$set(this, "data", this.itemData);
+    }
+
+    openExtendsModal() {
+      //   let list: { [key: string]: IItemStoreData } = {};
+      //   // console.log(this.itemData)
+      //   for (let id in Singleton.store.items) {
+      //     let item = Singleton.store.items[id];
+      //     // console.log("--------------", item, this.valueProfile!.types);
+      //     a:for (let i of this.valueProfile!.types) {
+      //       // console.log(i)
+      //       if (i.val == item.type) {
+      //         //not self & parents
+      //         let viaId = id;
+      //         while (viaId) {
+      //           // console.log(viaId, this.itemData)
+      //           if (this.itemData!.ref.path.indexOf(viaId) >= 0) {
+      //             continue a;
+      //           }
+      //           if (Singleton.store.items[viaId].extends) {
+      //             viaId = Singleton.store.items[viaId].extends.id;
+      //           } else {
+      //             break;
+      //           }
+      //         }
+      //         list[id] = item;
+      //         break;
+      //       }
+      //     }
+      //   }
+      //   this.extendsList = list;
+      //   this.extendsModal = true;
+    }
+
+    closeExtendsModal(itemData?: IItemStoreData) {
+      //   this.extendsModal = false;
+      //   // console.log(this.itemData!.ref.id, itemData)
+      //   FirestoreMgr.itemUpdate(this.itemData!.ref, {extends: itemData ? itemData!.ref : null})
+    }
+
+    update() {
+      let update: any = {
+        name: this.data.name || "",
+        type: this.data.type,
+        // updateTime: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      if (this.data.value) update.value = this.data.value;
+      // this.itemData!.ref.update(update);
+
+      FirestoreMgr.itemUpdate(this.itemData!.ref, update)
+    }
+
+    update2(key: string) {
+      let update: any = {};
+      //@ts-ignore
+      update[key] = this.data[key];
+      FirestoreMgr.itemUpdate(this.itemData!.ref, update);
     }
   }
 </script>
@@ -91,8 +199,8 @@
 
       .toggle {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
+        top: 0rem;
+        right: 0rem;
       }
     }
   }

@@ -1,5 +1,5 @@
 <template lang="pug">
-  .module-e(v-if="itemData.value")
+  .module-e(v-if="itemData.moduleId")
     ModuleEditorComp(
       :itemOption="itemOption"
       :itemData="itemData"

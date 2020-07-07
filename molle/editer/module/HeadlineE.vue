@@ -1,5 +1,5 @@
 <template lang="pug">
-  .module-e(v-if="itemData.value")
+  .module-e(v-if="itemData.moduleId")
     Headline(
       :itemDataProp="itemData"
     )

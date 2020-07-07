@@ -1,13 +1,13 @@
 <template lang="pug">
-  .module-e(v-if="itemData.value")
-    Paragraph(
-      :itemDataProp="itemData"
-    )
-
+  .module-e(v-if="itemData.moduleId")
     ModuleEditorComp(
       :itemData="itemData"
       :valueProfile="valueProfile"
       :styleProfile="styleProfile")
+
+    Paragraph(
+      :itemDataProp="itemData"
+    )
 
 </template>
 

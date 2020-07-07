@@ -1,18 +1,17 @@
 <template lang="pug">
-  .item-option-add-module
+  span.item-option-add-module
     form(@submit.prevent @submit="pushModule()")
-      select(v-model="pushModuleSelected")
+      select.form-control.form-control-sm(v-model="pushModuleSelected")
         option(v-for="(item,key) in molleModules" :value="key" v-html="key")
-      button.btn.btn-primary(type="submit") Module追加
+      button.btn.btn-primary.btn-sm(type="submit") Module追加
 
 </template>
 
 <script lang="ts">
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
   import * as firebase from "~/node_modules/firebase";
-  import {InitialValue, molleEditerModules} from "~/molle/editer/module";
+  import {InitialValue} from "~/molle/editer/module";
   import {molleModules} from "~/molle/ssr/module";
-  import {Singleton} from "~/molle/Singleton";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
 
   @Component({

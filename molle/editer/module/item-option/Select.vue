@@ -1,7 +1,8 @@
 <template lang="pug">
   .item-option-select
-    label {{profile.label}}
-      select(:value="itemData.option[profile.id]" @change="update($event.target.value)")
+    label
+      span.mr-1 {{profile.label}}:
+      select.form-control.form-control-sm(:value="itemData.option[profile.id]" @change="update($event.target.value)")
         option(v-for="item in profile.select" :value="item" v-html="item")
 
 </template>
