@@ -1,6 +1,19 @@
 <template lang="pug">
   .style-comp
     form.mr-n3.form-inline(@submit.prevent @change="update()")
+      //
+      span.mr-3(v-if="styleProfile.permission.theme")
+        label
+          span.mr-1 Theme:
+          select.form-control.form-control-sm(v-model="data.style.theme")
+            option(v-for="theme in styleProfile.themeCollection" :val="theme" v-html="theme")
+
+      span.mr-3(v-if="styleProfile.permission.color")
+        label
+          span.mr-1 Color:
+          select.form-control.form-control-sm(v-model="data.style.color")
+            option(v-for="color in styleProfile.colorCollection" :val="color" v-html="color")
+
       //Border
       span.mr-3(v-if="styleProfile.permission.border")
         label
@@ -13,19 +26,6 @@
           span.mr-1 行揃え:
           select.form-control.form-control-sm(v-model="data.style.align")
             option(v-for="item in styleAlign" :value="item.value" v-html="item.label")
-
-      //
-      span.mr-3(v-if="styleProfile.permission.theme")
-        label
-          span.mr-1 Style Theme:
-          select.form-control.form-control-sm(v-model="data.style.theme")
-            option(v-for="theme in styleProfile.themeCollection" :val="theme" v-html="theme")
-
-      span.mr-3(v-if="styleProfile.permission.color")
-        label
-          span.mr-1 Color Theme:
-          select.form-control.form-control-sm(v-model="data.style.color")
-            option(v-for="color in styleProfile.colorCollection" :val="color" v-html="color")
 
       //span.mr-3
         label Free Area

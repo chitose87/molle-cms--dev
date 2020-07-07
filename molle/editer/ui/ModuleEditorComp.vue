@@ -4,8 +4,13 @@
       @click="isEdit=!isEdit"
       :class="{outerFocus:outerFocus}"
     ) X
-    div.p-3(v-if="isEdit")
+    div.p-2(v-if="isEdit")
       div.form-inline.mb-1
+        //入れ替え
+        button.btn.btn-sm.btn-secondary.mr-2(@click="$parent.indexSwap()")
+          b-icon(icon="arrow-down-up")
+
+        //
         b(v-html="itemData.moduleId")
         | /
         span.mr-3(v-html="itemData.ref.id")
@@ -15,16 +20,13 @@
           span.mr-1 Name:
           input.form-control.form-control-sm(type="text" v-model="data.name" @change="update2('name')")
 
-        //入れ替え
-        button.btn.btn-sm.btn-secondary.mr-3(@click="$parent.indexSwap()")
-          b-icon(icon="arrow-down-up")
 
         //削除
         button.btn.btn-sm.btn-danger.mr-3(@click="$parent.deleteModule()") 削除
 
         // todo visible 設定を足す
       div.mb-1.form-inline
-        component(v-for="item in itemOption"
+        component.mr-3(v-for="item in itemOption"
           :is="item.name"
           :key="item.name"
           :profile="item"

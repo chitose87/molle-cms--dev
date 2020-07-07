@@ -1,7 +1,8 @@
 <template lang="pug">
   .item-option-input
-    label {{profile.label}}
-    input(type="text" :value="itemData.option[profile.id]" @change="update($event.target.value)")
+    label
+      span.mr-1 {{profile.label}}:
+      input.form-control.form-control-sm(type="text" :value="itemData.option[profile.id]" @change="update($event.target.value)")
 
 </template>
 

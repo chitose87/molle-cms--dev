@@ -1,14 +1,14 @@
 <template lang="pug">
   .module-e(v-if="itemData.moduleId")
-    Headline(
-      :itemDataProp="itemData"
-    )
-
     ModuleEditorComp(
       :itemOption="itemOption"
       :itemData="itemData"
       :valueProfile="valueProfile"
       :styleProfile="styleProfile")
+
+    Headline(
+      :itemDataProp="itemData"
+    )
 
 </template>
 

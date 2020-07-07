@@ -1,5 +1,5 @@
 <template lang="pug">
-  span.item-option-add-module
+  .item-option-add-module
     form(@submit.prevent @submit="pushModule()")
       select.form-control.form-control-sm(v-model="pushModuleSelected")
         option(v-for="(item,key) in molleModules" :value="key" v-html="key")
