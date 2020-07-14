@@ -1,6 +1,6 @@
 <template lang="pug">
   .item-option-button
-    button.btn.btn-sm.btn-outline-primary(@click="profile.click()")
+    button.btn.btn-sm.btn-primary(@click="profile.click()")
       span(v-html="profile.label")
 
 </template>

@@ -28,9 +28,12 @@
   .module {
     .column {
       display: flex;
+      flex-wrap: wrap;
       margin: -$grid-gutter-width;
 
       &__item {
+        flex-grow: 0;
+        flex-shrink: 1;
         padding: $grid-gutter-width;
       }
     }

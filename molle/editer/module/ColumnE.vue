@@ -8,14 +8,11 @@
 
     .module
       .column
-        .column__item(
+        ColumnBoxE(
           v-for="child in children"
           v-if="child"
-          :style="{flex:'0 1 30%'}"
+          :itemRef="child.ref"
         )
-          BoxE(
-            :itemRef="child.ref"
-          )
 
 </template>
 
@@ -23,16 +20,15 @@
   import {Component} from "~/node_modules/nuxt-property-decorator";
   import ValueComp from "~/molle/editer/ui/ValueComp.vue";
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
-  import {StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
+  import {StyleProfile} from "~/molle/interface/StyleProfile";
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
-  import {ItemOptionButtonProfile} from "~/molle/editer/module/item-option/Button.vue";
   import {InitialValue} from "~/molle/editer/module/index";
   import * as firebase from "~/node_modules/firebase";
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
   import {ModuleEContainer} from "~/molle/editer/module/ModuleEContainer";
   import {ItemOptionInputProfile} from "~/molle/editer/module/item-option/Input.vue";
-  import {IItemStoreData} from "~/molle/interface/ItemProfile";
+  import {ItemOptionButtonProfile} from "~/molle/editer/module/item-option/Button.vue";
 
   @Component({
     components: {ModuleEditorComp, StyleComp, ValueComp}
@@ -44,8 +40,8 @@
         click: this.onAddItem
       }),
       new ItemOptionInputProfile({
-        id: "item-width",
-        label: "標準width:CSS Value"
+        id: "flex-basis",
+        label: "基本カラムサイズ(CSS)"
       })
     ];
     //value setting

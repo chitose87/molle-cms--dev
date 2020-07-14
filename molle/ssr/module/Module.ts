@@ -28,4 +28,15 @@ export class Module extends Vue {
     }
     return obj;
   }
+
+  // getStyle(data: any, ...arg: any[]) {
+  //   console.log(arg);
+  //   let obj: any = {};
+  //   if (data && data.option) {
+  //     for (let key of arg) {
+  //       if (data.option[key]) obj[key] = data.option[key];
+  //     }
+  //   }
+  //   return obj;
+  // }
 }

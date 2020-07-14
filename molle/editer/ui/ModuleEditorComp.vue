@@ -4,22 +4,19 @@
       @click="isEdit=!isEdit"
       :class="{outerFocus:outerFocus}"
     ) X
-    div.p-2(v-if="isEdit")
+    div.p-2.module-editor__body(v-if="isEdit")
+      b-icon.module-editor__arrow(icon="square-fill")
       div.form-inline.mb-1
         //入れ替え
-        button.btn.btn-sm.btn-secondary.mr-2(@click="$parent.indexSwap()")
+        button.btn.btn-sm.btn-secondary.mr-2.module-editor__swap-btn(@click="$parent.indexSwap()")
           b-icon(icon="arrow-down-up")
 
-        //
         b(v-html="itemData.moduleId")
-        | /
-        span.mr-3(v-html="itemData.ref.id")
 
         //名前
-        label.mr-3
-          span.mr-1 Name:
-          input.form-control.form-control-sm(type="text" v-model="data.name" @change="update2('name')")
+        input.form-control.form-control-sm.mr-3(type="text" v-model="data.name" @change="update2('name')" placeholder="Name")
 
+        span.mr-1.text-white(v-html="itemData.ref.id")
 
         //削除
         button.btn.btn-sm.btn-danger.mr-3(@click="$parent.deleteModule()") 削除
@@ -196,14 +193,25 @@
       position: relative;
       //top: 100%;
       //z-index: $zindex-fixed;
-      border: 1px solid gray;
-      background-color: var(--light);
+      /*border: 1px solid gray;*/
+      background-color: var(--teal);
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
 
       .toggle {
         position: absolute;
         top: 0rem;
         right: 0rem;
       }
+    }
+
+    &__arrow {
+      color: var(--teal);
+      position: absolute;
+      bottom: -0.5em;
+      left: 2rem;
+      transform: rotate(45deg);
+      font-size: 11px;
     }
   }
 </style>

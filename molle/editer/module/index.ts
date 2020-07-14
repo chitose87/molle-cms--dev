@@ -10,10 +10,12 @@ import ItemOptionAddModule from "~/molle/editer/module/item-option/AddModule.vue
 import firebase from "firebase";
 import ItemOptionButton from "~/molle/editer/module/item-option/Button.vue";
 import ItemOptionInput from "~/molle/editer/module/item-option/Input.vue";
+import ColumnBoxE from "~/molle/editer/module/ColumnBoxE.vue";
 
 export const molleEditerModules = {
   BoxE: BoxE,
   ColumnE: ColumnE,
+  ColumnBoxE: ColumnBoxE,
   HeadlineE: HeadlineE,
   ParagraphE: ParagraphE,
 };
@@ -35,6 +37,13 @@ export const InitialValue = {
       // number: 2,
       // width: "50%",
     },
+    createTime: firebase.firestore.FieldValue.serverTimestamp()
+  },
+  ColumnBox: {
+    moduleId: "Box",
+    value: [],
+    type: "children",
+    style: {},
     createTime: firebase.firestore.FieldValue.serverTimestamp()
   },
   Headline: {
