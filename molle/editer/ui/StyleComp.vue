@@ -5,26 +5,26 @@
       span.mr-3(v-if="styleProfile.permission.theme")
         label
           span.mr-1 Theme:
-          select.form-control.form-control-sm(v-model="data.style.theme")
+          select.form-control.form-control-sm(v-model="data.class.theme")
             option(v-for="theme in styleProfile.themeCollection" :val="theme" v-html="theme")
 
       span.mr-3(v-if="styleProfile.permission.color")
         label
           span.mr-1 Color:
-          select.form-control.form-control-sm(v-model="data.style.color")
+          select.form-control.form-control-sm(v-model="data.class.color")
             option(v-for="color in styleProfile.colorCollection" :val="color" v-html="color")
 
       //Border
       span.mr-3(v-if="styleProfile.permission.border")
         label
           span.mr-1 枠線:
-          input.form-control.form-control-sm(v-model="data.style.border" type="checkbox")
+          input.form-control.form-control-sm(v-model="data.class.border" type="checkbox")
 
       //TextHorizontal
       span.mr-3(v-if="styleProfile.permission.align")
         label
           span.mr-1 行揃え:
-          select.form-control.form-control-sm(v-model="data.style.align")
+          select.form-control.form-control-sm(v-model="data.class.align")
             option(v-for="item in styleAlign" :value="item.value" v-html="item.label")
 
       //span.mr-3
@@ -60,7 +60,7 @@
 
     update() {
       FirestoreMgr.itemUpdate(this.itemData!.id, {
-        style: this.data.style
+        class: this.data.class
       });
     }
   }

@@ -9,8 +9,8 @@ export class Module extends Vue {
   getClass(data: any) {
     let obj: any = {};
 
-    for (let key in data.style) {
-      let value = data.style[key];
+    for (let key in data.class) {
+      let value = data.class[key];
       switch (key) {
         case "align":
         case "theme":

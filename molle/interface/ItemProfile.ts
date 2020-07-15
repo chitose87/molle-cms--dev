@@ -25,8 +25,10 @@ export interface IItemStoreData {
   // extends?: firebase.firestore.DocumentReference;
   extends?: string;
 
-  //style
-  style: {
+  selector?: string;
+  style?: any;
+
+  class: {
     theme?: string,
     color?: string,
     border?: boolean,

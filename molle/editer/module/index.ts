@@ -26,6 +26,8 @@ export const InitialValue = {
     value: [],
     type: "children",
     style: {},
+    class: {},
+    option: {},
     createTime: firebase.firestore.FieldValue.serverTimestamp()
   },
   Column: {
@@ -33,10 +35,8 @@ export const InitialValue = {
     value: [],
     type: "children",
     style: {},
-    option: {
-      // number: 2,
-      // width: "50%",
-    },
+    class: {},
+    option: {},
     createTime: firebase.firestore.FieldValue.serverTimestamp()
   },
   ColumnBox: {
@@ -44,6 +44,8 @@ export const InitialValue = {
     value: [],
     type: "children",
     style: {},
+    class: {},
+    option: {},
     createTime: firebase.firestore.FieldValue.serverTimestamp()
   },
   Headline: {
@@ -54,6 +56,7 @@ export const InitialValue = {
       lv: "h3"
     },
     style: {},
+    class: {},
     createTime: firebase.firestore.FieldValue.serverTimestamp()
   },
   Paragraph: {
@@ -61,6 +64,7 @@ export const InitialValue = {
     value: "Lorem ipsum...",
     type: "text",
     style: {},
+    class: {},
     createTime: firebase.firestore.FieldValue.serverTimestamp()
   }
 } as const;
