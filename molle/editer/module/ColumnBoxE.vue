@@ -20,6 +20,8 @@
           :is="child.moduleId +'E'"
           :itemId="child.id"
         )
+        AddModule(:added="onAddModule")
+
 </template>
 
 <script lang="ts">
@@ -33,10 +35,10 @@
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
   import {InitialValue} from "~/molle/editer/module/index";
   import {ItemOptionInputProfile} from "~/molle/editer/module/item-option/Input.vue";
-  import {ItemOptionAddModuleProfile} from "~/molle/editer/module/item-option/AddModule.vue";
+  import AddModule from "~/molle/editer/ui/AddModule.vue";
 
   @Component({
-    components: {ModuleEditorComp, StyleComp}
+    components: {AddModule, ModuleEditorComp, StyleComp}
   })
   export default class ColumnBoxE extends ModuleEContainer {
     itemOption = [
@@ -44,9 +46,6 @@
         id: "flex-basis",
         label: "カラムサイズ"
       }),
-      new ItemOptionAddModuleProfile({
-        added: this.onAddModule
-      })
     ];
     //value setting
     valueProfile: ValueProfile = new ValueProfile({

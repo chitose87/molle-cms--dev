@@ -1,5 +1,5 @@
 <template lang="pug">
-  .item-option-add-module
+  .add-module.form-inline
     form(@submit.prevent @submit="pushModule()")
       select.form-control.form-control-sm(v-model="pushModuleSelected")
         option(v-for="(item,key) in molleModules" :value="key" v-html="key")
@@ -19,11 +19,11 @@
   })
   /**
    */
-  export default class ItemOptionAddModule extends Vue {
+  export default class AddModule extends Vue {
     molleModules = molleModules;
-    @Prop() profile?: ItemOptionAddModuleProfile;
 
     pushModuleSelected = InitialValue.Paragraph.moduleId;
+    @Prop() added?: (ref: firebase.firestore.DocumentReference) => void;
 
     pushModule() {
       // @ts-ignore
@@ -37,19 +37,8 @@
         .then((ref: firebase.firestore.DocumentReference) => {
           // data.ref = ref;
           // Singleton.store.items[id] = data;
-          this.profile!.added(ref);
+          this.added!(ref);
         });
-    }
-  }
-
-  export class ItemOptionAddModuleProfile {
-    name: string = "ItemOptionAddModule";
-    added: (ref: firebase.firestore.DocumentReference) => void;
-
-    constructor(opt: {
-      added: (ref: firebase.firestore.DocumentReference) => void
-    }) {
-      this.added = opt.added;
     }
   }
 </script>

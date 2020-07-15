@@ -14,6 +14,10 @@
           :itemId="child.id"
         )
 
+        .column__item.w-100.text-center.pt-0
+          button.btn.btn-sm.btn-primary(@click="onAddItem()")
+            span カラム追加
+
 </template>
 
 <script lang="ts">
@@ -27,17 +31,12 @@
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
   import {ModuleEContainer} from "~/molle/editer/module/ModuleEContainer";
   import {ItemOptionInputProfile} from "~/molle/editer/module/item-option/Input.vue";
-  import {ItemOptionButtonProfile} from "~/molle/editer/module/item-option/Button.vue";
 
   @Component({
     components: {ModuleEditorComp, StyleComp}
   })
   export default class ColumnE extends ModuleEContainer {
     itemOption = [
-      new ItemOptionButtonProfile({
-        label: "カラム追加",
-        click: this.onAddItem
-      }),
       new ItemOptionInputProfile({
         id: "flex-basis",
         label: "基本カラムサイズ(CSS)"
@@ -57,9 +56,7 @@
     });
 
     created() {
-      this.init(InitialValue.Column, () => {
-        console.log(this.itemData!.value,this.itemData!.value.length);
-      });
+      this.init(InitialValue.Column);
     }
 
     //Unique Methods

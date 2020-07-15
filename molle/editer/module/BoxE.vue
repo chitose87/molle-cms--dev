@@ -16,6 +16,8 @@
         :is="child.moduleId +'E'"
         :itemId="child.id"
       )
+      AddModule(:added="onAddModule")
+
 </template>
 
 <script lang="ts">
@@ -24,20 +26,20 @@
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
   import {StyleProfile} from "~/molle/interface/StyleProfile";
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
-  import {ItemOptionAddModuleProfile} from "~/molle/editer/module/item-option/AddModule.vue";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
   import {ModuleEContainer} from "~/molle/editer/module/ModuleEContainer";
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
   import {InitialValue} from "~/molle/editer/module/index";
+  import AddModule from "~/molle/editer/ui/AddModule.vue";
 
   @Component({
-    components: {ModuleEditorComp, StyleComp}
+    components: {AddModule, ModuleEditorComp, StyleComp}
   })
   export default class BoxE extends ModuleEContainer {
     itemOption = [
-      new ItemOptionAddModuleProfile({
-        added: this.onAddModule
-      })
+      // new ItemOptionAddModuleProfile({
+      //   added: this.onAddModule
+      // })
       // todo:containerクラス
     ];
     //value setting

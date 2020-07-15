@@ -96,5 +96,8 @@
   .module-e {
     position: relative;
     min-height: 1rem;
+
+    margin-top: 3rem;
+    margin-bottom: 3rem;
   }
 </style>

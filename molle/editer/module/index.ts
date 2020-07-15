@@ -6,7 +6,6 @@ import HeadlineE from "./HeadlineE.vue";
 import ParagraphE from "~/molle/editer/module/ParagraphE.vue";
 
 import ItemOptionSelect from "~/molle/editer/module/item-option/Select.vue";
-import ItemOptionAddModule from "~/molle/editer/module/item-option/AddModule.vue";
 import firebase from "firebase";
 import ItemOptionButton from "~/molle/editer/module/item-option/Button.vue";
 import ItemOptionInput from "~/molle/editer/module/item-option/Input.vue";
@@ -74,7 +73,6 @@ export function setMolleEditerModules() {
   setMolleModules();
 
   //item-options
-  Vue.component("ItemOptionAddModule", ItemOptionAddModule);
   Vue.component("ItemOptionSelect", ItemOptionSelect);
   Vue.component("ItemOptionButton", ItemOptionButton);
   Vue.component("ItemOptionInput", ItemOptionInput);
