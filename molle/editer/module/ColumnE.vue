@@ -11,14 +11,13 @@
         ColumnBoxE(
           v-for="child in children"
           v-if="child"
-          :itemRef="child.ref"
+          :itemId="child.id"
         )
 
 </template>
 
 <script lang="ts">
   import {Component} from "~/node_modules/nuxt-property-decorator";
-  import ValueComp from "~/molle/editer/ui/ValueComp.vue";
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
   import {StyleProfile} from "~/molle/interface/StyleProfile";
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
@@ -31,7 +30,7 @@
   import {ItemOptionButtonProfile} from "~/molle/editer/module/item-option/Button.vue";
 
   @Component({
-    components: {ModuleEditorComp, StyleComp, ValueComp}
+    components: {ModuleEditorComp, StyleComp}
   })
   export default class ColumnE extends ModuleEContainer {
     itemOption = [
@@ -58,7 +57,9 @@
     });
 
     created() {
-      this.init(InitialValue.Column);
+      this.init(InitialValue.Column, () => {
+        console.log(this.itemData!.value,this.itemData!.value.length);
+      });
     }
 
     //Unique Methods
@@ -69,12 +70,12 @@
         .then((ref) => {
           let value;
           if (Array.isArray(this.itemData!.value)) {
-            value = [...this.itemData!.value, ref];
+            value = [...this.itemData!.value, ref.id];
           } else {
-            value = [ref];
+            value = [ref.id];
           }
           // console.log(value)
-          FirestoreMgr.itemUpdate(this.itemRef!, {value: value});
+          FirestoreMgr.itemUpdate(this.itemId!, {value: value});
         });
     }
   }

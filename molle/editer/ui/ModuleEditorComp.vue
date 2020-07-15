@@ -16,7 +16,7 @@
         //名前
         input.form-control.form-control-sm.mr-3(type="text" v-model="data.name" @change="update2('name')" placeholder="Name")
 
-        span.mr-1.text-white(v-html="itemData.ref.id")
+        span.mr-1.text-white(v-html="itemData.id")
 
         //削除
         button.btn.btn-sm.btn-danger.mr-3(@click="$parent.deleteModule()") 削除
@@ -120,7 +120,7 @@
       //         let viaId = id;
       //         while (viaId) {
       //           // console.log(viaId, this.itemData)
-      //           if (this.itemData!.ref.path.indexOf(viaId) >= 0) {
+      //           if (this.itemData!.id.path.indexOf(viaId) >= 0) {
       //             continue a;
       //           }
       //           if (Singleton.store.items[viaId].extends) {
@@ -140,8 +140,8 @@
 
     closeExtendsModal(itemData?: IItemStoreData) {
       //   this.extendsModal = false;
-      //   // console.log(this.itemData!.ref.id, itemData)
-      //   FirestoreMgr.itemUpdate(this.itemData!.ref, {extends: itemData ? itemData!.ref : null})
+      //   // console.log(this.itemData!.id, itemData)
+      //   FirestoreMgr.itemUpdate(this.itemData!.id, {extends: itemData ? itemData!.id : null})
     }
 
     update() {
@@ -151,16 +151,16 @@
         // updateTime: firebase.firestore.FieldValue.serverTimestamp()
       };
       if (this.data.value) update.value = this.data.value;
-      // this.itemData!.ref.update(update);
+      // this.itemData!.id.update(update);
 
-      FirestoreMgr.itemUpdate(this.itemData!.ref, update)
+      FirestoreMgr.itemUpdate(this.itemData!.id, update)
     }
 
     update2(key: string) {
       let update: any = {};
       //@ts-ignore
       update[key] = this.data[key];
-      FirestoreMgr.itemUpdate(this.itemData!.ref, update);
+      FirestoreMgr.itemUpdate(this.itemData!.id, update);
     }
   }
 </script>

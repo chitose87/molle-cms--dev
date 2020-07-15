@@ -2,7 +2,7 @@
   .value-tree-item-comp
     button.btn.btn-sm.btn-outline-secondary
       span id:
-      b(v-html="itemData.ref.id")
+      b(v-html="itemData.id")
       div(v-if="itemData.name")
         span name:
         b(v-html="itemData.name")

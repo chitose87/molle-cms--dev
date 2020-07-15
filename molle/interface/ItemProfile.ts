@@ -6,7 +6,8 @@ import * as firebase from "~/node_modules/firebase";
 
 export interface IItemStoreData {
   //ロジックの中で設定される
-  ref: firebase.firestore.DocumentReference;
+  // ref: firebase.firestore.DocumentReference;
+  id: string;
   follower?: { [key: string]: IItemStoreData };
   superValue?: any//TODO<IValueStoreData>;
 
@@ -21,7 +22,8 @@ export interface IItemStoreData {
   type?: string;
 
   value?: any;
-  extends?: firebase.firestore.DocumentReference;
+  // extends?: firebase.firestore.DocumentReference;
+  extends?: string;
 
   //style
   style: {
@@ -31,4 +33,5 @@ export interface IItemStoreData {
     align?: string,
   }
 }
+
 //const

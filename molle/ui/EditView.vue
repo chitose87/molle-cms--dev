@@ -3,11 +3,11 @@
     .container
       BoxE(
         v-if="pageData.main"
-        :itemRef="pageData.main"
+        :itemId="pageData.main"
       )
       //BoxE(
       //  v-if="children.main && children.main.ref"
-      //  :itemRef="children.main"
+      //  :itemId="children.main"
       //)
     ModuleTreeComp
     //ValueTreeComp(
@@ -23,8 +23,8 @@
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
   import {IPageStoreData} from "~/molle/interface/IPageStoreData";
   import {Singleton} from "~/molle/Singleton";
-  import ValueTreeComp from "~/molle/ui/ValueTreeComp.vue";
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
+  import ValueTreeComp from "~/molle/ui/ValueTreeComp.vue";
   import ModuleTreeComp from "~/molle/ui/ModuleTreeComp.vue";
 
   @Component({
@@ -62,11 +62,11 @@
           .add(InitialValue.Box)
           .then((e) => {
             this.pageData!.ref.update({
-              main: e
+              main: e.id
             });
           });
       } else {
-        if (newer && older && (newer.main.id == older.main.id)) {
+        if (newer && older && (newer.main == older.main)) {
           return;
         }
         // FirestoreMgr.addlistener(

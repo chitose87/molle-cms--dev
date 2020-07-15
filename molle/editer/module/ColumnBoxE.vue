@@ -16,16 +16,15 @@
         component(
           v-for="child in children"
           v-if="child"
-          :key="child.ref.id"
+          :key="child.id"
           :is="child.moduleId +'E'"
-          :itemRef="child.ref"
+          :itemId="child.id"
         )
 </template>
 
 <script lang="ts">
   import {Component, Prop, Watch} from "~/node_modules/nuxt-property-decorator";
   import firebase from "~/node_modules/firebase";
-  import ValueComp from "~/molle/editer/ui/ValueComp.vue";
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
   import {StyleProfile} from "~/molle/interface/StyleProfile";
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
@@ -37,7 +36,7 @@
   import {ItemOptionAddModuleProfile} from "~/molle/editer/module/item-option/AddModule.vue";
 
   @Component({
-    components: {ModuleEditorComp, StyleComp, ValueComp}
+    components: {ModuleEditorComp, StyleComp}
   })
   export default class ColumnBoxE extends ModuleEContainer {
     itemOption = [
@@ -68,11 +67,11 @@
     onAddModule(ref: firebase.firestore.DocumentReference) {
       let value;
       if (Array.isArray(this.itemData!.value)) {
-        value = [...this.itemData!.value, ref];
+        value = [...this.itemData!.value, ref.id];
       } else {
-        value = [ref];
+        value = [ref.id];
       }
-      FirestoreMgr.itemUpdate(this.itemRef!, {value: value});
+      FirestoreMgr.itemUpdate(this.itemId!, {value: value});
     }
 
     getStyle() {

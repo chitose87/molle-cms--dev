@@ -29,7 +29,7 @@
     update(v: string) {
       let update: any = {option: {}};
       update.option[this.profile!.id] = v;
-      FirestoreMgr.itemUpdate(this.itemData!.ref, update);
+      FirestoreMgr.itemUpdate(this.itemData!.id, update);
     }
   }
 

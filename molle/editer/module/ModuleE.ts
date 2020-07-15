@@ -5,12 +5,13 @@ import {Module} from "~/molle/ssr/module/Module";
 import {Singleton} from "~/molle/Singleton";
 import {InitialValue} from "~/molle/editer/module/index";
 import * as firebase from "~/node_modules/firebase";
+import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
 
 export class ModuleE extends Module {
   store = Singleton.store;
 
   //itemData: IItemStoreData = {};
-  @Prop() itemRef?: firebase.firestore.DocumentReference;
+  @Prop() itemId?: string;
 
   valueProfile?: ValueProfile;
   styleProfile?: StyleProfile;
@@ -30,23 +31,23 @@ export class ModuleE extends Module {
     //     !this.itemData!.type ||
     //     this.valueProfile!.types.every((type) => type.val != this.itemData!.type)
     //   ) {
-    //     FirestoreMgr.itemUpdate(this.itemData!.ref, {
+    //     FirestoreMgr.itemUpdate(this.itemData!.id, {
     //       type: this.valueProfile!.types[0].val,
     //     });
     //   }
 
     this.unsubscribes.push(
-      this.itemRef!.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+      FirestoreMgr.itemsRef.doc(this.itemId).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         if (!this.$el.parentNode) {
           this.destroyed();
           return;
         }
         if (!snap.exists) {
-          this.itemRef!.set(initialValue);
+          FirestoreMgr.itemsRef.doc(this.itemId).set(initialValue);
           return;
         }
         let itemData: any = snap.data();
-        itemData.ref = snap.ref;
+        itemData.id = snap.id;
         this.$set(this, "itemData", itemData);
         onUpdate && this.$nextTick(onUpdate);
       })
@@ -59,16 +60,16 @@ export class ModuleE extends Module {
   indexSwap() {
     let parent: any = this.$parent;
     if (parent.indexSwapChild) {
-      parent.indexSwapChild(this.itemRef!);
+      parent.indexSwapChild(this.itemId!);
     }
   }
 
   deleteModule() {
     let parent: any = this.$parent;
     if (parent.deleteChild) {
-      parent.deleteChild(this.itemRef!);
+      parent.deleteChild(this.itemId!);
     }
-    this.itemRef!.delete();
+    FirestoreMgr.itemsRef.doc(this.itemId).delete();
   }
 
   destroyed() {

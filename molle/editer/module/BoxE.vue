@@ -12,16 +12,15 @@
       component(
         v-for="child in children"
         v-if="child"
-        :key="child.ref.id"
+        :key="child.id"
         :is="child.moduleId +'E'"
-        :itemRef="child.ref"
+        :itemId="child.id"
       )
 </template>
 
 <script lang="ts">
   import {Component, Prop, Watch} from "~/node_modules/nuxt-property-decorator";
   import firebase from "~/node_modules/firebase";
-  import ValueComp from "~/molle/editer/ui/ValueComp.vue";
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
   import {StyleProfile} from "~/molle/interface/StyleProfile";
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
@@ -32,7 +31,7 @@
   import {InitialValue} from "~/molle/editer/module/index";
 
   @Component({
-    components: {ModuleEditorComp, StyleComp, ValueComp}
+    components: {ModuleEditorComp, StyleComp}
   })
   export default class BoxE extends ModuleEContainer {
     itemOption = [
@@ -54,7 +53,7 @@
     });
 
     created() {
-      // console.log("created", this.itemRef!.id);
+      // console.log("created", this.itemId!.id);
       this.init(InitialValue.Box);
     }
 
@@ -63,14 +62,14 @@
       // console.log(this.itemData!.value, Array.isArray(this.itemData!.value))
       // console.log("----------------")
       // console.log(Array.isArray(this.itemData!.value))
-      // console.log(this.itemData!.ref.id, ref.id)
+      // console.log(this.itemData!.id, id)
       if (Array.isArray(this.itemData!.value)) {
-        value = [...this.itemData!.value, ref];
+        value = [...this.itemData!.value, ref.id];
       } else {
-        value = [ref];
+        value = [ref.id];
       }
       // console.log(value)
-      FirestoreMgr.itemUpdate(this.itemRef!, {value: value});
+      FirestoreMgr.itemUpdate(this.itemId!, {value: value});
     }
   }
 </script>

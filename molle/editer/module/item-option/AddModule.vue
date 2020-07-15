@@ -36,7 +36,7 @@
         .add(data)
         .then((ref: firebase.firestore.DocumentReference) => {
           // data.ref = ref;
-          // Singleton.store.items[ref.id] = data;
+          // Singleton.store.items[id] = data;
           this.profile!.added(ref);
         });
     }

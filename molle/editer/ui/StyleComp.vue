@@ -59,7 +59,7 @@
     }
 
     update() {
-      FirestoreMgr.itemUpdate(this.itemData!.ref, {
+      FirestoreMgr.itemUpdate(this.itemData!.id, {
         style: this.data.style
       });
     }

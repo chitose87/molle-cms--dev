@@ -17,23 +17,30 @@ export class FirestoreMgr {
   static listenerDic: { [key: string]: Listener[] } = {};
   static unsubscribeDic: { [key: string]: () => void } = {};
   static currentPageData?: IPageStoreData;
+  private static _itemsRef: firebase.firestore.CollectionReference;
+  static get itemsRef(): firebase.firestore.CollectionReference {
+    if (!this._itemsRef) {
+      this._itemsRef = firebase.firestore().collection("items");
+    }
+    return this._itemsRef;
+  }
 
   /**
    *
-   * @param ref
+   * @param id
    * @param data
    * @param opt
    */
   static itemUpdate(
-    ref: firebase.firestore.DocumentReference,
+    id: string,
     data: any,
     opt?: any
   ) {
-    // console.log("itemUpdate", ref.id, data)
+    // console.log("itemUpdate", id, data)
     // console.trace()
     let batch = firebase.firestore().batch();
     data.updateTime = firebase.firestore.FieldValue.serverTimestamp();
-    batch.update(ref, data);
+    batch.update(FirestoreMgr.itemsRef.doc(id), data);
 
     //
     if (this.currentPageData) {
@@ -62,7 +69,7 @@ export class FirestoreMgr {
   //     watcher?: any,
   //   }
   // ) {
-  //   let listenerList = this.listenerDic[ref.id] || [];
+  //   let listenerList = this.listenerDic[id] || [];
   //   let first = !listenerList.length;
   //
   //   if (opt && opt.watcher) {
@@ -72,7 +79,7 @@ export class FirestoreMgr {
   //       }
   //     }
   //   }
-  //   // console.log("addlistener", ref.id);
+  //   // console.log("addlistener", id);
   //
   //   //watchersに追加
   //   let listener: Listener = {
@@ -84,19 +91,19 @@ export class FirestoreMgr {
   //     if (!opt.watcher) opt.watcher = {};
   //     listener.callBack = (itemData: IItemStoreData) => {
   //       callBack(itemData);
-  //       this.removelistener(ref.id, opt.watcher);
+  //       this.removelistener(id, opt.watcher);
   //     }
   //   }
   //
   //   //登録
   //   if (opt && opt.watcher) listener.watcher = opt.watcher;
   //   listenerList.push(listener);
-  //   this.listenerDic[ref.id] = listenerList;
+  //   this.listenerDic[id] = listenerList;
   //
   //   //
   //   if (!first) {
   //     // ---------すでにwatchされている
-  //     let data = Singleton.store.items[ref.id];
+  //     let data = Singleton.store.items[id];
   //
   //     if (!data) {
   //       //throw new Error("dataが無い" + listenerList.length);
@@ -104,7 +111,7 @@ export class FirestoreMgr {
   //       //opt.initialがある場合セット
   //       // if (opt && opt.initial) {
   //       //   data = Object.assign({ref: ref}, opt.initial);
-  //       //   Singleton.store.items[ref.id] = data;
+  //       //   Singleton.store.items[id] = data;
   //       //   //todo firesoterに上げる？
   //       //   console.log(data)
   //       // }
@@ -118,7 +125,7 @@ export class FirestoreMgr {
   //   } else {
   //     // ---------watchされていない
   //
-  //     this.unsubscribeDic[ref.id] = ref.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+  //     this.unsubscribeDic[id] = ref.onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
   //       //空だった場合
   //       if (!snap.exists) {
   //         if (opt && opt.initial) {
@@ -131,7 +138,7 @@ export class FirestoreMgr {
   //       }
   //
   //       let v = Singleton.addItem(snap);
-  //       for (let item of this.listenerDic[ref.id]) {
+  //       for (let item of this.listenerDic[id]) {
   //         item.callBack(v);
   //       }
   //     });

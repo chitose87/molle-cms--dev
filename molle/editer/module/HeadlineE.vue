@@ -14,7 +14,6 @@
 
 <script lang="ts">
   import {Component} from "~/node_modules/nuxt-property-decorator";
-  import ValueComp from "~/molle/editer/ui/ValueComp.vue";
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
   import {StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
@@ -24,7 +23,7 @@
   import {InitialValue} from "~/molle/editer/module/index";
 
   @Component({
-    components: {ModuleEditorComp, StyleComp, ValueComp}
+    components: {ModuleEditorComp, StyleComp}
   })
   export default class HeadlineE extends ModuleE {
     itemOption = [

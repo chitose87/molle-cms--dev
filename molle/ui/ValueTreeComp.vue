@@ -36,9 +36,9 @@
         if (!item.extends) {
           tree.push(item);
         } else {
-          let via = Singleton.store.items[item.extends.id];
+          let via = Singleton.store.items[item.extends];
           if (!via.follower) via.follower = {};
-          via.follower[item.ref.id] = item;
+          via.follower[item.id] = item;
         }
       }
       this.$set(this, "tree", tree);

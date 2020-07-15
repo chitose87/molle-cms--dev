@@ -11,7 +11,7 @@
         b(v-html="vueRef.$data.itemData.moduleId")
       //div
         span id:
-        b(v-html="vueRef.$props.itemData.ref.id")
+        b(v-html="vueRef.$props.itemData.id")
 
     .list-group.mt-3(v-if="tree.length")
       .list-group-item.list-group-item-action.pr-0(v-for="item in tree")

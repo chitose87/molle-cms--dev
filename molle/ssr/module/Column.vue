@@ -34,6 +34,7 @@
       &__item {
         flex-grow: 0;
         flex-shrink: 1;
+        flex-basis: 0;
         padding: $grid-gutter-width;
       }
     }
