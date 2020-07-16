@@ -1,5 +1,8 @@
 <template lang="pug">
-  .module-e(v-if="itemData.moduleId")
+  .module-e(
+    v-if="itemData.moduleId"
+    :class="{editing:editing}"
+  )
     ModuleEditorComp(
       :itemData="itemData"
       :valueProfile="valueProfile"

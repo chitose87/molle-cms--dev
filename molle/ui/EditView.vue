@@ -99,5 +99,10 @@
 
     margin-top: 3rem;
     margin-bottom: 3rem;
+
+    &.editing {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
 </style>

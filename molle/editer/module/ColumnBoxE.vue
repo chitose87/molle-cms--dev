@@ -3,7 +3,10 @@
     v-if="itemData.moduleId"
     :style="getStyle()"
   )
-    .module-e
+    .module-e(
+      v-if="itemData.moduleId"
+      :class="{editing:editing}"
+    )
       ModuleEditorComp(
         :itemOption="itemOption"
         :itemData="itemData"
@@ -21,6 +24,9 @@
           :itemId="child.id"
         )
         AddModule(v-if="editing" :added="onAddModule")
+        div(v-else-if="children.length==0")
+          p.text-black-50 Not Item
+          AddModule(:added="onAddModule")
 
 </template>
 

@@ -1,9 +1,11 @@
 <template lang="pug">
-  .module-editor(:status="$parent.editing?'show':'hidden'")
+  .module-editor(
+    :status="$parent.editing?'show':'hidden'"
+  )
     button.toggle.btn.btn-dark(
       @click="$parent.editing=!$parent.editing"
     ) X
-    div.p-2.module-editor__body(v-if="$parent.editing")
+    div.module-editor__body(v-if="$parent.editing")
       b-icon.module-editor__arrow(icon="square-fill")
       div.form-inline.mb-1
         //入れ替え
@@ -96,6 +98,7 @@
 
     created() {
       this.changeItemData();
+
     }
 
     @Watch("itemData")
@@ -163,13 +166,25 @@
 
 <style lang="scss">
   .module-editor {
-    &[status=hidden] {
+    &:before {
+      content: "";
       position: absolute;
-      //z-index: $zindex-fixed - 1;
       top: -0.5rem;
       left: -0.5rem;
-      width: calc(100% + 1rem);
-      height: calc(100% + 1rem);
+      width: 100%;
+      height: 100%;
+      border: 0.5rem solid var(--teal);
+      border-radius: 0.5rem;
+      box-sizing: content-box;
+      pointer-events: none;
+    }
+
+    //z-index: $zindex-fixed - 1;
+
+    &[status=hidden] {
+      &:before {
+        visibility: hidden;
+      }
 
       .toggle {
         position: absolute;
@@ -186,19 +201,27 @@
     }
 
     &[status=show] {
-      position: relative;
+      /*position: relative;*/
       //top: 100%;
       //z-index: $zindex-fixed;
-      /*border: 1px solid gray;*/
-      background-color: var(--teal);
-      border-radius: 0.5rem;
       margin-bottom: 0.5rem;
+      margin-left: -1rem;
+      margin-right: -1rem;
+      padding-bottom: 0.5rem;
 
       .toggle {
         position: absolute;
-        top: 0rem;
-        right: 0rem;
+        top: -0.5rem;
+        right: -0.5rem;
+        z-index: 1;
       }
+    }
+
+    &__body {
+      background-color: var(--teal);
+      padding-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
+      position: relative;
     }
 
     &__arrow {
