@@ -12,6 +12,8 @@ export class ModuleE extends Module {
 
   //itemData: IItemStoreData = {};
   @Prop() itemId?: string;
+  editing: boolean = false;
+  outerFocus: boolean = false;
 
   valueProfile?: ValueProfile;
   styleProfile?: StyleProfile;

@@ -1,4 +1,3 @@
-import {IItemStoreData} from "~/molle/interface/ItemProfile";
 import firebase from "~/node_modules/firebase";
 import {ModuleE} from "~/molle/editer/module/ModuleE";
 import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";

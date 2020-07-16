@@ -20,7 +20,7 @@
           :is="child.moduleId +'E'"
           :itemId="child.id"
         )
-        AddModule(:added="onAddModule")
+        AddModule(v-if="editing" :added="onAddModule")
 
 </template>
 

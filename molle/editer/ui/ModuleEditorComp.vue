@@ -1,10 +1,9 @@
 <template lang="pug">
-  .module-editor(:status="isEdit?'show':'hidden'")
+  .module-editor(:status="$parent.editing?'show':'hidden'")
     button.toggle.btn.btn-dark(
-      @click="isEdit=!isEdit"
-      :class="{outerFocus:outerFocus}"
+      @click="$parent.editing=!$parent.editing"
     ) X
-    div.p-2.module-editor__body(v-if="isEdit")
+    div.p-2.module-editor__body(v-if="$parent.editing")
       b-icon.module-editor__arrow(icon="square-fill")
       div.form-inline.mb-1
         //入れ替え
@@ -86,9 +85,6 @@
   /**
    */
   export default class ModuleEditorComp extends Vue {
-    isEdit = false;
-    outerFocus: boolean = false;
-
     @Prop() itemOption?: any;
     @Prop() itemData?: IItemStoreData;
     @Prop() valueProfile?: ValueProfile;
@@ -183,7 +179,7 @@
         left: 0;
         opacity: 0;
 
-        &:hover, &.outerFocus {
+        &:hover {
           opacity: 0.1;
         }
       }

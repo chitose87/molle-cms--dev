@@ -4,7 +4,7 @@
       @mouseover="focus(true)"
       @mouseleave="focus(false)"
       @click="toggle()"
-      :class="{active:getActive()}"
+      :class="{active:vueRef.editing}"
     )
       div
         //span moduleId:
@@ -32,7 +32,8 @@
     @Prop() vueRef?: ModuleE | ModuleEContainer;
 
     tree: Vue[] = [];
-    moduleEditor?: ModuleEditorComp;
+
+    // moduleEditor?: ModuleEditorComp;
 
     beforeMount() {
       this.update();
@@ -44,32 +45,34 @@
       for (let child of this.vueRef!.$children) {
         if (child instanceof ModuleE) {
           tree.push(child);
-        } else if (child instanceof ModuleEditorComp) {
-          this.moduleEditor = child;
+          // } else if (child instanceof ModuleEditorComp) {
+          //   this.moduleEditor = child;
         }
       }
       this.$set(this, "tree", tree);
     }
 
     focus(flag: boolean) {
-      if (this.moduleEditor) {
-        this.moduleEditor.$data.outerFocus = flag;
-      }
+      this.vueRef!.outerFocus = flag;
+      // if (this.moduleEditor) {
+      //   this.moduleEditor.$data.outerFocus = flag;
+      // }
     }
 
     toggle() {
-      if (this.moduleEditor) {
-        this.moduleEditor.$data.isEdit = !this.moduleEditor.$data.isEdit;
-      }
+      this.vueRef!.editing = !this.vueRef!.editing;
+      // if (this.moduleEditor) {
+      //   this.moduleEditor.$data.isEdit = !this.moduleEditor.$data.isEdit;
+      // }
     }
 
-    getActive() {
-      try {
-        return this.moduleEditor!.$data.isEdit;
-      } catch (e) {
-        return false
-      }
-    }
+    // getActive() {
+    //   try {
+    //     return this.moduleEditor!.$data.isEdit;
+    //   } catch (e) {
+    //     return false
+    //   }
+    // }
   }
 </script>
 
