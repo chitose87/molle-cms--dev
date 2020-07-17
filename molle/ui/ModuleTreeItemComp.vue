@@ -3,8 +3,8 @@
     button.btn.btn-sm.btn-outline-secondary(
       @mouseover="focus(true)"
       @mouseleave="focus(false)"
-      @click="toggle()"
-      :class="{active:vueRef.editing}"
+      @click="lsStore.updateEditing(vueRef.$data.itemData.id)"
+      :class="{active:lsStore.editing.indexOf(vueRef.$data.itemData.id) >= 0}"
     )
       div
         //span moduleId:
@@ -24,11 +24,13 @@
   import {ModuleEContainer} from "~/molle/editer/module/ModuleEContainer";
   import {ModuleE} from "~/molle/editer/module/ModuleE";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
+  import {lsStore} from "~/utils/store-accessor";
 
   @Component({
     components: {}
   })
   export default class ModuleTreeItemComp extends Vue {
+    lsStore = lsStore;
     @Prop() vueRef?: ModuleE | ModuleEContainer;
 
     tree: Vue[] = [];
@@ -56,13 +58,6 @@
       this.vueRef!.outerFocus = flag;
       // if (this.moduleEditor) {
       //   this.moduleEditor.$data.outerFocus = flag;
-      // }
-    }
-
-    toggle() {
-      this.vueRef!.editing = !this.vueRef!.editing;
-      // if (this.moduleEditor) {
-      //   this.moduleEditor.$data.isEdit = !this.moduleEditor.$data.isEdit;
       // }
     }
 

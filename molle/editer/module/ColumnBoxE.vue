@@ -5,7 +5,7 @@
   )
     .module-e(
       v-if="itemData.moduleId"
-      :class="{editing:editing}"
+      :class="{editing:isEditing()}"
     )
       ModuleEditorComp(
         :itemOption="itemOption"

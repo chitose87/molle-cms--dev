@@ -6,6 +6,7 @@ import {Singleton} from "~/molle/Singleton";
 import {InitialValue} from "~/molle/editer/module/index";
 import * as firebase from "~/node_modules/firebase";
 import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
+import {lsStore} from "~/utils/store-accessor";
 
 export class ModuleE extends Module {
   store = Singleton.store;
@@ -22,6 +23,10 @@ export class ModuleE extends Module {
 
   constructor(...args: any[]) {
     super(args);
+  }
+
+  isEditing() {
+    return lsStore.editing.indexOf(this.itemId!) >= 0;
   }
 
   init(initialValue: InitialValue, onUpdate?: () => void) {

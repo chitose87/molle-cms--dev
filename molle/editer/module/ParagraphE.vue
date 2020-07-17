@@ -1,7 +1,7 @@
 <template lang="pug">
   .module-e(
     v-if="itemData.moduleId"
-    :class="{editing:editing}"
+    :class="{editing:isEditing()}"
   )
     ModuleEditorComp(
       :itemData="itemData"
@@ -22,11 +22,15 @@
   import {ModuleE} from "~/molle/editer/module/ModuleE";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
   import {InitialValue} from "~/molle/editer/module/index";
+  import {lsStore} from "~/utils/store-accessor";
+  import {Singleton} from "~/molle/Singleton";
 
   @Component({
     components: {ModuleEditorComp, StyleComp}
   })
   export default class ParagraphE extends ModuleE {
+    lsStore = lsStore;
+
     //value setting
     valueProfile: ValueProfile = new ValueProfile({
       types: [ValueType.text]

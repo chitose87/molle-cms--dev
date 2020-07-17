@@ -26,6 +26,7 @@
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
   import ValueTreeComp from "~/molle/ui/ValueTreeComp.vue";
   import ModuleTreeComp from "~/molle/ui/ModuleTreeComp.vue";
+  import {lsStore} from "~/utils/store-accessor";
 
   @Component({
     components: {ModuleTreeComp, ValueTreeComp}
@@ -47,6 +48,7 @@
     // }
 
     created() {
+      lsStore.init();
       this.changePageData();
     }
 

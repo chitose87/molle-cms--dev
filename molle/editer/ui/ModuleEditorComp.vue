@@ -1,11 +1,11 @@
 <template lang="pug">
   .module-editor(
-    :status="$parent.editing?'show':'hidden'"
+    :status="$parent.isEditing()?'show':'hidden'"
   )
     button.toggle.btn.btn-dark(
-      @click="$parent.editing=!$parent.editing"
+      @click="lsStore.updateEditing(itemData.id)"
     ) X
-    div.module-editor__body(v-if="$parent.editing")
+    div.module-editor__body(v-if="$parent.isEditing()")
       b-icon.module-editor__arrow(icon="square-fill")
       div.form-inline.mb-1
         //入れ替え
@@ -80,6 +80,8 @@
   import {ValueProfile} from "~/molle/interface/ValueProfile";
   import {StyleProfile} from "~/molle/interface/StyleProfile";
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
+  import {lsStore} from "~/utils/store-accessor";
+  import {Singleton} from "~/molle/Singleton";
 
   @Component({
     components: {StyleComp}
@@ -95,10 +97,11 @@
     data = <IItemStoreData>{};
     extendsModal: boolean = false;
     extendsList: { [key: string]: IItemStoreData } = {};
+    lsStore = lsStore;
+
 
     created() {
       this.changeItemData();
-
     }
 
     @Watch("itemData")
