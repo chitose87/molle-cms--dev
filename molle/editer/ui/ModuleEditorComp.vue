@@ -1,6 +1,7 @@
 <template lang="pug">
   .module-editor(
     :status="$parent.isEditing()?'show':'hidden'"
+    :title="itemData?itemData.moduleId+'/'+itemData.id:''"
   )
     button.toggle.btn.btn-dark(
       @click="lsStore.updateEditing(itemData.id)"
@@ -210,7 +211,6 @@
       margin-bottom: 0.5rem;
       margin-left: -1rem;
       margin-right: -1rem;
-      padding-bottom: 0.5rem;
 
       .toggle {
         position: absolute;

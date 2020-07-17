@@ -17,7 +17,7 @@
           :itemId="child.id"
         )
 
-        .column__item.w-100.text-center.pt-0(v-if="editing")
+        .column__item.w-100.text-center.pt-0(v-if="isEditing()")
           button.btn.btn-sm.btn-primary(@click="onAddItem()")
             span カラム追加
 
@@ -34,6 +34,7 @@
   import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
   import {ModuleEContainer} from "~/molle/editer/module/ModuleEContainer";
   import {ItemOptionInputProfile} from "~/molle/editer/module/item-option/Input.vue";
+  import {lsStore} from "~/utils/store-accessor";
 
   @Component({
     components: {ModuleEditorComp, StyleComp}
@@ -75,6 +76,7 @@
             value = [ref.id];
           }
           // console.log(value)
+          lsStore.updateEditing(ref.id);
           FirestoreMgr.itemUpdate(this.itemId!, {value: value});
         });
     }

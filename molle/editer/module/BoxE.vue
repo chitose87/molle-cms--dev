@@ -19,7 +19,7 @@
         :is="child.moduleId +'E'"
         :itemId="child.id"
       )
-      AddModule(v-if="editing" :added="onAddModule")
+      AddModule(v-if="isEditing()" :added="onAddModule")
       div(v-else-if="children.length==0")
         p.text-black-50 Not Item
         AddModule(:added="onAddModule")

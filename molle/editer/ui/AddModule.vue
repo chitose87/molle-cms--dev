@@ -13,6 +13,7 @@
   import {InitialValue} from "~/molle/editer/module";
   import {molleModules} from "~/molle/ssr/module";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
+  import {lsStore} from "~/utils/store-accessor";
 
   @Component({
     components: {}
@@ -37,6 +38,8 @@
         .then((ref: firebase.firestore.DocumentReference) => {
           // data.ref = ref;
           // Singleton.store.items[id] = data;
+
+          lsStore.updateEditing(ref.id);
           this.added!(ref);
         });
     }
