@@ -5,6 +5,7 @@
   )
     button.toggle.btn.btn-dark(
       @click="lsStore.updateEditing(itemData.id)"
+      :class="{outerFocus:$parent.$data.outerFocus}"
     ) X
     div.module-editor__body(v-if="$parent.isEditing()")
       b-icon.module-editor__arrow(icon="square-fill")
@@ -198,7 +199,7 @@
         left: 0;
         opacity: 0;
 
-        &:hover {
+        &:hover, &.outerFocus {
           opacity: 0.1;
         }
       }
