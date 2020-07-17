@@ -35,10 +35,10 @@ export class ModuleEContainer extends ModuleE {
   indexSwapChild(id: string) {
     let value = this.itemData!.value.concat();
 
-    console.log(this.children)
+    // console.log("indexSwapChild", id)
     for (let i = 0; i < this.children.length - 1; i++) {
       let child: any = this.children[i];
-      console.log(child.id, id)
+      // console.log(child.id, id)
       if (child.id == id) {
         this.children[i] = this.children[i + 1];
         this.children[i + 1] = child;
@@ -46,7 +46,7 @@ export class ModuleEContainer extends ModuleE {
         value[i] = value[i + 1];
         value[i + 1] = child.id;
 
-        console.log(value)
+        // console.log(value)
 
         this.$set(this, "children", this.children);
         FirestoreMgr.itemUpdate(this.itemId!, {value: value});
