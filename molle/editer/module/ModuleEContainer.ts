@@ -2,6 +2,8 @@ import firebase from "~/node_modules/firebase";
 import {ModuleE} from "~/molle/editer/module/ModuleE";
 import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
 import {InitialValue} from "~/molle/editer/module/index";
+import {IItemStoreData} from "~/molle/interface/ItemProfile";
+import {lsStore} from "~/utils/store-accessor";
 
 export class ModuleEContainer extends ModuleE {
   children = <{ id: string, moduleId: string }[]>[];
@@ -26,6 +28,17 @@ export class ModuleEContainer extends ModuleE {
           });
       }
     });
+  }
+
+  addChild(data: IItemStoreData) {
+    FirestoreMgr.itemsRef
+      .add(data)
+      .then((ref: firebase.firestore.DocumentReference) => {
+        console.log(this.itemData)
+        this.itemData!.value.push(ref.id);
+        FirestoreMgr.itemUpdate(this.itemId!, {value: this.itemData!.value});
+        lsStore.updateEditing(ref.id);
+      });
   }
 
   /**

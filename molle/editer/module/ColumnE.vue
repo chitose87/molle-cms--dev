@@ -18,7 +18,7 @@
         )
 
         .column__item.w-100.text-center.pt-0(v-if="isEditing()")
-          button.btn.btn-sm.btn-primary(@click="onAddItem()")
+          button.btn.btn-sm.btn-primary(@click="addChild(InitialValue.Box)")
             span カラム追加
 
 </template>
@@ -30,16 +30,15 @@
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
   import {InitialValue} from "~/molle/editer/module/index";
-  import * as firebase from "~/node_modules/firebase";
-  import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
   import {ModuleEContainer} from "~/molle/editer/module/ModuleEContainer";
   import {ItemOptionInputProfile} from "~/molle/editer/module/item-option/Input.vue";
-  import {lsStore} from "~/utils/store-accessor";
 
   @Component({
     components: {ModuleEditorComp, StyleComp}
   })
   export default class ColumnE extends ModuleEContainer {
+    InitialValue = InitialValue;
+
     itemOption = [
       new ItemOptionInputProfile({
         id: "flex-basis",
@@ -64,22 +63,6 @@
     }
 
     //Unique Methods
-    onAddItem() {
-      console.log("onAddItem")
-      firebase.firestore().collection(`items`)
-        .add(InitialValue.Box)
-        .then((ref) => {
-          let value;
-          if (Array.isArray(this.itemData!.value)) {
-            value = [...this.itemData!.value, ref.id];
-          } else {
-            value = [ref.id];
-          }
-          // console.log(value)
-          lsStore.updateEditing(ref.id);
-          FirestoreMgr.itemUpdate(this.itemId!, {value: value});
-        });
-    }
   }
 </script>
 

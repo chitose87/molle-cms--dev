@@ -19,7 +19,7 @@
         :is="child.moduleId +'E'"
         :itemId="child.id"
       )
-      AddModule(v-if="isEditing()" :added="onAddModule")
+      AddModule(v-if="isEditing()" @submit="addChild($event)")
       div(v-else-if="children.length==0")
         p.text-black-50 Not Item
         AddModule(:added="onAddModule")
@@ -63,21 +63,6 @@
     created() {
       // console.log("created", this.itemId!.id);
       this.init(InitialValue.Box);
-    }
-
-    onAddModule(ref: firebase.firestore.DocumentReference) {
-      let value;
-      // console.log(this.itemData!.value, Array.isArray(this.itemData!.value))
-      // console.log("----------------")
-      // console.log(Array.isArray(this.itemData!.value))
-      // console.log(this.itemData!.id, id)
-      if (Array.isArray(this.itemData!.value)) {
-        value = [...this.itemData!.value, ref.id];
-      } else {
-        value = [ref.id];
-      }
-      // console.log(value)
-      FirestoreMgr.itemUpdate(this.itemId!, {value: value});
     }
   }
 </script>

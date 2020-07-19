@@ -9,11 +9,9 @@
 
 <script lang="ts">
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
-  import * as firebase from "~/node_modules/firebase";
   import {InitialValue} from "~/molle/editer/module";
   import {molleModules} from "~/molle/ssr/module";
   import {IItemStoreData} from "~/molle/interface/ItemProfile";
-  import {lsStore} from "~/utils/store-accessor";
 
   @Component({
     components: {}
@@ -24,7 +22,6 @@
     molleModules = molleModules;
 
     pushModuleSelected = InitialValue.Paragraph.moduleId;
-    @Prop() added?: (ref: firebase.firestore.DocumentReference) => void;
 
     pushModule() {
       // @ts-ignore
@@ -33,15 +30,8 @@
         option: {}
       };
 
-      firebase.firestore().collection("items")
-        .add(data)
-        .then((ref: firebase.firestore.DocumentReference) => {
-          // data.ref = ref;
-          // Singleton.store.items[id] = data;
-
-          lsStore.updateEditing(ref.id);
-          this.added!(ref);
-        });
+      this.$emit("submit", data);
+      // this.submit!(data);
     }
   }
 </script>

@@ -10,6 +10,7 @@ import firebase from "firebase";
 import ItemOptionButton from "~/molle/editer/module/item-option/Button.vue";
 import ItemOptionInput from "~/molle/editer/module/item-option/Input.vue";
 import ColumnBoxE from "~/molle/editer/module/ColumnBoxE.vue";
+import CardE from "~/molle/editer/module/CardE.vue";
 
 export const molleEditerModules = {
   BoxE: BoxE,
@@ -17,55 +18,24 @@ export const molleEditerModules = {
   ColumnBoxE: ColumnBoxE,
   HeadlineE: HeadlineE,
   ParagraphE: ParagraphE,
+
+  CardE: CardE,
 };
 
 export const InitialValue = {
-  Box: {
-    moduleId: "Box",
-    value: [],
-    type: "children",
-    style: {},
-    class: {},
-    option: {},
-    createTime: firebase.firestore.FieldValue.serverTimestamp()
-  },
-  Column: {
-    moduleId: "Column",
-    value: [],
-    type: "children",
-    style: {},
-    class: {},
-    option: {},
-    createTime: firebase.firestore.FieldValue.serverTimestamp()
-  },
-  ColumnBox: {
-    moduleId: "Box",
-    value: [],
-    type: "children",
-    style: {},
-    class: {},
-    option: {},
-    createTime: firebase.firestore.FieldValue.serverTimestamp()
-  },
-  Headline: {
-    moduleId: "Headline",
-    value: "Lorem ipsum...",
-    type: "text",
+  Box: c("Box", "children"),
+
+  Column: c("Column", "children"),
+  ColumnBox: c("Box", "children"),
+
+  Headline: c("Headline", "text", {
     option: {
       lv: "h3"
-    },
-    style: {},
-    class: {},
-    createTime: firebase.firestore.FieldValue.serverTimestamp()
-  },
-  Paragraph: {
-    moduleId: "Paragraph",
-    value: "Lorem ipsum...",
-    type: "text",
-    style: {},
-    class: {},
-    createTime: firebase.firestore.FieldValue.serverTimestamp()
-  }
+    }
+  }),
+  Paragraph: c("Paragraph", "text"),
+
+  Card: c("Card", "group"),
 } as const;
 export type InitialValue = typeof InitialValue[keyof typeof InitialValue];
 
@@ -82,4 +52,38 @@ export function setMolleEditerModules() {
     // @ts-ignore
     Vue.component(key, molleEditerModules[key]);
   }
+}
+
+/**
+ * Create InitialValue
+ * @param moduleId
+ * @param type
+ * @param opt
+ */
+function c(moduleId: string, type: string, opt?: any) {
+  let v: any = {
+    moduleId: moduleId,
+    type: type,
+    style: {},
+    class: {},
+    option: {},
+    createTime: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  switch (type) {
+    case "children":
+      v.value = [];
+      break;
+    case "group":
+      v.value = {};
+      break;
+    case "text":
+      v.value = "Lorem ipsum...";
+      break;
+  }
+  if (opt) {
+    for (let key in opt) {
+      v[key] = opt[key];
+    }
+  }
+  return v;
 }
