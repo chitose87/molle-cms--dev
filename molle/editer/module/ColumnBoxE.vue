@@ -7,7 +7,7 @@
       v-if="itemData.moduleId"
       :class="{editing:isEditing()}"
     )
-      ModuleEditorComp(
+      ModuleEditorComp.module-editor--box(
         :itemOption="itemOption"
         :itemData="itemData"
         :valueProfile="valueProfile"

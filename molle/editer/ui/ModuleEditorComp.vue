@@ -178,7 +178,7 @@
       left: -0.5rem;
       width: 100%;
       height: 100%;
-      border: 0.5rem solid var(--teal);
+      border: 0.5rem solid var(--orange);
       border-radius: 0.5rem;
       box-sizing: content-box;
       pointer-events: none;
@@ -222,19 +222,33 @@
     }
 
     &__body {
-      background-color: var(--teal);
+      background-color: var(--orange);
       padding-bottom: 0.75rem;
       margin-bottom: 0.5rem;
       position: relative;
     }
 
     &__arrow {
-      color: var(--teal);
+      color: var(--orange);
       position: absolute;
       bottom: -0.5em;
       left: 2rem;
       transform: rotate(45deg);
       font-size: 11px;
+    }
+
+    &--box {
+      &:before {
+        border-color: var(--teal);
+      }
+
+      .module-editor__body {
+        background-color: var(--teal);
+      }
+
+      .module-editor__arrow {
+        color: var(--teal);
+      }
     }
   }
 </style>
