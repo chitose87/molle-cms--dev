@@ -27,13 +27,15 @@ export default class lsStore extends VuexModule {
   // }
 
   @Mutation
-  updateEditing(id: string) {
-    let i = this.editing.indexOf(id);
-    if (i == -1) {
-      this.editing.push(id);
-    } else {
-      this.editing.splice(i, 1);
+  updateEditing(arg: { id: string, flag?: boolean }) {
+    let i = this.editing.indexOf(arg.id);
+    if (i >= 0) this.editing.splice(i, 1);
+
+    if (arg.flag === false) {
+    } else if (i == -1 || arg.flag === true) {
+      this.editing.push(arg.id);
     }
+
     localStorage.setItem(lsStore.prefix + "editing", JSON.stringify(this.editing));
   }
 }

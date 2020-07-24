@@ -4,7 +4,7 @@
     :title="itemData?itemData.moduleId+'/'+itemData.id:''"
   )
     button.toggle.btn.btn-dark(
-      @click="lsStore.updateEditing(itemData.id)"
+      @click="lsStore.updateEditing({id:itemData.id})"
       :class="{outerFocus:$parent.$data.outerFocus}"
     ) X
     div.module-editor__body(v-if="$parent.isEditing()")

@@ -37,7 +37,7 @@ export class ModuleEContainer extends ModuleE {
         console.log(this.itemData)
         this.itemData!.value.push(ref.id);
         FirestoreMgr.itemUpdate(this.itemId!, {value: this.itemData!.value});
-        lsStore.updateEditing(ref.id);
+        lsStore.updateEditing({id: ref.id});
       });
   }
 
