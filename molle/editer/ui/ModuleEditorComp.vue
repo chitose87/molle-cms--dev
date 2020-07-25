@@ -64,13 +64,16 @@
         input(v-if="data.type === 'number'" type="number" v-model="data.value" )
         textarea(v-if="data.type === 'html'" v-model="data.value" )
 
-        div(v-if="data.type === 'img'" :func="typeof data.value=='object'?false:data.value={}")
-          label src:
-            input(type="text" v-model="data.value.src" )
-          label sp:
-            input(type="text" v-model="data.value.sp" )
-          label alt:
-            input(type="text" v-model="data.value.alt" )
+        div.form-inline(v-if="data.type === 'picture'")
+          label.mr-2 src:
+            input.form-control.form-control-sm(type="text" v-model="data.value.src" )
+          label.mr-2 sp:
+            input.form-control.form-control-sm(type="text" v-model="data.value.sp" )
+          label.mr-2 alt:
+            input.form-control.form-control-sm(type="text" v-model="data.value.alt" )
+
+          a.btn.btn-secondary.btn-sm(href="https://console.firebase.google.com/project/"+process.env.projectId+"/storage/"+process.env.storageBucket+"/files~2Fimages?hl=ja" target="_blank")
+            span Storage
 
 
 </template>

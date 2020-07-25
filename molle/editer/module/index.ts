@@ -11,6 +11,7 @@ import ItemOptionButton from "~/molle/editer/module/item-option/Button.vue";
 import ItemOptionInput from "~/molle/editer/module/item-option/Input.vue";
 import ColumnBoxE from "~/molle/editer/module/ColumnBoxE.vue";
 import CardE from "~/molle/editer/module/CardE.vue";
+import PictureE from "~/molle/editer/module/PictureE.vue";
 
 export const molleEditerModules = {
   BoxE: BoxE,
@@ -18,6 +19,7 @@ export const molleEditerModules = {
   ColumnBoxE: ColumnBoxE,
   HeadlineE: HeadlineE,
   ParagraphE: ParagraphE,
+  PictureE: PictureE,
 
   CardE: CardE,
 };
@@ -34,6 +36,7 @@ export const InitialValue = {
     }
   }),
   Paragraph: c("Paragraph", "text"),
+  Picture: c("Picture", "picture"),
 
   Card: c("Card", "group"),
 } as const;
@@ -74,6 +77,7 @@ function c(moduleId: string, type: string, opt?: any) {
       v.value = [];
       break;
     case "group":
+    case "picture":
       v.value = {};
       break;
     case "text":

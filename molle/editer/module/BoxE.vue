@@ -8,7 +8,7 @@
       :itemData="itemData"
       :valueProfile="valueProfile"
       :styleProfile="styleProfile"
-      )
+    )
 
     .box(
       :class="getClass(itemData)"
@@ -23,7 +23,7 @@
       AddModule(v-if="isEditing()" @submit="addChild($event)")
       div(v-else-if="children.length==0")
         p.text-black-50 Not Item
-        AddModule(:added="onAddModule")
+        AddModule(@submit="addChild($event)")
 
 </template>
 

@@ -3,13 +3,18 @@
     v-if="itemData.moduleId"
     :class="{editing:isEditing()}"
   )
-    ModuleEditorComp(
+    ModuleEditorComp.module-editor--box(
       :itemData="itemData"
       :valueProfile="valueProfile"
       :styleProfile="styleProfile")
     .card(
       :class="getClass(itemData)"
     )
+
+      PictureE(
+        v-if="itemData.value.Picture"
+        :itemId="itemData.value.Picture"
+      )
 
       HeadlineE(
         v-if="itemData.value.Headline"
@@ -55,7 +60,11 @@
         let v: any = {};
 
         let flag: boolean = false;
-        for (let iv of [InitialValue.Headline, InitialValue.Paragraph]) {
+        for (let iv of [
+          InitialValue.Picture,
+          InitialValue.Headline,
+          InitialValue.Paragraph
+        ]) {
           if (!this.itemData.value[iv.moduleId]) {
             v[iv.moduleId] = FirestoreMgr.itemsRef.doc().id;
             flag = true;
