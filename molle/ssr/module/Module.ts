@@ -26,6 +26,11 @@ export class Module extends Vue {
           break;
       }
     }
+    if (data.tagClass) {
+      for (let v of data.tagClass.split(" ")) {
+        obj[v] = true;
+      }
+    }
     return obj;
   }
 

@@ -11,6 +11,7 @@
     )
 
     .box(
+      :id="itemData.tagId"
       :class="getClass(itemData)"
     )
       component(

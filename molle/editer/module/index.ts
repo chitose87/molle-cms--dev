@@ -67,6 +67,8 @@ function c(moduleId: string, type: string, opt?: any) {
   let v: any = {
     moduleId: moduleId,
     type: type,
+    tagId: "",
+    tagClass: "",
     style: {},
     class: {},
     option: {},
@@ -77,8 +79,10 @@ function c(moduleId: string, type: string, opt?: any) {
       v.value = [];
       break;
     case "group":
-    case "picture":
       v.value = {};
+      break;
+    case "picture":
+      v.value = {src: "https://placehold.jp/150x150.png"};
       break;
     case "text":
       v.value = "Lorem ipsum...";

@@ -19,6 +19,14 @@
         //名前
         input.form-control.form-control-sm.mr-3(type="text" v-model="data.name" @change="update2('name')" placeholder="Name")
 
+        //ID
+        label id=
+          input.form-control.form-control-sm.mr-3(type="text" v-model="data.tagId" @change="update2('tagId')" placeholder="id")
+
+        //クラス
+        label class=
+          input.form-control.form-control-sm.mr-3(type="text" v-model="data.tagClass" @change="update2('tagClass')" placeholder="css class")
+
         span.mr-1.text-white(v-html="itemData.id")
 
         //削除
