@@ -13,6 +13,9 @@ export class ModuleE extends Module {
 
   //itemData: IItemStoreData = {};
   @Prop() itemId?: string;
+  @Prop() notDeleted?: boolean;
+  @Prop() required?: boolean;
+
   editing: boolean = false;
   focus: boolean = false;
   outerFocus: boolean = false;
@@ -74,6 +77,7 @@ export class ModuleE extends Module {
   }
 
   deleteModule() {
+    console.log("deleteModule", this);
     let parent: any = this.$parent;
     if (parent.deleteChild) {
       parent.deleteChild(this.itemId!);

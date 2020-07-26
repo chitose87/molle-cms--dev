@@ -38,7 +38,7 @@ export const InitialValue = {
   Paragraph: c("Paragraph", "text"),
   Picture: c("Picture", "picture"),
 
-  Card: c("Card", "group"),
+  Group: (moduleId: string) => c(moduleId, "group"),
 } as const;
 export type InitialValue = typeof InitialValue[keyof typeof InitialValue];
 

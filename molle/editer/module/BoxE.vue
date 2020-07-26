@@ -30,13 +30,11 @@
 
 <script lang="ts">
   import {Component, Prop, Watch} from "~/node_modules/nuxt-property-decorator";
-  import firebase from "~/node_modules/firebase";
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
   import {StyleProfile} from "~/molle/interface/StyleProfile";
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
   import {ModuleEContainer} from "~/molle/editer/module/ModuleEContainer";
-  import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
   import {InitialValue} from "~/molle/editer/module/index";
   import AddModule from "~/molle/editer/ui/AddModule.vue";
 

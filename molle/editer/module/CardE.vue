@@ -8,22 +8,24 @@
       :valueProfile="valueProfile"
       :styleProfile="styleProfile")
     .card(
+      :id="itemData.tagId"
       :class="getClass(itemData)"
     )
 
       PictureE(
-        v-if="itemData.value.Picture"
-        :itemId="itemData.value.Picture"
+        :itemId="getMemberItemId('img')"
+        :notDeleted="true"
+        :required="true"
       )
 
       HeadlineE(
-        v-if="itemData.value.Headline"
-        :itemId="itemData.value.Headline"
+        :itemId="getMemberItemId('title')"
+        :notDeleted="true"
       )
 
       ParagraphE(
-        v-if="itemData.value.Paragraph"
-        :itemId="itemData.value.Paragraph"
+        :itemId="getMemberItemId('description')"
+        :notDeleted="true"
       )
 
 </template>
@@ -33,15 +35,14 @@
   import StyleComp from "~/molle/editer/ui/StyleComp.vue";
   import {StyleAlign, StyleProfile} from "~/molle/interface/StyleProfile";
   import {ValueProfile, ValueType} from "~/molle/interface/ValueProfile";
-  import {ModuleE} from "~/molle/editer/module/ModuleE";
   import ModuleEditorComp from "~/molle/editer/ui/ModuleEditorComp.vue";
   import {InitialValue} from "~/molle/editer/module/index";
-  import {FirestoreMgr} from "~/molle/editer/FirestoreMgr";
+  import {ModuleEGroup} from "~/molle/editer/module/ModuleEGroup";
 
   @Component({
     components: {ModuleEditorComp, StyleComp}
   })
-  export default class CardE extends ModuleE {
+  export default class CardE extends ModuleEGroup {
     //value setting
     valueProfile: ValueProfile = new ValueProfile({
       types: [ValueType.children]
@@ -56,24 +57,7 @@
     });
 
     created() {
-      this.init(InitialValue.Card, () => {
-        let v: any = {};
-
-        let flag: boolean = false;
-        for (let iv of [
-          InitialValue.Picture,
-          InitialValue.Headline,
-          InitialValue.Paragraph
-        ]) {
-          if (!this.itemData.value[iv.moduleId]) {
-            v[iv.moduleId] = FirestoreMgr.itemsRef.doc().id;
-            flag = true;
-          }
-        }
-        if (flag) {
-          FirestoreMgr.itemsRef.doc(this.itemId).update({value: v});
-        }
-      });
+      this.init(InitialValue.Group("Card"));
     }
 
     //Unique Methods

@@ -2,6 +2,7 @@
   .module-editor(
     :status="$parent.isEditing()?'show':'hidden'"
     :outerFocus="$parent.$data.outerFocus"
+    :notExport="data.notExport"
     :title="itemData?itemData.moduleId+'/'+itemData.id:''"
     @mouseover="focus(true)"
     @mouseleave="focus(false)"
@@ -11,6 +12,14 @@
     ) X
     div.module-editor__body(v-if="$parent.isEditing()")
       b-icon.module-editor__arrow(icon="square-fill")
+
+      button.btn.module-editor__notExport(
+        v-if="!$parent.required"
+        @click="update2('notExport',!data.notExport)"
+      )
+        b-icon(icon="eye-slash-fill" v-if="data.notExport")
+        b-icon(icon="eye-fill" v-else)
+
       div.form-inline.mb-1
         //入れ替え
         button.btn.btn-sm.btn-secondary.mr-2.module-editor__swap-btn(@click="$parent.indexSwap()")
@@ -39,7 +48,10 @@
         span.mr-1.text-white(v-html="itemData.id")
 
         //削除
-        button.btn.btn-sm.btn-danger.mr-3(@click="$parent.deleteModule()") 削除
+        button.btn.btn-sm.btn-danger.mr-3(
+          v-if="!$parent.notDeleted"
+          @click="$parent.deleteModule()"
+        ) 削除
 
         // todo visible 設定を足す
       div.mb-1.form-inline
@@ -183,10 +195,14 @@
       FirestoreMgr.itemUpdate(this.itemData!.id, update)
     }
 
-    update2(key: string) {
+    update2(key: string, forceValue?: any) {
       let update: any = {};
-      //@ts-ignore
-      update[key] = this.data[key];
+      if (forceValue || forceValue === false) {
+        update[key] = forceValue;
+      } else {
+        //@ts-ignore
+        update[key] = this.data[key];
+      }
       FirestoreMgr.itemUpdate(this.itemData!.id, update);
     }
   }
@@ -208,6 +224,7 @@
     }
 
     //z-index: $zindex-fixed - 1;
+
 
     &[status=hidden] {
       &:before {
@@ -268,6 +285,13 @@
       left: 2rem;
       transform: rotate(45deg);
       font-size: 11px;
+    }
+
+    &__notExport {
+      position: absolute;
+      top: 2rem;
+      right: -0.5rem;
+      z-index: 1;
     }
 
     &--box {
