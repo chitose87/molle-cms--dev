@@ -6,6 +6,7 @@ export interface IStyleStoreData {
   ref?: firebase.firestore.DocumentReference;
 
   border?: boolean
+  container?: boolean
   align?: string
   theme?: string
   color?: string
@@ -22,6 +23,7 @@ export class StyleProfile {
 
   constructor(opt: {
     border?: boolean,
+    container?: boolean,
     align?: StyleAlign,
     theme?: { default: string, select: string[] },
     color?: { default: string, select: string[] },

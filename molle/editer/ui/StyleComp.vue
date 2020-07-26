@@ -14,6 +14,12 @@
           select.form-control.form-control-sm(v-model="data.class.color")
             option(v-for="color in styleProfile.colorCollection" :val="color" v-html="color")
 
+      //container
+      span.mr-3(v-if="styleProfile.permission.container")
+        label
+          span.mr-1 container:
+          input.form-control.form-control-sm(v-model="data.class.container" type="checkbox")
+
       //Border
       span.mr-3(v-if="styleProfile.permission.border")
         label

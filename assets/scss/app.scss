@@ -1,10 +1,10 @@
 /** hoe **/
 
-$input-color:$body-color;
-$input-placeholder-color:$gray-400;
+$input-color: $body-color;
+$input-placeholder-color: $gray-400;
 
 $grid-columns: 12;
-$grid-gutter-width: 1rem;
+$grid-gutter-width: 1.5rem;
 $grid-row-columns: 6;
 
 $spacers: ();
@@ -93,7 +93,7 @@ h6, .h6 {
   }
 }
 
-.module{
+.module {
   margin-top: 3rem;
   margin-bottom: 3rem;
 }

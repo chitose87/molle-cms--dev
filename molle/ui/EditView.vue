@@ -1,10 +1,9 @@
 <template lang="pug">
   .editView
-    .container
-      BoxE(
-        v-if="pageData.main"
-        :itemId="pageData.main"
-      )
+    BoxE(
+      v-if="pageData.main"
+      :itemId="pageData.main"
+    )
       //BoxE(
       //  v-if="children.main && children.main.ref"
       //  :itemId="children.main"

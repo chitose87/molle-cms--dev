@@ -48,7 +48,6 @@
       // new ItemOptionAddModuleProfile({
       //   added: this.onAddModule
       // })
-      // todo:containerクラス
     ];
     //value setting
     valueProfile: ValueProfile = new ValueProfile({
@@ -57,6 +56,7 @@
 
     //style setting
     styleProfile: StyleProfile = new StyleProfile({
+      container: true,
       border: false,
       // theme: {default: "", select: ["", "test"]},
       // color: {default: "", select: ["", "dark"]},
