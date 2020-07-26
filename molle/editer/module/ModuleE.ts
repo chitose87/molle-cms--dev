@@ -14,6 +14,7 @@ export class ModuleE extends Module {
   //itemData: IItemStoreData = {};
   @Prop() itemId?: string;
   editing: boolean = false;
+  focus: boolean = false;
   outerFocus: boolean = false;
 
   valueProfile?: ValueProfile;
@@ -51,6 +52,7 @@ export class ModuleE extends Module {
         }
         if (!snap.exists) {
           FirestoreMgr.itemsRef.doc(this.itemId).set(initialValue);
+          lsStore.updateEditing({id: this.itemId!, flag: true});
           return;
         }
         let itemData: any = snap.data();

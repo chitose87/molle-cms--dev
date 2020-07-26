@@ -1,11 +1,13 @@
 <template lang="pug">
   .module-editor(
     :status="$parent.isEditing()?'show':'hidden'"
+    :outerFocus="$parent.$data.outerFocus"
     :title="itemData?itemData.moduleId+'/'+itemData.id:''"
+    @mouseover="focus(true)"
+    @mouseleave="focus(false)"
   )
     button.toggle.btn.btn-dark(
       @click="lsStore.updateEditing({id:itemData.id})"
-      :class="{outerFocus:$parent.$data.outerFocus}"
     ) X
     div.module-editor__body(v-if="$parent.isEditing()")
       b-icon.module-editor__arrow(icon="square-fill")
@@ -17,15 +19,22 @@
         b(v-html="itemData.moduleId")
 
         //名前
-        input.form-control.form-control-sm.mr-3(type="text" v-model="data.name" @change="update2('name')" placeholder="Name")
+        label.mr-2
+          .u_auto-input
+            span.u_auto-input__static.form-control.form-control-sm(v-html="data.name || 'name'")
+            input.u_auto-input__input.form-control.form-control-sm(type="text" v-model="data.name" @change="update2('name')" placeholder="Name")
 
         //ID
-        label id=
-          input.form-control.form-control-sm.mr-3(type="text" v-model="data.tagId" @change="update2('tagId')" placeholder="id")
+        label.mr-2 id
+          .u_auto-input
+            span.u_auto-input__static.form-control.form-control-sm(v-html="data.tagId || 'id'")
+            input.u_auto-input__input.form-control.form-control-sm(type="text" v-model="data.tagId" @change="update2('tagId')" placeholder="id")
 
         //クラス
-        label class=
-          input.form-control.form-control-sm.mr-3(type="text" v-model="data.tagClass" @change="update2('tagClass')" placeholder="css class")
+        label.mr-2 class
+          .u_auto-input
+            span.u_auto-input__static.form-control.form-control-sm(v-html="data.tagClass || 'class'")
+            input.u_auto-input__input.form-control.form-control-sm(type="text" v-model="data.tagClass" @change="update2('tagClass')" placeholder="class")
 
         span.mr-1.text-white(v-html="itemData.id")
 
@@ -80,7 +89,7 @@
           label.mr-2 alt:
             input.form-control.form-control-sm(type="text" v-model="data.value.alt" )
 
-          a.btn.btn-secondary.btn-sm(href="https://console.firebase.google.com/project/"+process.env.projectId+"/storage/"+process.env.storageBucket+"/files~2Fimages?hl=ja" target="_blank")
+          a.btn.btn-secondary.btn-sm(href="https://console.firebase.google.com/project/" + process.env.projectId + "/storage/" + process.env.storageBucket + "/files~2Fimages?hl=ja" target="_blank")
             span Storage
 
 
@@ -112,6 +121,9 @@
     extendsList: { [key: string]: IItemStoreData } = {};
     lsStore = lsStore;
 
+    focus(flag: boolean) {
+      this.$parent.$data.focus = flag;
+    }
 
     created() {
       this.changeItemData();
@@ -210,7 +222,13 @@
         left: 0;
         opacity: 0;
 
-        &:hover, &.outerFocus {
+        &:hover {
+          opacity: 0.1;
+        }
+      }
+
+      &[outerFocus] {
+        .toggle {
           opacity: 0.1;
         }
       }
@@ -229,6 +247,10 @@
         top: -0.5rem;
         right: -0.5rem;
         z-index: 1;
+      }
+
+      &[outerFocus] {
+        opacity: 0.5;
       }
     }
 
@@ -259,6 +281,24 @@
 
       .module-editor__arrow {
         color: var(--teal);
+      }
+    }
+
+    //.u_auto-input
+    .u_auto-input {
+      position: relative;
+      display: inline-block;
+
+      &__static {
+        visibility: hidden;
+        text-indent: 0.5em;
+      }
+
+      &__input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
       }
     }
   }

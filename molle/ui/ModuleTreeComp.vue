@@ -3,8 +3,10 @@
     button(@click="toggle=!toggle") 構造／Structure
     b-sidebar(v-model="toggle" title="構造／Structure")
       .list-group(v-if="toggle")
-        .list-group-item.list-group-item-action(v-for="item in getTree()")
-          ModuleTreeItemComp(:vueRef="item")
+        ModuleTreeItemComp.pr-3(
+          v-for="item in getTree()"
+          :vueRef="item"
+        )
 
 </template>
 

@@ -1,5 +1,7 @@
 <template lang="pug">
-  .module-tree-item-comp
+  .module-tree-item-comp.list-group-item.list-group-item-action.pr-0.border-right-0(
+    :focus="vueRef.$data.focus"
+  )
     .d-flex.justify-content-between
       button.btn.btn-sm.btn-outline-secondary(
         @mouseover="focus(true)"
@@ -23,8 +25,10 @@
         span & Children
 
     .list-group.mt-3(v-if="tree.length")
-      .list-group-item.list-group-item-action.pr-0.border-right-0(v-for="item in tree")
-        ModuleTreeItemComp(:vueRef="item")
+      ModuleTreeItemComp(
+        v-for="item in tree"
+        :vueRef="item"
+      )
 
 </template>
 
@@ -65,9 +69,6 @@
 
     focus(flag: boolean) {
       this.vueRef!.outerFocus = flag;
-      // if (this.moduleEditor) {
-      //   this.moduleEditor.$data.outerFocus = flag;
-      // }
     }
 
     updateEditingFamily(flag: boolean) {
@@ -90,4 +91,9 @@
 </script>
 
 <style lang="scss">
+  .module-tree-item-comp {
+    &[focus] {
+      background-color: $light;
+    }
+  }
 </style>
