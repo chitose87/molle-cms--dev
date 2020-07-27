@@ -7,6 +7,7 @@
       :itemData="itemData"
       :valueProfile="valueProfile"
       :styleProfile="styleProfile")
+
     .card(
       :id="itemData.tagId"
       :class="getClass(itemData)"
@@ -45,7 +46,7 @@
   export default class CardE extends ModuleEGroup {
     //value setting
     valueProfile: ValueProfile = new ValueProfile({
-      types: [ValueType.children]
+      types: [ValueType.group]
     });
 
     //style setting
