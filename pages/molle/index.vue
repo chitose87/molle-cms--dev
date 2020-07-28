@@ -61,5 +61,37 @@
 </script>
 
 <style lang="scss">
+  .bootstrap {
+    //$input-color: $body-color;
+    //$input-placeholder-color: $gray-400;
 
+    //$grid-columns: 12;
+    //$grid-gutter-width: 1.5rem;
+    //$grid-row-columns: 6;
+    //
+    //$spacers: ();
+    //$spacers: map-merge(
+    //    (
+    //      0: 0,
+    //      1: ($spacer * .25),
+    //      2: ($spacer * .5),
+    //      3: $spacer,
+    //      4: ($spacer * 1.5),
+    //      5: ($spacer * 3),
+    //      6: ($spacer * 4),
+    //      7: ($spacer * 5),
+    //      8: ($spacer * 6),
+    //      9: ($spacer * 7),
+    //      10: ($spacer * 8),
+    //    ),
+    //    $spacers
+    //);
+
+    @import '~bootstrap/scss/bootstrap';
+    @import '~bootstrap-vue/src/index.scss';
+
+    @each $color, $value in $colors {
+      @include bg-variant(".bg-#{$color}", $value, true);
+    }
+  }
 </style>

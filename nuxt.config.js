@@ -29,6 +29,9 @@ export default {
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ]
   },
+  env: {
+    hoge: '#F00',
+  },
   /*
   ** Customize the progress-bar color
   */
@@ -69,7 +72,7 @@ export default {
   },
   styleResources: {
     scss: [
-      '~/assets/scss/_variables.scss',
+      '~/assets/scss/variables/_index.scss',
     ]
   },
   /*

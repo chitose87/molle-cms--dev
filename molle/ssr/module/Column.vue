@@ -29,12 +29,12 @@
     .column {
       display: flex;
       flex-wrap: wrap;
-      margin: -$grid-gutter-width;
+      //margin: -$grid-gutter-width;
 
       &__item {
         flex-grow: 0;
         flex-shrink: 1;
-        padding: $grid-gutter-width;
+        //padding: $grid-gutter-width;
       }
     }
 
@@ -44,8 +44,8 @@
     }
 
     .dark {
-      background-color: $black;
-      color: $white;
+      background-color: $color-black;
+      color: $color-white;
     }
   }
 </style>

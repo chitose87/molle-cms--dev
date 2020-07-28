@@ -1,5 +1,5 @@
 <template lang="pug">
-  .module-tree-comp
+  .module-tree-comp.bootstrap
     button(@click="toggle=!toggle") 構造／Structure
     b-sidebar(v-model="toggle" title="構造／Structure")
       .list-group(v-if="toggle")
@@ -41,6 +41,6 @@
     top: 0;
     left: 0;
 
-    z-index: $zindex-fixed;
+    //z-index: $zindex-fixed;
   }
 </style>

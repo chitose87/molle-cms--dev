@@ -1,5 +1,5 @@
 <template lang="pug">
-  .module-editor(
+  .bootstrap.module-editor(
     :status="$parent.isEditing()?'show':'hidden'"
     :outerFocus="$parent.$data.outerFocus"
     :notExport="data.notExport"
@@ -217,7 +217,7 @@
       left: -0.5rem;
       width: 100%;
       height: 100%;
-      border: 0.5rem solid var(--orange);
+      border: 0.5rem solid $color-orange;
       border-radius: 0.5rem;
       box-sizing: content-box;
       pointer-events: none;
@@ -272,7 +272,7 @@
     }
 
     &__body {
-      background-color: var(--orange);
+      background-color: $color-orange;
       padding-bottom: 0.75rem;
       margin-bottom: 0.5rem;
       position: relative;

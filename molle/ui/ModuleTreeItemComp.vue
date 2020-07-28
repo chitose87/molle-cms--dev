@@ -93,7 +93,7 @@
 <style lang="scss">
   .module-tree-item-comp {
     &[focus] {
-      background-color: $light;
+      background-color: $color-gray-100;
     }
   }
 </style>

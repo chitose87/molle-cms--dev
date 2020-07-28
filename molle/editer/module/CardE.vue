@@ -67,6 +67,6 @@
 
 <style lang="scss">
   .card {
-    box-shadow: $box-shadow;
+    box-shadow: $shadow;
   }
 </style>

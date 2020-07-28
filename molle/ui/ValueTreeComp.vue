@@ -48,6 +48,7 @@
 </script>
 
 <style lang="scss">
+  @import '~/assets/scss/bootstrap-var.scss';
   .value-tree-comp {
     position: fixed;
     top: 0;

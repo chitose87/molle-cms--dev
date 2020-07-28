@@ -1,66 +1,31 @@
-/** hoe **/
+@import "variables/index";
 
-$input-color: $body-color;
-$input-placeholder-color: $gray-400;
+// Do not forget to update getting-started/theming.md!
+:root {
+  // Custom variable values only support SassScript inside `#{}`.
+  @each $color, $value in $colors {
+    --#{$color}: #{$value};
+  }
 
-$grid-columns: 12;
-$grid-gutter-width: 1.5rem;
-$grid-row-columns: 6;
+  @each $color, $value in $theme-colors {
+    --#{$color}: #{$value};
+  }
 
-$spacers: ();
-$spacers: map-merge(
-    (
-      0: 0,
-      1: ($spacer * .25),
-      2: ($spacer * .5),
-      3: $spacer,
-      4: ($spacer * 1.5),
-      5: ($spacer * 3),
-      6: ($spacer * 4),
-      7: ($spacer * 5),
-      8: ($spacer * 6),
-      9: ($spacer * 7),
-      10: ($spacer * 8),
-    ),
-    $spacers
-);
+  //@each $bp, $value in $grid-breakpoints {
+  //  --breakpoint-#{$bp}: #{$value};
+  //}
 
-@import '~bootstrap/scss/bootstrap';
-@import '~bootstrap-vue/src/index.scss';
-
-@each $color, $value in $colors {
-  @include bg-variant(".bg-#{$color}", $value, true);
+  // Use `inspect` for lists so that quoted items keep the quotes.
+  // See https://github.com/sass/sass/issues/2383#issuecomment-336349172
+  //--font-family-sans-serif: #{inspect($font-family-sans-serif)};
+  //--font-family-monospace: #{inspect($font-family-monospace)};
 }
 
-h1, .h1 {
-  margin-top: 4rem;
-  margin-bottom: 3.5rem
-}
-
-h2, .h2 {
-  margin-top: 3.5rem;
-  margin-bottom: 3rem
-}
-
-h3, .h3 {
-  margin-top: 3rem;
-  margin-bottom: 2.5rem
-}
-
-h4, .h4 {
-  margin-top: 2.5rem;
-  margin-bottom: 2rem
-}
-
-h5, .h5 {
-  margin-top: 2rem;
-  margin-bottom: 1.5rem
-}
-
-h6, .h6 {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem
-}
+@import "reboot-custom";
+@import "animation";
+@import "font-style";
+@import "button-style";
+//@import "grid";
 
 .isPc {
   @include mediaquery-sm {
@@ -71,25 +36,6 @@ h6, .h6 {
 .isSp {
   @include mediaquery-not-sm {
     display: none;
-  }
-}
-
-.resize-h {
-  resize: horizontal;
-}
-
-.a-rolling {
-  animation: a-rolling 1s linear 0s infinite forwards running;
-  @keyframes a-rolling {
-    0% {
-      transform: rotate(0);
-    }
-    50% {
-      transform: rotate(180deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
   }
 }
 

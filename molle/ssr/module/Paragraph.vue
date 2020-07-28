@@ -25,8 +25,8 @@
     }
 
     .dark {
-      background-color: $black;
-      color: $white;
+      background-color: $color-black;
+      color: $color-white;
     }
   }
 </style>
