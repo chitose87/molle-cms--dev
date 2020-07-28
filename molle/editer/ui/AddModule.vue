@@ -1,6 +1,6 @@
 <template lang="pug">
-  .add-module.form-inline
-    form(@submit.prevent @submit="pushModule()")
+  .bootstrap.add-module
+    form.form-inline(@submit.prevent @submit="pushModule()")
       select.form-control.form-control-sm(v-model="pushModuleSelected")
         option(v-for="(item,key) in molleModules" :value="key" v-html="key")
       button.btn.btn-primary.btn-sm(type="submit") Module追加
