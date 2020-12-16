@@ -1,25 +1,19 @@
-# molle-cms--dev
+# sch-ttb-timber-coop
 
-> My pioneering Nuxt.js project
+## セッティング
+npm i
+firebase init
 
-## Build Setup
+## 開発
+npm run dev
 
-```bash
-# install dependencies
-$ npm install
+## 公開作業
+npm run build
 
-* Node.js version 10.x?
+### 動作確認
+firebase serve
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+### アップロード
+firebase deploy
 
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run gen
-```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
-
+### プラグイン

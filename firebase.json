@@ -1,14 +1,21 @@
 {
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
+  "functions": {
+    "functions": {
+      "source": "functions"
+    }
   },
   "hosting": {
-    "public": "dist",
+    "public": "static",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "ssr"
+      }
     ]
   }
 }

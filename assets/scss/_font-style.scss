@@ -7,104 +7,64 @@ html, :root {
   font-feature-settings: "palt";
   -webkit-font-feature-settings: "palt";
 
-  font-size: 16px; //=1rem
+  font-size: $rem;
   line-height: 1.75;
   //letter-spacing: 0.06em;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
 em {
   //color: $color-orange;
 }
 
-//input, textarea {
-//  font-family: sans-serif !important;
-//}
-
-.page-header {
-  padding-bottom: 0.2em;
-  border-bottom: 1px solid $color-border;
-}
-
 .caption {
-  color: $color-gray-600;
+  color: $color-gray-500;
   font-size: 14px;
   line-height: 1.5;
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
 }
 
-//.label, [class^="label--"] {
-//  display: inline-block;
-//  background-color: $color-white;
-//  color: $color-gray;
-//  font-size: 16px;
-//  line-height: 1.25;
-//  border-radius: 4px;
-//  border: 1px solid $color-gray;
-//  padding: 6px 8px 4px;
-//  margin-right: 0.25em;
-//  margin-bottom: 0.5rem;
-//}
-//
-//.label {
-//  &--important, &--new {
-//    border-color: $color-red;
-//    color: $color-red;
-//  }
-//
-//  &--emphasis {
-//    border-color: $color-brown;
-//    color: $color-brown;
-//  }
-//
-//  &-s {
-//    line-height: 1;
-//    padding: 2px;
-//    vertical-align: middle;
-//    border-radius: 2px;
-//    font-size: 11px;
-//    margin-bottom: 0;
-//  }
-//}
-
-//.badge {
-//  display: inline-block;
-//  height: 32px;
-//  min-width: 32px;
-//  margin-right: 2px;
-//
-//  img {
-//    width: auto;
-//    height: 100%;
-//  }
-//}
-
 h1, .h1 {
   margin-top: 4rem;
-  margin-bottom: 3.5rem
+  margin-bottom: 3.5rem;
+  font-weight: 500;
+  font-size: 40px;
 }
 
 h2, .h2 {
   margin-top: 3.5rem;
-  margin-bottom: 3rem
+  margin-bottom: 3rem;
+  font-weight: 500;
+  font-size: 32px;
 }
 
 h3, .h3 {
+  font-family: 'Noto Sans JP', sans-serif;
   margin-top: 3rem;
-  margin-bottom: 2.5rem
+  margin-bottom: 2.5rem;
+  font-weight: 500;
+  font-size: 26px;
+
 }
 
 h4, .h4 {
   margin-top: 2.5rem;
-  margin-bottom: 2rem
+  margin-bottom: 2rem;
+  font-weight: 500;
+  font-size: 22px;
 }
 
 h5, .h5 {
   margin-top: 2rem;
-  margin-bottom: 1.5rem
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  font-size: 18px;
 }
 
 h6, .h6 {
   margin-top: 1.5rem;
-  margin-bottom: 1rem
+  margin-bottom: 1rem;
+  font-weight: 500;
+  font-size: $rem;
 }

@@ -1,36 +1,31 @@
 {
-  "name": "molle-cms--dev",
+  "name": "molle-cms",
   "version": "1.0.0",
-  "description": "My pioneering Nuxt.js project",
-  "author": "chitose87",
   "private": true,
   "scripts": {
     "dev": "nuxt-ts",
-    "build": "nuxt-ts build",
-    "gen": "nuxt-ts generate",
+    "build": "nuxt-ts build && npm run build:copy:ssr",
+    "build:copy:ssr": "rimraf functions/ssr && mkdirp functions/ssr && cp -R .nuxt/dist functions/ssr/dist",
     "start": "nuxt-ts start",
-    "srv": "http-server ./dist"
+    "gen": "nuxt-ts generate"
   },
   "dependencies": {
-    "@nuxt/typescript-runtime": "^0.4.0",
-    "@nuxtjs/dotenv": "^1.4.0",
-    "nuxt": "^2.0.0",
-    "bootstrap": "^4.1.3",
-    "bootstrap-vue": "^2.0.0",
-    "vuex": "^3.1.3"
+    "@nuxt/typescript-runtime": "^2.0.0",
+    "core-js": "^3.7.0",
+    "nuxt": "^2.14.7"
   },
   "devDependencies": {
-    "@nuxt/typescript-build": "^0.6.0",
+    "@nuxt/types": "^2.14.7",
+    "@nuxt/typescript-build": "^2.0.3",
     "@nuxtjs/style-resources": "^1.0.0",
     "@types/firebase": "^3.2.1",
-    "firebase": "^7.14.5",
-    "http-server": "^0.12.3",
+    "firebase": "^8.0.2",
     "node-sass": "^4.14.1",
-    "nuxt-property-decorator": "^2.7.2",
-    "pug": "^2.0.4",
+    "nuxt-property-decorator": "^2.8.8",
+    "pug": "^2.0.0",
     "pug-loader": "^2.4.0",
     "pug-plain-loader": "^1.0.0",
-    "sass-loader": "^8.0.2",
-    "vuex-module-decorators": "^0.16.1"
+    "sass-loader": "^10.1.0",
+    "vuex-module-decorators": "^1.0.1"
   }
 }

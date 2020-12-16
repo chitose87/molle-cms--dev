@@ -1,33 +1,15 @@
 // Color system
-
 $color-white: #fff !default;
 $color-gray-100: #f8f9fa !default;
-$color-gray-200: #e9ecef !default;
+$color-gray-200: #EBE8E4 !default;//xdからとった
 $color-gray-300: #dee2e6 !default;
 $color-gray-400: #ced4da !default;
-$color-gray-500: #adb5bd !default;
-$color-gray-600: #6c757d !default;
-$color-gray-700: #495057 !default;
-$color-gray-800: #343a40 !default;
+$color-gray-500: #98938E !default;//xdからとった
+$color-gray-600: #707070 !default;//xdからとった
+$color-gray-700: #403B36 !default;//xdからとった
+$color-gray-800: #333333 !default;
 $color-gray-900: #212529 !default;
 $color-black: #000 !default;
-
-$grays: () !default;
-// stylelint-disable-next-line scss/dollar-variable-default
-$grays: map-merge(
-    (
-      "100": $color-gray-100,
-      "200": $color-gray-200,
-      "300": $color-gray-300,
-      "400": $color-gray-400,
-      "500": $color-gray-500,
-      "600": $color-gray-600,
-      "700": $color-gray-700,
-      "800": $color-gray-800,
-      "900": $color-gray-900
-    ),
-    $grays
-);
 
 $color-blue: #007bff !default;
 $color-indigo: #6610f2 !default;
@@ -35,31 +17,10 @@ $color-purple: #6f42c1 !default;
 $color-pink: #e83e8c !default;
 $color-red: #dc3545 !default;
 $color-orange: #fd7e14 !default;
-$color-yellow: #ffc107 !default;
-$color-green: #28a745 !default;
-$color-teal: #20c997 !default;
+$color-yellow: #d8c24b !default;
+$color-green: #789529 !default;//xdからとった
+$color-teal: #269B8F !default;
 $color-cyan: #17a2b8 !default;
-
-$colors: () !default;
-// stylelint-disable-next-line scss/dollar-variable-default
-$colors: map-merge(
-    (
-      "blue": $color-blue,
-      "indigo": $color-indigo,
-      "purple": $color-purple,
-      "pink": $color-pink,
-      "red": $color-red,
-      "orange": $color-orange,
-      "yellow": $color-yellow,
-      "green": $color-green,
-      "teal": $color-teal,
-      "cyan": $color-cyan,
-      "white": $color-white,
-      "gray": $color-gray-600,
-      "gray-dark": $color-gray-800
-    ),
-    $colors
-);
 
 $color-primary: $color-blue !default;
 $color-secondary: $color-gray-600 !default;
@@ -70,30 +31,20 @@ $color-danger: $color-red !default;
 $color-light: $color-gray-100 !default;
 $color-dark: $color-gray-800 !default;
 
-$theme-colors: () !default;
-// stylelint-disable-next-line scss/dollar-variable-default
-$theme-colors: map-merge(
-    (
-      "primary": $color-primary,
-      "secondary": $color-secondary,
-      "success": $color-success,
-      "info": $color-info,
-      "warning": $color-warning,
-      "danger": $color-danger,
-      "light": $color-light,
-      "dark": $color-dark
-    ),
-    $theme-colors
-);
-
 // semantic name
-$color-border: $color-gray-400 !default;
-$color-border-light: $color-gray-500 !default;
-$color-border-alpha: rgba($color-black, .1) !default;
+$color-key: #8CBCBF;
+$color-key2: #B48362;
 
-$color-text: $color-gray-900 !default;
-$color-text-white: $color-white !default;
+$color-border: $color-gray-400;
+$color-border-light: $color-gray-500;
+$color-border-alpha: rgba($color-black, .1);
 
-$color-attention: $color-red !default;
-$color-link: $color-blue !default;
-$color-modal-bg: rgba($color-black, .5) !default;
+$color-text-black: $color-gray-700;
+$color-text-white: $color-white;
+$color-text: $color-text-black;
+
+$color-attention: $color-red;
+$color-link: $color-blue;
+$color-modal-bg: rgba($color-black, .5)
+
+

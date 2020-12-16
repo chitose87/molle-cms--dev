@@ -1,0 +1,40 @@
+// bootstrap custom
+
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    @include col($i);
+  }
+}
+
+.col {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+@include mediaquery-not-sm {
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -1rem;
+  }
+  .col, [class*="col-"], [class*="_col"] {
+    padding: 1rem;
+  }
+}
+
+@include mediaquery-sm {
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -0.25rem -0.5rem;
+  }
+  .col, [class*="col-"], [class*="_col"] {
+    padding: 0.25rem 0.5rem;
+  }
+  @for $i from 1 through 12 {
+    .col-sm-#{$i} {
+      @include col($i);
+    }
+  }
+}
