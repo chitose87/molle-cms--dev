@@ -1,3 +1,14 @@
+require('dotenv').config();
+
+const env = {
+  breakPoint: process.env.breakPoint,
+  gutter: process.env.gutter,
+};
+let envStr = "";
+for (let i in env) {
+  envStr += `$${i}:${env[i]};`;
+}
+
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -43,6 +54,7 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
   ],
   styleResources: {
@@ -51,5 +63,29 @@ export default {
     ]
   },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {}
+  build: {
+    extractCSS: true,
+    filenames: {
+      app: ({isDev}) => true ? '[name]-app.js?[hash]' : '[contenthash].js',
+      chunk: ({isDev}) => true ? '[name].js?[hash]' : '[contenthash].js',
+      css: ({isDev}) => true ? '[name].css?[hash]' : '[contenthash].css',
+      img: ({isDev}) => isDev ? '[path][name].[ext]' : 'img/[contenthash:7].[ext]',
+      font: ({isDev}) => isDev ? '[path][name].[ext]' : 'fonts/[contenthash:7].[ext]',
+      video: ({isDev}) => isDev ? '[path][name].[ext]' : 'videos/[contenthash:7].[ext]'
+    },
+    extend(config, ctx) {
+      config.module.rules.forEach((rule) => {
+        rule.oneOf && rule.oneOf.forEach((item) => {
+          item.use.forEach((loader) => {
+            if (loader.loader === "sass-loader") {
+              Object.assign(loader.options, {
+                additionalData: envStr
+              });
+              // console.log(loader.options);
+            }
+          })
+        })
+      })
+    }
+  }
 }
