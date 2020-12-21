@@ -1,0 +1,35 @@
+<template lang="pug">
+  div
+    h1 lv2
+    p(v-html="pageData.itemId")
+    p(v-html="pageData.path")
+
+    .container
+      ModuleLoader(v-if="pageData.itemId" :itemId="pageData.itemId")
+
+</template>
+
+<script lang="ts">
+  import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
+  import {DynamicPage} from "~/src/DynamicPage";
+  import {IPageData} from "~/src/interface/IPageData";
+
+  @Component({
+    layout: "molle",
+    components: {}
+  })
+  export default class DynamicPageLv2 extends DynamicPage {
+    pageData: IPageData = <IPageData>{};
+
+    created() {
+      this._mounted();
+    }
+
+    init() {
+    }
+  }
+</script>
+
+<style lang="scss">
+
+</style>

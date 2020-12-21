@@ -41,7 +41,7 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    //'~/plugins/Modules.ts',
+    '~/plugins/Modules.ts',
   ],
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
