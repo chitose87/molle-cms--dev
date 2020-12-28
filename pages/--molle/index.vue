@@ -5,7 +5,7 @@
         h1 Molle Contents Management System v0.0.2
 
         h2 Universal pages list
-        //ul
+        ul
           li(v-for="(item,key) in pages")
             NuxtLink(:to="`--molle/${item.path}`")
               span(v-html="item.path")
@@ -26,7 +26,7 @@
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
   import firebase from "~/node_modules/firebase";
   import {Singleton} from "~/src/Singleton";
-  import {IPageData} from "~/src/interface/IPageData";
+  import {IPageData} from "~/src/interface";
 
   @Component({})
   export default class MolleTopPage extends Vue {

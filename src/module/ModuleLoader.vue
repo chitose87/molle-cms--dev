@@ -10,7 +10,7 @@
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
   import {Singleton} from "~/src/Singleton";
   import firebase from "~/node_modules/firebase";
-  import {IItemData} from "~/src/interface/IItemData";
+  import {IItemData} from "~/src/interface";
 
   @Component({
     components: {}
@@ -21,18 +21,24 @@
     flag = false;
 
     created() {
-      Singleton.itemsRef.doc(this.itemId).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-        if (!snap.exists) {
-          Singleton.itemsRef.doc(this.itemId).set({
-            moduleId: "Box"
-          });
-          return;
-        }
-
-        this.itemData = <IItemData>snap.data();
+      if (Singleton.payload) {
+        this.itemData = Singleton.payload.items[this.itemId];
         this.$set(this, "itemData", this.itemData);
         this.flag = true;
-      })
+      } else {
+        Singleton.itemsRef.doc(this.itemId).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+          if (!snap.exists) {
+            Singleton.itemsRef.doc(this.itemId).set({
+              moduleId: "Box"
+            });
+            return;
+          }
+
+          this.itemData = <IItemData>snap.data();
+          this.$set(this, "itemData", this.itemData);
+          this.flag = true;
+        })
+      }
     }
   }
 </script>

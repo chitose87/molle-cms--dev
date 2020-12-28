@@ -1,11 +1,10 @@
 import {Vue} from "~/node_modules/nuxt-property-decorator";
 import {Singleton} from "~/src/Singleton";
 import firebase from "~/node_modules/firebase";
-import {IPageData} from "~/src/interface/IPageData";
+import {IPageData, IPayload} from "~/src/interface";
 
 export class DynamicPage extends Vue {
   pageData: IPageData = <IPageData>{};
-  payload?: any;
 
   _mounted() {
     Singleton.firebaseInit(() => {

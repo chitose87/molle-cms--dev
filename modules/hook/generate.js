@@ -1,5 +1,3 @@
-import {Singleton} from "../../src/Singleton";
-
 const firebase = require("firebase/app");
 require("firebase/auth");
 require("firebase/firestore");
@@ -47,18 +45,17 @@ module.exports = function () {
                 route: `${data.path}`
                 , payload: {
                   id: snap.id,
-                  // pages: allData.pages,
+                  pages: allData.pages,
                   items: allData.items,
                 }
               })
             });
-            console.log(routes)
-            // items.forEach((snap) => {
-            //   let data = cleaningFirestoreValue(snap.data());
-            //
-            //   data.id = snap.id;
-            //   allData.items[snap.id] = data;
-            // });
+            items.forEach((snap) => {
+              let data = cleaningFirestoreValue(snap.data());
+
+              data.id = snap.id;
+              allData.items[snap.id] = data;
+            });
             resolve(routes);
           });
       });

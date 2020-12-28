@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    h1 lv2
+    h1 lv2 no-ssr
     p(v-html="pageData.itemId")
     p(v-html="pageData.path")
 
@@ -12,7 +12,7 @@
 <script lang="ts">
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
   import {DynamicPage} from "~/src/DynamicPage";
-  import {IPageData} from "~/src/interface/IPageData";
+  import {IPageData} from "~/src/interface";
 
   @Component({
     layout: "molle",

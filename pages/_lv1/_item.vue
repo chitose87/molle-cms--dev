@@ -1,10 +1,8 @@
 <template lang="pug">
   div
-    h1 lv2
-    p(v-html="pageData.itemId")
-    p(v-html="pageData.path")
-    h3 payload
-    p(v-html="payload")
+    h1 lv2 ssg
+    p(v-html="pageId")
+    p(v-html="pageData")
 
     .container
       ModuleLoader(v-if="pageData.itemId" :itemId="pageData.itemId")
@@ -13,21 +11,25 @@
 
 <script lang="ts">
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
-  import {DynamicPage} from "~/src/DynamicPage";
-  import {IPageData} from "~/src/interface/IPageData";
+  import {IPageData} from "~/src/interface";
+  import {Singleton} from "~/src/Singleton";
 
   @Component({
     components: {}
   })
-  export default class DynamicPageLv2 extends DynamicPage {
-    pageData: IPageData = <IPageData>{};
+  export default class StaticPageLv2 extends Vue {
+    pageId!: string;
+    pageData!: IPageData;
 
     async asyncData(context: any) {
-      return {payload: context.payload};
+      Singleton.payload = context.payload;
+      return {
+        pageId: context.payload.id,
+        pageData: context.payload.pages[context.payload.id]
+      };
     }
 
     created() {
-      this._mounted();
     }
 
     init() {

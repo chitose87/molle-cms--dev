@@ -1,7 +1,9 @@
 import firebase from "~/node_modules/firebase";
+import {IPayload} from "~/src/interface";
 
 export class Singleton {
   static systemVersion = "0.2";
+  static payload?: IPayload;
 
   static get systemDocRef(): firebase.firestore.DocumentReference {
     return this._systemDocRef ? this._systemDocRef :

@@ -1,5 +1,5 @@
 import {Prop, Vue} from "~/node_modules/nuxt-property-decorator";
-import {IItemData} from "~/src/interface/IItemData";
+import {IItemData} from "~/src/interface";
 
 export class Module extends Vue {
   @Prop() itemId!: string;

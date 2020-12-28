@@ -12,7 +12,7 @@
 <script lang="ts">
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
   import {DynamicPage} from "~/src/DynamicPage";
-  import {IPageData} from "~/src/interface/IPageData";
+  import {IPageData} from "~/src/interface";
 
   @Component({
     layout: "molle",
