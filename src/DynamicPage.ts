@@ -5,9 +5,7 @@ import {IPageData} from "~/src/interface/IPageData";
 
 export class DynamicPage extends Vue {
   pageData: IPageData = <IPageData>{};
-  payload = {
-    items:
-  };
+  payload?: any;
 
   _mounted() {
     Singleton.firebaseInit(() => {

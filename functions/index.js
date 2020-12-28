@@ -1,23 +1,13 @@
-const functions = require('firebase-functions');
-const express = require('express');
-const basicAuth = require('basic-auth-connect');
-const { Nuxt } = require('nuxt');
+const functions = require('firebase-functions')
+const express = require('express')
+const basicAuth = require('basic-auth-connect')
 
-const nuxt = new Nuxt({
-  buildDir: 'ssr',
-  dev: false
-});
+const app = express()
 
-const USERNAME = 'id';
-const PASSWORD = 'pw';
+app.all('/*', basicAuth(function(user, password) {
+  return user === 'id' && password === 'pw';
+}));
 
-const app = express();
+app.use(express.static(__dirname + '/dist/'))
 
-app.use(basicAuth(USERNAME, PASSWORD));
-
-app.use(async (req, res) => {
-  await nuxt.ready();
-  nuxt.render(req, res)
-});
-
-exports.ssr = functions.https.onRequest(app);
+exports.app = functions.https.onRequest(app)

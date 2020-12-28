@@ -1,23 +1,23 @@
 <template lang="pug">
-  //no-ssr
-  .molle-sys-ui
-    .container
-      h1 Molle Contents Management System v0.0.2
+  no-ssr
+    .molle-sys-ui
+      .container
+        h1 Molle Contents Management System v0.0.2
 
-      h2 Universal pages list
-      ul
-        li(v-for="(item,key) in pages")
-          NuxtLink(:to="`--molle/${item.path}`")
-            span(v-html="item.path")
-            span(v-html="item.itemId")
-          button(type="button" @click="deletePage(key)") Delete
+        h2 Universal pages list
+        //ul
+          li(v-for="(item,key) in pages")
+            NuxtLink(:to="`--molle/${item.path}`")
+              span(v-html="item.path")
+              span(v-html="item.itemId")
+            button(type="button" @click="deletePage(key)") Delete
 
-      p
-        label Path
-          input(type="text" v-model="added.path")
-        label Box id *
-          input(type="text" v-model="added.itemId")
-        button(type="button" :disabled="added.path===''" @click="addPage") Add
+        p
+          label Path
+            input(type="text" v-model="added.path")
+          label Box id *
+            input(type="text" v-model="added.itemId")
+          button(type="button" :disabled="added.path===''" @click="addPage") Add
 
 </template>
 
@@ -45,7 +45,8 @@
 
           snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
             this.$set(this.pages, _snap.id, _snap.data());
-          })
+          });
+          console.log(this.pages)
         });
       });
     }

@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const env = {
+  version: process.env.version,
   breakPoint: process.env.breakPoint,
   gutter: process.env.gutter,
 };
@@ -10,6 +11,9 @@ for (let i in env) {
 }
 
 export default {
+  mode: "universal",
+  ssr: true,
+  target: "static",
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'sch-ttb-timber-coop',
@@ -56,6 +60,7 @@ export default {
   modules: [
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
+    '@/modules/hook/generate'
   ],
   styleResources: {
     scss: [
@@ -87,5 +92,8 @@ export default {
         })
       })
     }
+  },
+  generate: {
+    dir: 'functions/dist'
   }
 }
