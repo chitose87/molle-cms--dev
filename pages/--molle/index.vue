@@ -46,7 +46,6 @@
           snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
             this.$set(this.pages, _snap.id, _snap.data());
           });
-          console.log(this.pages)
         });
       });
     }

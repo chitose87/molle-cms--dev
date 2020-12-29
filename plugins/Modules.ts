@@ -2,20 +2,21 @@ import {Vue} from "~/node_modules/nuxt-property-decorator";
 import Box from "~/src/module/primitive/Box.vue";
 import ModuleLoader from "~/src/module/ModuleLoader.vue";
 import Paragraph from "~/src/module/primitive/Paragraph.vue";
+import firebase from "firebase";
 
 export const molleModules: {
   [key: string]: {
     ref: any,
     // profile: any,
-    // def: any,
-    // black?: [any],
-    // white?: [any],
+    def: any,
+    black?: [any],
+    white?: [any],
   }
 } = {
   Box: {
     ref: Box,
     // profile: BoxProfile,
-    // def: c("Box", "children"),
+    def: c("Box", "children"),
     // black: [ColumnBox]
   },
   // Headline: {
@@ -30,7 +31,7 @@ export const molleModules: {
   Paragraph: {
     ref: Paragraph,
   //   profile: ParagraphProfile,
-  //   def: c("Paragraph", "text")
+    def: c("Paragraph", "text")
   },
   // Picture: {
   //   ref: Picture,
@@ -59,6 +60,56 @@ export const molleModules: {
 };
 export type molleModules = typeof molleModules[keyof typeof molleModules];
 
+/**
+ * Create InitialValue
+ * @param moduleId
+ * @param type
+ * @param opt
+ */
+function c(moduleId: string, type: string, opt?: any) {
+  let v: any = {
+    moduleId: moduleId,
+    type: type,
+    tagId: "",
+    tagClass: "",
+    style: {},
+    class: {},
+    option: {},
+    createTime: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  switch (type) {
+    case "children":
+      v.value = [];
+      break;
+    // case "items":
+    //   v.value = [];
+    //   break;
+    case "group":
+      v.value = {};
+      break;
+    case "picture":
+      v.value = {src: "https://placehold.jp/150x150.png"};
+      break;
+    case "text":
+      v.value = "Lorem ipsum...";
+      break;
+    case "button":
+      v.value = {
+        href: "https://placehold.jp/",
+        label: "BUTTON",
+      };
+      break;
+  }
+  if (opt) {
+    for (let key in opt) {
+      v[key] = opt[key];
+    }
+  }
+  return v;
+}
+
+// Setting Vue Molle-Module
+
 Vue.component("ModuleLoader", ModuleLoader);
 //modules
 for (let key in molleModules) {
@@ -70,6 +121,8 @@ for (let key in molleModules) {
     Vue.component(molleModules[key].profile.options.name, molleModules[key].profile);
   }
 }
+
+// isview
 
 Vue.directive('isview', {
   inserted: function (el: HTMLElement, binding, vnode: any) {

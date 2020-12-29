@@ -1,8 +1,6 @@
 <template lang="pug">
   div
-    p ppppppppp
     Nuxt
-    p ppppppppp
 </template>
 
 <style lang="scss">
@@ -14,4 +12,9 @@
       @include bg-variant(".bg-#{$color}", $value, true);
     }
   }
+</style>
+<script lang="ts">
+</script>
+
+<style lang="scss">
 </style>

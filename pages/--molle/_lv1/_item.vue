@@ -1,11 +1,16 @@
 <template lang="pug">
-  div
-    h1 lv2 no-ssr
-    p(v-html="pageData.itemId")
-    p(v-html="pageData.path")
+  .l-molle(v-if="pageData.itemId")
+    .l-molle__left
+      ItemListViewComp(:itemId="pageData.itemId")
+    .l-molle__main
+      h1 lv2 no-ssr
+      p(v-html="pageData.itemId")
+      p(v-html="pageData.path")
 
-    .container
-      ModuleLoader(v-if="pageData.itemId" :itemId="pageData.itemId")
+      .container
+        ModuleLoader(:itemId="pageData.itemId")
+    .l-molle__right
+      p ppppppppp
 
 </template>
 
@@ -13,10 +18,11 @@
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
   import {DynamicPage} from "~/src/DynamicPage";
   import {IPageData} from "~/src/interface";
+  import ItemListViewComp from "~/src/ui/ItemListViewComp.vue";
 
   @Component({
     layout: "molle",
-    components: {}
+    components: {ItemListViewComp}
   })
   export default class DynamicPageLv2 extends DynamicPage {
     pageData: IPageData = <IPageData>{};
@@ -31,5 +37,19 @@
 </script>
 
 <style lang="scss">
+  .l-molle {
+    display: flex;
 
+    &__left {
+
+    }
+
+    &__main {
+      flex: 1;
+    }
+
+    &__right {
+
+    }
+  }
 </style>

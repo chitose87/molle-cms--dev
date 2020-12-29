@@ -12,7 +12,6 @@ export class DynamicPage extends Vue {
       if (str.substr(0, 1) == "/") str = str.substr(1);
       str = str.replace(/\//g, "__");
 
-
       firebase.firestore().doc(`version/${Singleton.systemVersion}/pages/${str}`).get()
         .then((snap: firebase.firestore.DocumentSnapshot) => {
           if (!snap.exists) {
@@ -25,12 +24,12 @@ export class DynamicPage extends Vue {
           this.init();
         });
 
-      firebase.firestore().collection(`version/${Singleton.systemVersion}/items`)
-        .onSnapshot((query: firebase.firestore.QuerySnapshot) => {
-          query.forEach((snap: firebase.firestore.DocumentSnapshot) => {
-            console.log(snap.id)
-          })
-        })
+      // firebase.firestore().collection(`version/${Singleton.systemVersion}/items`)
+      //   .onSnapshot((query: firebase.firestore.QuerySnapshot) => {
+      //     query.forEach((snap: firebase.firestore.DocumentSnapshot) => {
+      //       console.log(snap.id)
+      //     })
+      //   })
     });
   }
 
