@@ -59,6 +59,7 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/dotenv',
+    'bootstrap-vue/nuxt',
     '@nuxtjs/style-resources',
     '@/modules/hook/generate'
   ],
