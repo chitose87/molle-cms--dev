@@ -76,8 +76,11 @@
         if (!snap.exists) return;
 
         this.itemData = <IItemData>snap.data();
+        console.log(this, this.itemData);
         this.$set(this, "itemData", this.itemData);
-        this.flag = true;
+        requestAnimationFrame(() => {
+          this.$set(this, "flag", true);
+        });
       });
     }
 

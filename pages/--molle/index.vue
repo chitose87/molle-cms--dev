@@ -7,9 +7,9 @@
         h2 Universal pages list
         ul
           li(v-for="(item,key) in pages")
-            NuxtLink(:to="`--molle/${item.path}`")
+            NuxtLink(:to="{path: '/--molle/editer', query: {pageId: key}}")
               span(v-html="item.path")
-              span(v-html="item.itemId")
+              //span(v-html="item.itemId")
             button(type="button" @click="deletePage(key)") Delete
 
         p
@@ -51,7 +51,7 @@
     }
 
     addPage() {
-      let pageId = this.added.path.replace(/\//g, "__");
+      let pageId = encodeURIComponent(this.added.path);
       Singleton.pagesRef.doc(pageId).set({
         path: this.added.path,
         itemId: this.added.itemId || pageId

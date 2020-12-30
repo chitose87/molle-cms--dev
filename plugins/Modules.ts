@@ -3,6 +3,7 @@ import Box from "~/src/module/primitive/Box.vue";
 import ModuleLoader from "~/src/module/ModuleLoader.vue";
 import Paragraph from "~/src/module/primitive/Paragraph.vue";
 import firebase from "firebase";
+import ItemListItemComp from "~/src/ui/ItemListItemComp.vue";
 
 export const molleModules: {
   [key: string]: {
@@ -111,6 +112,7 @@ function c(moduleId: string, type: string, opt?: any) {
 // Setting Vue Molle-Module
 
 Vue.component("ModuleLoader", ModuleLoader);
+Vue.component("ItemListItemComp", ItemListItemComp);
 //modules
 for (let key in molleModules) {
   // @ts-ignore
