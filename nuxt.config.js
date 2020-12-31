@@ -63,6 +63,11 @@ export default {
     '@nuxtjs/style-resources',
     '@/modules/hook/generate'
   ],
+  bootstrapVue: {
+    bootstrapCSS: false, // or `css`
+    bootstrapVueCSS: false // or `bvCSS`
+    , icons: true
+  },
   styleResources: {
     scss: [
       '~/assets/scss/variables/_index.scss',

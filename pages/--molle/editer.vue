@@ -12,19 +12,20 @@
           .container
             ModuleLoader(:itemId="pageData.itemId")
         .l-molle__right
-          p ppppppppp
+          ModulePropertyComp
 
 </template>
 
 <script lang="ts">
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
   import {IPageData} from "~/src/interface";
-  import ItemListViewComp from "~/src/ui/ItemListViewComp.vue";
   import {Singleton} from "~/src/Singleton";
   import firebase from "firebase";
+  import ItemListViewComp from "~/src/ui/ItemListViewComp.vue";
+  import ModulePropertyComp from "~/src/ui/ModulePropertyComp.vue";
 
   @Component({
-    components: {ItemListViewComp}
+    components: {ModulePropertyComp, ItemListViewComp}
   })
   export default class MolleEditerPage extends Vue {
     pageData: IPageData = <IPageData>{};
@@ -61,6 +62,24 @@
 
     &__right {
 
+    }
+
+    //.u_auto-input
+    .u_auto-input {
+      position: relative;
+      display: inline-block;
+
+      &__static {
+        visibility: hidden;
+        text-indent: 0.5em;
+      }
+
+      &__input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+      }
     }
   }
 </style>

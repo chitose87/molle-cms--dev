@@ -42,3 +42,11 @@ export class Singleton {
     }
   }
 }
+
+export const StyleAlign = {
+  None: {value: "", label: ""},
+  Left: {value: "text-left", label: "left"},
+  Center: {value: "text-center", label: "center"},
+  Right: {value: "text-right", label: "right"},
+} as const;
+type StyleAlign = typeof StyleAlign[keyof typeof StyleAlign];

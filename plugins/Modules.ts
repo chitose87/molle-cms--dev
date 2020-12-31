@@ -4,11 +4,13 @@ import ModuleLoader from "~/src/module/ModuleLoader.vue";
 import Paragraph from "~/src/module/primitive/Paragraph.vue";
 import firebase from "firebase";
 import ItemListItemComp from "~/src/ui/ItemListItemComp.vue";
+import BoxProfile from "~/src/module/primitive/BoxProfile.vue";
+import ParagraphProfile from "~/src/module/primitive/ParagraphProfile.vue";
 
 export const molleModules: {
   [key: string]: {
     ref: any,
-    // profile: any,
+    profile: any,
     def: any,
     black?: [any],
     white?: [any],
@@ -16,7 +18,7 @@ export const molleModules: {
 } = {
   Box: {
     ref: Box,
-    // profile: BoxProfile,
+    profile: BoxProfile,
     def: c("Box", "children"),
     // black: [ColumnBox]
   },
@@ -31,7 +33,7 @@ export const molleModules: {
   // },
   Paragraph: {
     ref: Paragraph,
-  //   profile: ParagraphProfile,
+    profile: ParagraphProfile,
     def: c("Paragraph", "text")
   },
   // Picture: {

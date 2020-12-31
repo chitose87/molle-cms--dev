@@ -4,7 +4,28 @@ export interface IPageData {
 }
 
 export interface IItemData {
+  id: string;
+  // follower?: { [key: string]: IItemStoreData };
+  // superValue?: any//TODO<IValueStoreData>;
+
+  //firestore互換
+  name?: string;
   moduleId: string;
+  option?: any;
+  // createTime: firebase.firestore.Timestamp;
+  // updateTime: firebase.firestore.Timestamp;
+
+  value?: any;
+  // extends?: string;
+  // selector?: string;
+  style?: any;
+
+  class: {
+    theme?: string,
+    color?: string,
+    border?: boolean,
+    align?: string,
+  }
 }
 
 export interface IPayload {
