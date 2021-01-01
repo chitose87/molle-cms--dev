@@ -70,6 +70,7 @@
     components: {}
   })
   export default class ModulePropertyComp extends Vue {
+    itemId: string = "";
     itemData?: IItemData = <IItemData>{};
     lsStore = lsStore;
     private unsubscribe?: () => void;
@@ -88,6 +89,7 @@
           if (!snap.exists) return;
 
           this.$set(this, "itemData", snap.data());
+          this.$set(this, "itemId", snap.id);
           this.flag = true;
         });
       }
@@ -97,17 +99,18 @@
     //itemData: IItemStoreData | null = null;
 
     update(key: string, forceValue?: any) {
-      //  let update: any = {};
-      //  if (forceValue || forceValue === false) {
-      //    update[key] = forceValue;
-      //  } else {
-      //    //@ts-ignore
-      //    update[key] = this.itemData[key];
-      //  }
-      //  FirestoreMgr.itemUpdate(this.itemData!.id, update);
-      //}
-      //moduleChange() {
+      console.log(key, forceValue)
+      let update: any = {};
+      if (forceValue || forceValue === false) {
+        update[key] = forceValue;
+      } else {
+        //@ts-ignore
+        update[key] = this.itemData[key];
+      }
+      Singleton.itemsRef.doc(this.itemId).update(update);
     }
+
+    //moduleChange() {
   }
 </script>
 
