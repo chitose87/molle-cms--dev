@@ -2,14 +2,13 @@
   div
     StyleComp(
       :itemData="itemData"
-      :onUpdate="onUpdate"
       :permission="stylePermission"
+      @change="()=>$emit('change')"
     )
     TextareaOptionComp(
       :label="'Text'"
-      :data="itemData || {}"
-      :dataKey="'value'"
-      @change="(v)=>onUpdate('value',v)"
+      v-model="itemData.value"
+      @change="()=>$emit('change')"
     )
 
 </template>
@@ -34,10 +33,6 @@
       // theme: {default: "", select: ["", "test"]},
       // color: {default: "", select: ["", "dark"]},
     };
-
-    hoge(v: any) {
-      console.log(v)
-    }
   }
 </script>
 

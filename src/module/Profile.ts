@@ -3,8 +3,7 @@ import {Prop, Vue} from "~/node_modules/nuxt-property-decorator";
 import {IItemData} from "~/src/interface";
 
 export class Profile extends Vue {
-  @Prop() itemData?: IItemData;
-  @Prop() onUpdate?: (key: string, forceValue?: any) => void;
+  @Prop() itemData!: IItemData;
   stylePermission?: any;
 
   /**

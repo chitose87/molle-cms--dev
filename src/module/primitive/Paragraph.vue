@@ -1,7 +1,7 @@
 <template lang="pug">
   p.module(
     :id="itemData.tagId"
-    v-html="itemData.value || itemData.superValue"
+    v-html="itemData.value || itemData.superValue || ''"
   )
   //  v-if="itemData"
   //  :class="getClass(itemData)"

@@ -3,13 +3,12 @@
     SelectOptionComp(
       :label="'タグ'",
       :select='["", "section"]'
-      :data="itemData.option || {}"
-      :dataKey="'tag'"
-      @change="(v)=>onUpdate('option',v)"
+      v-model="itemData.option.tag"
+      @change="()=>$emit('change')"
     )
     StyleComp(
       :itemData="itemData"
-      :onUpdate="onUpdate"
+      @change="()=>$emit('change')"
       :permission="stylePermission"
     )
 

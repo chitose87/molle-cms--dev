@@ -73,6 +73,9 @@ export default {
       '~/assets/scss/variables/_index.scss',
     ]
   },
+  server: {
+    port: 4000, // デフォルト: 3000
+  },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     extractCSS: true,

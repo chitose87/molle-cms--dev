@@ -3,30 +3,22 @@
     label.form-inline
       span.mr-1 {{label}}:
       textarea.form-control.form-control-sm(
-        :value="data[dataKey]"
-        @change="update($event.target.value)"
+        v-model="localValue"
+        @change="()=>$emit('change')"
       )
 
 </template>
 
 <script lang="ts">
-  import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
+  import {Component, Emit, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
+  import {OptionComp} from "~/src/ui/property/OptionComp.ts";
 
   @Component({
     components: {}
   })
   /**
    */
-  export default class TextareaOptionComp extends Vue {
-    @Prop() label?: string;
-    @Prop() data?: any;
-    @Prop() dataKey?: string;
-
-    update(v: string) {
-      let update: any = Object.assign({}, this.data);
-      update[this.dataKey!] = v;
-      this.$emit("change", update);
-    }
+  export default class TextareaOptionComp extends OptionComp {
   }
 </script>
 

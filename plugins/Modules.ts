@@ -11,6 +11,7 @@ export const molleModules: {
   [key: string]: {
     ref: any,
     profile: any,
+    profileName: string,
     def: any,
     black?: [any],
     white?: [any],
@@ -19,6 +20,7 @@ export const molleModules: {
   Box: {
     ref: Box,
     profile: BoxProfile,
+    profileName: "BoxProfile",
     def: c("Box", "children"),
     // black: [ColumnBox]
   },
@@ -34,6 +36,7 @@ export const molleModules: {
   Paragraph: {
     ref: Paragraph,
     profile: ParagraphProfile,
+    profileName: "ParagraphProfile",
     def: c("Paragraph", "text")
   },
   // Picture: {
@@ -122,7 +125,7 @@ for (let key in molleModules) {
   // @ts-ignore
   if (molleModules[key].profile) {
     // @ts-ignore
-    Vue.component(molleModules[key].profile.options.name, molleModules[key].profile);
+    Vue.component(molleModules[key].profileName, molleModules[key].profile);
   }
 }
 

@@ -17,6 +17,11 @@
   }
 }
 
+.border{
+  border: 1px solid $color-border;
+  padding: 1rem;
+}
+
 .container {
   margin-left: auto;
   margin-right: auto;

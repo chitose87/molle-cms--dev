@@ -22,7 +22,7 @@
           input.u_auto-input__input.form-control.form-control-sm(
             type="text"
             v-model="itemData.name"
-            @change="update('name')"
+            @change="update"
             placeholder="Name")
 
       //ID
@@ -32,7 +32,7 @@
           input.u_auto-input__input.form-control.form-control-sm(
             type="text"
             v-model="itemData.tagId"
-            @change="update('tagId')"
+            @change="update"
             placeholder="id")
 
       //クラス
@@ -42,20 +42,16 @@
           input.u_auto-input__input.form-control.form-control-sm(
             type="text"
             v-model="itemData.tagClass"
-            @change="update('tagClass')"
+            @change="update"
             placeholder="class")
 
       //profile
       component(
         v-if="molleModules[itemData.moduleId].profile"
-        :is="molleModules[itemData.moduleId].profile.options.name"
+        :is="molleModules[itemData.moduleId].profileName"
         :itemData="itemData"
-        :onUpdate="update"
+        @change="update"
       )
-
-      // style
-      p style=
-      textarea()
 </template>
 
 <script lang="ts">
@@ -70,11 +66,12 @@
     components: {}
   })
   export default class ModulePropertyComp extends Vue {
+    molleModules = molleModules;
     itemId: string = "";
-    itemData?: IItemData = <IItemData>{};
+    itemData = <IItemData>{};
+    itemDataBefore = <IItemData>{};
     lsStore = lsStore;
     private unsubscribe?: () => void;
-    molleModules = molleModules;
     flag = false;
 
     @Watch('lsStore.storage.focusModuleId', {immediate: true})
@@ -88,29 +85,54 @@
         this.unsubscribe = Singleton.itemsRef.doc(newer).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
           if (!snap.exists) return;
 
-          this.$set(this, "itemData", snap.data());
+          this.itemDataBefore = <IItemData>snap.data();
+          let itemData = <IItemData>snap.data();
+          if (!itemData.option) itemData.option = {};
+          if (!itemData.class) itemData.class = {};
+          if (!itemData.style) itemData.style = {};
+          this.$set(this, "itemData", itemData);
           this.$set(this, "itemId", snap.id);
           this.flag = true;
         });
       }
     }
 
-    // focusModuleId: string = "none";
-    //itemData: IItemStoreData | null = null;
-
-    update(key: string, forceValue?: any) {
-      console.log(key, forceValue)
-      let update: any = {};
-      if (forceValue || forceValue === false) {
-        update[key] = forceValue;
-      } else {
-        //@ts-ignore
-        update[key] = this.itemData[key];
+    /**
+     *
+     */
+    update() {
+      function some(b: any, a: any): boolean {
+        let obj: any = Object.assign({}, b, a);
+        return Object.keys(obj).some(key => {
+          if (typeof obj[key] == "object") {
+            return some(b[key] || {}, a[key] || {});
+          } else {
+            return b[key] != a[key];
+          }
+        });
       }
-      Singleton.itemsRef.doc(this.itemId).update(update);
-    }
 
-    //moduleChange() {
+      let flag = false;
+      let update: any = {};
+      let before: any = this.itemDataBefore;
+      let after: any = this.itemData;
+      let obj: any = Object.assign({}, before, after);
+      Object.keys(obj).forEach((key) => {
+        if (typeof obj[key] == "object") {
+          if (some(before[key] || {}, after[key] || {})) {
+            update[key] = after[key];
+            flag = true;
+          }
+        } else if (before[key] != after[key]) {
+          update[key] = after[key];
+          flag = true;
+        }
+      });
+      console.log("update", update)
+      if (flag) {
+        Singleton.itemsRef.doc(this.itemId).update(update);
+      }
+    }
   }
 </script>
 
@@ -125,5 +147,6 @@
 
     position: sticky;
     top: 0;
+    padding: 1rem;
   }
 </style>

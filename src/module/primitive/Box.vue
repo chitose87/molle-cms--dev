@@ -2,12 +2,12 @@
   component.module.box(
     :is="0||'div'"
     :id="itemData.tagId"
+    :class="getClass(itemData)"
+    :style="getStyle(itemData)"
   )
-    //:data-item-id="itemData.id"
-    //:class="getClass(itemData)"
-    //:style="getStyle(itemData)"
     ModuleLoader(
       v-for="id in itemData.value"
+      :key="id"
       :itemId="id"
     )
 
@@ -28,8 +28,5 @@
   .box {
     margin-top: 3rem;
     margin-bottom: 3rem;
-
-    border: 1px solid $color-red;
-    padding: 1rem;
   }
 </style>

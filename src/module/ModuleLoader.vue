@@ -1,8 +1,9 @@
 <template lang="pug">
   component(
-    v-if="flag"
+    v-if="itemData.moduleId"
     :is="itemData.moduleId"
     :itemData="itemData"
+    :data-item-id="itemId"
   )
 </template>
 
@@ -17,14 +18,12 @@
   })
   export default class ModuleLoader extends Vue {
     @Prop() itemId!: string;
-    itemData?: IItemData;
-    flag = false;
+    itemData = <IItemData>{};
 
     created() {
       if (Singleton.payload) {
         this.itemData = Singleton.payload.items[this.itemId];
         this.$set(this, "itemData", this.itemData);
-        this.flag = true;
       } else {
         Singleton.itemsRef.doc(this.itemId).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
           if (!snap.exists) {
@@ -34,9 +33,8 @@
             return;
           }
 
-          this.itemData = <IItemData>snap.data();
-          this.$set(this, "itemData", this.itemData);
-          this.flag = true;
+          let _itemData = snap.data();
+          this.$set(this, "itemData", _itemData);
         })
       }
     }
