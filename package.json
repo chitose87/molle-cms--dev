@@ -30,6 +30,7 @@
     "pug-loader": "^2.4.0",
     "pug-plain-loader": "^1.0.0",
     "sass-loader": "^10.1.0",
+    "vuedraggable": "^2.24.3",
     "vuex-module-decorators": "^1.0.1"
   }
 }

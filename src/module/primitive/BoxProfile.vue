@@ -11,6 +11,10 @@
       @change="()=>$emit('change')"
       :permission="stylePermission"
     )
+    ChildrenOptionComp(
+      v-model="itemData.value"
+      @change="()=>$emit('change')"
+    )
 
 </template>
 
@@ -18,10 +22,11 @@
   import {Component} from "~/node_modules/nuxt-property-decorator";
   import StyleComp from "~/src/ui/property/StyleComp.vue";
   import SelectOptionComp from "~/src/ui/property/SelectOptionComp.vue";
+  import ChildrenOptionComp from "~/src/ui/property/ChildrenOptionComp.vue";
   import {Profile} from "~/src/module/Profile";
 
   @Component({
-    components: {StyleComp, SelectOptionComp}
+    components: {StyleComp, SelectOptionComp,ChildrenOptionComp}
   })
   export default class BoxProfile extends Profile {
     //style setting
