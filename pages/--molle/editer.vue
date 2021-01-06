@@ -1,10 +1,10 @@
 <template lang="pug">
-  no-ssr
-    div
+  div
+    no-ssr
       .l-molle(v-if="pageData.itemId")
         .l-molle__left
           ItemListViewComp(:itemId="pageData.itemId")
-        .l-molle__main
+        .l-molle__main(ref="main")
           h1 lv1 no-ssr
           p(v-html="pageData.itemId")
           p(v-html="pageData.path")
@@ -23,6 +23,9 @@
   import firebase from "firebase";
   import ItemListViewComp from "~/src/ui/ItemListViewComp.vue";
   import ModulePropertyComp from "~/src/ui/ModulePropertyComp.vue";
+  import { Module } from "~/src/module/Module";
+import { lsStore } from "~/utils/store-accessor";
+import ModuleLoader from "~/src/module/ModuleLoader.vue";
 
   @Component({
     components: {ModulePropertyComp, ItemListViewComp}
@@ -44,6 +47,19 @@
             this.$set(this, "pageData", pageData);
           });
       });
+    }
+
+    mounted(){
+      this.$el.addEventListener("click", (e: any) => {
+        for (let i = 0; i < e.path.length; i++) {
+          let v = e.path[i].__vue__;
+          if (v && v instanceof ModuleLoader) {
+            let module: ModuleLoader = v;
+            lsStore.update({key: "focusModuleId", value: module.$props.itemId});
+            break;
+          }
+        }
+      })
     }
   }
 </script>
