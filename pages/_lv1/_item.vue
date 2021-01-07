@@ -5,7 +5,7 @@
     p(v-html="pageData")
 
     .container
-      ModuleLoader(v-if="pageData.itemId" :itemId="pageData.itemId")
+      ModuleLoader(:itemId="pageData.itemId")
 
 </template>
 

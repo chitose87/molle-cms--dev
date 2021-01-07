@@ -12,6 +12,7 @@
       :permission="stylePermission"
     )
     ChildrenOptionComp(
+      :moduleId="itemData.moduleId"
       v-model="itemData.value"
       @change="()=>$emit('change')"
     )

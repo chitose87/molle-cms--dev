@@ -1,6 +1,7 @@
 <template lang="pug">
   .module-property-comp.bootstrap
-    p(v-html="lsStore.storage.focusModuleId")
+    p プロパティ
+    p ID : {{lsStore.storage.focusModuleId}}
     div(v-if="flag")
       p
         span.mr-2(v-html="itemData.moduleId")
@@ -148,5 +149,6 @@
     position: sticky;
     top: 0;
     padding: 1rem;
+    box-shadow: $shadow-depth--1;
   }
 </style>

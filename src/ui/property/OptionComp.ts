@@ -2,15 +2,15 @@ import {Emit, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
 
 export class OptionComp extends Vue {
   @Prop() label?: string;
-  @Prop() public value!: string;
+  @Prop() public value!: any;
   @Emit()
-  public input(value: string) {}
+  public input(value: any) {}
 
-  private get localValue(): string {
+  protected get localValue(): any {
     return this.value;
   }
 
-  private set localValue(value: string) {
+  protected set localValue(value: any) {
     this.input(value);
   }
 }
