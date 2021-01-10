@@ -1,5 +1,5 @@
 <template lang="pug">
-  .textarea-option-input
+  .textarea-option
     label.form-inline
       span.mr-1 {{label}}:
       textarea.form-control.form-control-sm(

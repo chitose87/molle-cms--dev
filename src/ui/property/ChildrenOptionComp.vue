@@ -55,23 +55,14 @@
     }
 
     getModuleList() {
-      let moduleList: string[] = [];
       // @ts-ignore
       let moduleOpt = molleModules[this.moduleId];
       if (moduleOpt.white) {
-        for (let item of moduleOpt.white) {
-          moduleList.push(item.options.name);
-        }
-      } else {
-        moduleList = Object.keys(molleModules);
-        if (moduleOpt.black) {
-          moduleOpt.black.forEach((item: any) => {
-            let i = moduleList.indexOf(item.options.name);
-            moduleList.splice(i, 1);
-          })
-        }
+        return moduleOpt.white;
+      } else if (moduleOpt.black) {
+        return Object.keys(molleModules).filter((name: string) => moduleOpt.black!.indexOf(name) == -1);
       }
-      return moduleList;
+      return [];
     }
 
     pushModule() {

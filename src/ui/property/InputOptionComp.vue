@@ -1,27 +1,24 @@
 <template lang="pug">
-  .item-option-input
+  .input-option
     label.form-inline
       span.mr-1 {{label}}:
       input.form-control.form-control-sm(
-        type="text"
-        :value="data[dataKey]"
-        @change="update"
+        v-model="localValue"
+        @change="()=>$emit('change')"
       )
 
 </template>
 
 <script lang="ts">
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
+  import {OptionComp} from "~/src/ui/property/OptionComp";
 
   @Component({
     components: {}
   })
   /**
    */
-  export default class SpaceOptionComp extends Vue {
-    @Prop() label?: string;
-    @Prop() data?: any;
-    @Prop() dataKey?: string;
+  export default class InputOptionComp extends OptionComp {
   }
 </script>
 

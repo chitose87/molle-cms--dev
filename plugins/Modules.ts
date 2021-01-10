@@ -6,6 +6,10 @@ import firebase from "firebase";
 import ItemListItemComp from "~/src/ui/ItemListItemComp.vue";
 import BoxProfile from "~/src/module/primitive/BoxProfile.vue";
 import ParagraphProfile from "~/src/module/primitive/ParagraphProfile.vue";
+import Column from "~/src/module/primitive/Column.vue";
+import ColumnProfile from "~/src/module/primitive/ColumnProfile.vue";
+import ColumnBox from "~/src/module/primitive/ColumnBox.vue";
+import ColumnBoxProfile from "~/src/module/primitive/ColumnBoxProfile.vue";
 
 export const molleModules: {
   [key: string]: {
@@ -22,7 +26,7 @@ export const molleModules: {
     profile: BoxProfile,
     profileName: "BoxProfile",
     def: c("Box", "children"),
-    // black: [ColumnBox]
+    black: ["ColumnBox"]
   },
   // Headline: {
   //   ref: Headline,
@@ -51,18 +55,20 @@ export const molleModules: {
   //   def: c("Card", "group")
   // },
   //
-  // Column: {
-  //   ref: Column,
-  //   profile: ColumnProfile,
-  //   def: c("Column", "children"),
-  //   white: [ColumnBox]
-  // },
-  // ColumnBox: {
-  //   ref: ColumnBox,
-  //   profile: ColumnBoxProfile,
-  //   def: c("ColumnBox", "children"),
-  //   black: [ColumnBox]
-  // }
+  Column: {
+    ref: Column,
+    profile: ColumnProfile,
+    profileName: "ColumnProfile",
+    def: c("Column", "children"),
+    white: ["ColumnBox"]
+  },
+  ColumnBox: {
+    ref: ColumnBox,
+    profile: ColumnBoxProfile,
+    profileName: "ColumnBoxProfile",
+    def: c("ColumnBox", "children"),
+    black: ["ColumnBox"]
+  }
 };
 export type molleModules = typeof molleModules[keyof typeof molleModules];
 
