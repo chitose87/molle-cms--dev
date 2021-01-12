@@ -11,7 +11,7 @@
 
 <script lang="ts">
   import {Component} from "~/node_modules/nuxt-property-decorator";
-  import {Module} from "~/src/module/Module";
+  import {Module} from "~/molle/module/Module";
 
   @Component({
     components: {}

@@ -10,9 +10,9 @@
 
 <script lang="ts">
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
-  import {Singleton} from "~/src/Singleton";
+  import {Singleton} from "~/molle/Singleton";
   import firebase from "~/node_modules/firebase";
-  import {IItemData} from "~/src/interface";
+  import {IItemData} from "~/molle/interface";
   import {lsStore} from "~/utils/store-accessor";
 
   @Component({

@@ -56,8 +56,8 @@
 
 <script lang="ts">
   import {Component, Vue, Watch, Prop} from "~/node_modules/nuxt-property-decorator";
-  import {Singleton} from "~/src/Singleton";
-  import {IItemData} from "~/src/interface";
+  import {Singleton} from "~/molle/Singleton";
+  import {IItemData} from "~/molle/interface";
   import firebase from "~/node_modules/firebase";
   import {lsStore} from "~/utils/store-accessor";
   import {molleModules} from "~/plugins/Modules";

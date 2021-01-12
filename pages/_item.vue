@@ -11,8 +11,8 @@
 
 <script lang="ts">
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
-  import {IPageData} from "~/src/interface";
-  import {Singleton} from "~/src/Singleton";
+  import {IPageData} from "~/molle/interface";
+  import {Singleton} from "~/molle/Singleton";
 
   @Component({
     components: {}

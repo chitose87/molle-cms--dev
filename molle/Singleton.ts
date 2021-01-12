@@ -1,5 +1,5 @@
 import firebase from "~/node_modules/firebase";
-import {IPayload} from "~/src/interface";
+import {IPayload} from "~/molle/interface";
 
 export class Singleton {
   static systemVersion = "0.2";

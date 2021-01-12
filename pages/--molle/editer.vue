@@ -18,14 +18,14 @@
 
 <script lang="ts">
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
-  import {IPageData} from "~/src/interface";
-  import {Singleton} from "~/src/Singleton";
+  import {IPageData} from "~/molle/interface";
+  import {Singleton} from "~/molle/Singleton";
   import firebase from "firebase";
-  import ItemListViewComp from "~/src/ui/ItemListViewComp.vue";
-  import ModulePropertyComp from "~/src/ui/ModulePropertyComp.vue";
-  import { Module } from "~/src/module/Module";
+  import ItemListViewComp from "~/molle/ui/ItemListViewComp.vue";
+  import ModulePropertyComp from "~/molle/ui/ModulePropertyComp.vue";
+  import { Module } from "~/molle/module/Module";
 import { lsStore } from "~/utils/store-accessor";
-import ModuleLoader from "~/src/module/ModuleLoader.vue";
+import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 
   @Component({
     components: {ModulePropertyComp, ItemListViewComp}

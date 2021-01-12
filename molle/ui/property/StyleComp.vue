@@ -63,9 +63,9 @@
 
 <script lang="ts">
   import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-  import RectFormComp from "~/src/ui/property/RectFormComp.vue";
-  import {IItemData} from "~/src/interface";
-  import {StyleAlign} from "~/src/Singleton";
+  import RectFormComp from "~/molle/ui/property/RectFormComp.vue";
+  import {IItemData} from "~/molle/interface";
+  import {StyleAlign} from "~/molle/Singleton";
 
   @Component({
     components: {RectFormComp}

@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
-  import SpaceFormComp from "~/src/ui/property/SpaceFormComp.vue";
+  import SpaceFormComp from "~/molle/ui/property/SpaceFormComp.vue";
 
   @Component({
     components: {SpaceFormComp}

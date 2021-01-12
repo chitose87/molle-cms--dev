@@ -25,8 +25,8 @@
 
   import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
   import firebase from "~/node_modules/firebase";
-  import {Singleton} from "~/src/Singleton";
-  import {IPageData} from "~/src/interface";
+  import {Singleton} from "~/molle/Singleton";
+  import {IPageData} from "~/molle/interface";
 
   @Component({})
   export default class MolleTopPage extends Vue {

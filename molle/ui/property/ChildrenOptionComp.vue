@@ -25,13 +25,13 @@
 
 <script lang="ts">
   import {Component, Emit, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
-  import {OptionComp} from "~/src/ui/property/OptionComp.ts";
+  import {OptionComp} from "~/molle/ui/property/OptionComp.ts";
   import draggable from 'vuedraggable'
   import {molleModules} from "~/plugins/Modules";
-  import {Singleton} from "~/src/Singleton";
+  import {Singleton} from "~/molle/Singleton";
   import firebase from "firebase";
   import {lsStore} from "~/utils/store-accessor";
-  import {IItemData} from "~/src/interface";
+  import {IItemData} from "~/molle/interface";
 
   @Component({
     components: {draggable}

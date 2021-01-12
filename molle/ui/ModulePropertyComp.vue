@@ -68,11 +68,11 @@
 <script lang="ts">
   import {Component, Vue, Watch, Prop} from "~/node_modules/nuxt-property-decorator";
   import {lsStore} from "~/utils/store-accessor";
-  import {IItemData} from "~/src/interface";
-  import {Singleton} from "~/src/Singleton";
+  import {IItemData} from "~/molle/interface";
+  import {Singleton} from "~/molle/Singleton";
   import firebase from "~/node_modules/firebase";
   import {molleModules} from "~/plugins/Modules";
-  import Button from "~/src/module/primitive/Button.vue";
+  import Button from "~/molle/module/primitive/Button.vue";
 
   @Component({
     components: {Button}

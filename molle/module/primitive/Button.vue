@@ -1,32 +1,27 @@
 <template lang="pug">
-  component.module.box(
-    :is="0||'div'"
+  .module.button(
     :id="itemData.tagId"
     :class="getClass(itemData)"
     :style="getStyle(itemData)"
   )
-    ModuleLoader(
-      v-for="id in itemData.value"
-      :key="id"
-      :itemId="id"
+    a.btn(
+      :href="itemData.value.href"
+      :target="itemData.value.target"
     )
+      span(v-html="itemData.value.label")
 
 </template>
 
 <script lang="ts">
   import {Component} from "~/node_modules/nuxt-property-decorator";
-  import {Module} from "~/src/module/Module";
+  import {Module} from "~/molle/module/Module";
 
   @Component({
     components: {}
   })
-  export default class Box extends Module {
+  export default class Button extends Module {
   }
 </script>
 
 <style lang="scss">
-  .box {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-  }
 </style>

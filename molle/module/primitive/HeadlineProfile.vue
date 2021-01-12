@@ -23,9 +23,9 @@
 
 <script lang="ts">
   import {Component} from "~/node_modules/nuxt-property-decorator";
-  import {Profile} from "~/src/module/Profile";
-  import StyleComp from "~/src/ui/property/StyleComp.vue";
-  import {StyleAlign} from "~/src/Singleton";
+  import {Profile} from "~/molle/module/Profile";
+  import StyleComp from "~/molle/ui/property/StyleComp.vue";
+  import {StyleAlign} from "~/molle/Singleton";
 
   @Component({
     components: {StyleComp}
