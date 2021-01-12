@@ -87,10 +87,11 @@
           if (!snap.exists) return;
 
           this.itemDataBefore = <IItemData>snap.data();
-          let itemData = <IItemData>snap.data();
-          if (!itemData.option) itemData.option = {};
-          if (!itemData.class) itemData.class = {};
-          if (!itemData.style) itemData.style = {};
+          let itemData = <IItemData>Object.assign({},molleModules[this.itemDataBefore.moduleId].def,snap.data()) ;
+
+          // if (!itemData.option) itemData.option = {};
+          // if (!itemData.class) itemData.class = {};
+          // if (!itemData.style) itemData.style = {};
           this.$set(this, "itemData", itemData);
           this.$set(this, "itemId", snap.id);
           this.flag = true;

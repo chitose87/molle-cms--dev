@@ -1,6 +1,7 @@
 <template lang="pug">
-  p.module(
+  component.module.headline(
     :id="itemData.tagId"
+    :is="itemData.option.lv || 'h3'"
     :class="getClass(itemData)"
     :style="getStyle(itemData)"
     v-html="itemData.value || itemData.superValue || ''"
@@ -15,7 +16,7 @@
   @Component({
     components: {}
   })
-  export default class Paragraph extends Module {
+  export default class Headline extends Module {
   }
 </script>
 

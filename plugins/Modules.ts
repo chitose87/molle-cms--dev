@@ -10,6 +10,12 @@ import Column from "~/src/module/primitive/Column.vue";
 import ColumnProfile from "~/src/module/primitive/ColumnProfile.vue";
 import ColumnBox from "~/src/module/primitive/ColumnBox.vue";
 import ColumnBoxProfile from "~/src/module/primitive/ColumnBoxProfile.vue";
+import Headline from "~/src/module/primitive/Headline.vue";
+import HeadlineProfile from "~/src/module/primitive/HeadlineProfile.vue";
+import Picture from "~/src/module/primitive/Picture.vue";
+import PictureProfile from "~/src/module/primitive/PictureProfile.vue";
+import Button from "~/src/module/primitive/Button.vue";
+import ButtonProfile from "~/src/module/primitive/ButtonProfile.vue";
 
 export const molleModules: {
   [key: string]: {
@@ -28,27 +34,34 @@ export const molleModules: {
     def: c("Box", "children"),
     black: ["ColumnBox"]
   },
-  // Headline: {
-  //   ref: Headline,
-  //   profile: HeadlineProfile,
-  //   def: c("Headline", "text", {
-  //     option: {
-  //       lv: "h3"
-  //     }
-  //   })
-  // },
+  Headline: {
+    ref: Headline,
+    profile: HeadlineProfile,
+    profileName: "HeadlineProfile",
+    def: c("Headline", "text", {
+      option: {
+        lv: "h3"
+      }
+    })
+  },
   Paragraph: {
     ref: Paragraph,
     profile: ParagraphProfile,
     profileName: "ParagraphProfile",
     def: c("Paragraph", "text")
   },
-  // Picture: {
-  //   ref: Picture,
-  //   profile: PictureProfile,
-  //   def: c("Picture", "picture")
-  // },
-  //
+  Picture: {
+    ref: Picture,
+    profile: PictureProfile,
+    profileName: "PictureProfile",
+    def: c("Picture", "picture")
+  },
+  Button: {
+    ref:Button,
+    profile:ButtonProfile,
+    profileName:"ButtonProfile",
+    def: c("Button", "button")
+  },
   // Card: {
   //   ref: Card,
   //   profile: CardProfile,
@@ -100,7 +113,7 @@ function c(moduleId: string, type: string, opt?: any) {
       v.value = {};
       break;
     case "picture":
-      v.value = {src: "https://placehold.jp/150x150.png"};
+      v.value = {src: "https://placehold.jp/150x150.png", sp: "", alt: ""};
       break;
     case "text":
       v.value = "Lorem ipsum...";
@@ -109,6 +122,7 @@ function c(moduleId: string, type: string, opt?: any) {
       v.value = {
         href: "https://placehold.jp/",
         label: "BUTTON",
+        target: "",
       };
       break;
   }

@@ -6,11 +6,24 @@
       @change="()=>$emit('change')"
     )
     label.form-inline
-      span.mr-1 Text:
-      textarea.form-control.form-control-sm(
-        v-model="itemData.value"
+      span.mr-1 URL:
+      input.form-control.form-control-sm(
+        v-model="itemData.value.href"
         @change="()=>$emit('change')"
       )
+    label.form-inline
+      span.mr-1 ラベル:
+      input.form-control.form-control-sm(
+        v-model="itemData.value.label"
+        @change="()=>$emit('change')"
+      )
+    label.form-inline
+      span.mr-1 ターゲット:
+      select.form-control.form-control-sm(
+        v-model="itemData.option.target"
+        @change="()=>$emit('change')"
+      )
+        option(v-for='item in ["", "_self", "_blank"]' :value="item" v-html="item")
 
 </template>
 
@@ -23,7 +36,7 @@
   @Component({
     components: {StyleComp}
   })
-  export default class ParagraphProfile extends Profile {
+  export default class ButtonProfile extends Profile {
     //style setting
     stylePermission = {
       border: false,

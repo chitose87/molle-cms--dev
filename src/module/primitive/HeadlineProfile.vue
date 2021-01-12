@@ -5,38 +5,38 @@
       @change="()=>$emit('change')"
       :permission="stylePermission"
     )
-
     label.form-inline
-      span.mr-1 カラムサイズ:
-      input.form-control.form-control-sm(
-        v-model="itemData.option.flexBasis"
+      span.mr-1 見出しレベル:
+      select.form-control.form-control-sm(
+        v-model="itemData.option.lv"
         @change="()=>$emit('change')"
       )
+        option(v-for='item in ["h1", "h2", "h3", "h4", "h5", "h6"]' :value="item" v-html="item")
 
-    ChildrenOptionComp(
-      :moduleId="itemData.moduleId"
-      v-model="itemData.value"
-      @change="()=>$emit('change')"
-    )
-
+    label.form-inline
+      span.mr-1 Text:
+      textarea.form-control.form-control-sm(
+        v-model="itemData.value"
+        @change="()=>$emit('change')"
+      )
 </template>
 
 <script lang="ts">
   import {Component} from "~/node_modules/nuxt-property-decorator";
-  import StyleComp from "~/src/ui/property/StyleComp.vue";
   import {Profile} from "~/src/module/Profile";
-  import ChildrenOptionComp from "~/src/ui/property/ChildrenOptionComp.vue";
+  import StyleComp from "~/src/ui/property/StyleComp.vue";
+  import {StyleAlign} from "~/src/Singleton";
 
   @Component({
-    components: {ChildrenOptionComp, StyleComp}
+    components: {StyleComp}
   })
-  export default class ColumnBoxProfile extends Profile {
+  export default class HeadlineProfile extends Profile {
     //style setting
     stylePermission = {
-      container: false,
       border: false,
+      align: StyleAlign.None,
       margin: "",
-      padding: "",
+      // padding: "",
       // theme: {default: "", select: ["", "test"]},
       // color: {default: "", select: ["", "dark"]},
     };

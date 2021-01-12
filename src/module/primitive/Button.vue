@@ -1,10 +1,14 @@
 <template lang="pug">
-  p.module(
+  .module.button(
     :id="itemData.tagId"
     :class="getClass(itemData)"
     :style="getStyle(itemData)"
-    v-html="itemData.value || itemData.superValue || ''"
   )
+    a.btn(
+      :href="itemData.value.href"
+      :target="itemData.value.target"
+    )
+      span(v-html="itemData.value.label")
 
 </template>
 
@@ -15,7 +19,7 @@
   @Component({
     components: {}
   })
-  export default class Paragraph extends Module {
+  export default class Button extends Module {
   }
 </script>
 

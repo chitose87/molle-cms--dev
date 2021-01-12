@@ -1,10 +1,12 @@
 <template lang="pug">
   div
-    InputOptionComp(
-      :label="'基本カラムサイズ'",
-      v-model="itemData.option.flexBasis"
-      @change="()=>$emit('change')"
-    )
+    label.form-inline
+      span.mr-1 基本カラムサイズ:
+      input.form-control.form-control-sm(
+        v-model="itemData.option.flexBasis"
+        @change="()=>$emit('change')"
+      )
+
     //SpaceOptionComp(
     //  :label="'横の隙間'",
     //  :data="itemData.option || {}"
@@ -36,12 +38,11 @@
 <script lang="ts">
   import {Component} from "~/node_modules/nuxt-property-decorator";
   import {Profile} from "~/src/module/Profile";
-  import InputOptionComp from "~/src/ui/property/InputOptionComp.vue";
   import StyleComp from "~/src/ui/property/StyleComp.vue";
   import ChildrenOptionComp from "~/src/ui/property/ChildrenOptionComp.vue";
 
   @Component({
-    components: {ChildrenOptionComp, InputOptionComp,StyleComp}
+    components: {ChildrenOptionComp, StyleComp}
   })
   export default class ColumnProfile extends Profile {
     //style setting
