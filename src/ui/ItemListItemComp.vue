@@ -1,6 +1,5 @@
 <template lang="pug">
   .item-list-item-comp.list-group-item.list-group-item-action.pr-0.border-right-0(v-if="itemData.moduleId")
-
     .d-flex.justify-content-between
       button.btn.btn-sm.btn-outline-secondary(
         :class="{active:lsStore.storage.focusModuleId===itemId}"
@@ -15,7 +14,15 @@
         @click="deleteModule()"
       ) x
     // children
-    .list-group.mt-3(v-if="molleModules[itemData.moduleId].def.type==='children'")
+    draggable.list-group.mt-3(
+      v-if="molleModules[itemData.moduleId].def.type==='children'"
+      v-model="itemData.value"
+      :group="getGroup(itemData.moduleId)"
+      @remove="updateChild"
+      @add="updateChild"
+      @update="updateChild"
+      @end="hoge"
+    )
       ItemListItemComp(
         v-for="id in itemData.value"
         :key="id"
@@ -54,9 +61,10 @@
   import firebase from "~/node_modules/firebase";
   import {lsStore} from "~/utils/store-accessor";
   import {molleModules} from "~/plugins/Modules";
+  import draggable from "vuedraggable";
 
   @Component({
-    components: {}
+    components: {draggable}
   })
   export default class ItemListItemComp extends Vue {
     @Prop() itemId!: string;
@@ -73,16 +81,35 @@
       });
     }
 
+    getGroup(moduleId: string) {
+      switch (moduleId) {
+        case "Column":
+          return moduleId;
+        default:
+          return "Box";
+      }
+    }
+
+    updateChild() {
+      console.log("updateChild", this.itemData.value);
+      Singleton.itemsRef.doc(this.itemId).update({
+        value: this.itemData.value
+      });
+    }
+
     deleteModule() {
-        let parent = <ItemListItemComp>this.$parent;
-        Singleton.itemsRef.doc(parent.itemId).update({
-          value: parent.itemData.value.filter((via: string) => via != this.itemId)
-        });
+      let parent = <ItemListItemComp>this.$parent;
+      Singleton.itemsRef.doc(parent.itemId).update({
+        value: parent.itemData.value.filter((via: string) => via != this.itemId)
+      });
     }
 
     beforeDestroy() {
-      console.log("beforeDestroy")
       this.unsubscribe();
+    }
+
+    hoge(e:any){
+      console.log(e.item)
     }
   }
 </script>
