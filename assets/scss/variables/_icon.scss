@@ -63,6 +63,26 @@
   content: "\f30d";
 } /* '' */
 
+@mixin icon-arrow-down-circle {
+}
+@mixin icon-arrow-down {
+}
+@mixin icon-arrow-left-circle {
+}
+@mixin icon-arrow-left {
+}
+@mixin icon-arrow-right-circle {
+}
+@mixin icon-arrow-right {
+}
+@mixin icon-arrow-up-circle {
+}
+@mixin icon-arrow-up {
+}
+@mixin icon-blank {
+  @include icon-popup;
+}
+
 @mixin cross($w, $h, $color, $deg, $noPosition) {
   &:before,
   &:after {
