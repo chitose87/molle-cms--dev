@@ -6,50 +6,62 @@
   speak: none;
 }
 
-@mixin icon-arrow-down-circle {
+@mixin icon-down-open {
   @include _icon;
   content: "\e800";
-}
-@mixin icon-arrow-down {
+} /* '' */
+@mixin icon-left-open {
   @include _icon;
   content: "\e801";
-}
-@mixin icon-arrow-left-circle {
+} /* '' */
+@mixin icon-right-open {
   @include _icon;
   content: "\e802";
-}
-@mixin icon-arrow-left {
+} /* '' */
+@mixin icon-up-open {
   @include _icon;
   content: "\e803";
-}
-@mixin icon-arrow-right-circle {
+} /* '' */
+@mixin icon-down-circle {
   @include _icon;
   content: "\e804";
-}
-@mixin icon-arrow-right {
+} /* '' */
+@mixin icon-left-circle {
   @include _icon;
   content: "\e805";
-}
-@mixin icon-arrow-up-circle {
+} /* '' */
+@mixin icon-right-circle {
   @include _icon;
   content: "\e806";
-}
-@mixin icon-arrow-up {
+} /* '' */
+@mixin icon-up-circle {
   @include _icon;
   content: "\e807";
-}
-@mixin icon-blank {
+} /* '' */
+@mixin icon-popup {
   @include _icon;
   content: "\e808";
-}
-@mixin icon-facebook {
+} /* '' */
+@mixin icon-download-cloud {
   @include _icon;
-  content: "\e809";
-}
+  content: "\f0ed";
+} /* '' */
 @mixin icon-twitter {
   @include _icon;
-  content: "\e80a";
-}
+  content: "\f309";
+} /* '' */
+@mixin icon-twitter-circled {
+  @include _icon;
+  content: "\f30a";
+} /* '' */
+@mixin icon-facebook {
+  @include _icon;
+  content: "\f30c";
+} /* '' */
+@mixin icon-facebook-circled {
+  @include _icon;
+  content: "\f30d";
+} /* '' */
 
 @mixin cross($w, $h, $color, $deg, $noPosition) {
   &:before,
