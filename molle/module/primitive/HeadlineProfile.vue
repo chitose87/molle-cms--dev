@@ -1,10 +1,11 @@
 <template lang="pug">
   div
-    StyleComp(
-      :itemData="itemData"
-      @change="()=>$emit('change')"
-      :permission="stylePermission"
-    )
+    label.form-inline
+      span.mr-1 Text:
+      textarea.form-control.form-control-sm(
+        v-model="itemData.value"
+        @change="()=>$emit('change')"
+      )
     label.form-inline
       span.mr-1 見出しレベル:
       select.form-control.form-control-sm(
@@ -13,12 +14,12 @@
       )
         option(v-for='item in ["h1", "h2", "h3", "h4", "h5", "h6"]' :value="item" v-html="item")
 
-    label.form-inline
-      span.mr-1 Text:
-      textarea.form-control.form-control-sm(
-        v-model="itemData.value"
-        @change="()=>$emit('change')"
-      )
+    StyleComp(
+      :itemData="itemData"
+      @change="()=>$emit('change')"
+      :permission="stylePermission"
+    )
+
 </template>
 
 <script lang="ts">
@@ -37,8 +38,8 @@
       align: StyleAlign.None,
       margin: "",
       // padding: "",
-      // theme: {default: "", select: ["", "test"]},
-      // color: {default: "", select: ["", "dark"]},
+      theme: {default: "", select: ["", "decorate"]},
+      color: {default: "", select: ["", "text-white"]},
     };
   }
 </script>

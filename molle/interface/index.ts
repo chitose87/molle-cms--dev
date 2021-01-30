@@ -1,6 +1,17 @@
 export interface IPageData {
   path: string;
   itemId?: string;
+  title?: string;
+  description?: string;
+
+  displayTitle?: string;
+  ogpImg?: string;
+
+  date?: string;
+  utc?: string;
+  noExport?: boolean;
+
+  option?: any;
 }
 
 export interface IItemData {
@@ -21,15 +32,16 @@ export interface IItemData {
   style?: any;
 
   class: {
-    theme?: string,
-    color?: string,
-    border?: boolean,
-    align?: string,
-  }
+    theme?: string;
+    color?: string;
+    border?: boolean;
+    align?: string;
+  };
 }
 
 export interface IPayload {
   id: string;
-  pages: { [key: string]: IPageData };
-  items: { [key: string]: IItemData };
+  pageData: IPageData;
+  pages: {[key: string]: IPageData};
+  items: {[key: string]: IItemData};
 }

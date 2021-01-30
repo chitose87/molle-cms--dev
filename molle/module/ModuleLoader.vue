@@ -1,52 +1,83 @@
 <template lang="pug">
-  component(
-    v-if="itemData.moduleId"
-    :is="itemData.moduleId"
-    :itemData="itemData"
-    :data-item-id="itemId"
-    :style="lsStore.storage.focusModuleId==itemId?{outline:'1px solid red'}:false"
-  )
+//SSG only
+component(
+  v-if="lsStore.isSSG",
+  :is="lsStore.payload.items[itemId].moduleId",
+  :itemData="lsStore.payload.items[itemId]"
+)
+//SPA,DEV
+component(
+  v-else,
+  :is="itemData.moduleId",
+  :itemData="itemData",
+  :data-item-id="itemId",
+  :style="check()"
+)
 </template>
 
 <script lang="ts">
-  import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
-  import {Singleton} from "~/molle/Singleton";
-  import firebase from "~/node_modules/firebase";
-  import {IItemData} from "~/molle/interface";
-  import {lsStore} from "~/utils/store-accessor";
+import {
+  Component,
+  Prop,
+  Vue,
+  Watch,
+} from "~/node_modules/nuxt-property-decorator";
+import {Singleton} from "~/molle/Singleton";
+import firebase from "~/node_modules/firebase";
+import {IItemData, IPayload} from "~/molle/interface";
+import {lsStore} from "~/utils/store-accessor";
 
-  @Component({
-    components: {}
-  })
-  export default class ModuleLoader extends Vue {
-    @Prop() itemId!: string;
-    itemData = <IItemData>{};
-    lsStore = lsStore;
-    private unsubscribe!: () => void;
+@Component({
+  components: {},
+})
+export default class ModuleLoader extends Vue {
+  @Prop() itemId?: string;
 
-    created() {
-      if (Singleton.payload) {
-        this.itemData = Singleton.payload.items[this.itemId];
-        this.$set(this, "itemData", this.itemData);
-      } else {
-        this.unsubscribe = Singleton.itemsRef.doc(this.itemId).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-          if (!snap.exists) {
-            Singleton.itemsRef.doc(this.itemId).set({
-              moduleId: "Box"
-            });
-            return;
-          }
+  //SSG only
+  // @Prop() payload?: IPayload;
 
-          let _itemData = snap.data();
-          this.$set(this, "itemData", _itemData);
-        })
-      }
-    }
+  //SPA,DEV
+  itemData = <IItemData>{};
+  private unsubscribe!: () => void;
+  lsStore = lsStore;
 
-    beforeDestroy() {
-      this.unsubscribe();
+  created() {
+    // console.log("created", this.payload);
+    if (!lsStore.isSSG && this.itemId) {
+      //SPA,DEV
+      Singleton.firebaseInit(() => {
+        this.unsubscribe = Singleton.itemsRef
+          .doc(this.itemId)
+          .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+            if (!snap.exists) {
+              Singleton.itemsRef.doc(this.itemId).set({
+                moduleId: "Box",
+              });
+              return;
+            }
+
+            let _itemData = snap.data();
+            // console.log(_itemData);
+            this.$set(this, "itemData", _itemData);
+          });
+      });
     }
   }
+
+  check() {
+    if (this.$route.query.hidden === "true") {
+      return "";
+    } else if (lsStore.storage.focusModuleId == this.itemId) {
+      return {outline: "2px solid red"};
+    } else if (lsStore.storage.hoverModuleId == this.itemId) {
+      return {outline: "2px solid orange"};
+    }
+  }
+
+  beforeDestroy() {
+    this.unsubscribe && this.unsubscribe();
+  }
+}
 </script>
 
 <style lang="scss">

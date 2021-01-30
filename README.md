@@ -8,7 +8,7 @@ firebase init
 npm run dev
 
 ## 公開作業
-npm run build
+npm run gen
 
 ### 動作確認
 firebase serve

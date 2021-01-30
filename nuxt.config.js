@@ -23,17 +23,20 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: '{description}'
+        content: process.env.description
       },
-      {hid: 'og:site_name', property: 'og:site_name', content: 'sch-ttb-timber-coop'},
+      {hid: 'og:site_name', property: 'og:site_name', content: process.env.siteName},
       {hid: 'og:type', property: 'og:type', content: 'article'},
-      {hid: 'og:image', property: 'og:image', content: `{url}`},
+      {hid: 'og:image', property: 'og:image', content: process.env.domain+"og_img.png"},
+      {hid: 'og:description', property: 'og:description', content: process.env.description},
 
       {hid: 'twitter:card', property: 'twitter:card', content: `summary`},
-      {hid: 'twitter:image', property: 'twitter:image', content: `{url}`},
+      {hid: 'twitter:image', property: 'twitter:image', content: process.env.domain+"og_img.png"},
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
+      {rel: 'preconnect', href: 'https://fonts.gstatic.com'},
+      {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap'},
     ],
     script: []
   },
@@ -73,9 +76,6 @@ export default {
       '~/assets/scss/variables/_index.scss',
     ]
   },
-  server: {
-    port: 4000, // デフォルト: 3000
-  },
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     extractCSS: true,
@@ -104,5 +104,10 @@ export default {
   },
   generate: {
     dir: 'functions/dist'
+  },
+  router: {
+    scrollBehavior: function (to, from, savedPosition) {
+      return {}
+    }
   }
 }

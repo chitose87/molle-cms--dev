@@ -1,18 +1,24 @@
 <template lang="pug">
   div
+    //SpaceOptionComp(
+    //  :label="'横の隙間'",
+    //  :data="itemData.option || {}"
+    //  :dataKey="'gutter-h'"
+    //  :negative="false"
+    //  @change="(v)=>onUpdate('option',v)"
+    //)
+    //SpaceOptionComp(
+    //  :label="'縦の隙間'",
+    //  :data="itemData.option || {}"
+    //  :dataKey="'gutter-v'"
+    //  :negative="false"
+    //  @change="(v)=>onUpdate('option',v)"
+    //)
     StyleComp(
       :itemData="itemData"
       @change="()=>$emit('change')"
       :permission="stylePermission"
     )
-    label.form-inline
-      span.mr-1 タグ:
-      select.form-control.form-control-sm(
-        v-model="itemData.option.tag"
-        @change="()=>$emit('change')"
-      )
-        option(v-for="item in ['', 'section']" :value="item" v-html="item")
-
     ChildrenOptionComp(
       :moduleId="itemData.moduleId"
       v-model="itemData.value"
@@ -23,22 +29,22 @@
 
 <script lang="ts">
   import {Component} from "~/node_modules/nuxt-property-decorator";
+  import {Profile} from "~/molle/module/Profile";
   import StyleComp from "~/molle/ui/property/StyleComp.vue";
   import ChildrenOptionComp from "~/molle/ui/property/ChildrenOptionComp.vue";
-  import {Profile} from "~/molle/module/Profile";
 
   @Component({
-    components: {StyleComp,ChildrenOptionComp}
+    components: {ChildrenOptionComp, StyleComp}
   })
-  export default class BoxProfile extends Profile {
+  export default class GalleryProfile extends Profile {
     //style setting
     stylePermission = {
       container: false,
       border: false,
       margin: "",
       padding: "",
-      theme: {default: "", select: ["", "-quote"]},
-      color: {default: "", select: ["", "-dark"]},
+      // theme: {default: "", select: ["", "test"]},
+      // color: {default: "", select: ["", "dark"]},
     };
   }
 </script>

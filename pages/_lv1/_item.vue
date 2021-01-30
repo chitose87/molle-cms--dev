@@ -1,42 +1,22 @@
 <template lang="pug">
-  div
-    h1 lv2 ssg
-    p(v-html="pageId")
-    p(v-html="pageData")
-
-    .container
-      ModuleLoader(:itemId="pageData.itemId")
-
+UniversalPage(:pageData="localPageData")
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
-  import {IPageData} from "~/molle/interface";
-  import {Singleton} from "~/molle/Singleton";
+import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
+import UniversalPage from "~/pages/_universal.vue";
+import {Page} from "~/molle/module/Page";
+import {lsStore} from "~/utils/store-accessor";
 
-  @Component({
-    components: {}
-  })
-  export default class StaticPageLv2 extends Vue {
-    pageId!: string;
-    pageData!: IPageData;
-
-    async asyncData(context: any) {
-      Singleton.payload = context.payload;
-      return {
-        pageId: context.payload.id,
-        pageData: context.payload.pages[context.payload.id]
-      };
-    }
-
-    created() {
-    }
-
-    init() {
-    }
+@Component({
+  components: {UniversalPage},
+})
+export default class StaticPageLv2 extends Page {
+  async asyncData(context: any) {
+    lsStore.updatePayload(context.payload);
   }
+}
 </script>
 
 <style lang="scss">
-
 </style>

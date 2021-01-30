@@ -16,7 +16,7 @@
 
     // add
     label.mt-3 Add Module
-    form.form-group.d-flex.justify-content-between.mb-0.mr-2(@submit.prevent @submit="pushModule()")
+    form.form-group.d-flex.justify-content-between.mb-0.mr-2(@submit.prevent @submit="pushModule(pushModuleSelected)")
       select.form-control.form-control-sm(v-model="pushModuleSelected")
         option(v-for="key in getModuleList()" :value="key" v-html="key")
       button.btn.btn-sm.btn-info(type="submit") +
@@ -27,11 +27,11 @@
   import {Component, Emit, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
   import {OptionComp} from "~/molle/ui/property/OptionComp.ts";
   import draggable from 'vuedraggable'
-  import {molleModules} from "~/plugins/Modules";
   import {Singleton} from "~/molle/Singleton";
   import firebase from "firebase";
   import {lsStore} from "~/utils/store-accessor";
   import {IItemData} from "~/molle/interface";
+  import {molleModules} from "~/molle/module";
 
   @Component({
     components: {draggable}
@@ -44,7 +44,6 @@
     private obj = <{ [key: string]: IItemData }>{};
 
     created() {
-      console.log(this.localValue)
       this.localValue.forEach((id: string) => {
         Singleton.itemsRef.doc(id)
           .get()
@@ -52,22 +51,30 @@
             this.$set(this.obj, snap.id, snap.data());
           });
       });
+
+      //
+      this.$root.$on("pushModule", this.pushModule);
     }
 
     getModuleList() {
       // @ts-ignore
       let moduleOpt = molleModules[this.moduleId];
+      let response: string[] = [];
       if (moduleOpt.white) {
-        return moduleOpt.white;
+        response = moduleOpt.white;
       } else if (moduleOpt.black) {
-        return Object.keys(molleModules).filter((name: string) => moduleOpt.black!.indexOf(name) == -1);
+        response = Object.keys(molleModules).filter((name: string) => moduleOpt.black!.indexOf(name) == -1);
       }
-      return [];
+      if (!this.pushModuleSelected) {
+        this.pushModuleSelected = response[0];
+      }
+      return response;
     }
 
-    pushModule() {
+    pushModule(pushModuleSelected: string) {
+      if (!pushModuleSelected) return;
       // @ts-ignore
-      let data: IItemStoreData = molleModules[this.pushModuleSelected].def;
+      let data: IItemStoreData = molleModules[pushModuleSelected].def;
 
       Singleton.itemsRef.add(data)
         .then((docRef: firebase.firestore.DocumentReference) => {
@@ -75,6 +82,11 @@
           this.$emit('change');
           lsStore.update({key: "focusModuleId", value: docRef.id});
         });
+    }
+
+    beforeDestroy() {
+      console.log("beforeDestroy")
+      this.$root.$off("pushModule", this.pushModule);
     }
   }
 </script>

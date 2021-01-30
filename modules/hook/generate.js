@@ -16,16 +16,18 @@ module.exports = function () {
     await new Promise((resolve, reject) => {
       firebase.auth().onAuthStateChanged((user) => {
         Promise.all([
-          firebase.firestore().collection(`version/${process.env.version}/pages`).get(),
-          firebase.firestore().collection(`version/${process.env.version}/items`).get()
+          firebase.firestore().collection(`${process.env.molleProjectID}/${process.env.molleBrunch}/pages`).get(),
+          firebase.firestore().collection(`${process.env.molleProjectID}/${process.env.molleBrunch}/items`).get()
         ])
           .then(([pages, items]) => {
             function cleaningFirestoreValue(_data) {
               for (let key in _data) {
                 if (_data[key]) {
-                  if (_data[key].id) {
-                    _data[key] = _data[key].id;
-                  } else if (key == "updateTime" || key == "createTime") {
+                  // if (_data[key].id) {
+                  //   console.log(key,_data[key]);
+                  //   _data[key] = _data[key].id;
+                  // } else
+                  if (key == "updateTime" || key == "createTime") {
                     _data[key] = "";
                   } else if (typeof _data[key] == "object") {
                     cleaningFirestoreValue(_data[key]);
@@ -38,13 +40,23 @@ module.exports = function () {
             let allData = {
               pages: {}, items: {}
             };
+            routes.forEach((route) => {
+              route.payload={
+                // id: snap.id,
+                pages: allData.pages,
+                items: allData.items,
+              }
+            });
             pages.forEach((snap) => {
               let data = cleaningFirestoreValue(snap.data());
               allData.pages[snap.id] = data;
+
+              if (data.noExport) return;
               routes.push({
                 route: `${data.path}`
                 , payload: {
                   id: snap.id,
+                  pageData:data,
                   pages: allData.pages,
                   items: allData.items,
                 }

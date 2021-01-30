@@ -1,3 +1,76 @@
+[target="_blank"]:after {
+  @include icon-blank;
+  display: inline-block;
+  margin-left: 0.25em;
+  line-height: 1;
+}
+
+.button-primary {
+  position: relative;
+  color: $color-white;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.4s ease;
+  text-align: center;
+  @include mediaquery-not-sm {
+    width: 492px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+    font-size: 20px;
+  }
+  @include mediaquery-sm {
+    width: 326px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 18px;
+  }
+
+  span {
+    position: relative;
+    @include mediaquery-not-sm {
+      padding-left: 30px;
+    }
+    @include mediaquery-sm {
+      font-size: 16px;
+    }
+  }
+
+  &::before {
+    content: "";
+    border-radius: 5px;
+    background: $color-black;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transition: all 0.4s ease;
+  }
+
+  &::after {
+    @include icon-arrow-right();
+    display: inline-block;
+    margin-left: 1rem;
+    position: relative;
+    top: -0.1em;
+    @include mediaquery-not-sm {
+      font-size: 70%;
+    }
+    @include mediaquery-sm {
+      font-size: 90%;
+    }
+  }
+
+  &:hover {
+    &::before {
+      background: $color-yellow;
+      width: calc(100% + 10px);
+      height: calc(100% + 10px);
+      transform: translate(-5px, -5px);
+    }
+  }
+}
+
 //.btn {
 //  display: inline-flex;
 //  border-radius: 2px;

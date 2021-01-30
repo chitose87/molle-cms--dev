@@ -8,13 +8,13 @@
     label.form-inline
       span.mr-1 URL:
       input.form-control.form-control-sm(
-        v-model="itemData.value.href"
+        v-model="itemData.option.href"
         @change="()=>$emit('change')"
       )
     label.form-inline
       span.mr-1 ラベル:
       input.form-control.form-control-sm(
-        v-model="itemData.value.label"
+        v-model="itemData.value"
         @change="()=>$emit('change')"
       )
     label.form-inline
@@ -39,12 +39,12 @@
   export default class ButtonProfile extends Profile {
     //style setting
     stylePermission = {
-      border: false,
-      align: StyleAlign.None,
-      margin: "",
+      // border: false,
+      // align: StyleAlign.None,
+      // margin: "",
       // padding: "",
-      // theme: {default: "", select: ["", "test"]},
-      // color: {default: "", select: ["", "dark"]},
+      theme: {default: "", select: ["", "-sm", "-lg"]},
+      color: {default: "", select: ["", "-primary", "-secondary", "-link"]},
     };
   }
 </script>

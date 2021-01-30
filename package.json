@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt-ts",
-    "build": "nuxt-ts build && npm run build:copy:ssr",
-    "build:copy:ssr": "rimraf functions/ssr && mkdirp functions/ssr && cp -R .nuxt/dist functions/ssr/dist",
+    "dev": "NUXT_PORT=1234 nuxt-ts",
+    "build": "nuxt-ts build",
     "start": "nuxt-ts start",
     "gen": "nuxt-ts generate",
     "deploy": "nuxt-ts generate && firebase deploy"
@@ -23,7 +22,9 @@
     "@nuxt/types": "^2.14.7",
     "@nuxt/typescript-build": "^2.0.3",
     "@nuxtjs/style-resources": "^1.0.0",
+    "@types/firebase": "^3.2.1",
     "firebase": "^8.0.2",
+    "http-server": "^0.12.3",
     "node-sass": "^4.14.1",
     "nuxt-property-decorator": "^2.8.8",
     "pug": "^2.0.0",

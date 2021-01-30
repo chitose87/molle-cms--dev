@@ -1,22 +1,31 @@
 <template lang="pug">
-  .module-property-comp.bootstrap.shadow(:aria-expanded="expanded")
+  .module-property-comp
     .card.bg-light
-      button.btn.btn-outline-secondary.module-property-comp__toggle(
-        @click="()=>expanded=!expanded"
-      )
-        b-icon(icon="layout-sidebar-inset-reverse")
-
       .card-header.pt-1.pb-1.pl-3.pr-3 プロパティ
       .card-body.p-3(v-if="flag")
         p
           span Type :
           span(v-html="itemData.moduleId")
+
+          //moduleChange
+          button.btn.btn-sm.btn-outline-secondary(
+            v-if="molleModules[itemData.moduleId].convert"
+            :id="'moduleChange'"
+          )
+            b-icon(icon="arrow-repeat")
+          b-popover(
+            :target="'moduleChange'"
+            title="change type" triggers="focus"
+            placement="bottom"
+            container="bootstrap-container"
+            @show="()=>changeModuleSelected=molleModules[itemData.moduleId].convert[0]"
+          )
+            form.form-group.form-check-inline(@submit.prevent @submit="moduleChange()")
+              select.form-control.form-control-sm(v-model="changeModuleSelected")
+                option(v-for="key in molleModules[itemData.moduleId].convert" :value="key" v-html="key")
+              button.btn.btn-sm.btn-info(type="submit") +
           br
           span.small.text-nowrap ID : {{lsStore.storage.focusModuleId}}
-          //button.btn.btn-sm.btn-outline-secondary(
-          //  @click="moduleChange()"
-          //)
-          //  b-icon(icon="pencil")
 
         //button.btn.module-editor__notExport(
         //  v-if="!$parent.required"
@@ -24,6 +33,15 @@
         //)
         //  b-icon(icon="eye-slash-fill" v-if="itemData.notExport")
         //  b-icon(icon="eye-fill" v-else)
+        //profile
+        component(
+          v-if="molleModules[itemData.moduleId].profile"
+          :is="molleModules[itemData.moduleId].profileName"
+          :itemData="itemData"
+          @change="update"
+        )
+        hr
+
         //名前
         label.mr-2
           .u_auto-input
@@ -53,15 +71,6 @@
               v-model="itemData.tagClass"
               @change="update"
               placeholder="class")
-        hr
-        //profile
-        component(
-          v-if="molleModules[itemData.moduleId].profile"
-          :is="molleModules[itemData.moduleId].profileName"
-          :itemData="itemData"
-          @change="update"
-        )
-        hr
 
 </template>
 
@@ -71,21 +80,21 @@
   import {IItemData} from "~/molle/interface";
   import {Singleton} from "~/molle/Singleton";
   import firebase from "~/node_modules/firebase";
-  import {molleModules} from "~/plugins/Modules";
-  import Button from "~/molle/module/primitive/Button.vue";
+  import {molleModules} from "~/molle/module";
 
   @Component({
-    components: {Button}
+    components: {}
   })
   export default class ModulePropertyComp extends Vue {
     molleModules = molleModules;
     itemId: string = "";
     itemData = <IItemData>{};
     itemDataBefore = <IItemData>{};
+    changeModuleSelected = "";
     lsStore = lsStore;
     private unsubscribe?: () => void;
     flag = false;
-    expanded = true;
+    pageFlag = true;
 
     @Watch('lsStore.storage.focusModuleId', {immediate: true})
     onChangeFocusModuleId(newer: string, older?: string) {
@@ -142,8 +151,27 @@
           flag = true;
         }
       });
-      console.log("update", update)
+      console.log("update", this.itemId,update)
       if (flag) {
+        Singleton.itemsRef.doc(this.itemId).update(update);
+      }
+    }
+
+    moduleChange() {
+      if (this.changeModuleSelected) {
+        let update: any = {moduleId: this.changeModuleSelected};
+
+        // convert
+        // switch (this.itemData.moduleId) {
+        //   case "Headline":
+        //     switch (this.changeModuleSelected) {
+        //       case "Paragraph":
+        //         break;
+        //     }
+        //     break;
+        //   case "Paragraph":
+        //     break;
+        // }
         Singleton.itemsRef.doc(this.itemId).update(update);
       }
     }
@@ -152,24 +180,9 @@
 
 <style lang="scss">
   .module-property-comp {
-    background-color: $color-gray-100;
+  }
 
-    height: 100vh;
-    overflow: auto;
-
-    position: sticky;
-    top: 0;
-
-    width: 0;
-    &[aria-expanded=true] {
-      min-width: 200px;
-      max-width: 200px;
-    }
-
-    &__toggle {
-      position: fixed;
-      top: 0rem;
-      right: 0rem;
-    }
+  .hoge {
+    z-index: $zindex-modal;
   }
 </style>

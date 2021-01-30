@@ -2,12 +2,12 @@ import firebase from "~/node_modules/firebase";
 import {IPayload} from "~/molle/interface";
 
 export class Singleton {
-  static systemVersion = "0.2";
+  static prefix = `${process.env.molleProjectID}/${process.env.molleBrunch}`;
   static payload?: IPayload;
 
   static get systemDocRef(): firebase.firestore.DocumentReference {
     return this._systemDocRef ? this._systemDocRef :
-      this._systemDocRef = firebase.firestore().doc(`version/${this.systemVersion}`);
+      this._systemDocRef = firebase.firestore().doc(this.prefix);
   }
 
   static get itemsRef(): firebase.firestore.CollectionReference {
@@ -41,6 +41,7 @@ export class Singleton {
       callBack();
     }
   }
+
 }
 
 export const StyleAlign = {

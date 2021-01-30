@@ -9,19 +9,19 @@
     label.form-inline.mr-2 src:
       input.form-control.form-control-sm(
         type="text"
-        v-model="itemData.value.src"
+        v-model="itemData.value"
         @change="()=>$emit('change')"
       )
     label.form-inline.mr-2 sp:
       input.form-control.form-control-sm(
         type="text"
-        v-model="itemData.value.sp"
+        v-model="itemData.option.sp"
         @change="()=>$emit('change')"
       )
     label.form-inline.mr-2 alt:
       input.form-control.form-control-sm(
         type="text"
-        v-model="itemData.value.alt"
+        v-model="itemData.option.alt"
         @change="()=>$emit('change')"
       )
 

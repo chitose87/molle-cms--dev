@@ -30,7 +30,7 @@
       align: StyleAlign.None,
       margin: "",
       // padding: "",
-      // theme: {default: "", select: ["", "test"]},
+      theme: {default: "", select: ["", "-caption"]},
       // color: {default: "", select: ["", "dark"]},
     };
   }

@@ -1,31 +1,43 @@
-import {Module, VuexModule, Mutation, Action} from 'vuex-module-decorators'
+import {Module, VuexModule, Mutation, Action} from "vuex-module-decorators";
+import {IPayload} from "~/molle/interface";
 
-@Module({name: 'lsStore', stateFactory: true, namespaced: true})
-
+@Module({name: "lsStore", stateFactory: true, namespaced: true})
 export default class lsStore extends VuexModule {
   private static prefix: string = "molle-ls-";
   storage = {
-    focusModuleId: ""
+    focusModuleId: "",
+    hoverModuleId: "",
+    focusFamily: [],
   };
+
+  payload = <any>{};
+  isSSG = false;
 
   editing: string[] = [];
 
   @Mutation
   init() {
-    let v: string[] = JSON.parse(localStorage.getItem(lsStore.prefix + "editing") || "[]");
-    v.forEach((id) => {
+    let v: string[] = JSON.parse(
+      localStorage.getItem(lsStore.prefix + "editing") || "[]",
+    );
+    v.forEach(id => {
       this.editing.push(id);
     });
 
-    this.storage = JSON.parse(localStorage.getItem(lsStore.prefix + "storage") || "{}");
-    console.log("lsStore", "initialized")
+    this.storage = JSON.parse(
+      localStorage.getItem(lsStore.prefix + "storage") || "{}",
+    );
+    console.log("lsStore", "initialized");
   }
 
   @Mutation
-  update(arg: { key: string, value: any }) {
+  update(arg: {key: string; value: any}) {
     // @ts-ignore
     this.storage[arg.key] = arg.value;
-    localStorage.setItem(lsStore.prefix + "storage", JSON.stringify(this.storage))
+    localStorage.setItem(
+      lsStore.prefix + "storage",
+      JSON.stringify(this.storage),
+    );
   }
 
   // getAttr(key: string) {
@@ -33,7 +45,7 @@ export default class lsStore extends VuexModule {
   // }
 
   @Mutation
-  updateEditing(arg: { id: string, flag?: boolean }) {
+  updateEditing(arg: {id: string; flag?: boolean}) {
     let i = this.editing.indexOf(arg.id);
     if (i >= 0) this.editing.splice(i, 1);
 
@@ -42,6 +54,17 @@ export default class lsStore extends VuexModule {
       this.editing.push(arg.id);
     }
 
-    localStorage.setItem(lsStore.prefix + "editing", JSON.stringify(this.editing));
+    localStorage.setItem(
+      lsStore.prefix + "editing",
+      JSON.stringify(this.editing),
+    );
+  }
+
+  @Mutation
+  updatePayload(payload: any) {
+    this.payload = payload;
+    if (payload && payload.pages) {
+      this.isSSG = true;
+    }
   }
 }

@@ -33,6 +33,6 @@ $easeInOutBack: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 // project default ease
 
 $linear: linear;
-$easeIn: $easeInCirc;
-$easeOut: $easeOutCirc;
-$easeInOut: $easeInOutCirc;
+$easeIn: $easeInSine;
+$easeOut: $easeOutSine;
+$easeInOut: $easeInOutSine;
