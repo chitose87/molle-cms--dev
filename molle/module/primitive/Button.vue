@@ -30,17 +30,16 @@ export default class Button extends Module {
   display: inline-block;
   text-align: center;
   background-color: transparent;
-  border: 0;
   line-height: 1.5;
-  //margin-right: 0.5rem;
   margin-bottom: 1rem;
-  color: $color-text-white;
   max-width: 100%;
+  border: solid 1px $color-black;
+  border-radius: 10px;
+  color: $color-text-black;
 
-  &,
-  &::before,
-  &::after {
-    transition: all 0.4s ease;
+  &:hover {
+    color: $color-text-white;
+    background: $color-black;
   }
 
   //default
@@ -53,42 +52,6 @@ export default class Button extends Module {
     font-size: 16px;
     min-width: 6rem;
     padding: 1rem 1rem;
-  }
-
-  &::before {
-    content: "";
-    border-radius: 4px;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    transition: all 0.4s ease;
-    z-index: -1;
-    background: $color-black;
-  }
-
-  > span {
-    @include mediaquery-not-sm {
-      padding-left: 1.5em;
-    }
-    @include mediaquery-sm {
-      font-size: 1em;
-    }
-  }
-
-  &::after {
-    @include icon-arrow-right();
-    display: inline-block;
-    margin-left: 1rem;
-    position: relative;
-    top: -0.1em;
-    @include mediaquery-not-sm {
-      font-size: 70%;
-    }
-    @include mediaquery-sm {
-      font-size: 90%;
-    }
   }
 
   // theme
@@ -128,18 +91,36 @@ export default class Button extends Module {
 
   // color
   &.-primary {
-    //color: $color-text-white;
+    color: $color-blue;
+    border: solid 1px $color-blue;
 
-    &:before {
-      //background: $color-black;
+    &:hover {
+      background: $color-blue;
+      color: $color-text-white;
+    }
+
+    > span:after {
+      @include icon-right-open;
+      display: inline-block;
+      margin-left: 0.25em;
+      line-height: 1;
     }
   }
 
   &.-secondary {
-    color: $color-text;
+    color: $color-gray-600;
+    border: solid 1px $color-gray-600;
 
-    &:before {
-      background: $color-gray-200;
+    &:hover {
+      background: $color-gray-600;
+      color: $color-text-white;
+    }
+
+    > span:after {
+      @include icon-right-open;
+      display: inline-block;
+      margin-left: 0.25em;
+      line-height: 1;
     }
   }
 
@@ -150,32 +131,8 @@ export default class Button extends Module {
     font-size: inherit;
     display: inline-flex;
     align-items: center;
-
-    &::before {
-      display: none;
-    }
-
-    span {
-      padding: 0;
-    }
-
-    &::after {
-      @include icon-arrow-right-circle();
-      color: $color-gray-500;
-      font-size: 32px;
-      line-height: 1;
-      position: initial;
-      margin-left: 0.5rem;
-    }
-
-    &:hover {
-      color: $color-yellow;
-
-      &::after {
-        color: $color-yellow;
-        transform: translateX(5px);
-      }
-    }
+    border: none;
+    background: none;
 
     &.-sm {
       @include mediaquery-not-sm {
@@ -202,20 +159,6 @@ export default class Button extends Module {
     cursor: default;
   }
 
-  &:hover {
-    color: $color-text-white;
-
-    &::before {
-      background: $color-yellow;
-      width: calc(100% + 10px);
-      height: calc(100% + 10px);
-      transform: translate(-5px, -5px);
-    }
-    &::after {
-      color: $color-text-white;
-    }
-  }
-
   &.disabled,
   &:disabled {
     opacity: 0.3;
@@ -225,10 +168,10 @@ export default class Button extends Module {
 
   &[target="_blank"] {
     > span:after {
-      //@include icon-blank;
-      //display: inline-block;
-      //margin-left: 0.25em;
-      //line-height: 1;
+      @include icon-blank;
+      display: inline-block;
+      margin-left: 0.25em;
+      line-height: 1;
     }
   }
 }

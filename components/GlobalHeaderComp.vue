@@ -1,7 +1,7 @@
 <template lang="pug">
   header.global-header(:aria-expanded="isMenuOpen")
     a.company-name(href="/")
-      img(src="/imgs/company-name.svg")
+      span LOGO
 
     .global-header__menu
       button.global-header__menu__btn.isSp(type="button" @click="()=>isMenuOpen=!isMenuOpen")
@@ -11,25 +11,16 @@
       ul.global-header__menu__body
         li.global-header__menu__item
           a(href="/about")
-            span 組合について
-        li.global-header__menu__item
-          a(href="/howto")
-            span  木材利用について
-        li.global-header__menu__item
-          a(href="/case-study")
-            span  活用事例
-        li.global-header__menu__item
-          a(href="https://morinokatsujin.com/" target="_blank")
-            span  秩父木材について
-        li.global-header__menu__item
-          a(href="/member")
-            span  組合員紹介
+            span About
         li.global-header__menu__item
           a(href="/news")
-            span  お知らせ
+            span  News
         li.global-header__menu__item
           a(href="/qa")
             span  Q&A
+        li.global-header__menu__item
+          a(href="/contact")
+            span  Contact
 </template>
 
 <script lang="ts">
@@ -74,13 +65,11 @@
 
     //company-name
     .company-name {
+      text-decoration: none;
       @include mediaquery-not-sm {
         margin-left: 1.5rem;
         margin-right: auto;
-        img{
-          width: 238px;
-          height: 46px;
-        }
+        font-size: 40px;
       }
       @include mediaquery-sm {
         height: $spH;
@@ -89,10 +78,7 @@
         align-items: center;
         position: absolute;
         top: 0;
-        img {
-          width: 166px;
-          height: auto;
-        }
+        font-size: 32px;
       }
     }
 
@@ -103,7 +89,7 @@
       &__btn {
         position: absolute;
         top: 0;
-        right: 4.5rem;
+        right: 0;
         width: 4.5rem;
         height: $spH;
         background-color: $color-white;
@@ -166,30 +152,9 @@
             text-decoration: none;
             position: relative;
             color: $color-gray-700;
-            transition: all $tick $easeInOut;
-
-            &:before {
-              content: '';
-              position: absolute;
-              left: 0.5rem;
-              bottom: 0;
-              width: calc(100% - 1rem);
-              height: 4px;
-              border-radius: 2px;
-              background: $color-green;
-              transform: translateY(-1rem);
-
-              opacity: 0;
-              transition: all $tick $easeOut;
-            }
 
             &:hover {
-              color: $color-green;
-
-              &:before {
-                opacity: 1;
-                transform: translateY(0rem);
-              }
+              color: $color-blue;
             }
           }
         }
@@ -203,44 +168,6 @@
             padding: 0.5rem 1rem;
           }
         }
-      }
-    }
-
-    &__contact {
-      height: 100%;
-      text-align: center;
-      background-color: $color-black;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      transition: all $tick $easeInOut;
-      text-decoration: none;
-      color: $color-white;
-      @include mediaquery-not-sm {
-        width: 120px;
-      }
-      @include mediaquery-sm {
-        position: absolute;
-        display: block;
-        top: 0;
-        right: 0;
-        width: 4.5rem;
-        height: $spH;
-        span {
-          position: absolute;
-          left: 0;
-          bottom: 10px;
-          width: 100%;
-          font-size: 10px;
-          line-height: 1;
-        }
-      }
-
-      &:hover {
-        background-color: $color-yellow;
-      }
-
-      span {
-        display: block;
       }
     }
 
