@@ -7,6 +7,12 @@
         @change="()=>$emit('change')"
       )
     label.form-inline
+      span.mr-1 subText:
+      textarea.form-control.form-control-sm(
+        v-model="itemData.option.text"
+        @change="()=>$emit('change')"
+      )
+    label.form-inline
       span.mr-1 見出しレベル:
       select.form-control.form-control-sm(
         v-model="itemData.option.lv"
