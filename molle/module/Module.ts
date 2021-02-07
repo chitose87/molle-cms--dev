@@ -11,17 +11,19 @@ export class Module extends Vue {
 
   //静的配置時用
   @Prop() static__value?: any;
+
   @Watch("static__value", {immediate: true}) setStatic__value() {
     this.static__value && this.$set(this.itemData, "value", this.static__value);
   }
 
   @Prop() static__option?: any;
+
   @Watch("static__option", {immediate: true}) setStatic__option() {
-    this.static__option &&
-      this.$set(this.itemData, "option", this.static__option);
+    this.static__option && this.$set(this.itemData, "option", this.static__option);
   }
 
   @Prop() static__class?: any;
+
   @Watch("static__class", {immediate: true}) setStatic__class() {
     this.static__class && this.$set(this.itemData, "class", this.static__class);
   }

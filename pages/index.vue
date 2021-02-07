@@ -2,7 +2,7 @@
 .l-body.top
   GlobalHeaderComp
   main
-
+    ModuleLoader(:itemId="'top-content'")
   GlobalFooterComp
 </template>
 
@@ -12,7 +12,8 @@ import {Page} from "~/molle/module/Page";
 import {lsStore} from "~/utils/store-accessor";
 
 @Component({
-  components: {},
+  components: {
+  },
 })
 export default class Index extends Page {
   async asyncData(context: any) {
@@ -21,13 +22,14 @@ export default class Index extends Page {
 
   created() {
   }
+
   beforeDestroy() {
   }
 }
 </script>
 
 <style lang="scss">
-.top{
+.top {
 
 }
 </style>

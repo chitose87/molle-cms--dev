@@ -1,0 +1,69 @@
+<template lang="pug">
+.modal(
+  :id="itemData.tagId",
+  v-if="isShow"
+)
+  .modal__fiexd(v-if="itemData")
+    .modal__body(
+      :class="getClass(itemData)",
+      :style="getStyle(itemData)"
+    )
+      ModuleLoader(v-for="id in itemData.value", :key="id", :itemId="id")
+
+      AddModuleComp(:itemData="itemData", :label="`Modal`")
+</template>
+
+<script lang="ts">
+import {Component, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
+import {Module} from "~/molle/module/Module";
+import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
+import lsStore from "~/store/lsStore";
+
+@Component({
+  components: {AddModuleComp},
+})
+export default class Modal extends Module {
+  lsStore = lsStore;
+  isShow = false;
+
+
+}
+</script>
+
+<style lang="scss">
+.modal {
+  &__fiexd {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: $zindex-modal;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__close {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba($color-black, 0.75);
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  &__body {
+    max-width: $size-container;
+    max-height: 90%;
+
+    min-width: 30%;
+    min-height: 30%;
+
+    overflow: auto;
+    background-color: $color-white;
+    padding: 1rem;
+  }
+}
+</style>

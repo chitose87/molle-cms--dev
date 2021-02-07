@@ -12,21 +12,24 @@ import Column from "~/molle/module/primitive/Column.vue";
 import ColumnProfile from "~/molle/module/primitive/ColumnProfile.vue";
 import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
 import ColumnBoxProfile from "~/molle/module/primitive/ColumnBoxProfile.vue";
-import firebase from "firebase";
 import Gallery from "~/molle/module/custom/Gallery.vue";
 import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
 import GoogleFormProfile from "~/molle/module/custom/GoogleFormProfile.vue";
+import ModalProfile from "~/molle/module/primitive/ModalProfile.vue";
 import SocialShare from "~/molle/module/custom/SocialShare.vue";
 import SocialShareProfile from "~/molle/module/custom/SocialShareProfile.vue";
+import Modal from "~/molle/module/primitive/Modal.vue";
+
 import Table from "~/molle/module/primitive/Table.vue";
 import TableProfile from "~/molle/module/primitive/TableProfile.vue";
+import firebase from "firebase";
 
 export const molleModules: {
   [key: string]: {
     ref: any;
-    profile: any;
-    profileName: string;
+    profile?: any;
+    profileName?: string;
     def: any;
     convert?: string[];
     black?: string[];
@@ -110,6 +113,14 @@ export const molleModules: {
       value: "th,aaa\nth,bbb",
       option: {columnHeading: true},
     }),
+  },
+  Modal: {
+    ref: Modal,
+    profile: ModalProfile,
+    profileName: "ModalProfile",
+    def: c("Modal", "children"),
+    // black: ["ColumnBox"],
+    // convert: ["ColumnBox"],
   },
 
   //custom

@@ -143,12 +143,15 @@ no-ssr
                     ) Delete
         .col-6
           section.pt-5
+            h2.mb-3 MOLLE DEVELOP ADDED
+            ul
+              li 画像アップロード・トリム new!
+              li 編集ユーザー管理(firebase連携) new!
+
             h2.mb-3 MOLLE DEVELOP TODO
             ul
               li 自動デプロイ機能
               li テキストエディタ
-              li 画像アップロード・トリム
-              li 編集ユーザー管理(firebase連携)
               li 変更ログ・アンドゥ
               li モジュール入れ替え(loop注意)
               li 継承・拡張
@@ -156,6 +159,7 @@ no-ssr
               li itemData内に使用されているmodule-idを管理
               li データ連携モジュール
               li カスタムセット登録
+              li firebaseに上げた画像をdeploy時にhostingサーバーに移動させるOption
 </template>
 
 <script lang="ts">
@@ -184,6 +188,14 @@ export default class MolleTopPage extends Vue {
   systemData = {deployQue: false, deployStatus: "undefinde"};
 
   isLogin = false;
+
+  head() {
+    return {
+      script: [{
+        src: "https://cdnjs.cloudflare.com/ajax/libs/jimp/0.16.1/jimp.js"
+      }]
+    }
+  }
 
   created() {
     Singleton.firebaseInit((user: any) => {

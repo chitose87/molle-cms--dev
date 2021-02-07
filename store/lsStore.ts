@@ -12,6 +12,7 @@ export default class lsStore extends VuexModule {
 
   payload = <any>{};
   isSSG = false;
+  isEditer = false;
 
   editing: string[] = [];
 
@@ -27,11 +28,12 @@ export default class lsStore extends VuexModule {
     this.storage = JSON.parse(
       localStorage.getItem(lsStore.prefix + "storage") || "{}",
     );
+    this.isEditer = true;
     console.log("lsStore", "initialized");
   }
 
   @Mutation
-  update(arg: {key: string; value: any}) {
+  update(arg: { key: string; value: any }) {
     // @ts-ignore
     this.storage[arg.key] = arg.value;
     localStorage.setItem(
@@ -45,7 +47,7 @@ export default class lsStore extends VuexModule {
   // }
 
   @Mutation
-  updateEditing(arg: {id: string; flag?: boolean}) {
+  updateEditing(arg: { id: string; flag?: boolean }) {
     let i = this.editing.indexOf(arg.id);
     if (i >= 0) this.editing.splice(i, 1);
 

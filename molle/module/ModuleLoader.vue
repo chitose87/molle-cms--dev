@@ -57,7 +57,7 @@ export default class ModuleLoader extends Vue {
             }
 
             let _itemData = snap.data();
-            // console.log(_itemData);
+            console.log(_itemData);
             this.$set(this, "itemData", _itemData);
           });
       });

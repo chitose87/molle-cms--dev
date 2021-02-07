@@ -27,7 +27,7 @@ div
         EditorOptionComp
         PagePropertyComp(:pageData="pageData", :pageId="pageId")
         ModulePropertyComp
-
+    GoogleStorageModalComp
     #bootstrap-container.bootstrap
 </template>
 
@@ -44,9 +44,11 @@ import PagePropertyComp from "~/molle/ui/PagePropertyComp.vue";
 import EditorOptionComp from "~/molle/ui/EditorOptionComp.vue";
 
 import UniversalPage from "~/pages/_universal.vue";
+import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
 
 @Component({
   components: {
+    GoogleStorageModalComp,
     UniversalPage,
     PagePropertyComp,
     ModulePropertyComp,
@@ -63,6 +65,14 @@ export default class MolleEditerPage extends Vue {
   theme: string = "";
   private unsubscribe!: () => void;
 
+  head() {
+    return {
+      script: [{
+        src: "https://cdnjs.cloudflare.com/ajax/libs/jimp/0.16.1/jimp.js"
+      }]
+    }
+  }
+
   created() {
     Singleton.firebaseInit(() => {
       this.pageId = <string>this.$route.query.pageId;
@@ -76,13 +86,14 @@ export default class MolleEditerPage extends Vue {
           }
           let pageData = <IPageData>snap.data();
 
+          lsStore.init();
           //theme set
           // if (pageData.path.indexOf("news/") == 0) {
           //   this.$set(this, "theme", "NewsDetailPage");
           // } else if (pageData.path.indexOf("case-study/") == 0) {
           //   this.$set(this, "theme", "CaseStudyDetailPage");
           // } else {
-            this.$set(this, "theme", "UniversalPage");
+          this.$set(this, "theme", "UniversalPage");
           // }
 
           this.$set(this, "pageData", pageData);
