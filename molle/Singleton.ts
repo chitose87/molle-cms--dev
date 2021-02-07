@@ -24,7 +24,7 @@ export class Singleton {
   private static _pagesRef: firebase.firestore.CollectionReference;
   private static _itemsRef: firebase.firestore.CollectionReference;
 
-  static firebaseInit(callBack: () => void) {
+  static firebaseInit(callBack: (user?: any) => void) {
     if (!firebase.apps.length) {
       firebase.initializeApp({
         apiKey: process.env.apiKey,
@@ -35,7 +35,8 @@ export class Singleton {
         messagingSenderId: process.env.messagingSenderId,
       });
       firebase.auth().onAuthStateChanged((user) => {
-        callBack();
+        console.log(user)
+        callBack(user);
       })
     } else {
       callBack();

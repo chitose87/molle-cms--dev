@@ -5,9 +5,21 @@ no-ssr
       h1.text-info MOdular Light L**** E****
         br
         | Contents Management System v0.0.3
-      .row
+
+      div(v-if="!isLogin")
+        form.form-group(@submit.prevent, @submit="onLogin")
+          label mail:
+            input.form-control.form-control-sm(type="email" name="email")
+          label password:
+            input.form-control.form-control-sm(type="password" name="password")
+          button.btn.btn-info(type="submit")
+            span Login
+      .row(v-else)
         .col-12
           .form-inline
+            button.btn.btn-info(type="button" @click="onLogout")
+              span Logout
+
             .mr-2.ml-auto
               button.btn.btn-warning(type="button", @click="deployQueToggle")
                 span(v-if="systemData.deployQue") 更新中止
@@ -167,12 +179,16 @@ export default class MolleTopPage extends Vue {
     option: {},
   };
 
-  pages: {[key: string]: IPageData} = {};
-  news: {[key: string]: IPageData} = {};
+  pages: { [key: string]: IPageData } = {};
+  news: { [key: string]: IPageData } = {};
   systemData = {deployQue: false, deployStatus: "undefinde"};
 
+  isLogin = false;
+
   created() {
-    Singleton.firebaseInit(() => {
+    Singleton.firebaseInit((user: any) => {
+      if (!user) return;
+      this.isLogin = true;
       Singleton.systemDocRef.onSnapshot(
         (snap: firebase.firestore.DocumentSnapshot) => {
           if (!snap.exists) {
@@ -202,6 +218,21 @@ export default class MolleTopPage extends Vue {
         },
       );
     });
+  }
+
+  onLogin(e: any) {
+    firebase.auth()
+      .signInWithEmailAndPassword(e.target.email.value, e.target.password.value)
+      .then((user) => {
+        if (user) {
+          this.isLogin = true;
+        }
+      })
+  }
+
+  onLogout() {
+    firebase.auth().signOut();
+    this.isLogin = false;
   }
 
   /**
@@ -280,12 +311,12 @@ export default class MolleTopPage extends Vue {
       a.click();
     });
   }
+
   /**
    *
    */
   onImport(e: Event) {
-    let target = <HTMLFontElement>e.target;
-    //@ts-ignore
+    let target = <HTMLFormElement>e.target;
     let files: FileList = target.files.files;
 
     if (files.length == 0) {
@@ -297,7 +328,7 @@ export default class MolleTopPage extends Vue {
       !window.confirm(`
 この作業は破壊的な変更です。
 同一のIDの場合、既存のデータがすべて上書きされます。
-重複するjsonデータを読み込んだ場合、優先順位に法則性はありません。
+重複するjsonデータを読み込む場合、優先順位に規則性はありません。
 よろしいですか？`)
     )
       return;
