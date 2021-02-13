@@ -1,12 +1,12 @@
 <template lang="pug">
-.module.column(
+.module.row.column(
   :id="itemData.tagId",
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
 )
   ModuleLoader(v-for="id in itemData.value", :key="id", :itemId="id")
 
-  AddModuleComp(
+  AddModuleComp.col-12(
     :itemData="itemData",
     :label="`Column`",
     :style="{width: '100%'}"
@@ -23,29 +23,66 @@ import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 })
 export default class Column extends Module {
   //Unique Methods
-  getStyle() {
-    let obj = super.getStyle(this.itemData);
+  getClass() {
+    let obj = super.getClass(this.itemData);
 
-    //gutter
-    let gutterH = this.getValue(this.itemData.option["gutter-h"]);
-    let gutterV = this.getValue(this.itemData.option["gutter-v"]);
-
-    if (gutterH) {
-      obj["margin-left"] || (obj["margin-left"] = "-" + gutterH);
-      obj["margin-right"] || (obj["margin-right"] = "-" + gutterH);
+    if (this.itemData.option.col) {
+      if (this.itemData.option.col == -1) {
+        obj["column-col"] = true;
+      } else {
+        obj["column-col-" + this.itemData.option.col] = true;
+      }
     }
-    if (gutterV) {
-      obj["margin-top"] || (obj["margin-top"] = "-" + gutterV);
-      obj["margin-bottom"] || (obj["margin-bottom"] = "-" + gutterV);
+    if (this.itemData.option.colSm) {
+      if (this.itemData.option.colSm == -1) {
+        obj["column-col-sm"] = true;
+      } else {
+        obj["column-col-sm-" + this.itemData.option.colSm] = true;
+      }
     }
     return obj;
   }
+
+  // getStyle() {
+  //   let obj = super.getStyle(this.itemData);
+  //
+  //   //gutter
+  //   let gutterH = this.getValue(this.itemData.option["gutter-h"]);
+  //   let gutterV = this.getValue(this.itemData.option["gutter-v"]);
+  //
+  //   if (gutterH) {
+  //     obj["margin-left"] || (obj["margin-left"] = "-" + gutterH);
+  //     obj["margin-right"] || (obj["margin-right"] = "-" + gutterH);
+  //   }
+  //   if (gutterV) {
+  //     obj["margin-top"] || (obj["margin-top"] = "-" + gutterV);
+  //     obj["margin-bottom"] || (obj["margin-bottom"] = "-" + gutterV);
+  //   }
+  //   return obj;
+  // }
 }
 </script>
 
 <style lang="scss">
 .column {
-  display: flex;
-  flex-wrap: wrap;
+  > * {
+    @include mediaquery-not-sm {
+      padding: 0.75rem;
+    }
+    @include mediaquery-sm {
+      padding: 0.25rem 0.5rem;
+    }
+  }
+
+  @for $i from 1 through 12 {
+    &-col-#{$i} > * {
+      @include col($i);
+    }
+    @include mediaquery-sm {
+      &-col-sm-#{$i} > * {
+        @include col($i);
+      }
+    }
+  }
 }
 </style>

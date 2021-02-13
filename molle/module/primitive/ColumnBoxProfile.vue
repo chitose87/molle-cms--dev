@@ -6,12 +6,28 @@
       :permission="stylePermission"
     )
 
-    label.form-inline
-      span.mr-1 カラムサイズ:
-      input.form-control.form-control-sm(
-        v-model="itemData.option.flexBasis"
-        @change="()=>$emit('change')"
-      )
+    label
+      span.mr-1 カラム幅:
+      .form-inline
+        input.form-control.form-control-sm(
+          v-model="itemData.option.col"
+          @change="()=>{$set(itemData.option,'col',Math.max(Math.min(Math.floor(itemData.option.col),12),-1));$emit('change')}"
+          type="number"
+          min="-1" max="12" step="1"
+        )
+        span /12
+    label
+      span.mr-1 カラム幅-SP:
+      .form-inline
+        input.form-control.form-control-sm(
+          v-model="itemData.option.colSm"
+          @change="()=>{$set(itemData.option,'colSm',Math.max(Math.min(Math.floor(itemData.option.colSm),12),-1));$emit('change')}"
+          type="number"
+          min="-1" max="12" step="1"
+        )
+        span /12
+    p.caption *-1=auto
+    p.caption *0=未設定
 
     ChildrenOptionComp(
       :moduleId="itemData.moduleId"
@@ -33,10 +49,10 @@
   export default class ColumnBoxProfile extends Profile {
     //style setting
     stylePermission = {
-      container: false,
-      border: false,
-      margin: "",
-      padding: "",
+      // container: false,
+      // border: false,
+      // margin: "",
+      // padding: "",
       // theme: {default: "", select: ["", "test"]},
       // color: {default: "", select: ["", "dark"]},
     };

@@ -4,6 +4,7 @@ import {IPayload} from "~/molle/interface";
 export class Singleton {
   static prefix = `${process.env.molleProjectID}/${process.env.molleBrunch}`;
   static payload?: IPayload;
+  static user?: any;
 
   static get systemDocRef(): firebase.firestore.DocumentReference {
     return this._systemDocRef ? this._systemDocRef :
@@ -25,24 +26,15 @@ export class Singleton {
   private static _itemsRef: firebase.firestore.CollectionReference;
 
   static firebaseInit(callBack: (user?: any) => void) {
-    if (!firebase.apps.length) {
-      firebase.initializeApp({
-        apiKey: process.env.apiKey,
-        authDomain: process.env.authDomain,
-        databaseURL: process.env.databaseURL,
-        projectId: process.env.projectId,
-        storageBucket: process.env.storageBucket,
-        messagingSenderId: process.env.messagingSenderId,
-      });
+    if (!this.user) {
       firebase.auth().onAuthStateChanged((user) => {
-        console.log(user)
+        this.user = user;
         callBack(user);
       })
     } else {
       callBack();
     }
   }
-
 }
 
 export const StyleAlign = {

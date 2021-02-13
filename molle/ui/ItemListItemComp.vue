@@ -1,22 +1,31 @@
 <template lang="pug">
-.item-list-item-comp.list-group-item.list-group-item-action.pr-0.border-right-0(
+.item-list-item-comp.list-group-item.list-group-item-action.p-0.border-right-0(
   v-if="itemData.moduleId"
 )
   .d-flex.justify-content-between
-    button.btn.btn-sm.btn-outline-secondary(
+    button.btn.btn-sm.btn-link.btn-block.text-left(
       :class="{active: lsStore.storage.focusModuleId === itemId}",
       :title="itemId",
       @click="lsStore.update({key: 'focusModuleId', value: itemId})"
+      style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
     )
-      b(v-html="itemData.moduleId")
+      span(v-if="itemData.moduleId=='Headline'")
+        b H
+        span :{{itemData.value}}
+      span(v-else-if="itemData.moduleId=='Button'")
+        b Btn
+        span :{{itemData.value}}
+      span(v-else)
+        b(v-html="itemData.moduleId")
+        span(v-if="itemData.name") :{{itemData.name}}
     //削除
       v-if="!$parent.notDeleted"
-    button.btn.btn-sm.btn-danger.mr-2(
+    button.btn.btn-sm.btn-danger(
       v-if="lsStore.storage.focusModuleId === itemId",
       @click="deleteModule()"
     ) x
   // children
-  draggable.list-group.mt-3(
+  draggable.list-group.pl-2.pb-2(
     v-if="molleModules[itemData.moduleId].def.type === 'children'",
     v-model="itemData.value",
     :group="getGroup(itemData.moduleId)",
