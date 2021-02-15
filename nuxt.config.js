@@ -27,16 +27,19 @@ export default {
       },
       {hid: 'og:site_name', property: 'og:site_name', content: process.env.siteName},
       {hid: 'og:type', property: 'og:type', content: 'article'},
-      {hid: 'og:image', property: 'og:image', content: process.env.domain+"og_img.png"},
+      {hid: 'og:image', property: 'og:image', content: process.env.domain + "og_img.png"},
       {hid: 'og:description', property: 'og:description', content: process.env.description},
 
       {hid: 'twitter:card', property: 'twitter:card', content: `summary`},
-      {hid: 'twitter:image', property: 'twitter:image', content: process.env.domain+"og_img.png"},
+      {hid: 'twitter:image', property: 'twitter:image', content: process.env.domain + "og_img.png"},
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
       {rel: 'preconnect', href: 'https://fonts.gstatic.com'},
-      {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap'},
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap'
+      },
     ],
     script: []
   },
@@ -64,7 +67,10 @@ export default {
     '@nuxtjs/dotenv',
     'bootstrap-vue/nuxt',
     '@nuxtjs/style-resources',
-    '@/modules/hook/generate'
+    '@/modules/hook/generate',
+  ],
+  types: [
+    '@types/googlemaps'
   ],
   bootstrapVue: {
     bootstrapCSS: false, // or `css`

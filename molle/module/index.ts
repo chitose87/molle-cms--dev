@@ -1,3 +1,4 @@
+import firebase from "firebase";
 import Box from "~/molle/module/primitive/Box.vue";
 import BoxProfile from "~/molle/module/primitive/BoxProfile.vue";
 import Headline from "~/molle/module/primitive/Headline.vue";
@@ -20,10 +21,10 @@ import ModalProfile from "~/molle/module/primitive/ModalProfile.vue";
 import SocialShare from "~/molle/module/custom/SocialShare.vue";
 import SocialShareProfile from "~/molle/module/custom/SocialShareProfile.vue";
 import Modal from "~/molle/module/primitive/Modal.vue";
-
+import GoogleMap from "~/molle/module/custom/GoogleMap.vue";
+import GoogleMapProfile from "~/molle/module/custom/GoogleMapProfile.vue";
 import Table from "~/molle/module/primitive/Table.vue";
 import TableProfile from "~/molle/module/primitive/TableProfile.vue";
-import firebase from "firebase";
 
 export const molleModules: {
   [key: string]: {
@@ -136,6 +137,12 @@ export const molleModules: {
     profile: GoogleFormProfile,
     profileName: "GoogleFormProfile",
     def: c("GoogleForm", "any"),
+  },
+  GoogleMap: {
+    ref: GoogleMap,
+    profile: GoogleMapProfile,
+    profileName: "GoogleMapProfile",
+    def: c("GoogleMap", "any"),
   },
   SocialShare: {
     ref: SocialShare,
