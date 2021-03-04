@@ -153,6 +153,7 @@
       });
       console.log("update", this.itemId,update)
       if (flag) {
+        update.updateTime=firebase.firestore.FieldValue.serverTimestamp();
         Singleton.itemsRef.doc(this.itemId).update(update);
       }
     }
@@ -172,6 +173,7 @@
         //   case "Paragraph":
         //     break;
         // }
+        update.updateTime=firebase.firestore.FieldValue.serverTimestamp();
         Singleton.itemsRef.doc(this.itemId).update(update);
       }
     }

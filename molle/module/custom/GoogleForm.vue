@@ -9,7 +9,9 @@
     method="post",
     target="hidden_iframe",
     @submit="() => (status = 'submit')"
+    :id="itemData.value.id"
   )
+
     input(
       v-for="item in itemData.value.items",
       type="hidden",

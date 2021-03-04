@@ -23,8 +23,8 @@ export interface IItemData {
   name?: string;
   moduleId: string;
   option?: any;
-  // createTime: firebase.firestore.Timestamp;
-  // updateTime: firebase.firestore.Timestamp;
+  createTime: any;
+  updateTime: any;
 
   value?: any;
   // extends?: string;
