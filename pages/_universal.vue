@@ -7,7 +7,7 @@
         :static__value="localPageData.displayTitle || localPageData.title || '汎用固定ページ'",
         :static__option="{lv: 'h2'}"
       )
-      ModuleLoader(:itemId="localPageData.itemId")
+      ModuleLoader(v-if="localPageData.itemId" :itemId="localPageData.itemId")
   GlobalFooterComp
 </template>
 

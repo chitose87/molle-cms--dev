@@ -4,7 +4,7 @@ no-ssr
     .container-fluid
       h1.text-info MOdular Light L**** E****
         br
-        | Contents Management System v0.0.3
+        | Contents Management System v0.0.4
 
       div(v-if="!isLogin")
         form.form-group(@submit.prevent, @submit="onLogin")

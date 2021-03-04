@@ -1,13 +1,36 @@
 import {Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
 import {IItemData, IPageData, IPayload} from "~/molle/interface";
 import {lsStore} from "~/utils/store-accessor";
+import {Singleton} from "~/molle/Singleton";
+import firebase from "firebase";
 
 export class Page extends Vue {
   lsStore = lsStore;
 
   @Prop() pageData?: IPageData;
+
+  private unsubscribe?: () => void;
+
   get localPageData(): IPageData {
-    return (lsStore.payload && lsStore.payload.pageData) || this.pageData || {};
+    if (lsStore.isSSG) {
+      return lsStore.payload.pageData;
+    } else if (this.pageData) {
+      return this.pageData
+    } else {
+      if (!this.unsubscribe) {
+        this.unsubscribe = Singleton.pagesRef
+          .doc(encodeURIComponent(this.$route.fullPath.substr(1)))
+          .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+            if (!snap.exists) {
+              console.log("no page data");
+              return;
+            }
+            console.log(snap.data())
+            this.$set(this, "pageData", snap.data())
+          });
+      }
+      return {title: "no data", path: ""};
+    }
   }
 
   protected createMeta() {

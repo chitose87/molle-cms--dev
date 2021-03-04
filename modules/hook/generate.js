@@ -54,7 +54,7 @@ module.exports = function () {
 
                 if (data.noExport) return;
                 routes.push({
-                  route: `${data.path}`
+                  route: `/${data.path}`
                   , payload: {
                     id: snap.id,
                     pageData: data,

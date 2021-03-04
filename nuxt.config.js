@@ -12,7 +12,6 @@ for (let i in env) {
 
 export default {
   mode: "universal",
-  ssr: true,
   target: "static",
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -20,15 +19,14 @@ export default {
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {
-        hid: 'description',
-        name: 'description',
-        content: process.env.description
-      },
+      {hid: 'description', name: 'description', content: process.env.description},
+      {hid: 'keywords', name: 'keywords', content: process.env.keywords},
+
       {hid: 'og:site_name', property: 'og:site_name', content: process.env.siteName},
       {hid: 'og:type', property: 'og:type', content: 'article'},
-      {hid: 'og:image', property: 'og:image', content: process.env.domain + "og_img.png"},
       {hid: 'og:description', property: 'og:description', content: process.env.description},
+      {hid: 'og:image', property: 'og:image', content: process.env.domain + "og_img.png"},
+      {hid: 'og:url', property: 'og:url', content: process.env.domain},
 
       {hid: 'twitter:card', property: 'twitter:card', content: `summary`},
       {hid: 'twitter:image', property: 'twitter:image', content: process.env.domain + "og_img.png"},
