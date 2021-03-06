@@ -18,9 +18,8 @@ export class Page extends Vue {
       return this.pageData
     } else {
       if (!this.unsubscribe) {
-        console.log(this.$route.fullPath)
         this.unsubscribe = Singleton.pagesRef
-          .doc(encodeURIComponent(this.$route.fullPath.substr(1).replace("--molle/","")))
+          .doc(encodeURIComponent(this.$route.fullPath.substr(1).replace("--preview/","")))
           .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
             if (!snap.exists) {
               console.log("no page data");

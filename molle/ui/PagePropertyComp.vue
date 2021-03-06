@@ -54,7 +54,7 @@
 
       label.small
         span Preview:
-        a(:href="`/--molle/${pageData.path}`" target="_blank")
+        a(:href="`/--preview/${pageData.path}`" target="_blank")
           span(v-html="pageData.path")
         //input.form-control.form-control-sm(
         //  v-model="pageData.path"
