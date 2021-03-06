@@ -50,6 +50,7 @@ div
 import {Component} from "~/node_modules/nuxt-property-decorator";
 import StyleComp from "~/molle/ui/property/StyleComp.vue";
 import {Profile} from "~/molle/module/Profile";
+import { StyleAlign } from "~/molle/Singleton";
 
 @Component({
   components: {StyleComp}
@@ -58,10 +59,10 @@ export default class PictureProfile extends Profile {
   //style setting
   stylePermission = {
     border: false,
-    //align: StyleAlign.None,
-    margin: "",
+    align: StyleAlign.None,
+    // margin: "",
     // padding: "",
-    // theme: {default: "", select: ["", "test"]},
+    theme: {default: "", select: ["", "-sm", "-lg"]},
     // color: {default: "", select: ["", "dark"]},
   };
 

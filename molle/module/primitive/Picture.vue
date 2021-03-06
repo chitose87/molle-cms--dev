@@ -28,8 +28,36 @@ export default class Picture extends Module {
 <style lang="scss">
 .picture {
   img {
-    width: 100%;
     height: auto;
+    @include mediaquery-not-sm {
+      width: 80%;
+    }
+    @include mediaquery-sm {
+      width: 100%;
+    }
+  }
+
+  // theme
+  &.-sm {
+    img {
+      @include mediaquery-not-sm {
+        width: 50%;
+      }
+      @include mediaquery-sm {
+        width: 80%;
+      }
+    }
+  }
+
+  &.-lg {
+    img {
+      @include mediaquery-not-sm {
+        width: 100%;
+      }
+      @include mediaquery-sm {
+        width: 100%;
+      }
+    }
   }
 }
 </style>
