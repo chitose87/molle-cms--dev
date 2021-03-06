@@ -57,7 +57,7 @@ export default class GoogleFormProfile extends Profile {
     };
     this.status = "リクエスト";
     // fetch(`http://localhost:5000/sw-id-lab/us-central1/getHtml?url=${encodeURIComponent(this.itemData.value.url)}`)
-      fetch(`https://us-central1-molle-cms---dev.cloudfunctions.net/getHtml?url=${encodeURIComponent(this.itemData.value.url)}`)
+    fetch(`${process.env.functions}/getHtml?url=${encodeURIComponent(this.itemData.value.url)}`)
       .then((res: any) => {
         this.status = "レスポンス";
         return (res.json());
