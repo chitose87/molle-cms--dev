@@ -53,8 +53,9 @@
         span :書き出さない
 
       label.small
-        span Path:
-        span(v-html="pageData.path")
+        span Preview:
+        a(:href="`/--molle/${pageData.path}`" target="_blank")
+          span(v-html="pageData.path")
         //input.form-control.form-control-sm(
         //  v-model="pageData.path"
         //  disabled="disable"
