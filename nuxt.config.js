@@ -107,7 +107,7 @@ export default {
     }
   },
   generate: {
-    dir: 'functions/dist'
+    dir: 'public'
   },
   router: {
     scrollBehavior: function (to, from, savedPosition) {

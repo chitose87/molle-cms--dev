@@ -2,17 +2,39 @@ const functions = require('firebase-functions')
 const express = require('express')
 const basicAuth = require('basic-auth-connect')
 const request = require('request');
+const config = functions.config();
 
-const app = express()
+// const app = express()
+//
+// app.all('/*', basicAuth(function(user, password) {
+//   return user === 'id' && password === 'pw';
+// }));
+//
+// app.use(express.static(__dirname + '/dist/'))
+//
+// exports.app = functions.https.onRequest(app)
 
-app.all('/*', basicAuth(function(user, password) {
-  return user === 'id' && password === 'pw';
-}));
+exports.publish = functions.https.onRequest(async (req, res) => {
+  var options = {
+    url: 'https://api.github.com/repos/chitose87/molle-cms--dev/actions/workflows/publish.yml/dispatches',
+    method: 'POST',
+    body: '{"ref":"main"}',
+    headers: {
+      'Authorization': 'token ' + config.gh.token,
+      'user-agent': 'node.js',
+      'Accept': 'application/vnd.github.v3+json'
+    }
+  };
 
-app.use(express.static(__dirname + '/dist/'))
+  function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(body);
+    }
+    res.json(body)
+  }
 
-exports.app = functions.https.onRequest(app)
-
+  request(options, callback);
+});
 
 //getHtml
 exports.getHtml = functions.https.onRequest(async (req, res) => {

@@ -14,7 +14,7 @@ module.exports = function () {
     });
 
     await new Promise((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(process.env.developerId, process.env.developerPw)
+      firebase.auth().signInWithEmailAndPassword(process.env.developerId, process.env.FIRESTORE_PW)
         .then((user) => {
           Promise.all([
             firebase.firestore().collection(`${process.env.molleProjectID}/${process.env.molleBrunch}/pages`).get(),
