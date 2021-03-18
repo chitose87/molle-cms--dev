@@ -15,6 +15,7 @@ module.exports = function () {
     });
 
     await new Promise((resolve, reject) => {
+      console.log(process.env.FIRESTORE_PW)
       firebase.auth().signInWithEmailAndPassword(molle.developerId, process.env.FIRESTORE_PW)
         .then((user) => {
           Promise.all([
