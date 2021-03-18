@@ -18,7 +18,7 @@ jobs:
           node-version: '12.x'
           #- run: npm install
           #- run: npm run build
-#      - run: npm i
+      - run: npm i
       - run: FIRESTORE_PW=$FIRESTORE_PW npm run gen
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
