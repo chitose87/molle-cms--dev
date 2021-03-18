@@ -1,24 +1,25 @@
 const firebase = require("firebase/app");
 require("firebase/auth");
 require("firebase/firestore");
+const molle = require("../../molle.json");
 
 module.exports = function () {
   this.nuxt.hook('generate:extendRoutes', async (routes) => {
     firebase.initializeApp({
-      apiKey: process.env.apiKey,
-      authDomain: process.env.authDomain,
-      databaseURL: process.env.databaseURL,
-      projectId: process.env.projectId,
-      storageBucket: process.env.storageBucket,
-      messagingSenderId: process.env.messagingSenderId,
+      apiKey: molle.apiKey,
+      authDomain: molle.authDomain,
+      databaseURL: molle.databaseURL,
+      projectId: molle.projectId,
+      storageBucket: molle.storageBucket,
+      messagingSenderId: molle.messagingSenderId,
     });
 
     await new Promise((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(process.env.developerId, process.env.FIRESTORE_PW)
+      firebase.auth().signInWithEmailAndPassword(molle.developerId, molle.FIRESTORE_PW)
         .then((user) => {
           Promise.all([
-            firebase.firestore().collection(`${process.env.molleProjectID}/${process.env.molleBrunch}/pages`).get(),
-            firebase.firestore().collection(`${process.env.molleProjectID}/${process.env.molleBrunch}/items`).get()
+            firebase.firestore().collection(`${molle.molleProjectID}/${molle.molleBrunch}/pages`).get(),
+            firebase.firestore().collection(`${molle.molleProjectID}/${molle.molleBrunch}/items`).get()
           ])
             .then(([pages, items]) => {
               function cleaningFirestoreValue(_data) {

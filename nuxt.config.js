@@ -1,13 +1,14 @@
 require('dotenv').config();
 
-const env = {
-  version: process.env.version,
-  breakPoint: process.env.breakPoint,
-  gutter: process.env.gutter,
-};
+const molle = require("./molle.json");
+const scssEnv={
+  breakPoint: molle.breakPoint,
+  gutter: molle.gutter,
+  version: molle.version,
+}
 let envStr = "";
-for (let i in env) {
-  envStr += `$${i}:${env[i]};`;
+for (let i in scssEnv) {
+  envStr += `$${i}:${scssEnv[i]};`;
 }
 
 export default {
@@ -19,17 +20,17 @@ export default {
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {hid: 'description', name: 'description', content: process.env.description},
-      {hid: 'keywords', name: 'keywords', content: process.env.keywords},
+      {hid: 'description', name: 'description', content: molle.description},
+      {hid: 'keywords', name: 'keywords', content: molle.keywords},
 
-      {hid: 'og:site_name', property: 'og:site_name', content: process.env.siteName},
+      {hid: 'og:site_name', property: 'og:site_name', content: molle.siteName},
       {hid: 'og:type', property: 'og:type', content: 'article'},
-      {hid: 'og:description', property: 'og:description', content: process.env.description},
-      {hid: 'og:image', property: 'og:image', content: process.env.domain + "og_img.png"},
-      {hid: 'og:url', property: 'og:url', content: process.env.domain},
+      {hid: 'og:description', property: 'og:description', content: molle.description},
+      {hid: 'og:image', property: 'og:image', content: molle.domain + "og_img.png"},
+      {hid: 'og:url', property: 'og:url', content: molle.domain},
 
       {hid: 'twitter:card', property: 'twitter:card', content: `summary`},
-      {hid: 'twitter:image', property: 'twitter:image', content: process.env.domain + "og_img.png"},
+      {hid: 'twitter:image', property: 'twitter:image', content: molle.domain + "og_img.png"},
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
@@ -41,6 +42,7 @@ export default {
     ],
     script: []
   },
+  env:molle,
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
