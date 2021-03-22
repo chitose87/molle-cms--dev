@@ -4,9 +4,9 @@
 )
   .d-flex.justify-content-between
     button.btn.btn-sm.btn-link.btn-block.text-left(
-      :class="{active: lsStore.storage.focusModuleId === itemId}",
-      :title="itemId",
-      @click="lsStore.update({key: 'focusModuleId', value: itemId})"
+      :class="{active: lsStore.storage.focusModuleNode.id === node.id}",
+      :title="node.id",
+      @click="lsStore.update({key: 'focusModuleNode', value: node})"
       style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
     )
       span(v-if="itemData.moduleId=='Headline'")
@@ -21,7 +21,7 @@
     //削除
       v-if="!$parent.notDeleted"
     button.btn.btn-sm.btn-danger(
-      v-if="lsStore.storage.focusModuleId === itemId",
+      v-if="lsStore.storage.focusModuleNode.id === node.id",
       @click="deleteModule()"
     ) x
   // children
@@ -34,11 +34,17 @@
     @update="updateChild",
     @end="hoge"
   )
-    ItemListItemComp(v-for="id in itemData.value", :key="id", :itemId="id")
+    ItemListItemComp(v-for="node in itemData.value", :key="node.id", :node="node")
     .item-list-item-comp.list-group-item.list-group-item-action.pr-0.border-right-0(
       v-if="!itemData.value || itemData.value.length == 0"
     )
       span.color-gray-200 -empty-
+
+  //Group
+  .list-group.pl-2.pb-2(
+    v-else-if="molleModules[itemData.moduleId].def.type === 'group'",
+  )
+    ItemListItemComp(v-for="node in groupChildSort(itemData.value)", :key="node.id", :node="node")
 
   // items
   //.list-group.mt-3(v-if="molleModules[itemData.moduleId].def.type==='items'")
@@ -72,7 +78,7 @@ import {
   Prop,
 } from "~/node_modules/nuxt-property-decorator";
 import {Singleton} from "~/molle/Singleton";
-import {IItemData} from "~/molle/interface";
+import {IItemData, INodeObject} from "~/molle/interface";
 import firebase from "~/node_modules/firebase";
 import {lsStore} from "~/utils/store-accessor";
 import {molleModules} from "~/molle/module";
@@ -82,18 +88,20 @@ import draggable from "vuedraggable";
   components: {draggable},
 })
 export default class ItemListItemComp extends Vue {
-  @Prop() itemId!: string;
+  @Prop() node!: INodeObject;
   itemData = <IItemData>{};
   lsStore = lsStore;
   molleModules = molleModules;
   pushModuleSelected: string = "";
   private unsubscribe!: () => void;
 
-  created() {
+  @Watch("node", {immediate: true})
+  updateNode() {
+    if (!this.node.id) return;
     //@ts-ignore
     let checkLoop = (p: any) => {
       if (!p) return false;
-      if (p.itemData && p.itemId === this.itemId) {
+      if (p.itemData && p.node.id === this.node.id) {
         alert("loopしたので解決します。");
         this.deleteModule();
         return true;
@@ -102,13 +110,16 @@ export default class ItemListItemComp extends Vue {
     };
     if (checkLoop(this.$parent)) return;
 
+    if (this.unsubscribe) this.unsubscribe();
     this.unsubscribe = Singleton.itemsRef
-      .doc(this.itemId)
+      .doc(this.node.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         if (!snap.exists) return;
         let itemData = snap.data();
 
+        console.log("aaaaa")
         this.$set(this, "itemData", itemData);
+        console.log("bbbbb")
       });
   }
 
@@ -123,16 +134,27 @@ export default class ItemListItemComp extends Vue {
 
   updateChild() {
     console.log("updateChild", this.itemData.value);
-    Singleton.itemsRef.doc(this.itemId).update({
+    Singleton.itemsRef.doc(this.node.id).update({
       value: this.itemData.value,
     });
   }
 
   deleteModule() {
     let parent = <ItemListItemComp>this.$parent.$parent;
-    Singleton.itemsRef.doc(parent.itemId).update({
-      value: parent.itemData.value.filter((via: string) => via != this.itemId),
+    Singleton.itemsRef.doc(parent.node.id).update({
+      value: parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id),
     });
+  }
+
+  groupChildSort(groupValue: any) {
+    let v: any[] = [];
+    for (let i in groupValue) {
+      v.push(groupValue[i]);
+    }
+    v.sort((a, b) => {
+      return a.order > b.order ? 1 : -1;
+    });
+    return v;
   }
 
   beforeDestroy() {

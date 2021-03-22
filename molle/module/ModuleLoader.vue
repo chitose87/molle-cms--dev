@@ -1,16 +1,16 @@
 <template lang="pug">
 //SSG only
 component(
-  v-if="lsStore.isSSG",
-  :is="lsStore.payload.items[itemId].moduleId",
-  :itemData="lsStore.payload.items[itemId]"
+  v-if="lsStore.isSSG && node.id",
+  :is="lsStore.payload.items[node.id].moduleId",
+  :itemData="lsStore.payload.items[node.id]"
 )
 //SPA,DEV
 component(
-  v-else,
+  v-else-if="node.id",
   :is="itemData.moduleId",
   :itemData="itemData",
-  :data-item-id="itemId",
+  :data-item-id="node.id",
   :style="check()"
 )
 </template>
@@ -24,14 +24,24 @@ import {
 } from "~/node_modules/nuxt-property-decorator";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "~/node_modules/firebase";
-import {IItemData, IPayload} from "~/molle/interface";
+import {IItemData, INodeObject, IPayload} from "~/molle/interface";
 import {lsStore} from "~/utils/store-accessor";
+import {Module} from "~/molle/module/Module";
+import {molleModules} from "~/molle/module/index";
 
 @Component({
   components: {},
 })
 export default class ModuleLoader extends Vue {
-  @Prop() itemId?: string;
+  @Prop() node!: INodeObject;
+
+  get fromModule(): Module {
+    return <Module>this.$parent?.$vnode?.context
+  }
+
+  get toModule(): Module {
+    return <Module>this.$children[0];
+  }
 
   //SSG only
   // @Prop() payload?: IPayload;
@@ -43,16 +53,22 @@ export default class ModuleLoader extends Vue {
 
   created() {
     // console.log("created", this.payload);
-    if (!lsStore.isSSG && this.itemId) {
+  }
+
+  @Watch("node", {immediate: true})
+  updateNode() {
+    if (!lsStore.isSSG && this.node && this.node.id) {
       //SPA,DEV
+      if (this.unsubscribe) this.unsubscribe();
       Singleton.firebaseInit(() => {
+        console.log(this.node.id)
         this.unsubscribe = Singleton.itemsRef
-          .doc(this.itemId)
+          .doc(this.node.id)
           .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
             if (!snap.exists) {
-              Singleton.itemsRef.doc(this.itemId).set({
-                moduleId: "Box",
-              });
+              Singleton.itemsRef.doc(this.node.id).set(
+                molleModules[this.node.fixedModuleId || "Box"].def
+              );
               return;
             }
 
@@ -67,9 +83,9 @@ export default class ModuleLoader extends Vue {
   check() {
     if (this.$route.query.hidden === "true") {
       return "";
-    } else if (lsStore.storage.focusModuleId == this.itemId) {
+    } else if (lsStore.storage.focusModuleNode.id == this.node.id) {
       return {outline: "2px solid red"};
-    } else if (lsStore.storage.hoverModuleId == this.itemId) {
+    } else if (lsStore.storage.hoverModuleNode.id == this.node.id) {
       return {outline: "2px solid orange"};
     }
   }

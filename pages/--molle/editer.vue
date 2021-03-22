@@ -107,7 +107,7 @@ export default class MolleEditerPage extends Vue {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoader) {
           let module: ModuleLoader = v;
-          lsStore.update({key: "hoverModuleId", value: module.$props.itemId});
+          lsStore.update({key: "hoverModuleNode", value: module.$props.node});
           break;
         }
       }
@@ -117,7 +117,8 @@ export default class MolleEditerPage extends Vue {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoader) {
           let module: ModuleLoader = v;
-          lsStore.update({key: "focusModuleId", value: module.$props.itemId});
+          console.log(module.$props.node)
+          lsStore.update({key: "focusModuleNode", value: module.$props.node});
           break;
         }
       }

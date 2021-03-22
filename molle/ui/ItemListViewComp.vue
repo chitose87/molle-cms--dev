@@ -7,18 +7,19 @@
       //page item
 
       .list-group
-        ItemListItemComp(:itemId="itemId")
+        ItemListItemComp(:node="{id:itemId}")
 
 </template>
 
 <script lang="ts">
   import {Component, Vue, Watch, Prop} from "~/node_modules/nuxt-property-decorator";
+  import {INodeObject} from "~/molle/interface";
 
   @Component({
     components: {}
   })
   export default class ItemListViewComp extends Vue {
-    @Prop() itemId!: string;
+    @Prop() itemId!: String;
 
     created() {
     }

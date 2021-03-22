@@ -160,6 +160,8 @@ no-ssr
               li データ連携モジュール
               li カスタムセット登録
               li firebaseに上げた画像をdeploy時にhostingサーバーに移動させるOption
+            button.btn.btn-info(@click="cleanup")
+              span データクリーンナップ
 </template>
 
 <script lang="ts">
@@ -371,6 +373,75 @@ export default class MolleTopPage extends Vue {
       };
       reader.readAsText(files[i]);
     }
+  }
+
+  /**
+   *
+   */
+  cleanup() {
+    console.log("cleanup");
+    let batch = firebase.firestore().batch();
+
+    Promise.all([
+      Singleton.pagesRef.get(),
+      Singleton.itemsRef.get()
+    ]).then((v: any) => {
+      let obj: any = {};
+      v[1].forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+        let itemData = <IItemData>_snap.data();
+        obj[_snap.id] = 0;
+      });
+      v[1].forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+        let itemData = <IItemData>_snap.data();
+        let flag = false;
+        //@ts-ignore
+        if (itemData.type == "children") {
+          for (let i in itemData.value) {
+            let item = itemData.value[i];
+            obj[item.id || item] += 1;
+            // todo 参照されてるリストを作る
+            if (typeof item == "string") {
+              // node化
+              itemData.value[i] = {id: item};
+              flag = true;
+            }
+          }
+          if (flag) {
+            batch.update(Singleton.itemsRef.doc(_snap.id), "value", itemData.value)
+          }
+        }
+      });
+      v[0].forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+        let pageData = <IPageData>_snap.data();
+        //@ts-ignore
+        obj[pageData.itemId] += 1;
+      });
+
+
+      //誰からも未参照のitemを削除
+      console.log(obj)
+      for(let id in obj){
+        if(obj[id]==0){
+          console.log("delete",id);
+          batch.delete(Singleton.itemsRef.doc(id));
+        }
+      }
+      batch.commit();
+    })
+
+    // Singleton.pagesRef.get().then(
+    //   (snap: firebase.firestore.QuerySnapshot) => {
+    //     snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+    //       let pageData = <IPageData>_snap.data();
+    //       console.log(pageData);
+    //
+    //       Singleton.itemsRef.get().then(
+    //         (qs: firebase.firestore.QuerySnapshot) => {
+    //           let itemData = <IItemData>qds.data();
+    //         })
+    //     });
+    //   }
+    // )
   }
 }
 </script>

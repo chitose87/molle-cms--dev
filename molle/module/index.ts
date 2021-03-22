@@ -21,6 +21,8 @@ import ModalProfile from "~/molle/module/primitive/ModalProfile.vue";
 import SocialShare from "~/molle/module/custom/SocialShare.vue";
 import SocialShareProfile from "~/molle/module/custom/SocialShareProfile.vue";
 import Modal from "~/molle/module/primitive/Modal.vue";
+import Card from "~/molle/module/custom/Card.vue";
+import CardProfile from "~/molle/module/custom/CardProfile.vue";
 import GoogleMap from "~/molle/module/custom/GoogleMap.vue";
 import GoogleMapProfile from "~/molle/module/custom/GoogleMapProfile.vue";
 import Table from "~/molle/module/primitive/Table.vue";
@@ -149,6 +151,19 @@ export const molleModules: {
     profile: SocialShareProfile,
     profileName: "SocialShareProfile",
     def: c("SocialShare", "any"),
+  },
+  //
+  Card: {
+    ref: Card,
+    profile: CardProfile,
+    profileName: "CardProfile",
+    def: c("Card", "group", {
+      value: {
+        img: {fixedModuleId: "Picture", order: 0},
+        headline: {fixedModuleId: "Paragraph", order: 10},
+        text: {fixedModuleId: "Paragraph", order: 20},
+      }
+    }),
   },
 };
 export type molleModules = typeof molleModules[keyof typeof molleModules];

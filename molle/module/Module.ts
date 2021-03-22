@@ -1,8 +1,16 @@
 import {Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-import {IItemData, IPayload} from "~/molle/interface";
+import {IItemData, INodeObject, IPayload} from "~/molle/interface";
+import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 
 export class Module extends Vue {
-  @Prop() itemId!: string;
+  get loader(): ModuleLoader {
+    return <ModuleLoader>this.$parent?.$vnode?.context;
+  }
+
+  get parent(): Module {
+    return <Module>this.loader.$parent?.$vnode?.context;
+  }
+
   @Prop({default: () => ({class: {}, option: {}, moduleId: "", id: ""})})
   itemData!: IItemData;
 
@@ -27,6 +35,7 @@ export class Module extends Vue {
   @Watch("static__class", {immediate: true}) setStatic__class() {
     this.static__class && this.$set(this.itemData, "class", this.static__class);
   }
+
 
   getClass(data: any) {
     let obj: any = {};
