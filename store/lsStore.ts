@@ -5,8 +5,8 @@ import {IPayload} from "~/molle/interface";
 export default class lsStore extends VuexModule {
   private static prefix: string = "molle-ls-";
   storage = {
-    focusModuleNode: {id:""},
-    hoverModuleNode: {id:""},
+    focusModuleNode: {id: ""},
+    hoverModuleNode: {id: ""},
     focusFamily: [],
   };
 
@@ -28,6 +28,8 @@ export default class lsStore extends VuexModule {
     this.storage = JSON.parse(
       localStorage.getItem(lsStore.prefix + "storage") || "{}",
     );
+    if (!this.storage.focusModuleNode) this.storage.focusModuleNode = {id: ""};
+    if (!this.storage.hoverModuleNode) this.storage.hoverModuleNode = {id: ""};
     this.isEditer = true;
     console.log("lsStore", "initialized");
   }
