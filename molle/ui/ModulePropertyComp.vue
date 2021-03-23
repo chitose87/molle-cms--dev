@@ -99,7 +99,7 @@ export default class ModulePropertyComp extends Vue {
 
   @Watch('lsStore.storage.focusModuleNode', {immediate: true})
   onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
-    if (newer) {
+    if (newer && newer.id) {
       this.flag = false;
       if (this.unsubscribe) {
         this.unsubscribe();

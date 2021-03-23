@@ -20,6 +20,9 @@ export default class Paragraph extends Module {
 
 <style lang="scss">
 .paragraph {
+  margin-top: 0;
+  margin-bottom: 1rem;
+
   &.-caption {
     font-size: 14px;
     color: $color-gray-500;

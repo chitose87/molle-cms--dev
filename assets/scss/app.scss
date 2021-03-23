@@ -6,6 +6,7 @@
 @import "form";
 @import "animation";
 @import "font-style";
+@import "space";
 
 .isPc {
   @include mediaquery-sm {
