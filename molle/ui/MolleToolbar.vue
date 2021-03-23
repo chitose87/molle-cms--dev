@@ -112,7 +112,7 @@ export default class MolleToolbar extends Vue {
       .then((str: string) => {
         let json = JSON.parse(str);
         console.log(json);
-        this.set(this, currentCIFlow, json.workflow_runs[0]);
+        this.$set(this, "currentCIFlow", json.workflow_runs[0]);
       });
   }
 
