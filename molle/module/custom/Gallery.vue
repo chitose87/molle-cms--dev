@@ -5,16 +5,16 @@
   :style="getStyle(itemData)"
 )
   .gallery__body(data-gallery="body")
-    ModuleLoader(:itemId="itemData.value[0]")
+    ModuleLoader(:node="itemData.value[0]")
 
   .gallery__thumbs
     .row
       .gallery__thumb.col-3(
-        v-for="(id, index) in itemData.value",
+        v-for="(node, index) in itemData.value",
         :class="{'-current': index == current}",
         @click="current = index"
       )
-        ModuleLoader(:itemId="id", :key="id", :data-gallery="index")
+        ModuleLoader(:node="node", :key="node.id", :data-gallery="index")
 
   AddModuleComp(
     :itemData="itemData",

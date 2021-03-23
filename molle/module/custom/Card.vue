@@ -1,10 +1,13 @@
 <template lang="pug">
-p.module.paragraph(
+.module.card(
   :id="itemData.tagId",
   :class="getClass(itemData)",
-  :style="getStyle(itemData)",
-  v-html="itemData.value || itemData.superValue || ''"
+  :style="getStyle(itemData)"
 )
+  ModuleLoader(:node="itemData.value.img")
+  ModuleLoader(:node="itemData.value.headline")
+  ModuleLoader(:node="itemData.value.text")
+
 </template>
 
 <script lang="ts">
@@ -14,18 +17,13 @@ import {Module} from "~/molle/module/Module";
 @Component({
   components: {},
 })
-export default class Paragraph extends Module {
+export default class Card extends Module {
+  //Unique Methods
 }
 </script>
 
 <style lang="scss">
-.paragraph {
-  margin-top: 0;
-  margin-bottom: 1rem;
+.card {
 
-  &.-caption {
-    font-size: 14px;
-    color: $color-gray-500;
-  }
 }
 </style>

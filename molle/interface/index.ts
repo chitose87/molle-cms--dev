@@ -16,6 +16,7 @@ export interface IPageData {
 
 export interface IItemData {
   id: string;
+  type: string;
   // follower?: { [key: string]: IItemStoreData };
   // superValue?: any//TODO<IValueStoreData>;
 
@@ -39,9 +40,15 @@ export interface IItemData {
   };
 }
 
+export interface INodeObject {
+  id: string;
+  // uid: string;
+  fixedModuleId?: string;
+}
+
 export interface IPayload {
   id: string;
   pageData: IPageData;
-  pages: {[key: string]: IPageData};
-  items: {[key: string]: IItemData};
+  pages: { [key: string]: IPageData };
+  items: { [key: string]: IItemData };
 }

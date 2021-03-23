@@ -7,11 +7,11 @@
       @update="()=>$emit('change')"
     )
       li.item-list-item-comp.list-group-item.list-group-item-action(
-        v-for="item in localValue"
-        :key="item"
+        v-for="node in localValue"
+        :key="node.id"
       )
-        span(v-if="obj[item]")
-          span(v-html="obj[item].moduleId")
+        span(v-if="childlen[node.id]")
+          span(v-html="childlen[node.id].moduleId")
           //span(v-html="item")
 
     // add
@@ -30,7 +30,7 @@
   import {Singleton} from "~/molle/Singleton";
   import firebase from "firebase";
   import {lsStore} from "~/utils/store-accessor";
-  import {IItemData} from "~/molle/interface";
+  import {IItemData, INodeObject} from "~/molle/interface";
   import {molleModules} from "~/molle/module";
 
   @Component({
@@ -41,14 +41,14 @@
   export default class ChildrenOptionComp extends OptionComp {
     @Prop() moduleId!: string;
     pushModuleSelected: string = "";
-    private obj = <{ [key: string]: IItemData }>{};
+    private childlen = <{ [key: string]: IItemData }>{};
 
     created() {
-      this.localValue.forEach((id: string) => {
-        Singleton.itemsRef.doc(id)
+      this.localValue.forEach((node: INodeObject) => {
+        Singleton.itemsRef.doc(node.id)
           .get()
           .then((snap: firebase.firestore.DocumentSnapshot) => {
-            this.$set(this.obj, snap.id, snap.data());
+            this.$set(this.childlen, snap.id, snap.data());
           });
       });
 
@@ -78,9 +78,9 @@
 
       Singleton.itemsRef.add(data)
         .then((docRef: firebase.firestore.DocumentReference) => {
-          this.localValue.push(docRef.id);
+          this.localValue.push({id:docRef.id});
           this.$emit('change');
-          lsStore.update({key: "focusModuleId", value: docRef.id});
+          lsStore.update({key: "focusModuleNode", value: {id:docRef.id}});
         });
     }
 

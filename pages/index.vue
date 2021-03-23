@@ -2,7 +2,7 @@
 .l-body.top
   GlobalHeaderComp
   main
-    ModuleLoader(:itemId="'top-content'")
+    ModuleLoader(:node="{id:'top-content'}")
   GlobalFooterComp
 </template>
 

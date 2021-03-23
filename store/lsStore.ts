@@ -5,8 +5,8 @@ import {IPayload} from "~/molle/interface";
 export default class lsStore extends VuexModule {
   private static prefix: string = "molle-ls-";
   storage = {
-    focusModuleId: "",
-    hoverModuleId: "",
+    focusModuleNode: {id:""},
+    hoverModuleNode: {id:""},
     focusFamily: [],
   };
 

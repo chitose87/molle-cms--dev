@@ -1,0 +1,40 @@
+name: CI-Firebase-hosting
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      FIRESTORE_PW: ${{ secrets.FIRESTORE_PW }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm キャッシュファイルは Linux/macOS の「~/.npm」に保存される
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+          #- run: npm install
+          #- run: npm run build
+      - run: npm i
+      - run: FIRESTORE_PW=$FIRESTORE_PW npm run gen
+      - run: ./node_modules/.bin/firebase deploy --only hosting --token=$FIREBASE_TOKEN

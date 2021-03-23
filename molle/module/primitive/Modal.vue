@@ -8,7 +8,7 @@
       :class="getClass(itemData)",
       :style="getStyle(itemData)"
     )
-      ModuleLoader(v-for="id in itemData.value", :key="id", :itemId="id")
+      ModuleLoader(v-for="node in itemData.value", :key="node.id", :node="node")
 
       AddModuleComp(:itemData="itemData", :label="`Modal`")
 </template>

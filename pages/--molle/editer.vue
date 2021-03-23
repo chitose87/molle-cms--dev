@@ -47,6 +47,7 @@ import UniversalPage from "~/pages/_universal.vue";
 import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
 
 @Component({
+  layout:"molle-sys",
   components: {
     GoogleStorageModalComp,
     UniversalPage,
@@ -107,7 +108,7 @@ export default class MolleEditerPage extends Vue {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoader) {
           let module: ModuleLoader = v;
-          lsStore.update({key: "hoverModuleId", value: module.$props.itemId});
+          lsStore.update({key: "hoverModuleNode", value: module.$props.node});
           break;
         }
       }
@@ -117,7 +118,8 @@ export default class MolleEditerPage extends Vue {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoader) {
           let module: ModuleLoader = v;
-          lsStore.update({key: "focusModuleId", value: module.$props.itemId});
+          console.log(module.$props.node)
+          lsStore.update({key: "focusModuleNode", value: module.$props.node});
           break;
         }
       }
@@ -131,17 +133,6 @@ export default class MolleEditerPage extends Vue {
 </script>
 
 <style lang="scss">
-.bootstrap {
-  $input-placeholder-color: $color-gray-300;
-
-  @import "~bootstrap/scss/bootstrap";
-  @import "~bootstrap-vue/src/index.scss";
-
-  @each $color, $value in $colors {
-    @include bg-variant(".bg-#{$color}", $value, true);
-  }
-}
-
 .l-molle {
   @include mediaquery-not-sm {
     display: flex;

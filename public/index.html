@@ -1,89 +1,10 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html data-n-head-ssr>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
-
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/8.2.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/8.2.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/8.2.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/8.2.0/firebase-firestore.js"></script>
-    <script defer src="/__/firebase/8.2.0/firebase-functions.js"></script>
-    <script defer src="/__/firebase/8.2.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/8.2.0/firebase-storage.js"></script>
-    <script defer src="/__/firebase/8.2.0/firebase-analytics.js"></script>
-    <script defer src="/__/firebase/8.2.0/firebase-remote-config.js"></script>
-    <script defer src="/__/firebase/8.2.0/firebase-performance.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
+    <title>MOLLE CMS v0</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="{{MOLLE CMS v0.1}}"><meta data-n-head="ssr" data-hid="keywords" name="keywords" content="{{keywords}}"><meta data-n-head="ssr" data-hid="og:site_name" property="og:site_name" content="{{MOLLE CMS v0.1}}"><meta data-n-head="ssr" data-hid="og:type" property="og:type" content="article"><meta data-n-head="ssr" data-hid="og:description" property="og:description" content="{{MOLLE CMS v0.1}}"><meta data-n-head="ssr" data-hid="og:image" property="og:image" content="https://molle-cms---dev.web.app/og_img.png"><meta data-n-head="ssr" data-hid="og:url" property="og:url" content="https://molle-cms---dev.web.app/"><meta data-n-head="ssr" data-hid="twitter:card" property="twitter:card" content="summary"><meta data-n-head="ssr" data-hid="twitter:image" property="twitter:image" content="https://molle-cms---dev.web.app/og_img.png"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="preconnect" href="https://fonts.gstatic.com"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap"><link rel="preload" href="/_nuxt/runtime-app.js?8e8c5b34cb91f2fd7d04" as="script"><link rel="preload" href="/_nuxt/commons/app.js?8e8c5b34cb91f2fd7d04" as="script"><link rel="preload" href="/_nuxt/vendors/app.css?8e8c5b34cb91f2fd7d04" as="style"><link rel="preload" href="/_nuxt/vendors/app.js?8e8c5b34cb91f2fd7d04" as="script"><link rel="preload" href="/_nuxt/app.css?8e8c5b34cb91f2fd7d04" as="style"><link rel="preload" href="/_nuxt/app.js?8e8c5b34cb91f2fd7d04" as="script"><link rel="preload" href="/_nuxt/pages/index.css?8e8c5b34cb91f2fd7d04" as="style"><link rel="preload" href="/_nuxt/pages/index.js?8e8c5b34cb91f2fd7d04" as="script"><link rel="stylesheet" href="/_nuxt/vendors/app.css?8e8c5b34cb91f2fd7d04"><link rel="stylesheet" href="/_nuxt/app.css?8e8c5b34cb91f2fd7d04"><link rel="stylesheet" href="/_nuxt/pages/index.css?8e8c5b34cb91f2fd7d04"><link rel="preload" href="/_nuxt/static/1616483755/state.js" as="script"><link rel="preload" href="/_nuxt/static/1616483755/payload.js" as="script">
   </head>
   <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
+    <div data-server-rendered="true" id="__nuxt"><!----><div id="__layout"><div class="l-body top"><header class="global-header"><a href="/" class="company-name"><span>LOGO</span></a><div class="global-header__menu"><button type="button" class="global-header__menu__btn isSp"><span class="global-header__menu__btn__line"></span><span class="global-header__menu__btn__label"></span></button><ul class="global-header__menu__body"><li class="global-header__menu__item"><a href="/about"><span>About</span></a></li><li class="global-header__menu__item"><a href="/news"><span> News</span></a></li><li class="global-header__menu__item"><a href="/qa"><span> Q&A</span></a></li><li class="global-header__menu__item"><a href="/contact"><span> Contact</span></a></li></ul></div></header><main><div class="module box"><div class="module box container border"><h3 class="module headline text-center">MOLLE CMS<span class="headline__sub">MOdule Layout Light & Easy - Contents Manager System. v0.4</span></h3><p class="module paragraph">モジュール型のCMS。
+Nuxtとfirebase製</p><!----></div><!----></div></main><footer class="global-footer"><small>Copyright © All Rights Reserved.</small></footer></div></div></div><script defer src="/_nuxt/static/1616483755/state.js"></script><script src="/_nuxt/runtime-app.js?8e8c5b34cb91f2fd7d04" defer></script><script src="/_nuxt/pages/index.js?8e8c5b34cb91f2fd7d04" defer></script><script src="/_nuxt/commons/app.js?8e8c5b34cb91f2fd7d04" defer></script><script src="/_nuxt/vendors/app.js?8e8c5b34cb91f2fd7d04" defer></script><script src="/_nuxt/app.js?8e8c5b34cb91f2fd7d04" defer></script>
   </body>
 </html>
