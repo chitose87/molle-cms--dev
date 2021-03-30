@@ -31,6 +31,7 @@
                 |5~10分程度かかります。
                 br
                 |1日あたり100分を超えると料金が発生します。
+      span.mr-2 |
       .mr-2
         button.btn.btn-info(type="button" @click="onExport")
           span Export
@@ -50,6 +51,7 @@
                 )
                 button.btn.btn-info(type="submit")
                   span Import
+      span.mr-2 |
       .mr-2
         button.btn.btn-danger(@click="cleanup")
           span Data Clean
@@ -117,6 +119,7 @@ export default class MolleToolbar extends Vue {
   }
 
   deployQue() {
+    this.deployModal = false;
     fetch(`${process.env.functions}/publish`)
     // fetch(`${process.env.functions}/githubActionsStatus`)
       .then((res: any) => {
