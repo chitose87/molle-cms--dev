@@ -3,6 +3,18 @@
   GlobalHeaderComp
   main
     ModuleLoader(:node="{id:'top-content'}")
+
+    section
+      .container
+        h3 News
+        NewsList(:max="3")
+
+        .text-center
+          Button.-primary(
+            :static__value="'more'"
+            :static__option="{href: '/news', traget: '_self'}"
+          )
+
   GlobalFooterComp
 </template>
 
@@ -10,9 +22,11 @@
 import {Component} from "~/node_modules/nuxt-property-decorator";
 import {Page} from "~/molle/module/Page";
 import {lsStore} from "~/utils/store-accessor";
+import Button from "~/molle/module/primitive/Button.vue";
 
 @Component({
   components: {
+    Button
   },
 })
 export default class Index extends Page {

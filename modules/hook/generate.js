@@ -2,9 +2,35 @@ const firebase = require("firebase/app");
 require("firebase/auth");
 require("firebase/firestore");
 const molle = require("../../molle.json");
+var fs = require('fs');
+
+let allData = {
+  pages: {}, items: {}
+};
+
+function cleaningFirestoreValue(_data) {
+  for (let key in _data) {
+    if (_data[key]) {
+      // if (_data[key].id) {
+      //   console.log(key,_data[key]);
+      //   _data[key] = _data[key].id;
+      // } else
+      if (key == "updateTime" || key == "createTime") {
+        _data[key] = "";
+      } else if (typeof _data[key] == "object") {
+        cleaningFirestoreValue(_data[key]);
+      }
+    }
+  }
+  return _data;
+}
 
 module.exports = function () {
-  this.nuxt.hook('generate:extendRoutes', async (routes) => {
+  /**
+   * firebaseから全件データを取得して保持
+   */
+  this.nuxt.hook('generate:before', async (generator, generateOptions) => {
+    console.log("generate:before");
     firebase.initializeApp({
       apiKey: molle.apiKey,
       authDomain: molle.authDomain,
@@ -15,7 +41,6 @@ module.exports = function () {
     });
 
     await new Promise((resolve, reject) => {
-      console.log(process.env.FIRESTORE_PW)
       firebase.auth().signInWithEmailAndPassword(molle.developerId, process.env.FIRESTORE_PW)
         .then((user) => {
           Promise.all([
@@ -23,47 +48,14 @@ module.exports = function () {
             firebase.firestore().collection(`${molle.molleProjectID}/${molle.molleBrunch}/items`).get()
           ])
             .then(([pages, items]) => {
-              function cleaningFirestoreValue(_data) {
-                for (let key in _data) {
-                  if (_data[key]) {
-                    // if (_data[key].id) {
-                    //   console.log(key,_data[key]);
-                    //   _data[key] = _data[key].id;
-                    // } else
-                    if (key == "updateTime" || key == "createTime") {
-                      _data[key] = "";
-                    } else if (typeof _data[key] == "object") {
-                      cleaningFirestoreValue(_data[key]);
-                    }
-                  }
-                }
-                return _data;
-              }
-
-              let allData = {
-                pages: {}, items: {}
-              };
-              routes.forEach((route) => {
-                route.payload = {
-                  // id: snap.id,
-                  pages: allData.pages,
-                  items: allData.items,
-                }
-              });
+              let newsPage = [];
               pages.forEach((snap) => {
                 let data = cleaningFirestoreValue(snap.data());
-                allData.pages[snap.id] = data;
-
                 if (data.noExport) return;
-                routes.push({
-                  route: `/${data.path}`
-                  , payload: {
-                    id: snap.id,
-                    pageData: data,
-                    pages: allData.pages,
-                    items: allData.items,
-                  }
-                })
+                allData.pages[snap.id] = data;
+                if (data.path.indexOf("news/") == 0) {
+                  newsPage.push(data)
+                }
               });
               items.forEach((snap) => {
                 let data = cleaningFirestoreValue(snap.data());
@@ -71,21 +63,48 @@ module.exports = function () {
                 data.id = snap.id;
                 allData.items[snap.id] = data;
               });
-              resolve(routes);
+
+              //news jsonの書き出し
+              newsPage.sort((a, b) => {
+                return a.date < b.date ? 1 : -1;
+              });
+              for (let i = 0; i < newsPage.length / 10; i++) {
+                fs.writeFileSync(
+                  `${generateOptions.staticAssets.dir}/news/news-page-${i + 1}.json`,
+                  JSON.stringify(newsPage.slice(i * 10, i * 10 + 10))
+                );
+              }
+              resolve();
             });
         });
     });
+  });
 
-    // console.log('----', +new Date());
-    // const result =
-    // console.log('----', +new Date());
+  /**
+   * routesを編集
+   */
+  this.nuxt.hook('generate:extendRoutes', async (routes) => {
+    console.log("generate:extendRoutes")
+    routes.forEach((route) => {
+      route.payload = {
+        // id: snap.id,
+        pages: allData.pages,
+        items: allData.items,
+      }
+    });
+    for (let id in allData.pages) {
+      let data = allData.pages[id];
 
-    // routes.push({
-    //   route: '/--molle/hoge',
-    //   payload: null
-    // });
-
-    console.log('----generate:extendRoutes', routes);
+      routes.push({
+        route: `/${data.path}`
+        , payload: {
+          id: id,
+          pageData: data,
+          pages: allData.pages,
+          items: allData.items,
+        }
+      })
+    }
   });
   this.nuxt.hook('generate:route', async (route, setPayload) => {
     console.log('----generate:route', route, setPayload);
