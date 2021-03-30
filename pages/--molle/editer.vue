@@ -45,12 +45,14 @@ import EditorOptionComp from "~/molle/ui/EditorOptionComp.vue";
 
 import UniversalPage from "~/pages/_universal.vue";
 import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
+import NewsDetailPage from "~/pages/news/_detail.vue";
 
 @Component({
-  layout:"molle-sys",
+  layout: "molle-sys",
   components: {
     GoogleStorageModalComp,
     UniversalPage,
+    NewsDetailPage,
     PagePropertyComp,
     ModulePropertyComp,
     ItemListViewComp,
@@ -89,13 +91,13 @@ export default class MolleEditerPage extends Vue {
 
           lsStore.init();
           //theme set
-          // if (pageData.path.indexOf("news/") == 0) {
-          //   this.$set(this, "theme", "NewsDetailPage");
-          // } else if (pageData.path.indexOf("case-study/") == 0) {
-          //   this.$set(this, "theme", "CaseStudyDetailPage");
-          // } else {
-          this.$set(this, "theme", "UniversalPage");
-          // }
+          if (pageData.path.indexOf("news/") == 0) {
+            this.$set(this, "theme", "NewsDetailPage");
+            // } else if (pageData.path.indexOf("case-study/") == 0) {
+            //   this.$set(this, "theme", "CaseStudyDetailPage");
+          } else {
+            this.$set(this, "theme", "UniversalPage");
+          }
 
           this.$set(this, "pageData", pageData);
         });

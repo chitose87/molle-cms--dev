@@ -2,41 +2,38 @@
 .l-body.news
   GlobalHeaderComp
   article.l-content
-    .container
-      Headline(
-        :static__value="'News'",
-        :static__option="{lv: 'h2'}"
-      )
-      //Dynamic after the second page
-      NewsList(:list="json" v-if="$route.query.p>1")
+    section
+      .container
+        Headline(
+          :static__value="`News`"
+          :static__option="{lv: 'h2'}"
+        )
 
-      //The first page is static
-      NewsList(:max="viewCount" v-else)
+        //Dynamic after the second page
+        NewsList(:list="json" v-if="$route.query.p>1")
 
-      Pagination(v-if="pageTotal>1" :total="pageTotal")
+        //The first page is static
+        NewsList(:max="viewCount" v-else)
+
+        Pagination(v-if="pageTotal>1" :total="pageTotal")
+
   GlobalFooterComp
-
 </template>
 
 <script lang="ts">
 import {Component, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-import {lsStore} from "~/utils/store-accessor";
-import {IPageData} from "~/molle/interface";
-import {Singleton} from "~/molle/Singleton";
-import firebase from "~/node_modules/firebase";
-import {Utils} from "~/molle/Utils";
 import {Page} from "~/molle/module/Page";
+import {lsStore} from "~/utils/store-accessor";
+import {Utils} from "~/molle/Utils";
+import {IPageData} from "~/molle/interface";
+import Headline from "~/molle/module/primitive/Headline.vue";
 
 @Component({
-  components: {}
+  components: {Headline},
 })
-export default class news extends Page {
+export default class News extends Vue {
   async asyncData(context: any) {
     lsStore.updatePayload(context.payload);
-  }
-
-  head() {
-    return this.createMeta();
   }
 
   viewCount = 10;
@@ -69,9 +66,6 @@ export default class news extends Page {
           this.$router.push({query: {}})
         });
     }
-  }
-
-  mounted() {
   }
 }
 </script>

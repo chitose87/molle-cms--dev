@@ -22,11 +22,9 @@
 import {Component} from "~/node_modules/nuxt-property-decorator";
 import {Page} from "~/molle/module/Page";
 import {lsStore} from "~/utils/store-accessor";
-import Button from "~/molle/module/primitive/Button.vue";
 
 @Component({
   components: {
-    Button
   },
 })
 export default class Index extends Page {
