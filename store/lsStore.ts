@@ -10,8 +10,8 @@ export default class lsStore extends VuexModule {
     focusFamily: [],
   };
 
-  payload = <any>{};
-  isSSG = false;
+  // payload = <any>{};
+  // isSSG = false;
   isEditer = false;
 
   editing: string[] = [];
@@ -66,9 +66,9 @@ export default class lsStore extends VuexModule {
 
   @Mutation
   updatePayload(payload: any) {
-    this.payload = payload;
-    if (payload && payload.pages) {
-      this.isSSG = true;
-    }
+    // this.payload = payload;
+    // if (payload && payload.pages) {
+    //   this.isSSG = true;
+    // }
   }
 }

@@ -21,7 +21,7 @@ export default class NewsList extends Vue {
   @Prop() list?: any[];
 
   created() {
-    Utils.getPageList("news", (list: IPageData[]) => {
+    Utils.getPageList("news",this.$nuxt.context, (list: IPageData[]) => {
       this.$set(this, "news", list);
     }, {
       sort: "desc",// or asc

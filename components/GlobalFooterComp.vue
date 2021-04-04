@@ -10,10 +10,7 @@
     components: {}
   })
   export default class GlobalFooterComp extends Vue {
-
-    mounted() {
-
-    }
+    static MOLLE_DELETE_WITH_STATIC_MODE = true;
   }
 </script>
 

@@ -4,6 +4,9 @@
   main
     ModuleLoader(:node="{id:'top-content'}")
 
+    button(@click="count+=1")
+      span(v-html="count")
+
     section
       .container
         h3 News
@@ -19,26 +22,35 @@
 </template>
 
 <script lang="ts">
-import {Component} from "~/node_modules/nuxt-property-decorator";
-import {Page} from "~/molle/module/Page";
+import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
 import {lsStore} from "~/utils/store-accessor";
-import Button from "~/molle/module/primitive/Button.vue";
 
 @Component({
-  components: {
-    Button
-  },
+  components: {},
 })
-export default class Index extends Page {
-  async asyncData(context: any) {
-    lsStore.updatePayload(context.payload);
+
+export default class Index extends Vue {
+  count = 1;
+
+  // payload = {};
+  // async asyncData(context: any) {
+  //   lsStore.updatePayload(context.payload);
+    //payload と　state両方に来ちゃう
+  // }
+
+  hoge(){
+    //return lsStore.payload;
   }
 
-  created() {
-  }
-
-  beforeDestroy() {
-  }
+  // async ay() {
+  //   // console.log("fetch");
+  //   lsStore.updatePayload(this.$nuxt.context.payload);
+  //   // //staticではよばれない
+  //   // if (this.$nuxt.context.payload) {
+  //   //   // this.payload = this.$nuxt.context.payload;
+  //   //   this.payload = {test: "hoge"}
+  //   // }
+  // }
 }
 </script>
 

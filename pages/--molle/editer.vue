@@ -1,34 +1,33 @@
 <template lang="pug">
 div
-  no-ssr
-    .l-molle(v-if="pageData.itemId")
-      .l-molle__left.bootstrap.shadow(:aria-expanded="expandedLeft")
-        button.btn.btn-outline-secondary.l-molle__toggle(
-          @click="() => (expandedLeft = !expandedLeft)"
-        )
-          b-icon(icon="layout-sidebar-inset")
+  .l-molle(v-if="pageData.itemId")
+    .l-molle__left.bootstrap.shadow(:aria-expanded="expandedLeft")
+      button.btn.btn-outline-secondary.l-molle__toggle(
+        @click="() => (expandedLeft = !expandedLeft)"
+      )
+        b-icon(icon="layout-sidebar-inset")
 
-        .card.bg-light
-          .card-header.pt-1.pb-1.pl-3.pr-3.text-right
-            a(href="/--molle/")
-              b-icon(icon="house-door")
-              span Molle TOP
-        ItemListViewComp(:itemId="pageData.itemId")
+      .card.bg-light
+        .card-header.pt-1.pb-1.pl-3.pr-3.text-right
+          a(href="/--molle/")
+            b-icon(icon="house-door")
+            span Molle TOP
+      ItemListViewComp(:itemId="pageData.itemId")
 
-      .l-molle__main(ref="main")
-        component(:is="theme", :pageData="pageData")
+    .l-molle__main(ref="main")
+      component(v-if="pageData.itemId" :is="theme", :pageDataByEditer="pageData")
 
-      .l-molle__right.bootstrap.shadow(:aria-expanded="expandedRight")
-        button.btn.btn-outline-secondary.l-molle__toggle(
-          @click="() => (expandedRight = !expandedRight)"
-        )
-          b-icon(icon="layout-sidebar-inset-reverse")
+    .l-molle__right.bootstrap.shadow(:aria-expanded="expandedRight")
+      button.btn.btn-outline-secondary.l-molle__toggle(
+        @click="() => (expandedRight = !expandedRight)"
+      )
+        b-icon(icon="layout-sidebar-inset-reverse")
 
-        EditorOptionComp
-        PagePropertyComp(:pageData="pageData", :pageId="pageId")
-        ModulePropertyComp
-    GoogleStorageModalComp
-    #bootstrap-container.bootstrap
+      EditorOptionComp
+      PagePropertyComp(:pageData="pageData", :pageId="pageId")
+      ModulePropertyComp
+  GoogleStorageModalComp(v-if="ready")
+  #bootstrap-container.bootstrap
 </template>
 
 <script lang="ts">
@@ -45,12 +44,14 @@ import EditorOptionComp from "~/molle/ui/EditorOptionComp.vue";
 
 import UniversalPage from "~/pages/_universal.vue";
 import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
+import NewsDetailPage from "~/pages/news/_detail.vue";
 
 @Component({
-  layout:"molle-sys",
+  layout: "molle-sys",
   components: {
     GoogleStorageModalComp,
     UniversalPage,
+    NewsDetailPage,
     PagePropertyComp,
     ModulePropertyComp,
     ItemListViewComp,
@@ -65,6 +66,7 @@ export default class MolleEditerPage extends Vue {
 
   theme: string = "";
   private unsubscribe!: () => void;
+  ready: boolean = false;
 
   head() {
     return {
@@ -89,17 +91,26 @@ export default class MolleEditerPage extends Vue {
 
           lsStore.init();
           //theme set
-          // if (pageData.path.indexOf("news/") == 0) {
-          //   this.$set(this, "theme", "NewsDetailPage");
-          // } else if (pageData.path.indexOf("case-study/") == 0) {
-          //   this.$set(this, "theme", "CaseStudyDetailPage");
-          // } else {
-          this.$set(this, "theme", "UniversalPage");
-          // }
+          if (pageData.path.indexOf("news/") == 0) {
+            this.$set(this, "theme", "NewsDetailPage");
+            // } else if (pageData.path.indexOf("case-study/") == 0) {
+            //   this.$set(this, "theme", "CaseStudyDetailPage");
+          } else {
+            this.$set(this, "theme", "UniversalPage");
+          }
 
           this.$set(this, "pageData", pageData);
         });
     });
+
+    //check ready
+    let clearId = setInterval(() => {
+      //@ts-ignore
+      if (window["Jimp"] && true) {
+        this.ready = true;
+        clearInterval(clearId);
+      }
+    }, 100);
   }
 
   mounted() {

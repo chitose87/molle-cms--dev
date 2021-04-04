@@ -3,29 +3,23 @@
   GlobalHeaderComp
   article.l-content
     .container
-      Headline(
-        :static__value="localPageData.displayTitle || localPageData.title || '汎用固定ページ'",
-        :static__option="{lv: 'h2'}"
-      )
-      ModuleLoader(v-if="localPageData.itemId" :node="{id:localPageData.itemId}")
+      PageTitle(:pageDataByEditer="pageDataByEditer")
+      ModuleLoader(:mRoot="true" :pageDataByEditer="pageDataByEditer")
   GlobalFooterComp
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
-import {Page} from "~/molle/module/Page";
-import {lsStore} from "~/utils/store-accessor";
+import {Utils} from "~/molle/Utils";
 
 @Component({
   components: {},
 })
-export default class UniversalPage extends Page {
-  head() {
-    return this.createMeta();
-  }
+export default class UniversalPage extends Vue {
+  @Prop({default: () => ({})}) pageDataByEditer?: any;// use editer.vue
 
-  async asyncData(context: any) {
-    lsStore.updatePayload(context.payload);
+  head() {
+    return Utils.setMeta(this);
   }
 }
 </script>
