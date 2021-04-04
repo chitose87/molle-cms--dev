@@ -21,6 +21,20 @@ export class Singleton {
       this._pagesRef = this.systemDocRef.collection(`pages`);
   }
 
+  static getCurrentPageData($route: any): Promise<any> {
+    let id=encodeURIComponent($route.fullPath.substr(1).replace(/\/$/g,""));
+    console.log(id)
+    return this.pagesRef.doc(id)
+      .get()
+      .then((snap: firebase.firestore.DocumentSnapshot) => {
+        if (!snap.exists) {
+          console.log("no page data", $route.fullPath);
+          return;
+        }
+        return snap.data();
+      });
+  }
+
   private static _systemDocRef: firebase.firestore.DocumentReference;
   private static _pagesRef: firebase.firestore.CollectionReference;
   private static _itemsRef: firebase.firestore.CollectionReference;

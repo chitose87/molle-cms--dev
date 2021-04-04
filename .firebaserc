@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "molle-cms---dev"
+  },
+  "targets": {
+    "molle-cms---dev": {
+      "hosting": {
+        "public": [
+          "molle-cms--stg"
+        ],
+        "cms": [
+          "molle-cms---dev"
+        ]
+      }
+    }
   }
 }

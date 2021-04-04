@@ -117,9 +117,9 @@ export default class ItemListItemComp extends Vue {
         if (!snap.exists) return;
         let itemData = snap.data();
 
-        console.log("aaaaa")
+        // console.log("aaaaa")
         this.$set(this, "itemData", itemData);
-        console.log("bbbbb")
+        // console.log("bbbbb")
       });
   }
 

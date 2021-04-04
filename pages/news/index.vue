@@ -4,10 +4,7 @@
   article.l-content
     section
       .container
-        Headline(
-          :static__value="`News`"
-          :static__option="{lv: 'h2'}"
-        )
+        PageTitle(:value="`News`")
 
         //Dynamic after the second page
         NewsList(:list="json" v-if="$route.query.p>1")
@@ -22,26 +19,20 @@
 
 <script lang="ts">
 import {Component, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-import {Page} from "~/molle/module/Page";
 import {lsStore} from "~/utils/store-accessor";
 import {Utils} from "~/molle/Utils";
 import {IPageData} from "~/molle/interface";
-import Headline from "~/molle/module/primitive/Headline.vue";
 
 @Component({
-  components: {Headline},
+  components: {},
 })
 export default class News extends Vue {
-  async asyncData(context: any) {
-    lsStore.updatePayload(context.payload);
-  }
-
   viewCount = 10;
   pageTotal = 1;
   json = [];
 
   created() {
-    Utils.getPageList("news", (list: IPageData[]) => {
+    Utils.getPageList("news", this.$nuxt.context, (list: IPageData[]) => {
       this.$set(this, "pageTotal", Math.ceil(list.length / this.viewCount))
     }, {
       sort: "desc",// or asc

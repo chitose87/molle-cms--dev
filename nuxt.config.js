@@ -1,7 +1,9 @@
 require('dotenv').config();
 
 const molle = require("./molle.json");
-const scssEnv={
+molle.version = "0.5";
+molle.isMolleCms = process.env.IS_MOLLE_CMS == "true";
+const scssEnv = {
   breakPoint: molle.breakPoint,
   gutter: molle.gutter,
   version: molle.version,
@@ -11,9 +13,17 @@ for (let i in scssEnv) {
   envStr += `$${i}:${scssEnv[i]};`;
 }
 
+const modules = [
+  '@nuxtjs/dotenv',
+  '@nuxtjs/style-resources',
+  '~/molle/nuxt-config/generateHooks'
+]
+if (molle.isMolleCms) modules.push('bootstrap-vue/nuxt')
+
 export default {
   mode: "universal",
   target: "static",
+  ssr: !molle.isMolleCms,
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'MOLLE CMS v0',
@@ -42,7 +52,7 @@ export default {
     ],
     script: []
   },
-  env:molle,
+  env: molle,
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
@@ -51,24 +61,18 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    '~/plugins/Modules.ts',
+    '~/molle/nuxt-config/plugin.ts'
   ],
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
-    // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: [
-    '@nuxtjs/dotenv',
-    'bootstrap-vue/nuxt',
-    '@nuxtjs/style-resources',
-    '@/modules/hook/generate',
-  ],
+  modules: modules,
   types: [
     '@types/googlemaps'
   ],
@@ -109,7 +113,8 @@ export default {
     }
   },
   generate: {
-    dir: 'public'
+    dir: molle.isMolleCms ? 'public-cms' : 'public',
+    crawler: false
   },
   router: {
     scrollBehavior: function (to, from, savedPosition) {

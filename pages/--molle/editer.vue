@@ -1,34 +1,33 @@
 <template lang="pug">
 div
-  no-ssr
-    .l-molle(v-if="pageData.itemId")
-      .l-molle__left.bootstrap.shadow(:aria-expanded="expandedLeft")
-        button.btn.btn-outline-secondary.l-molle__toggle(
-          @click="() => (expandedLeft = !expandedLeft)"
-        )
-          b-icon(icon="layout-sidebar-inset")
+  .l-molle(v-if="pageData.itemId")
+    .l-molle__left.bootstrap.shadow(:aria-expanded="expandedLeft")
+      button.btn.btn-outline-secondary.l-molle__toggle(
+        @click="() => (expandedLeft = !expandedLeft)"
+      )
+        b-icon(icon="layout-sidebar-inset")
 
-        .card.bg-light
-          .card-header.pt-1.pb-1.pl-3.pr-3.text-right
-            a(href="/--molle/")
-              b-icon(icon="house-door")
-              span Molle TOP
-        ItemListViewComp(:itemId="pageData.itemId")
+      .card.bg-light
+        .card-header.pt-1.pb-1.pl-3.pr-3.text-right
+          a(href="/--molle/")
+            b-icon(icon="house-door")
+            span Molle TOP
+      ItemListViewComp(:itemId="pageData.itemId")
 
-      .l-molle__main(ref="main")
-        component(:is="theme", :pageData="pageData")
+    .l-molle__main(ref="main")
+      component(v-if="pageData.itemId" :is="theme", :pageDataByEditer="pageData")
 
-      .l-molle__right.bootstrap.shadow(:aria-expanded="expandedRight")
-        button.btn.btn-outline-secondary.l-molle__toggle(
-          @click="() => (expandedRight = !expandedRight)"
-        )
-          b-icon(icon="layout-sidebar-inset-reverse")
+    .l-molle__right.bootstrap.shadow(:aria-expanded="expandedRight")
+      button.btn.btn-outline-secondary.l-molle__toggle(
+        @click="() => (expandedRight = !expandedRight)"
+      )
+        b-icon(icon="layout-sidebar-inset-reverse")
 
-        EditorOptionComp
-        PagePropertyComp(:pageData="pageData", :pageId="pageId")
-        ModulePropertyComp
-    GoogleStorageModalComp
-    #bootstrap-container.bootstrap
+      EditorOptionComp
+      PagePropertyComp(:pageData="pageData", :pageId="pageId")
+      ModulePropertyComp
+  GoogleStorageModalComp(v-if="ready")
+  #bootstrap-container.bootstrap
 </template>
 
 <script lang="ts">
@@ -67,6 +66,7 @@ export default class MolleEditerPage extends Vue {
 
   theme: string = "";
   private unsubscribe!: () => void;
+  ready: boolean = false;
 
   head() {
     return {
@@ -102,6 +102,15 @@ export default class MolleEditerPage extends Vue {
           this.$set(this, "pageData", pageData);
         });
     });
+
+    //check ready
+    let clearId = setInterval(() => {
+      //@ts-ignore
+      if (window["Jimp"] && true) {
+        this.ready = true;
+        clearInterval(clearId);
+      }
+    }, 100);
   }
 
   mounted() {
