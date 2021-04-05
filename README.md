@@ -1,20 +1,41 @@
 # MOLLE CMS v0
 
+## 公開環境　(public)
+https://molle-cms--stg.web.app/
+## 管理画面環境 (public-cms)
+https://molle-cms---dev.web.app/
+
 ## セッティング
 npm i
 firebase init
 
 ## 開発
 npm run dev
+isDev / SPA mode
+## ビルド
 
-## 公開作業
+### 静的環境
 npm run gen
+isDev=false / static mode
+not --molle ディレクトリ
+
+### 管理画面
+npm run gen:cms
+isDev=false / SPA
 
 ### 動作確認
 firebase serve
 
-### アップロード
-firebase deploy
+## デプロイ
+
+### 静的環境
+npm run hosting:public
+
+### 管理画面
+npm run hosting:cms
+
+### 両方
+npm run hosting
 
 ### プラグイン
 

@@ -52,7 +52,7 @@ export class Utils {
    */
   static getPageList(ns: string, context: any, callBack: (list: IPageData[]) => void, opt?: any) {
     let list: IPageData[] = [];
-    if (context.isDev) {
+    if (context.isDev || process.env.isMolleCms) {
       //SPA,DEV
       Singleton.firebaseInit(() => {
         Singleton.pagesRef.onSnapshot(
@@ -70,6 +70,7 @@ export class Utils {
       });
     } else {
       //gen
+      if (!context.payload) return;
       for (let i in context.payload.pages) {
         let pageData = context.payload.pages[i];
         if (pageData.path.indexOf("news/") == 0) {
