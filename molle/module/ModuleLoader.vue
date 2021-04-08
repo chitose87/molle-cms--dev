@@ -49,7 +49,7 @@ export default class ModuleLoader extends Vue {
   private unsubscribe!: () => void;
 
   async fetch() {
-    console.log("node", this.node, this.isMolleCms)
+    // console.log("node", this.node, this.isMolleCms)
     if (this.$nuxt.context.isDev || this.isMolleCms) {
       //SPA,DEV
       if (this.node.id) {

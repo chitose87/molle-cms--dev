@@ -14,24 +14,26 @@ export default class lsStore extends VuexModule {
   // isSSG = false;
   isEditer = false;
 
-  editing: string[] = [];
+  // editing: string[] = [];
 
   @Mutation
   init() {
-    let v: string[] = JSON.parse(
-      localStorage.getItem(lsStore.prefix + "editing") || "[]",
-    );
-    v.forEach(id => {
-      this.editing.push(id);
-    });
+    // let v: string[] = JSON.parse(
+    //   localStorage.getItem(lsStore.prefix + "editing") || "[]",
+    // );
+    // v.forEach(id => {
+    //   this.editing.push(id);
+    // });
 
-    this.storage = JSON.parse(
-      localStorage.getItem(lsStore.prefix + "storage") || "{}",
-    );
+    this.storage = Object.assign(
+      this.storage,
+      JSON.parse(
+        localStorage.getItem(lsStore.prefix + "storage") || "{}",
+      ));
     if (!this.storage.focusModuleNode) this.storage.focusModuleNode = {id: ""};
     if (!this.storage.hoverModuleNode) this.storage.hoverModuleNode = {id: ""};
     this.isEditer = true;
-    console.log("lsStore", "initialized");
+    // console.log("lsStore", "initialized");
   }
 
   @Mutation
@@ -48,21 +50,21 @@ export default class lsStore extends VuexModule {
   //   return this.storage[key] || JSON.parse(localStorage.getItem(lsStore.prefix + key) || "");
   // }
 
-  @Mutation
-  updateEditing(arg: { id: string; flag?: boolean }) {
-    let i = this.editing.indexOf(arg.id);
-    if (i >= 0) this.editing.splice(i, 1);
-
-    if (arg.flag === false) {
-    } else if (i == -1 || arg.flag === true) {
-      this.editing.push(arg.id);
-    }
-
-    localStorage.setItem(
-      lsStore.prefix + "editing",
-      JSON.stringify(this.editing),
-    );
-  }
+  // @Mutation
+  // updateEditing(arg: { id: string; flag?: boolean }) {
+  //   let i = this.editing.indexOf(arg.id);
+  //   if (i >= 0) this.editing.splice(i, 1);
+  //
+  //   if (arg.flag === false) {
+  //   } else if (i == -1 || arg.flag === true) {
+  //     this.editing.push(arg.id);
+  //   }
+  //
+  //   localStorage.setItem(
+  //     lsStore.prefix + "editing",
+  //     JSON.stringify(this.editing),
+  //   );
+  // }
 
   @Mutation
   updatePayload(payload: any) {

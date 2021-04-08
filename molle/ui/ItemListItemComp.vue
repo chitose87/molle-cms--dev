@@ -7,21 +7,28 @@
       :class="{active: lsStore.storage.focusModuleNode.id === node.id}",
       :title="node.id",
       @click="lsStore.update({key: 'focusModuleNode', value: node})"
+      @mouseover="lsStore.update({key: 'hoverModuleNode', value: node})"
       style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
     )
-      span(v-if="itemData.moduleId=='Headline'")
+      span(v-if="isRoot")
+        b-icon.ml-n1.mr-1(icon="box")
+        b Root Item
+      span(v-else-if="itemData.moduleId=='Headline'")
+        b-icon.ml-n1.mr-1(:icon="molleModules[itemData.moduleId].icon")
         b H
         span :{{itemData.value}}
       span(v-else-if="itemData.moduleId=='Button'")
+        b-icon.ml-n1.mr-1(:icon="molleModules[itemData.moduleId].icon")
         b Btn
         span :{{itemData.value}}
       span(v-else)
+        b-icon.ml-n1.mr-1(:icon="molleModules[itemData.moduleId].icon")
         b(v-html="itemData.moduleId")
         span(v-if="itemData.name") :{{itemData.name}}
     //削除
       v-if="!$parent.notDeleted"
     button.btn.btn-sm.btn-danger(
-      v-if="lsStore.storage.focusModuleNode.id === node.id",
+      v-if="!isRoot && lsStore.storage.focusModuleNode.id === node.id",
       @click="deleteModule()"
     ) x
   // children
@@ -89,6 +96,7 @@ import draggable from "vuedraggable";
 })
 export default class ItemListItemComp extends Vue {
   @Prop() node!: INodeObject;
+  @Prop() isRoot?: boolean;
   itemData = <IItemData>{};
   lsStore = lsStore;
   molleModules = molleModules;

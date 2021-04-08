@@ -1,9 +1,8 @@
 <template lang="pug">
-.page-property-comp
+.page-property-comp(v-if="!lsStore.storage.focusModuleNode.id")
   .card.bg-light
-    .card-header.pt-1.pb-1.pl-3.pr-3(@click="flag = !flag") ページ設定
-      b-icon(:icon="flag ? 'chevron-up' : 'chevron-down'")
-    .card-body.p-3(v-if="flag")
+    .card-header.pt-1.pb-1.pl-3.pr-3 ページ設定
+    .card-body.p-3
       label
         span Title (meta):
         textarea.form-control.form-control-sm(
@@ -88,10 +87,10 @@ export default class PagePropertyComp extends Vue {
   @Prop() pageId!: string;
 
   lsStore = lsStore;
-  flag = false;
 
   @Watch("pageData", {immediate: true})
-  onChangePageData(newer: string, older?: string) {}
+  onChangePageData(newer: string, older?: string) {
+  }
 
   update() {
     Singleton.pagesRef.doc(this.pageId).update(this.pageData);

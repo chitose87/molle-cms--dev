@@ -37,6 +37,7 @@ export const molleModules: {
     convert?: string[];
     black?: string[];
     white?: string[];
+    icon?: string;//puzzle
   };
 } = {
   Box: {
@@ -46,6 +47,7 @@ export const molleModules: {
     def: c("Box", "children"),
     black: ["ColumnBox"],
     convert: ["ColumnBox"],
+    icon: "plus-square",
   },
   Headline: {
     ref: Headline,
@@ -57,6 +59,7 @@ export const molleModules: {
       },
     }),
     convert: ["Paragraph"],
+    icon: "card-heading",
   },
   Paragraph: {
     ref: Paragraph,
@@ -64,6 +67,7 @@ export const molleModules: {
     profileName: "ParagraphProfile",
     def: c("Paragraph", "text"),
     convert: ["Headline"],
+    icon: "text-paragraph",
   },
   Picture: {
     ref: Picture,
@@ -75,6 +79,7 @@ export const molleModules: {
         alt: "",
       },
     }),
+    icon: "image",
   },
   Button: {
     ref: Button,
@@ -86,6 +91,7 @@ export const molleModules: {
         target: "",
       },
     }),
+    icon: "hand-index",
   },
   // Card: {
   //   ref: Card,
@@ -99,6 +105,7 @@ export const molleModules: {
     profileName: "ColumnProfile",
     def: c("Column", "children"),
     white: ["ColumnBox", "Box"],
+    icon: "layout-three-columns",
   },
   ColumnBox: {
     ref: ColumnBox,
@@ -107,6 +114,7 @@ export const molleModules: {
     def: c("ColumnBox", "children"),
     black: ["ColumnBox"],
     convert: ["Box"],
+    icon: "plus-square",
   },
   Table: {
     ref: Table,
@@ -116,6 +124,7 @@ export const molleModules: {
       value: "th,aaa\nth,bbb",
       option: {columnHeading: true},
     }),
+    icon: "table",
   },
   Modal: {
     ref: Modal,
@@ -124,6 +133,7 @@ export const molleModules: {
     def: c("Modal", "children"),
     // black: ["ColumnBox"],
     // convert: ["ColumnBox"],
+    icon: "pip",
   },
 
   //custom
@@ -133,24 +143,28 @@ export const molleModules: {
     profileName: "GalleryProfile",
     def: c("Gallery", "children"),
     white: ["Picture"],
+    icon: "three-dots",
   },
   GoogleForm: {
     ref: GoogleForm,
     profile: GoogleFormProfile,
     profileName: "GoogleFormProfile",
     def: c("GoogleForm", "any"),
+    icon: "ui-radios",
   },
   GoogleMap: {
     ref: GoogleMap,
     profile: GoogleMapProfile,
     profileName: "GoogleMapProfile",
     def: c("GoogleMap", "any"),
+    icon: "geo-alt",
   },
   SocialShare: {
     ref: SocialShare,
     profile: SocialShareProfile,
     profileName: "SocialShareProfile",
     def: c("SocialShare", "any"),
+    icon: "share",
   },
   //
   Card: {
