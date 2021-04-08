@@ -7,17 +7,11 @@ component(
   :data-item-id="node.id",
   :style="check()"
 )
-//gen page
-component(
-  v-else-if="!$nuxt.context.isDev && mRoot",
-  :is="$nuxt.context.payload.items[$nuxt.context.payload.pageData.itemId].moduleId",
-  :itemData="$nuxt.context.payload.items[$nuxt.context.payload.pageData.itemId]"
-)
 //gen module
 component(
   v-else-if="!$nuxt.context.isDev",
-  :is="$nuxt.context.payload.items[node.id].moduleId",
-  :itemData="$nuxt.context.payload.items[node.id]"
+  :is="itemData.moduleId",
+  :itemData="itemData"
 )
 </template>
 
@@ -37,11 +31,9 @@ export default class ModuleLoader extends Vue {
   /**
    * SSGの際にapp.jsから削除されるoption
    */
-  static MOLLE_DELETE_WITH_STATIC_MODE = true;
+  // static MOLLE_DELETE_WITH_STATIC_MODE = true;
 
   @Prop({default: () => ({id: 0})}) node!: INodeObject;
-  @Prop() mRoot?: boolean;
-  @Prop({default: () => ({})}) pageDataByEditer?: any;// use editer.vue
   isMolleCms = process.env.isMolleCms;
 
   //SPA,DEV
@@ -56,16 +48,14 @@ export default class ModuleLoader extends Vue {
   itemData = <IItemData>{moduleId: "div"};
   private unsubscribe!: () => void;
 
-  @Watch("node.id", {immediate: true})
-  updateNode() {
+  async fetch() {
+    console.log("node", this.node, this.isMolleCms)
     if (this.$nuxt.context.isDev || this.isMolleCms) {
-      console.log("node", this.node.id, this.mRoot, this.isMolleCms)
       //SPA,DEV
       if (this.node.id) {
-        // module
         if (this.unsubscribe) this.unsubscribe();
         Singleton.firebaseInit(() => {
-          console.log(this.node.id);
+          // console.log(this.node.id);
           this.unsubscribe = Singleton.itemsRef
             .doc(this.node.id)
             .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
@@ -75,23 +65,15 @@ export default class ModuleLoader extends Vue {
                 );
                 return;
               }
-
-              let itemData = snap.data();
-              console.log(itemData)
-              this.$set(this, "itemData", itemData);
+              // console.log(snap.data())
+              this.itemData = <IItemData>snap.data();
             });
         });
-      } else if (this.mRoot) {
-        // page
-        if (this.pageDataByEditer.itemId) {
-          this.$set(this.node, "id", this.pageDataByEditer.itemId)
-          return;
-        }
-        Singleton.getCurrentPageData(this.$route)
-          .then((pageData: IPageData) => {
-            this.$set(this.node, "id", pageData.itemId)
-          });
       }
+    } else {
+      this.itemData = this.$nuxt.context.payload.items[this.node.id];
+      delete this.itemData.createTime;
+      delete this.itemData.updateTime;
     }
   }
 

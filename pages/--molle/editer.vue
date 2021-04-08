@@ -15,7 +15,7 @@ div
       ItemListViewComp(:itemId="pageData.itemId")
 
     .l-molle__main(ref="main")
-      component(v-if="pageData.itemId" :is="theme", :pageDataByEditer="pageData")
+      component(:is="theme", :pageDataByEditer="pageData")
 
     .l-molle__right.bootstrap.shadow(:aria-expanded="expandedRight")
       button.btn.btn-outline-secondary.l-molle__toggle(

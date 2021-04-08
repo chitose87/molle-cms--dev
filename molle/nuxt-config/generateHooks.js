@@ -150,7 +150,6 @@ module.exports = function () {
     console.log('pageのファイル作成が終わったよ')
   });
   this.nuxt.hook('generate:done', async generator => {
-    console.log(genDir)
     if (process.env.IS_MOLLE_CMS != "true") {
       // console.time("a")
       let js = fs.readFileSync(`${genDir}/_nuxt/app.js`, "utf8");
@@ -158,7 +157,10 @@ module.exports = function () {
         .map((str) => {
           if (/MOLLE_DELETE_WITH_STATIC_MODE/.test(str)) {
             let l = str.lastIndexOf("component.exports");
-            str = "/* generate:done < deleted */" + str.substr(l + 17);
+            console.log(l)
+            if (l >= 0) {
+              str = "/* generate:done < deleted */" + str.substr(l + 17);
+            }
           }
           return str;
         });

@@ -4,7 +4,8 @@
   article.l-content
     .container
       PageTitle(:pageDataByEditer="pageDataByEditer")
-      ModuleLoader(:mRoot="true" :pageDataByEditer="pageDataByEditer")
+      PageLoader(:pageDataByEditer="pageDataByEditer")
+
   GlobalFooterComp
 </template>
 

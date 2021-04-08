@@ -1,19 +1,24 @@
 const functions = require('firebase-functions')
-// const express = require('express')
-// const basicAuth = require('basic-auth-connect')
+const express = require('express')
+const basicAuth = require('basic-auth-connect')
 const request = require('request');
+const path = require('path');
 const config = functions.config();
 
-// const app = express()
-//
-// app.all('/*', basicAuth(function(user, password) {
-//   return user === 'id' && password === 'pw';
-// }));
-//
-// app.use(express.static(__dirname + '/dist/'))
-//
-// exports.app = functions.https.onRequest(app)
+//staging & 管理画面
+exports.stgApp = functions.https.onRequest(
+  express()
+  .use(basicAuth('id', 'pw'))
+  .use(express.static(__dirname + '/stgApp/'))
+  .all('*', (req, res, next) => {
+    res.sendFile(path.resolve(__dirname, 'stgApp/index.html'));
+  })
+)
 
+/**
+ * submit git actions
+ * @type {HttpsFunction}
+ */
 exports.publish = functions.https.onRequest(async (req, res) => {
   if (checkOrign(req.headers.origin, res)) {
     var options = {

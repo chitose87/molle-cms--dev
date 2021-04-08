@@ -5,7 +5,8 @@
     .container
       //p.news-detail__date(v-html="localPageData.date")
       PageTitle(:pageDataByEditer="pageDataByEditer")
-      ModuleLoader(:mRoot="true" :pageDataByEditer="pageDataByEditer")
+      PageLoader(:pageDataByEditer="pageDataByEditer")
+
   GlobalFooterComp
 </template>
 

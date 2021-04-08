@@ -50,5 +50,10 @@
   @each $color, $value in $colors {
     @include bg-variant(".bg-#{$color}", $value, true);
   }
+
+  .card{
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 </style>

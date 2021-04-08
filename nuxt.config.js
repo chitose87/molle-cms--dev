@@ -113,7 +113,7 @@ export default {
     }
   },
   generate: {
-    dir: molle.isMolleCms ? 'public-cms' : 'public',
+    dir: molle.isMolleCms ? 'functions/stgApp' : 'public',
     crawler: false
   },
   router: {

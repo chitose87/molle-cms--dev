@@ -5,7 +5,7 @@
   :style="getStyle(itemData)"
 )
   .gallery__body(data-gallery="body")
-    ModuleLoader(:node="itemData.value[0]")
+     ModuleLoader(:node="itemData.value[0]")
 
   .gallery__thumbs
     .row

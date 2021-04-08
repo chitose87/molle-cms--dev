@@ -59,7 +59,7 @@ export class Utils {
           (snap: firebase.firestore.QuerySnapshot) => {
             snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
               let pageData = <IPageData>_snap.data();
-              if (pageData.path.indexOf("news/") == 0) {
+              if (pageData.path.indexOf(ns + "/") == 0) {
                 list.push(pageData);
               }
             });
@@ -73,7 +73,7 @@ export class Utils {
       if (!context.payload) return;
       for (let i in context.payload.pages) {
         let pageData = context.payload.pages[i];
-        if (pageData.path.indexOf("news/") == 0) {
+        if (pageData.path.indexOf(ns + "/") == 0) {
           if (!pageData.noExport) list.push(pageData);
         }
       }
