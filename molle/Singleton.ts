@@ -23,7 +23,7 @@ export class Singleton {
 
   static getCurrentPageData($route: any): Promise<any> {
     let id=encodeURIComponent($route.fullPath.substr(1).replace(/\/$/g,""));
-    console.log(id)
+    // console.log("--------",id)
     return this.pagesRef.doc(id)
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {

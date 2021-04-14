@@ -6,40 +6,48 @@ import firebase from "firebase";
 
 export class Utils {
 
-  static setMeta(self: Vue) {
-    try {
-      let obj: any = {
-        title: "",
-        meta: <any>[],
-      };
+  /**
+   *
+   * @param pageData
+   */
+  static setMeta(pageData: IPageData) {
+    let obj: any = {
+      title: "",
+      meta: <any>[],
+    };
+    obj.title = pageData.title || pageData.displayTitle || "";
+    if (pageData.description) {
+      obj.meta.push(
+        {hid: "description", name: "description", content: pageData.description},
+        {hid: "og:description", property: "og:description", content: pageData.description,},
+      );
+    }
+    if (pageData.ogpImg) {
+      obj.meta.push(
+        {hid: "og:image", property: "og:image", content: pageData.ogpImg,},
+        {hid: "twitter:image", property: "twitter:image", content: pageData.ogpImg,},
+      );
+    }
+    if (pageData.ogpImg) {
+      obj.meta.push(
+        {hid: "og:image", property: "og:image", content: pageData.ogpImg,},
+        {hid: "twitter:image", property: "twitter:image", content: pageData.ogpImg,},
+      );
+    }
+    return obj;
+  }
 
-      if (!self.$nuxt.context.isDev) {
-        //gen
-        let pageData = self.$nuxt.context.payload.pageData;
-        obj.title = pageData.title || pageData.displayTitle || "";
-        if (pageData.description) {
-          obj.meta.push(
-            {hid: "description", name: "description", content: pageData.description},
-            {hid: "og:description", property: "og:description", content: pageData.description,},
-          );
-        }
-        if (pageData.ogpImg) {
-          obj.meta.push(
-            {hid: "og:image", property: "og:image", content: pageData.ogpImg,},
-            {hid: "twitter:image", property: "twitter:image", content: pageData.ogpImg,},
-          );
-        }
-      } else {
-        //dev
-      }
-      if (obj.title) obj.title += " - ";
-      obj.title += process.env.title;
-      obj.meta.push({hid: "og:title", name: "og:title", content: obj.title});
-
-      return obj;
-    } catch (e) {
-      //static
-      return false;
+  /**
+   *
+   * @param self
+   */
+  static getPageData(self: Vue) {
+    if (self.$nuxt.context.isDev || process.env.isMolleCms) {
+      //SPA,DEV
+      return Singleton.getCurrentPageData(self.$route);
+    } else {
+      //gen static
+      return self.$nuxt.context.payload.pageData;
     }
   }
 

@@ -4,7 +4,7 @@
     .card-header.pt-1.pb-1.pl-3.pr-3
       span {{itemData.moduleId}} プロパティ
       button.btn.btn-sm.btn-outline-secondary(
-        v-if="molleModules[itemData.moduleId].convert"
+        v-if="$molleModules[itemData.moduleId].convert"
         :id="'moduleChange'"
       )
         b-icon(icon="arrow-repeat")
@@ -13,11 +13,11 @@
         title="change type" triggers="focus"
         placement="bottom"
         container="bootstrap-container"
-        @show="()=>changeModuleSelected=molleModules[itemData.moduleId].convert[0]"
+        @show="()=>changeModuleSelected=$molleModules[itemData.moduleId].convert[0]"
       )
         form.form-group.form-check-inline(@submit.prevent @submit="moduleChange()")
           select.form-control.form-control-sm(v-model="changeModuleSelected")
-            option(v-for="key in molleModules[itemData.moduleId].convert" :value="key" v-html="key")
+            option(v-for="key in $molleModules[itemData.moduleId].convert" :value="key" v-html="key")
           button.btn.btn-sm.btn-info(type="submit") +
     .card-body.p-3
       span.small.text-nowrap ID : {{lsStore.storage.focusModuleNode.id}}
@@ -30,8 +30,8 @@
       //  b-icon(icon="eye-fill" v-else)
       //profile
       component(
-        v-if="molleModules[itemData.moduleId].profile"
-        :is="molleModules[itemData.moduleId].profileName"
+        v-if="$molleModules[itemData.moduleId].profile"
+        :is="$molleModules[itemData.moduleId].profileName"
         :itemData="itemData"
         :itemId="itemId"
         @change="update"
@@ -76,13 +76,11 @@ import {lsStore} from "~/utils/store-accessor";
 import {IItemData, INodeObject} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "~/node_modules/firebase";
-import {molleModules} from "~/molle/module";
 
 @Component({
   components: {}
 })
 export default class ModulePropertyComp extends Vue {
-  molleModules = molleModules;
   itemId: string = "";
   itemData = <IItemData>{};
   itemDataBefore = <IItemData>{};
@@ -104,7 +102,7 @@ export default class ModulePropertyComp extends Vue {
         if (!snap.exists) return;
 
         this.itemDataBefore = <IItemData>snap.data();
-        let itemData = <IItemData>Object.assign({}, molleModules[this.itemDataBefore.moduleId].def, snap.data());
+        let itemData = <IItemData>Object.assign({}, this.$molleModules[this.itemDataBefore.moduleId].def, snap.data());
 
         // if (!itemData.option) itemData.option = {};
         // if (!itemData.class) itemData.class = {};

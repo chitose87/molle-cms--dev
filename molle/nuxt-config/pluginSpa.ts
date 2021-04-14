@@ -27,19 +27,26 @@ import GoogleMap from "~/molle/module/custom/GoogleMap.vue";
 import GoogleMapProfile from "~/molle/module/custom/GoogleMapProfile.vue";
 import Table from "~/molle/module/primitive/Table.vue";
 import TableProfile from "~/molle/module/primitive/TableProfile.vue";
+import {Vue} from "nuxt-property-decorator";
 
-export const molleModules: {
-  [key: string]: {
-    ref: any;
-    profile?: any;
-    profileName?: string;
-    def: any;
-    convert?: string[];
-    black?: string[];
-    white?: string[];
-    icon?: string;//puzzle
-  };
-} = {
+declare module 'vue/types/vue' {
+  interface Vue {
+    // @ts-ignore
+    $molleModules: {
+      [key: string]: {
+        ref: any;
+        profile?: any;
+        profileName?: string;
+        def: any;
+        convert?: string[];
+        black?: string[];
+        white?: string[];
+        icon?: string;//puzzle
+      };
+    }
+  }
+}
+const molleModules = Vue.prototype.$molleModules = {
   Box: {
     ref: Box,
     profile: BoxProfile,
@@ -178,9 +185,22 @@ export const molleModules: {
         text: {fixedModuleId: "Paragraph", order: 20},
       }
     }),
+    icon: "file-richtext",
   },
 };
-export type molleModules = typeof molleModules[keyof typeof molleModules];
+// export type molleModules = typeof molleModules[keyof typeof molleModules];
+
+//modules
+for (let key in molleModules) {
+  // @ts-ignore
+  Vue.component(key, molleModules[key].ref);
+  // @ts-ignore
+  if (molleModules[key].profile) {
+    // @ts-ignore
+    Vue.component(molleModules[key].profileName, molleModules[key].profile);
+  }
+}
+
 
 /**
  * Create InitialValue

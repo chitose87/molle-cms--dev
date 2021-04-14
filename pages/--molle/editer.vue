@@ -26,7 +26,7 @@ div
       EditorOptionComp
       PagePropertyComp(:pageData="pageData", :pageId="pageId")
       ModulePropertyComp
-  GoogleStorageModalComp(v-if="ready")
+    GoogleStorageModalComp(v-if="ready")
   #bootstrap-container.bootstrap
 </template>
 
@@ -40,14 +40,13 @@ import ModulePropertyComp from "~/molle/ui/ModulePropertyComp.vue";
 import {lsStore} from "~/utils/store-accessor";
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import PagePropertyComp from "~/molle/ui/PagePropertyComp.vue";
-import EditorOptionComp from "~/molle/ui/EditorOptionComp.vue";
-
 import UniversalPage from "~/pages/_universal.vue";
-import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
 import NewsDetailPage from "~/pages/news/_detail.vue";
 
+import EditorOptionComp from "~/molle/ui/EditorOptionComp.vue";
+import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
+
 @Component({
-  layout: "molle-sys",
   components: {
     GoogleStorageModalComp,
     UniversalPage,
@@ -99,6 +98,7 @@ export default class MolleEditerPage extends Vue {
             this.$set(this, "theme", "UniversalPage");
           }
 
+          console.log(pageData)
           this.$set(this, "pageData", pageData);
         });
     });

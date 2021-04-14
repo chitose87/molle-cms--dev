@@ -14,15 +14,15 @@
         b-icon.ml-n1.mr-1(icon="box")
         b Root Item
       span(v-else-if="itemData.moduleId=='Headline'")
-        b-icon.ml-n1.mr-1(:icon="molleModules[itemData.moduleId].icon")
+        b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b H
         span :{{itemData.value}}
       span(v-else-if="itemData.moduleId=='Button'")
-        b-icon.ml-n1.mr-1(:icon="molleModules[itemData.moduleId].icon")
+        b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b Btn
         span :{{itemData.value}}
       span(v-else)
-        b-icon.ml-n1.mr-1(:icon="molleModules[itemData.moduleId].icon")
+        b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b(v-html="itemData.moduleId")
         span(v-if="itemData.name") :{{itemData.name}}
     //削除
@@ -33,7 +33,7 @@
     ) x
   // children
   draggable.list-group.pl-2.pb-2(
-    v-if="molleModules[itemData.moduleId].def.type === 'children'",
+    v-if="$molleModules[itemData.moduleId].def.type === 'children'",
     v-model="itemData.value",
     :group="getGroup(itemData.moduleId)",
     @remove="updateChild",
@@ -49,7 +49,7 @@
 
   //Group
   .list-group.pl-2.pb-2(
-    v-else-if="molleModules[itemData.moduleId].def.type === 'group'",
+    v-else-if="$molleModules[itemData.moduleId].def.type === 'group'",
   )
     ItemListItemComp(v-for="node in groupChildSort(itemData.value)", :key="node.id", :node="node")
 
@@ -88,7 +88,6 @@ import {Singleton} from "~/molle/Singleton";
 import {IItemData, INodeObject} from "~/molle/interface";
 import firebase from "~/node_modules/firebase";
 import {lsStore} from "~/utils/store-accessor";
-import {molleModules} from "~/molle/module";
 import draggable from "vuedraggable";
 
 @Component({
@@ -99,7 +98,6 @@ export default class ItemListItemComp extends Vue {
   @Prop() isRoot?: boolean;
   itemData = <IItemData>{};
   lsStore = lsStore;
-  molleModules = molleModules;
   pushModuleSelected: string = "";
   private unsubscribe!: () => void;
 

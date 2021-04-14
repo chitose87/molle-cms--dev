@@ -9,7 +9,7 @@
     "gen": "nuxt-ts generate",
     "hosting:public": "firebase deploy --only hosting:public",
     "gen:cms": "IS_MOLLE_CMS=true nuxt-ts generate",
-    "hosting:cms": "firebase deploy --only hosting:cms",
+    "hosting:cms": "firebase deploy --only functions",
     "hosting": "firebase deploy --only hosting"
   },
   "dependencies": {
@@ -30,7 +30,6 @@
     "@types/firebase": "^3.2.1",
     "@types/googlemaps": "^3.43.3",
     "firebase": "^8.0.2",
-    "http-server": "^0.12.3",
     "node-sass": "^4.14.1",
     "nuxt-property-decorator": "^2.8.8",
     "pug": "^2.0.0",

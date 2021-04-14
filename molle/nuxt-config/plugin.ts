@@ -1,10 +1,8 @@
 import {Vue} from "~/node_modules/nuxt-property-decorator";
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import ItemListItemComp from "~/molle/ui/ItemListItemComp.vue";
-import {molleModules} from "~/molle/module";
 import firebase from "~/node_modules/firebase";
 import VueScrollTo from 'vue-scrollto';
-import PageTitle from "~/components/PageTitle.vue";
 import GlobalFooterComp from "~/components/GlobalFooterComp.vue";
 import Headline from "~/molle/module/primitive/Headline.vue";
 import GlobalHeaderComp from "~/components/GlobalHeaderComp.vue";
@@ -30,20 +28,10 @@ Vue.component("GlobalHeaderComp", GlobalHeaderComp);
 // delete with static mode
 Vue.component("ModuleLoader", ModuleLoader);
 Vue.component("GlobalFooterComp", GlobalFooterComp);
-Vue.component("PageTitle", PageTitle);
 
 // cms ui
 Vue.component("ItemListItemComp", ItemListItemComp);
-//modules
-for (let key in molleModules) {
-  // @ts-ignore
-  Vue.component(key, molleModules[key].ref);
-  // @ts-ignore
-  if (molleModules[key].profile) {
-    // @ts-ignore
-    Vue.component(molleModules[key].profileName, molleModules[key].profile);
-  }
-}
+
 
 Vue.use(VueScrollTo, {
   duration: 600,

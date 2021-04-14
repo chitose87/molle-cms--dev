@@ -3,7 +3,7 @@
   .container-fluid
     h1.text-info MOdular Light L**** E****
       br
-      | Contents Management System v{{version}}
+      | Contents Management System v{{version}}}
 
     MolleToolbar(v-model="isLogin")
 
@@ -143,7 +143,6 @@ import {IItemData, IPageData} from "~/molle/interface";
 import MolleToolbar from "~/molle/ui/MolleToolbar.vue";
 
 @Component({
-  layout: "molle-sys",
   components: {MolleToolbar}
 })
 export default class MolleTopPage extends Vue {

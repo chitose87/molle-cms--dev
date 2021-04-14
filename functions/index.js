@@ -2,13 +2,13 @@ const functions = require('firebase-functions')
 const express = require('express')
 const basicAuth = require('basic-auth-connect')
 const request = require('request');
-const path = require('path');
 const config = functions.config();
+const path = require('path');
 
 //staging & 管理画面
 exports.stgApp = functions.https.onRequest(
   express()
-  .use(basicAuth('id', 'pw'))
+  .use(basicAuth(config.basic.id, config.basic.pw))
   .use(express.static(__dirname + '/stgApp/'))
   .all('*', (req, res, next) => {
     res.sendFile(path.resolve(__dirname, 'stgApp/index.html'));

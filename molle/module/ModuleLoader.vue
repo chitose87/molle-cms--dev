@@ -22,7 +22,6 @@ import firebase from "~/node_modules/firebase";
 import {IPageData, IItemData, INodeObject, IPayload} from "~/molle/interface";
 import {lsStore} from "~/utils/store-accessor";
 import {Module} from "~/molle/module/Module";
-import {molleModules} from "~/molle/module/index";
 
 @Component({
   components: {},
@@ -61,7 +60,7 @@ export default class ModuleLoader extends Vue {
             .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
               if (!snap.exists) {
                 Singleton.itemsRef.doc(this.node.id).set(
-                  molleModules[this.node!.fixedModuleId || "Box"].def
+                  this.$molleModules[this.node!.fixedModuleId || "Box"].def
                 );
                 return;
               }

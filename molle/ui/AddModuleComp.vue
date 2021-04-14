@@ -11,7 +11,6 @@
 
 <script lang="ts">
 import {Component, Vue, Prop} from "~/node_modules/nuxt-property-decorator";
-import {molleModules} from "~/molle/module";
 import {IItemData} from "../interface";
 import {lsStore} from "~/store";
 
@@ -26,12 +25,12 @@ export default class AddModuleComp extends Vue {
 
   getModuleList() {
     // @ts-ignore
-    let moduleOpt = molleModules[this.itemData.moduleId];
+    let moduleOpt = this.$molleModules[this.itemData.moduleId];
     let response: string[] = [];
     if (moduleOpt.white) {
       response = moduleOpt.white;
     } else if (moduleOpt.black) {
-      response = Object.keys(molleModules).filter(
+      response = Object.keys(this.$molleModules).filter(
         (name: string) => moduleOpt.black!.indexOf(name) == -1,
       );
     }

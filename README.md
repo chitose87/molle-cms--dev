@@ -5,6 +5,11 @@ https://molle-cms--stg.web.app/
 ## 管理画面環境 (public-cms)
 https://molle-cms---dev.web.app/
 
+## 公開環境　(public)
+https://molle-cms--stg.web.app/
+## 管理画面環境 (public-cms)
+https://molle-cms---dev.web.app/
+
 ## セッティング
 npm i
 firebase init
