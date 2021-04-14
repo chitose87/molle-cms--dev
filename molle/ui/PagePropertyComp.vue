@@ -25,21 +25,26 @@
         )
 
       label
-        span OGP画像:
-        input.form-control.form-control-sm(
-          type="text",
-          v-model="pageData.ogpImg",
-          @change="update",
-          placeholder="https://---"
-        )
-
-      label
         span 日付(表示用):
         input.form-control.form-control-sm(
           type="date",
           v-model="pageData.date",
           @change="update"
         )
+
+      InputUrlByGS(
+        :label="'OGP画像:'"
+        v-model="pageData.ogpImg"
+        @change="update"
+      )
+
+      InputUrlByGS(
+        :label="'サムネイル:'"
+        v-model="pageData.thumb"
+        @change="update"
+      )
+
+      GoogleStorage
 
       hr
 
@@ -51,36 +56,26 @@
         )
         span :書き出さない
 
-      label.small
+      //label.small
         span Preview:
         a(:href="`/--preview/${pageData.path}`" target="_blank")
           span(v-html="pageData.path")
-        //input.form-control.form-control-sm(
-        //  v-model="pageData.path"
-        //  disabled="disable"
-        //)
+
       label.small
         span itemId:
         span(v-html="pageData.itemId")
-        //input.form-control.form-control-sm(
-        //  v-model="pageData.itemId"
-        //  disabled="disable"
-        //)
 </template>
 
 <script lang="ts">
-import {
-  Component,
-  Vue,
-  Watch,
-  Prop,
-} from "~/node_modules/nuxt-property-decorator";
+import {Component, Vue, Watch, Prop,} from "~/node_modules/nuxt-property-decorator";
 import {lsStore} from "~/utils/store-accessor";
 import {IPageData} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
+import GoogleStorage from "~/molle/ui/GoogleStorage.vue";
+import InputUrlByGS from "~/molle/ui/property/InputUrlByGS.vue";
 
 @Component({
-  components: {},
+  components: {InputUrlByGS, GoogleStorage},
 })
 export default class PagePropertyComp extends Vue {
   @Prop() pageData!: IPageData;
