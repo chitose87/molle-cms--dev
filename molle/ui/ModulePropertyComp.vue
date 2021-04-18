@@ -93,6 +93,7 @@ export default class ModulePropertyComp extends Vue {
   @Watch('lsStore.storage.focusModuleNode', {immediate: true})
   onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
     if (newer && newer.id) {
+      console.log("onChangeFocusModuleNode")
       this.flag = false;
       if (this.unsubscribe) {
         this.unsubscribe();
@@ -102,7 +103,7 @@ export default class ModulePropertyComp extends Vue {
         if (!snap.exists) return;
 
         this.itemDataBefore = <IItemData>snap.data();
-        let itemData = <IItemData>Object.assign({}, this.$molleModules[this.itemDataBefore.moduleId].def, snap.data());
+        let itemData = Object.assign({}, this.$molleModules[this.itemDataBefore.moduleId].def, snap.data());
 
         // if (!itemData.option) itemData.option = {};
         // if (!itemData.class) itemData.class = {};
@@ -118,6 +119,8 @@ export default class ModulePropertyComp extends Vue {
    *
    */
   update() {
+    console.log("update", this.itemData)
+
     function some(b: any, a: any): boolean {
       let obj: any = Object.assign({}, b, a);
       return Object.keys(obj).some(key => {
@@ -136,6 +139,7 @@ export default class ModulePropertyComp extends Vue {
     let obj: any = Object.assign({}, before, after);
     Object.keys(obj).forEach((key) => {
       if (typeof obj[key] == "object") {
+        console.log(key, before[key], after[key])
         if (some(before[key] || {}, after[key] || {})) {
           update[key] = after[key];
           flag = true;

@@ -16,6 +16,7 @@ div
 
     .l-molle__main(ref="main")
       component(:is="theme", :pageDataByEditer="pageData")
+      RealtimeTextInput(ref="RealtimeTextInput")
 
     .l-molle__right.bootstrap.shadow(:aria-expanded="expandedRight")
       button.btn.btn-outline-secondary.l-molle__toggle(
@@ -45,9 +46,11 @@ import NewsDetailPage from "~/pages/news/_detail.vue";
 
 import EditorOptionComp from "~/molle/ui/EditorOptionComp.vue";
 import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
+import RealtimeTextInput from "~/molle/ui/RealtimeTextInput.vue";
 
 @Component({
   components: {
+    RealtimeTextInput,
     GoogleStorageModalComp,
     UniversalPage,
     NewsDetailPage,
@@ -128,9 +131,10 @@ export default class MolleEditerPage extends Vue {
       for (let i = 0; i < e.path.length; i++) {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoader) {
-          let module: ModuleLoader = v;
-          console.log(module.$props.node)
-          lsStore.update({key: "focusModuleNode", value: module.$props.node});
+          let loader: ModuleLoader = v;
+          console.log(module);
+          lsStore.update({key: "focusModuleNode", value: loader.$props.node});
+          (<RealtimeTextInput>this.$refs.RealtimeTextInput).init(loader);
           break;
         }
       }
@@ -151,6 +155,7 @@ export default class MolleEditerPage extends Vue {
     &__main {
       flex: 1;
       overflow: hidden;
+      position: relative;
 
       // a,button{
       // pointer-events: none !important;
