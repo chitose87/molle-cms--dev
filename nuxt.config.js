@@ -27,7 +27,9 @@ const plugins = [
 if (molle.isMolleCms) {
   css.push('~/molle/css/molle.scss')
   modules.push('bootstrap-vue/nuxt');
-  plugins.push('~/molle/nuxt-config/pluginSpa.ts');
+  plugins.push(
+    '~/molle/nuxt-config/pluginSpa.ts'
+  );
 } else {
   plugins.push('~/molle/nuxt-config/pluginStatic.ts');
 }
