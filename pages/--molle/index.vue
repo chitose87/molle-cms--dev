@@ -116,10 +116,10 @@
           ul
             li デプロイ機能 new!
             li 未使用モジュールの一括削除 new!
+            li テキストエディタ
 
           h2.mb-3 MOLLE DEVELOP TODO
           ul
-            li テキストエディタ
             li 変更ログ・アンドゥ
             li モジュール入れ替え(loop注意)
             li 継承・拡張
