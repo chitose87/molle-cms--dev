@@ -119,9 +119,10 @@ export default class ModulePropertyComp extends Vue {
    *
    */
   update() {
-    console.log("update", this.itemData)
+    // console.log("update", this.itemData)
 
     function some(b: any, a: any): boolean {
+      // console.log(b, a)
       let obj: any = Object.assign({}, b, a);
       return Object.keys(obj).some(key => {
         if (typeof obj[key] == "object") {
@@ -135,11 +136,14 @@ export default class ModulePropertyComp extends Vue {
     let flag = false;
     let update: any = {};
     let before: any = this.itemDataBefore;
-    let after: any = this.itemData;
+    let after: any = JSON.parse(JSON.stringify(this.itemData));
     let obj: any = Object.assign({}, before, after);
     Object.keys(obj).forEach((key) => {
-      if (typeof obj[key] == "object") {
-        console.log(key, before[key], after[key])
+      // console.log(key,before[key],after[key])
+      if (typeof before[key] != typeof after[key]) {
+        update[key] = after[key];
+        flag = true;
+      } else if (typeof obj[key] == "object") {
         if (some(before[key] || {}, after[key] || {})) {
           update[key] = after[key];
           flag = true;
@@ -149,7 +153,7 @@ export default class ModulePropertyComp extends Vue {
         flag = true;
       }
     });
-    console.log("update", this.itemId, update)
+    console.log(flag, "update", this.itemId, update)
     if (flag) {
       update.updateTime = firebase.firestore.FieldValue.serverTimestamp();
       Singleton.itemsRef.doc(this.itemId).update(update);

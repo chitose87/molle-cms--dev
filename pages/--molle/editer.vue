@@ -16,7 +16,8 @@ div
 
     .l-molle__main(ref="main")
       component(:is="theme", :pageDataByEditer="pageData")
-      RealtimeTextInput(ref="RealtimeTextInput")
+      //RealtimeTextInput(ref="RealtimeTextInput")
+      FocusExtension(ref="FocusExtension")
 
     .l-molle__right.bootstrap.shadow(:aria-expanded="expandedRight")
       button.btn.btn-outline-secondary.l-molle__toggle(
@@ -46,11 +47,11 @@ import NewsDetailPage from "~/pages/news/_detail.vue";
 
 import EditorOptionComp from "~/molle/ui/EditorOptionComp.vue";
 import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
-import RealtimeTextInput from "~/molle/ui/RealtimeTextInput.vue";
+import FocusExtension from "~/molle/ui/FocusExtension.vue";
 
 @Component({
   components: {
-    RealtimeTextInput,
+    FocusExtension,
     GoogleStorageModalComp,
     UniversalPage,
     NewsDetailPage,
@@ -128,13 +129,14 @@ export default class MolleEditerPage extends Vue {
       }
     });
     this.$el.addEventListener("click", (e: any) => {
+      // console.log(e.path)
       for (let i = 0; i < e.path.length; i++) {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoader) {
           let loader: ModuleLoader = v;
-          console.log(module);
+          // console.log(module);
           lsStore.update({key: "focusModuleNode", value: loader.$props.node});
-          (<RealtimeTextInput>this.$refs.RealtimeTextInput).init(loader);
+          (<FocusExtension>this.$refs.FocusExtension).init(loader);
           break;
         }
       }

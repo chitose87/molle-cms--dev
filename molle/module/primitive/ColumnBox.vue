@@ -7,7 +7,7 @@
   ModuleLoader(v-for="node in itemData.value", :key="node.id", :node="node")
 
   AddModuleComp(
-    :itemData="itemData",
+    :parentNode="loader.node"
     :label="`ColumnBox`"
   )
 </template>

@@ -17,7 +17,7 @@
         ModuleLoader(:node="node", :key="node.id", :data-gallery="index")
 
   AddModuleComp(
-    :itemData="itemData",
+    :parentNode="loader.node"
     :label="`Gallery`",
     :style="{width: '100%'}"
   )

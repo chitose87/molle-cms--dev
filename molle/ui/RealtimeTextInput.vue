@@ -1,38 +1,27 @@
 <template lang="pug">
-.realtime-text-input.bootstrap(v-show="visible" :style="getPosition()")
+.realtime-text-input
   #quill-editor
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-import {lsStore} from "~/utils/store-accessor";
 import {IItemData, INodeObject} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
 import Quill from "quill";
+import FocusExtension from "~/molle/ui/FocusExtension.vue";
 
 @Component({
   components: {},
 })
 export default class RealtimeTextInput extends Vue {
-  itemId: string = "";
-  lsStore = lsStore;
-  itemData = <IItemData>{};
-  targetModule = <Vue>{};
-  isInit = false;
-  visible = false;
-
   tagValue = "";
-  beforeInputData = "";
-  private unsubscribe!: () => void;
-
-  loader?: Vue | null;
-
-  //
   quill!: Quill;
   $editer!: HTMLElement;
+  focusExtension!: FocusExtension;
 
   mounted() {
+    this.focusExtension = <FocusExtension>this.$parent;
     this.quill = new Quill("#quill-editor", {
       modules: {
         toolbar: [
@@ -41,66 +30,55 @@ export default class RealtimeTextInput extends Vue {
       },
       theme: "bubble"
     });
+    delete this.quill.getModule('keyboard').bindings["9"];//tab
+
     this.quill.on("text-change", (e, old, source) => {
-      if (source == "user") this.update()
+      if (source == "user") {
+        this.update();
+      }
     });
     this.$editer = <HTMLElement>this.$el.querySelector('.ql-editor');
+
+    this.$parent.$on("initialized", () => {
+      if (this.focusExtension.itemData.type != "text") return;
+      this.init()
+    });
+    // itemData等が更新されるまえ
+    this.$parent.$on("beforeUpdate", () => {
+      if (this.focusExtension.itemData.type != "text") return;
+      this.update(true);
+    });
+
+    // itemdataの更新
+    this.$parent.$on("update", () => {
+      if (this.focusExtension.itemData.type != "text") return;
+      this.updateStyle();
+    });
+
+    //blur
     window.addEventListener("click", (e: any) => {
-      if (!this.loader || !this.visible) return;
-      // console.log(e.path,this.loader!.$children[0].$el)
+      if (this.focusExtension.itemData.type != "text") return;
       if (!e.path.some((el: Element) => {
-        return el == this.$el || el == this.loader!.$children[0].$el;
+        return el == this.$el || el == this.focusExtension.loader!.$children[0].$el;
       })) {
         console.log("blur");
-        this.update(true);
-        (<HTMLElement>this.targetModule.$el).style.visibility = "";
-        this.visible = false;
-        this.loader = null;
+        this.init(this.update(true));
       }
-    })
-  }
+    });
 
-  /**
-   * from editer.vue
-   */
-  init(moduleLoader: Vue) {
-    if (moduleLoader == this.loader) return;
-    if (this.loader) {
-      this.update(true);
-      (<HTMLElement>this.targetModule.$el).style.visibility = "";
-    }
-    // this.beforeChange();
-    this.loader = moduleLoader;
-    this.visible = false;
-    this.isInit = false;
-    this.tagValue = "";
-
-    let module = moduleLoader.$children[0];
-    if (module.$props.itemData.type == "text") {
-      this.itemId = moduleLoader.$props.node.id;
-      this.targetModule = module;
-
-      this.unsubscribe && this.unsubscribe();
-      this.unsubscribe = Singleton.itemsRef
-        .doc(this.itemId)
-        .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-          this.itemData = <IItemData>snap.data();
-          if (!this.isInit) {
-            this.tagValue = "<p>" + this.itemData.value.replace(/<br>/g, "</p><p>") + "</p>";
-            (<HTMLElement>this.targetModule.$el).style.visibility = "hidden";
-            this.visible = true;
-            this.isInit = true;
-            this.$editer.innerHTML = this.tagValue;
-          } else {
-            //todo ather update
-          }
-          this.updateStyle();
-          //.replace(/<br[\s]*\/?[\s]*>/g, "\n");
-        })
+    //再起動時
+    if (this.focusExtension.itemData.type == "text") {
+      this.init();
     }
   }
 
-  update(isFix = false) {
+  private init(forceStr?: string) {
+    this.tagValue = "<p>" + (forceStr || this.focusExtension.itemData.value).replace(/<br>/g, "</p><p>") + "</p>";
+    this.$editer.innerHTML = this.tagValue;
+    this.updateStyle();
+  }
+
+  private update(isFix = false) {
     let rows: any[] = [];
     let loop = (children: any) => {
       if (children.length) {
@@ -120,49 +98,32 @@ export default class RealtimeTextInput extends Vue {
       str = str.replace(/(<br>)+/g, "<br>");
     }
 
-    if (str != this.itemData.value) {
-      Singleton.itemsRef.doc(this.itemId).update({
+    if (str != this.focusExtension.itemData.value) {
+      Singleton.itemsRef.doc(this.focusExtension.itemId).update({
         value: str,
         updateTime: firebase.firestore.FieldValue.serverTimestamp()
       });
     }
-  }
-
-  getPosition() {
-    try {
-      let el = <HTMLElement>this.targetModule.$el;
-      let obj: any = {
-        "top": el.offsetTop + "px",
-        "left": el.offsetLeft + "px",
-        "width": el.clientWidth + "px"
-      };
-      // console.log(obj)
-      return obj;
-    } catch (e) {
-      return {}
-    }
+    return str;
   }
 
   private updateStyle() {
-    let style: any = getComputedStyle(this.targetModule.$el);
+    let style: any = getComputedStyle(this.focusExtension.targetModule.$el);
     let $el: any = this.$el.querySelector('.ql-editor')!;
 
     for (let i = 0; i < style.length; i++) {
       let attr = style[i];
       switch (true) {
-        case /.*margin.*/.test(attr):
+        // case /.*margin.*/.test(attr):
         case /.*padding.*/.test(attr):
         case /.*font.*/.test(attr):
         case /.*color.*/.test(attr):
+        case /.*text.*/.test(attr):
         case /line-height/.test(attr):
         case /letter-spaceing/.test(attr):
           $el.style[attr] = style[attr]
       }
     }
-  }
-
-  beforeDestroy() {
-    this.unsubscribe && this.unsubscribe();
   }
 }
 </script>
@@ -171,13 +132,12 @@ export default class RealtimeTextInput extends Vue {
 @import 'quill/dist/quill.bubble.css';
 
 .realtime-text-input {
-  position: absolute;
-  z-index: $zindex-on;
   margin: -0.5rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
   box-shadow: $shadow;
   background-color: rgba($color-white, 0.5);
+  pointer-events: all;
 
   .ql-editor {
     margin-bottom: 0 !important;

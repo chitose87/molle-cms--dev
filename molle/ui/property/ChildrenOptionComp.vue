@@ -16,10 +16,9 @@
 
   // add
   label.mt-3 Add Module
-  form.form-group.d-flex.justify-content-between.mb-0.mr-2(@submit.prevent @submit="pushModule(pushModuleSelected)")
-    select.form-control.form-control-sm(v-model="pushModuleSelected")
-      option(v-for="key in getModuleList()" :value="key" v-html="key")
-    button.btn.btn-sm.btn-info(type="submit") +
+  AddModuleComp(
+    :parentNode="{id:$parent.itemId}"
+  )
 
 </template>
 
@@ -31,15 +30,15 @@ import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
 import {lsStore} from "~/utils/store-accessor";
 import {IItemData, INodeObject} from "~/molle/interface";
+import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 
 @Component({
-  components: {draggable}
+  components: {AddModuleComp, draggable}
 })
 /**
  */
 export default class ChildrenOptionComp extends OptionComp {
   @Prop() moduleId!: string;
-  pushModuleSelected: string = "";
   private childlen = <{ [key: string]: IItemData }>{};
 
   created() {
@@ -50,42 +49,6 @@ export default class ChildrenOptionComp extends OptionComp {
           this.$set(this.childlen, snap.id, snap.data());
         });
     });
-
-    //
-    this.$root.$on("pushModule", this.pushModule);
-  }
-
-  getModuleList() {
-    // @ts-ignore
-    let moduleOpt = this.$molleModules[this.moduleId];
-    let response: string[] = [];
-    if (moduleOpt.white) {
-      response = moduleOpt.white;
-    } else if (moduleOpt.black) {
-      response = Object.keys(this.$molleModules).filter((name: string) => moduleOpt.black!.indexOf(name) == -1);
-    }
-    if (!this.pushModuleSelected) {
-      this.pushModuleSelected = response[0];
-    }
-    return response;
-  }
-
-  pushModule(pushModuleSelected: string) {
-    if (!pushModuleSelected) return;
-    // @ts-ignore
-    let data: IItemStoreData = this.$molleModules[pushModuleSelected].def;
-
-    Singleton.itemsRef.add(data)
-      .then((docRef: firebase.firestore.DocumentReference) => {
-        this.localValue.push({id: docRef.id});
-        this.$emit('change');
-        lsStore.update({key: "focusModuleNode", value: {id: docRef.id}});
-      });
-  }
-
-  beforeDestroy() {
-    console.log("beforeDestroy")
-    this.$root.$off("pushModule", this.pushModule);
   }
 }
 </script>
