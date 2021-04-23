@@ -16,6 +16,8 @@ div
 
     .l-molle__main(ref="main")
       component(:is="theme", :pageDataByEditer="pageData")
+      //RealtimeTextInput(ref="RealtimeTextInput")
+      FocusExtension(ref="FocusExtension")
 
     .l-molle__right.bootstrap.shadow(:aria-expanded="expandedRight")
       button.btn.btn-outline-secondary.l-molle__toggle(
@@ -26,7 +28,7 @@ div
       EditorOptionComp
       PagePropertyComp(:pageData="pageData", :pageId="pageId")
       ModulePropertyComp
-  GoogleStorageModalComp(v-if="ready")
+    GoogleStorageModalComp(v-if="ready")
   #bootstrap-container.bootstrap
 </template>
 
@@ -40,15 +42,16 @@ import ModulePropertyComp from "~/molle/ui/ModulePropertyComp.vue";
 import {lsStore} from "~/utils/store-accessor";
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import PagePropertyComp from "~/molle/ui/PagePropertyComp.vue";
-import EditorOptionComp from "~/molle/ui/EditorOptionComp.vue";
-
 import UniversalPage from "~/pages/_universal.vue";
-import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
 import NewsDetailPage from "~/pages/news/_detail.vue";
 
+import EditorOptionComp from "~/molle/ui/EditorOptionComp.vue";
+import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
+import FocusExtension from "~/molle/ui/FocusExtension.vue";
+
 @Component({
-  layout: "molle-sys",
   components: {
+    FocusExtension,
     GoogleStorageModalComp,
     UniversalPage,
     NewsDetailPage,
@@ -99,6 +102,7 @@ export default class MolleEditerPage extends Vue {
             this.$set(this, "theme", "UniversalPage");
           }
 
+          console.log(pageData)
           this.$set(this, "pageData", pageData);
         });
     });
@@ -125,12 +129,14 @@ export default class MolleEditerPage extends Vue {
       }
     });
     this.$el.addEventListener("click", (e: any) => {
+      // console.log(e.path)
       for (let i = 0; i < e.path.length; i++) {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoader) {
-          let module: ModuleLoader = v;
-          console.log(module.$props.node)
-          lsStore.update({key: "focusModuleNode", value: module.$props.node});
+          let loader: ModuleLoader = v;
+          // console.log(module);
+          lsStore.update({key: "focusModuleNode", value: loader.$props.node});
+          (<FocusExtension>this.$refs.FocusExtension).init(loader);
           break;
         }
       }
@@ -151,6 +157,7 @@ export default class MolleEditerPage extends Vue {
     &__main {
       flex: 1;
       overflow: hidden;
+      position: relative;
 
       // a,button{
       // pointer-events: none !important;

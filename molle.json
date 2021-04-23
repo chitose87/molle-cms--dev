@@ -1,10 +1,10 @@
 {
-  "siteName":"{{MOLLE CMS v0.1}}",
-  "title":"{{MOLLE CMS v0.1}}",
-  "description":"{{MOLLE CMS v0.1}}",
-  "keywords":"{{keywords}}",
-  "domain":"https://molle-cms--stg.web.app/",
-  "molleProjectID":"sandbox",
+  "siteName":"E&BUY",
+  "title":"E&BUY",
+  "description":"E&BUY",
+  "keywords":"E&BUY",
+  "domain":"https://molle-temp.web.app/",
+  "molleProjectID":"temp",
   "molleBrunch":"beta",
 
   "apiKey":"AIzaSyCi8-uxlUVlUKEL8HuATVYBt6O89zylqwY",

@@ -35,6 +35,12 @@ export class Profile extends Vue {
   checkItemData(after?: IItemData, before?: IItemData) {
     let flag = false;
     switch (after?.type) {
+      case "children":
+        if (!Array.isArray(after.value)) {
+          flag = confirm(`error:valueに異常がありました。\nvalueをリセットしますか？\nitemId:${this.itemId}/${after.value}`);
+          after!.value = [];
+        }
+        break;
       case "group":
         for (let name in after?.value) {
           if (!after!.value[name].id) {

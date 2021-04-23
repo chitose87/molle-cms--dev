@@ -22,7 +22,6 @@ import firebase from "~/node_modules/firebase";
 import {IPageData, IItemData, INodeObject, IPayload} from "~/molle/interface";
 import {lsStore} from "~/utils/store-accessor";
 import {Module} from "~/molle/module/Module";
-import {molleModules} from "~/molle/module/index";
 
 @Component({
   components: {},
@@ -31,14 +30,14 @@ export default class ModuleLoader extends Vue {
   /**
    * SSGの際にapp.jsから削除されるoption
    */
-  // static MOLLE_DELETE_WITH_STATIC_MODE = true;
+    // static MOLLE_DELETE_WITH_STATIC_MODE = true;
 
   @Prop({default: () => ({id: 0})}) node!: INodeObject;
   isMolleCms = process.env.isMolleCms;
 
   //SPA,DEV
   get fromModule(): Module {
-    return <Module>this.$parent?.$vnode?.context
+    return <Module>this.$parent;
   }
 
   get toModule(): Module {
@@ -60,9 +59,9 @@ export default class ModuleLoader extends Vue {
             .doc(this.node.id)
             .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
               if (!snap.exists) {
-                Singleton.itemsRef.doc(this.node.id).set(
-                  molleModules[this.node!.fixedModuleId || "Box"].def
-                );
+                if (this.node!.fixedModuleId) {
+                  Singleton.itemsRef.doc(this.node.id).set(this.$molleModules[this.node!.fixedModuleId].def);
+                }
                 return;
               }
               // console.log(snap.data())

@@ -6,10 +6,10 @@
     "molle-cms---dev": {
       "hosting": {
         "public": [
-          "molle-cms--stg"
+          "molle-temp"
         ],
         "cms": [
-          "molle-cms---dev"
+          "molle-temp-cms"
         ]
       }
     }

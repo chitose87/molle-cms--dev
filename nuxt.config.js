@@ -13,12 +13,26 @@ for (let i in scssEnv) {
   envStr += `$${i}:${scssEnv[i]};`;
 }
 
+const css = [
+  '@/assets/scss/app.scss'
+]
 const modules = [
   '@nuxtjs/dotenv',
   '@nuxtjs/style-resources',
   '~/molle/nuxt-config/generateHooks'
 ]
-if (molle.isMolleCms) modules.push('bootstrap-vue/nuxt')
+const plugins = [
+  '~/molle/nuxt-config/plugin.ts'
+]
+if (molle.isMolleCms) {
+  css.push('~/molle/css/molle.scss')
+  modules.push('bootstrap-vue/nuxt');
+  plugins.push(
+    '~/molle/nuxt-config/pluginSpa.ts'
+  );
+} else {
+  plugins.push('~/molle/nuxt-config/pluginStatic.ts');
+}
 
 export default {
   mode: "universal",
@@ -26,7 +40,7 @@ export default {
   ssr: !molle.isMolleCms,
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'MOLLE CMS v0',
+    title: molle.title,
     meta: [
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
@@ -55,14 +69,10 @@ export default {
   env: molle,
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: [
-    '@/assets/scss/app.scss'
-  ],
+  css: css,
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [
-    '~/molle/nuxt-config/plugin.ts'
-  ],
+  plugins: plugins,
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
 
@@ -113,12 +123,15 @@ export default {
     }
   },
   generate: {
-    dir: molle.isMolleCms ? 'functions/stgApp' : 'public',
+    dir: molle.isMolleCms ? 'public-cms' : 'public',
     crawler: false
   },
   router: {
     scrollBehavior: function (to, from, savedPosition) {
       return {}
     }
+  },
+  server: {
+    // host: "0"
   }
 }
