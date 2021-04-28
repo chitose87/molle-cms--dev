@@ -1,5 +1,6 @@
 import {Module, VuexModule, Mutation, Action} from "vuex-module-decorators";
 import {IPayload} from "~/molle/interface";
+import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 
 @Module({name: "lsStore", stateFactory: true, namespaced: true})
 export default class lsStore extends VuexModule {
@@ -9,7 +10,6 @@ export default class lsStore extends VuexModule {
     hoverModuleNode: {id: ""},
     focusFamily: [],
   };
-
   // payload = <any>{};
   // isSSG = false;
   isEditer = false;

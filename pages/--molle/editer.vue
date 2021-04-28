@@ -17,7 +17,6 @@ div
     .l-molle__main(ref="main")
       component(:is="theme", :pageDataByEditer="pageData")
       //RealtimeTextInput(ref="RealtimeTextInput")
-      FocusExtension(ref="FocusExtension")
 
     .l-molle__right.bootstrap.shadow(:aria-expanded="expandedRight")
       button.btn.btn-outline-secondary.l-molle__toggle(
@@ -29,6 +28,7 @@ div
       PagePropertyComp(:pageData="pageData", :pageId="pageId")
       ModulePropertyComp
     GoogleStorageModalComp(v-if="ready")
+  FocusExtension
   #bootstrap-container.bootstrap
 </template>
 
@@ -136,7 +136,7 @@ export default class MolleEditerPage extends Vue {
           let loader: ModuleLoader = v;
           // console.log(module);
           lsStore.update({key: "focusModuleNode", value: loader.$props.node});
-          (<FocusExtension>this.$refs.FocusExtension).init(loader);
+          // (<FocusExtension>this.$refs.FocusExtension).init(loader);
           break;
         }
       }
