@@ -92,27 +92,27 @@ export default class ModulePropertyComp extends Vue {
 
   @Watch('lsStore.storage.focusModuleNode', {immediate: true})
   onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
-    if (newer && newer.id) {
-      console.log("onChangeFocusModuleNode")
-      this.flag = false;
-      if (this.unsubscribe) {
-        this.unsubscribe();
+      if (newer && newer.id) {
+        console.log("onChangeFocusModuleNode")
+        this.flag = false;
+        if (this.unsubscribe) {
+          this.unsubscribe();
+        }
+
+        this.unsubscribe = Singleton.itemsRef.doc(newer.id).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+          if (!snap.exists) return;
+
+          this.itemDataBefore = <IItemData>snap.data();
+          let itemData = Object.assign({}, this.$molleModules[this.itemDataBefore.moduleId].def, snap.data());
+
+          // if (!itemData.option) itemData.option = {};
+          // if (!itemData.class) itemData.class = {};
+          // if (!itemData.style) itemData.style = {};
+          this.$set(this, "itemData", itemData);
+          this.$set(this, "itemId", snap.id);
+          this.flag = true;
+        });
       }
-
-      this.unsubscribe = Singleton.itemsRef.doc(newer.id).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-        if (!snap.exists) return;
-
-        this.itemDataBefore = <IItemData>snap.data();
-        let itemData = Object.assign({}, this.$molleModules[this.itemDataBefore.moduleId].def, snap.data());
-
-        // if (!itemData.option) itemData.option = {};
-        // if (!itemData.class) itemData.class = {};
-        // if (!itemData.style) itemData.style = {};
-        this.$set(this, "itemData", itemData);
-        this.$set(this, "itemId", snap.id);
-        this.flag = true;
-      });
-    }
   }
 
   /**

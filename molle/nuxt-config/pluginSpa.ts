@@ -1,6 +1,8 @@
 import firebase from "firebase";
 import Box from "~/molle/module/primitive/Box.vue";
 import BoxProfile from "~/molle/module/primitive/BoxProfile.vue";
+import BackgroundBox from "~/molle/module/primitive/BackgroundBox.vue";
+import BackgroundBoxProfile from "~/molle/module/primitive/BackgroundBoxProfile.vue";
 import Headline from "~/molle/module/primitive/Headline.vue";
 import HeadlineProfile from "~/molle/module/primitive/HeadlineProfile.vue";
 import Paragraph from "~/molle/module/primitive/Paragraph.vue";
@@ -54,6 +56,15 @@ const molleModules = Vue.prototype.$molleModules = {
     def: c("Box", "children"),
     black: ["ColumnBox"],
     convert: ["ColumnBox"],
+    icon: "plus-square",
+  },
+  BackgroundBox: {
+    ref: BackgroundBox,
+    profile: BackgroundBoxProfile,
+    profileName: "BackgroundBoxProfile",
+    def: c("BackgroundBox", "children"),
+    black: ["ColumnBox"],
+    convert: ["Box","ColumnBox"],
     icon: "plus-square",
   },
   Headline: {

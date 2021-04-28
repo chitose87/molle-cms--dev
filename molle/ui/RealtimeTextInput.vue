@@ -1,5 +1,5 @@
 <template lang="pug">
-.realtime-text-input
+.realtime-text-input(v-show="flag")
   #quill-editor
 </template>
 
@@ -8,6 +8,7 @@ import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorato
 import {IItemData, INodeObject} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
+//@ts-ignore
 import Quill from "quill";
 import FocusExtension from "~/molle/ui/FocusExtension.vue";
 
@@ -19,6 +20,7 @@ export default class RealtimeTextInput extends Vue {
   quill!: Quill;
   $editer!: HTMLElement;
   focusExtension!: FocusExtension;
+  flag = false;
 
   mounted() {
     this.focusExtension = <FocusExtension>this.$parent;
@@ -32,27 +34,38 @@ export default class RealtimeTextInput extends Vue {
     });
     delete this.quill.getModule('keyboard').bindings["9"];//tab
 
-    this.quill.on("text-change", (e, old, source) => {
+    // 入力
+    this.quill.on("text-change", (e: any, old: any, source: string) => {
       if (source == "user") {
-        this.update();
+        //@ts-ignore
+        this.focusExtension.loader.$el.style.height = this.$editer.clientHeight + "px";
+        this.focusExtension.updateStyle();
       }
     });
     this.$editer = <HTMLElement>this.$el.querySelector('.ql-editor');
 
-    this.$parent.$on("initialized", () => {
-      if (this.focusExtension.itemData.type != "text") return;
-      this.init()
-    });
-    // itemData等が更新されるまえ
+    // 対象が変更されるまえ
     this.$parent.$on("beforeUpdate", () => {
       if (this.focusExtension.itemData.type != "text") return;
-      this.update(true);
+      console.log("blur", "beforeUpdate")
+      this.blur();
+
+    });
+
+    // 初期化
+    this.$parent.$on("initialized", () => {
+      if (this.focusExtension.itemData.type != "text") return;
+      this.flag = true;
+      //@ts-ignore
+      this.focusExtension.loader.$el.style.visibility = "hidden";
+      this.update();
     });
 
     // itemdataの更新
     this.$parent.$on("update", () => {
       if (this.focusExtension.itemData.type != "text") return;
-      this.updateStyle();
+      console.log("update", "update")
+      this.update();
     });
 
     //blur
@@ -61,24 +74,33 @@ export default class RealtimeTextInput extends Vue {
       if (!e.path.some((el: Element) => {
         return el == this.$el || el == this.focusExtension.loader!.$children[0].$el;
       })) {
-        console.log("blur");
-        this.init(this.update(true));
+        console.log("blur", "click")
+        this.blur();
       }
     });
 
     //再起動時
     if (this.focusExtension.itemData.type == "text") {
-      this.init();
+      console.log("update", "再起動時")
+      this.update();
     }
   }
 
-  private init(forceStr?: string) {
+  /**
+   * 反映
+   */
+  private update(forceStr?: string) {
     this.tagValue = "<p>" + (forceStr || this.focusExtension.itemData.value).replace(/<br>/g, "</p><p>") + "</p>";
     this.$editer.innerHTML = this.tagValue;
+
     this.updateStyle();
   }
 
-  private update(isFix = false) {
+  /**
+   * 保存・確定
+   */
+  private blur() {
+    // console.trace("blur")
     let rows: any[] = [];
     let loop = (children: any) => {
       if (children.length) {
@@ -90,13 +112,11 @@ export default class RealtimeTextInput extends Vue {
     };
     loop(this.$editer.children);
 
-    if (isFix) {//空の行を削除
-      rows = rows.filter(v => v != "<br>" && v)
-    }
+    //空の行を削除
+    rows = rows.filter(v => v != "<br>" && v)
     let str = rows.join("<br>");
-    if (isFix) {//shift + enter killer
-      str = str.replace(/(<br>)+/g, "<br>");
-    }
+    //shift + enter killer
+    str = str.replace(/(<br>)+/g, "<br>");
 
     if (str != this.focusExtension.itemData.value) {
       Singleton.itemsRef.doc(this.focusExtension.itemId).update({
@@ -104,17 +124,25 @@ export default class RealtimeTextInput extends Vue {
         updateTime: firebase.firestore.FieldValue.serverTimestamp()
       });
     }
-    return str;
+
+    //@ts-ignore
+    this.focusExtension.loader.$el.style.height = "";
+    //@ts-ignore
+    this.focusExtension.loader.$el.style.visibility = "";
+    this.flag = false;
   }
 
+  /**
+   * スタイルを反映する
+   * @private
+   */
   private updateStyle() {
-    let style: any = getComputedStyle(this.focusExtension.targetModule.$el);
+    let style: any = getComputedStyle(this.focusExtension.loader.$el);
     let $el: any = this.$el.querySelector('.ql-editor')!;
 
     for (let i = 0; i < style.length; i++) {
       let attr = style[i];
       switch (true) {
-        // case /.*margin.*/.test(attr):
         case /.*padding.*/.test(attr):
         case /.*font.*/.test(attr):
         case /.*color.*/.test(attr):

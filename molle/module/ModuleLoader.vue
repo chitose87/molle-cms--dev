@@ -5,6 +5,7 @@ component(
   :is="itemData.moduleId",
   :itemData="itemData",
   :data-item-id="node.id",
+  :ref="node.id",
   :style="check()"
 )
 //gen module
@@ -27,6 +28,7 @@ import {Module} from "~/molle/module/Module";
   components: {},
 })
 export default class ModuleLoader extends Vue {
+  lsStore = lsStore;
   /**
    * SSGの際にapp.jsから削除されるoption
    */
@@ -41,7 +43,7 @@ export default class ModuleLoader extends Vue {
   }
 
   get toModule(): Module {
-    return <Module>this.$children[0];
+    return <Module>this.$refs[this, this.node.id];
   }
 
   itemData = <IItemData>{moduleId: "div"};
@@ -58,6 +60,7 @@ export default class ModuleLoader extends Vue {
           this.unsubscribe = Singleton.itemsRef
             .doc(this.node.id)
             .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+              //todo シンボリックリンク
               if (!snap.exists) {
                 if (this.node!.fixedModuleId) {
                   Singleton.itemsRef.doc(this.node.id).set(this.$molleModules[this.node!.fixedModuleId].def);
@@ -73,6 +76,13 @@ export default class ModuleLoader extends Vue {
       this.itemData = this.$nuxt.context.payload.items[this.node.id];
       delete this.itemData.createTime;
       delete this.itemData.updateTime;
+    }
+  }
+
+  @Watch('lsStore.storage.focusModuleNode', {immediate: true})
+  watchFocusModuleNode() {
+    if (lsStore.storage.focusModuleNode.id == this.node.id) {
+      this.$root.$emit("focusModule", this);
     }
   }
 
