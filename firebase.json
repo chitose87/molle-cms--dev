@@ -29,7 +29,7 @@
       "rewrites": [
         {
           "source": "**",
-          "function": "stgApp"
+          "function": "molle_rewrites"
         }
       ]
     }

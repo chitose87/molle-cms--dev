@@ -28,9 +28,16 @@
               button.btn.btn-warning(type="button", @click="deployQue")
                 span() 公開
               p.caption
-                |5~10分程度かかります。
+                | 5~10分程度かかります。
                 br
-                |1日あたり100分を超えると料金が発生します。
+                | 1日あたり100分を超えると料金が発生します。
+              hr
+              .form-inline
+                input.form-control.mr-2(type="date" v-model="schedule.date" @change="scheduleUpdate")
+                label.btn.btn-outline-primary
+                  span.mr-2 予約
+                  input(type="checkbox" v-model="schedule.active" @change="scheduleUpdate")
+
       span.mr-2 |
       .mr-2
         button.btn.btn-info(type="button" @click="onExport")
@@ -89,6 +96,12 @@ export default class MolleToolbar extends Vue {
   importModal: boolean = false;
   deployModal: boolean = false;
   currentCIFlow: any = {};
+  schedule = {
+    min: "",
+    date: "",
+    active: false
+  }
+
 
   onLogin(e: any) {
     firebase.auth()
@@ -116,18 +129,29 @@ export default class MolleToolbar extends Vue {
         console.log(json);
         this.$set(this, "currentCIFlow", json.workflow_runs[0]);
       });
+
+    //
+    Singleton.systemDocRef
+      .get()
+      .then((snap: firebase.firestore.DocumentSnapshot) => {
+        let data: any = snap.data();
+        this.$set(this.schedule, "date", data.deploySchedule);
+        this.$set(this.schedule, "active", data.deployScheduleActive);
+      })
+  }
+
+  scheduleUpdate() {
+    Singleton.systemDocRef.update({
+      deploySchedule: this.schedule.date,
+      deployScheduleActive: this.schedule.active,
+    });
   }
 
   deployQue() {
     this.deployModal = false;
-    fetch(`${process.env.functions}/publish`)
-    // fetch(`${process.env.functions}/githubActionsStatus`)
-      .then((res: any) => {
-        return (res.json());
-      })
-      .then((html: string) => {
-        console.log(html)
-      });
+    Singleton.systemDocRef.update({
+      deployQue: true
+    });
   }
 
   /**
