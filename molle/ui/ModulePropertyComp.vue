@@ -1,31 +1,26 @@
 <template lang="pug">
-.module-property-comp
-  .card.bg-light
-    .card-header.pt-1.pb-1.pl-3.pr-3 プロパティ
-    .card-body.p-3(v-if="flag")
-      p
-        span Type :
-        span(v-html="itemData.moduleId")
-
-        //moduleChange
-        button.btn.btn-sm.btn-outline-secondary(
-          v-if="molleModules[itemData.moduleId].convert"
-          :id="'moduleChange'"
-        )
-          b-icon(icon="arrow-repeat")
-        b-popover(
-          :target="'moduleChange'"
-          title="change type" triggers="focus"
-          placement="bottom"
-          container="bootstrap-container"
-          @show="()=>changeModuleSelected=molleModules[itemData.moduleId].convert[0]"
-        )
-          form.form-group.form-check-inline(@submit.prevent @submit="moduleChange()")
-            select.form-control.form-control-sm(v-model="changeModuleSelected")
-              option(v-for="key in molleModules[itemData.moduleId].convert" :value="key" v-html="key")
-            button.btn.btn-sm.btn-info(type="submit") +
-        br
-        span.small.text-nowrap ID : {{lsStore.storage.focusModuleNode.id}}
+.module-property-comp(v-if="lsStore.storage.focusModuleNode.id")
+  .card.bg-light(v-if="flag")
+    .card-header.pt-1.pb-1.pl-3.pr-3
+      span {{itemData.moduleId}} プロパティ
+      button.btn.btn-sm.btn-outline-secondary(
+        v-if="$molleModules[itemData.moduleId].convert"
+        :id="'moduleChange'"
+      )
+        b-icon(icon="arrow-repeat")
+      b-popover(
+        :target="'moduleChange'"
+        title="change type" triggers="focus"
+        placement="bottom"
+        container="bootstrap-container"
+        @show="()=>changeModuleSelected=$molleModules[itemData.moduleId].convert[0]"
+      )
+        form.form-group.form-check-inline(@submit.prevent @submit="moduleChange()")
+          select.form-control.form-control-sm(v-model="changeModuleSelected")
+            option(v-for="key in $molleModules[itemData.moduleId].convert" :value="key" v-html="key")
+          button.btn.btn-sm.btn-info(type="submit") +
+    .card-body.p-3
+      span.small.text-nowrap ID : {{lsStore.storage.focusModuleNode.id}}
 
       //button.btn.module-editor__notExport(
       //  v-if="!$parent.required"
@@ -35,8 +30,8 @@
       //  b-icon(icon="eye-fill" v-else)
       //profile
       component(
-        v-if="molleModules[itemData.moduleId].profile"
-        :is="molleModules[itemData.moduleId].profileName"
+        v-if="$molleModules[itemData.moduleId].profile"
+        :is="$molleModules[itemData.moduleId].profileName"
         :itemData="itemData"
         :itemId="itemId"
         @change="update"
@@ -81,13 +76,11 @@ import {lsStore} from "~/utils/store-accessor";
 import {IItemData, INodeObject} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "~/node_modules/firebase";
-import {molleModules} from "~/molle/module";
 
 @Component({
   components: {}
 })
 export default class ModulePropertyComp extends Vue {
-  molleModules = molleModules;
   itemId: string = "";
   itemData = <IItemData>{};
   itemDataBefore = <IItemData>{};
@@ -99,33 +92,37 @@ export default class ModulePropertyComp extends Vue {
 
   @Watch('lsStore.storage.focusModuleNode', {immediate: true})
   onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
-    if (newer && newer.id) {
-      this.flag = false;
-      if (this.unsubscribe) {
-        this.unsubscribe();
+      if (newer && newer.id) {
+        console.log("onChangeFocusModuleNode")
+        this.flag = false;
+        if (this.unsubscribe) {
+          this.unsubscribe();
+        }
+
+        this.unsubscribe = Singleton.itemsRef.doc(newer.id).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+          if (!snap.exists) return;
+
+          this.itemDataBefore = <IItemData>snap.data();
+          let itemData = Object.assign({}, this.$molleModules[this.itemDataBefore.moduleId].def, snap.data());
+
+          // if (!itemData.option) itemData.option = {};
+          // if (!itemData.class) itemData.class = {};
+          // if (!itemData.style) itemData.style = {};
+          this.$set(this, "itemData", itemData);
+          this.$set(this, "itemId", snap.id);
+          this.flag = true;
+        });
       }
-
-      this.unsubscribe = Singleton.itemsRef.doc(newer.id).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-        if (!snap.exists) return;
-
-        this.itemDataBefore = <IItemData>snap.data();
-        let itemData = <IItemData>Object.assign({}, molleModules[this.itemDataBefore.moduleId].def, snap.data());
-
-        // if (!itemData.option) itemData.option = {};
-        // if (!itemData.class) itemData.class = {};
-        // if (!itemData.style) itemData.style = {};
-        this.$set(this, "itemData", itemData);
-        this.$set(this, "itemId", snap.id);
-        this.flag = true;
-      });
-    }
   }
 
   /**
    *
    */
   update() {
+    // console.log("update", this.itemData)
+
     function some(b: any, a: any): boolean {
+      // console.log(b, a)
       let obj: any = Object.assign({}, b, a);
       return Object.keys(obj).some(key => {
         if (typeof obj[key] == "object") {
@@ -139,10 +136,14 @@ export default class ModulePropertyComp extends Vue {
     let flag = false;
     let update: any = {};
     let before: any = this.itemDataBefore;
-    let after: any = this.itemData;
+    let after: any = JSON.parse(JSON.stringify(this.itemData));
     let obj: any = Object.assign({}, before, after);
     Object.keys(obj).forEach((key) => {
-      if (typeof obj[key] == "object") {
+      // console.log(key,before[key],after[key])
+      if (typeof before[key] != typeof after[key]) {
+        update[key] = after[key];
+        flag = true;
+      } else if (typeof obj[key] == "object") {
         if (some(before[key] || {}, after[key] || {})) {
           update[key] = after[key];
           flag = true;
@@ -152,7 +153,7 @@ export default class ModulePropertyComp extends Vue {
         flag = true;
       }
     });
-    console.log("update", this.itemId, update)
+    console.log(flag, "update", this.itemId, update)
     if (flag) {
       update.updateTime = firebase.firestore.FieldValue.serverTimestamp();
       Singleton.itemsRef.doc(this.itemId).update(update);

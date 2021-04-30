@@ -150,15 +150,41 @@ module.exports = function () {
     console.log('pageのファイル作成が終わったよ')
   });
   this.nuxt.hook('generate:done', async generator => {
-    console.log(genDir)
-    if (process.env.IS_MOLLE_CMS != "true") {
+    if (process.env.IS_MOLLE_CMS == "true") {
+      /**
+       * 【app.js軽量化】
+       * pluginSpa.tsからProfileを抜いた、
+       * pluginStatic.tsを作成する
+       */
+      let imports = fs.readFileSync(`molle/nuxt-config/pluginSpa.ts`, "utf8")
+        .match(/(?!.*Profile.vue)(import )(.*)(.vue\")/g)
+        .join("\n");
+      let molleModules = imports
+        .match(/(import )(.*)( from)/g).map((str) => {
+          let name = str.substring(6, str.length - 4);
+          return `${name}: {ref: ${name}}`
+        })
+        .join(",\n");
+
+      let result = fs.readFileSync(`molle/nuxt-config/pluginStatic.ts`, "utf8")
+        .replace(/(\/\* <imports)([\s\S]*?)(> \*\/)/, ["/* <imports */", imports, "/* > */"].join("\n"))
+        .replace(/(\/\* <molleModules)([\s\S]*?)(> \*\/)/, ["/* <molleModules */", molleModules, "/* > */"].join("\n"))
+      fs.writeFileSync(`molle/nuxt-config/pluginStatic.ts`, result);
+    } else {
       // console.time("a")
+      /**
+       * 【app.js軽量化】
+       * MOLLE_DELETE_WITH_STATIC_MODEのフラグがついたクラスを削除する(開発中)
+       */
       let js = fs.readFileSync(`${genDir}/_nuxt/app.js`, "utf8");
       let list = js.split(`"use strict";`)
         .map((str) => {
           if (/MOLLE_DELETE_WITH_STATIC_MODE/.test(str)) {
             let l = str.lastIndexOf("component.exports");
-            str = "/* generate:done < deleted */" + str.substr(l + 17);
+            console.log(l)
+            if (l >= 0) {
+              str = "/* generate:done < deleted */" + str.substr(l + 17);
+            }
           }
           return str;
         });

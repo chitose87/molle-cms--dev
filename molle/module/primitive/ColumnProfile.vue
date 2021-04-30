@@ -69,8 +69,8 @@ import ChildrenOptionComp from "~/molle/ui/property/ChildrenOptionComp.vue";
 export default class ColumnProfile extends Profile {
   //style setting
   stylePermission = {
-    container: false,
-    border: false,
+    // container: false,
+    // border: false,
     margin: "",
     padding: "",
     // theme: {default: "", select: ["", "test"]},

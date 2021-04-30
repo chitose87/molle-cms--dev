@@ -6,9 +6,14 @@
 )
   ModuleLoader(v-for="node in itemData.value", :key="node.id", :node="node")
 
+  //AddModuleComp.col-12(
+  //  :itemData="itemData",
+  //
+  //
+  //)
   AddModuleComp.col-12(
-    :itemData="itemData",
     :label="`Column`",
+    :parentNode="loader.node"
     :style="{width: '100%'}"
   )
 </template>

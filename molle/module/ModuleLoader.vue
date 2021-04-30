@@ -5,19 +5,14 @@ component(
   :is="itemData.moduleId",
   :itemData="itemData",
   :data-item-id="node.id",
+  :ref="node.id",
   :style="check()"
-)
-//gen page
-component(
-  v-else-if="!$nuxt.context.isDev && mRoot",
-  :is="$nuxt.context.payload.items[$nuxt.context.payload.pageData.itemId].moduleId",
-  :itemData="$nuxt.context.payload.items[$nuxt.context.payload.pageData.itemId]"
 )
 //gen module
 component(
   v-else-if="!$nuxt.context.isDev",
-  :is="$nuxt.context.payload.items[node.id].moduleId",
-  :itemData="$nuxt.context.payload.items[node.id]"
+  :is="itemData.moduleId",
+  :itemData="itemData"
 )
 </template>
 
@@ -28,70 +23,66 @@ import firebase from "~/node_modules/firebase";
 import {IPageData, IItemData, INodeObject, IPayload} from "~/molle/interface";
 import {lsStore} from "~/utils/store-accessor";
 import {Module} from "~/molle/module/Module";
-import {molleModules} from "~/molle/module/index";
 
 @Component({
   components: {},
 })
 export default class ModuleLoader extends Vue {
+  lsStore = lsStore;
   /**
    * SSGの際にapp.jsから削除されるoption
    */
-  static MOLLE_DELETE_WITH_STATIC_MODE = true;
+    // static MOLLE_DELETE_WITH_STATIC_MODE = true;
 
   @Prop({default: () => ({id: 0})}) node!: INodeObject;
-  @Prop() mRoot?: boolean;
-  @Prop({default: () => ({})}) pageDataByEditer?: any;// use editer.vue
   isMolleCms = process.env.isMolleCms;
 
   //SPA,DEV
   get fromModule(): Module {
-    return <Module>this.$parent?.$vnode?.context
+    return <Module>this.$parent;
   }
 
   get toModule(): Module {
-    return <Module>this.$children[0];
+    return <Module>this.$refs[this, this.node.id];
   }
 
   itemData = <IItemData>{moduleId: "div"};
   private unsubscribe!: () => void;
 
-  @Watch("node.id", {immediate: true})
-  updateNode() {
+  async fetch() {
+    // console.log("node", this.node, this.isMolleCms)
     if (this.$nuxt.context.isDev || this.isMolleCms) {
-      console.log("node", this.node.id, this.mRoot, this.isMolleCms)
       //SPA,DEV
       if (this.node.id) {
-        // module
         if (this.unsubscribe) this.unsubscribe();
         Singleton.firebaseInit(() => {
-          console.log(this.node.id);
+          // console.log(this.node.id);
           this.unsubscribe = Singleton.itemsRef
             .doc(this.node.id)
             .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+              //todo シンボリックリンク
               if (!snap.exists) {
-                Singleton.itemsRef.doc(this.node.id).set(
-                  molleModules[this.node!.fixedModuleId || "Box"].def
-                );
+                if (this.node!.fixedModuleId) {
+                  Singleton.itemsRef.doc(this.node.id).set(this.$molleModules[this.node!.fixedModuleId].def);
+                }
                 return;
               }
-
-              let itemData = snap.data();
-              console.log(itemData)
-              this.$set(this, "itemData", itemData);
+              // console.log(snap.data())
+              this.itemData = <IItemData>snap.data();
             });
         });
-      } else if (this.mRoot) {
-        // page
-        if (this.pageDataByEditer.itemId) {
-          this.$set(this.node, "id", this.pageDataByEditer.itemId)
-          return;
-        }
-        Singleton.getCurrentPageData(this.$route)
-          .then((pageData: IPageData) => {
-            this.$set(this.node, "id", pageData.itemId)
-          });
       }
+    } else {
+      this.itemData = this.$nuxt.context.payload.items[this.node.id];
+      delete this.itemData.createTime;
+      delete this.itemData.updateTime;
+    }
+  }
+
+  @Watch('lsStore.storage.focusModuleNode', {immediate: true})
+  watchFocusModuleNode() {
+    if (lsStore.storage.focusModuleNode.id == this.node.id) {
+      this.$root.$emit("focusModule", this);
     }
   }
 

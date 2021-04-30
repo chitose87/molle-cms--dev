@@ -3,7 +3,7 @@
   .container-fluid
     h1.text-info MOdular Light L**** E****
       br
-      | Contents Management System v{{version}}
+      | Contents Management System v{{version}}}
 
     MolleToolbar(v-model="isLogin")
 
@@ -116,10 +116,10 @@
           ul
             li デプロイ機能 new!
             li 未使用モジュールの一括削除 new!
+            li テキストエディタ
 
           h2.mb-3 MOLLE DEVELOP TODO
           ul
-            li テキストエディタ
             li 変更ログ・アンドゥ
             li モジュール入れ替え(loop注意)
             li 継承・拡張
@@ -143,7 +143,6 @@ import {IItemData, IPageData} from "~/molle/interface";
 import MolleToolbar from "~/molle/ui/MolleToolbar.vue";
 
 @Component({
-  layout: "molle-sys",
   components: {MolleToolbar}
 })
 export default class MolleTopPage extends Vue {

@@ -7,26 +7,36 @@
       :class="{active: lsStore.storage.focusModuleNode.id === node.id}",
       :title="node.id",
       @click="lsStore.update({key: 'focusModuleNode', value: node})"
+      @mouseover="lsStore.update({key: 'hoverModuleNode', value: node})"
       style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
     )
-      span(v-if="itemData.moduleId=='Headline'")
+      span(v-if="isRoot")
+        b-icon.ml-n1.mr-1(icon="box")
+        b Root Item
+      span(v-else-if="itemData.moduleId=='Headline'")
+        b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b H
         span :{{itemData.value}}
       span(v-else-if="itemData.moduleId=='Button'")
+        b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b Btn
         span :{{itemData.value}}
+      span(v-else-if="itemData.option.tag=='section'")
+        b-icon.ml-n1.mr-1(icon="bookmark-check-fill")
+        b {{itemData.name||'Section'}}
       span(v-else)
+        b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b(v-html="itemData.moduleId")
         span(v-if="itemData.name") :{{itemData.name}}
     //削除
       v-if="!$parent.notDeleted"
     button.btn.btn-sm.btn-danger(
-      v-if="lsStore.storage.focusModuleNode.id === node.id",
+      v-if="!isRoot && lsStore.storage.focusModuleNode.id === node.id",
       @click="deleteModule()"
     ) x
   // children
   draggable.list-group.pl-2.pb-2(
-    v-if="molleModules[itemData.moduleId].def.type === 'children'",
+    v-if="$molleModules[itemData.moduleId].def.type === 'children'",
     v-model="itemData.value",
     :group="getGroup(itemData.moduleId)",
     @remove="updateChild",
@@ -42,7 +52,7 @@
 
   //Group
   .list-group.pl-2.pb-2(
-    v-else-if="molleModules[itemData.moduleId].def.type === 'group'",
+    v-else-if="$molleModules[itemData.moduleId].def.type === 'group'",
   )
     ItemListItemComp(v-for="node in groupChildSort(itemData.value)", :key="node.id", :node="node")
 
@@ -81,7 +91,6 @@ import {Singleton} from "~/molle/Singleton";
 import {IItemData, INodeObject} from "~/molle/interface";
 import firebase from "~/node_modules/firebase";
 import {lsStore} from "~/utils/store-accessor";
-import {molleModules} from "~/molle/module";
 import draggable from "vuedraggable";
 
 @Component({
@@ -89,9 +98,9 @@ import draggable from "vuedraggable";
 })
 export default class ItemListItemComp extends Vue {
   @Prop() node!: INodeObject;
+  @Prop() isRoot?: boolean;
   itemData = <IItemData>{};
   lsStore = lsStore;
-  molleModules = molleModules;
   pushModuleSelected: string = "";
   private unsubscribe!: () => void;
 

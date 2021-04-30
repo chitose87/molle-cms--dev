@@ -4,11 +4,11 @@ import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 
 export class Module extends Vue {
   get loader(): ModuleLoader {
-    return <ModuleLoader>this.$parent?.$vnode?.context;
+    return <ModuleLoader>this.$parent;
   }
 
   get parent(): Module {
-    return <Module>this.loader.$parent?.$vnode?.context;
+    return <Module>this.loader.$parent?.$parent;
   }
 
   @Prop({default: () => ({class: {}, option: {}, moduleId: "", id: ""})})
@@ -38,6 +38,7 @@ export class Module extends Vue {
 
 
   getClass(data: any) {
+    // console.log("getClass",data.moduleId)
     let obj: any = {};
 
     for (let key in data.class) {

@@ -6,18 +6,16 @@ div
     :permission="stylePermission"
   )
 
-  label src:
-    input.form-control.form-control-sm(
-      type="text"
-      v-model="itemData.value"
-      @change="(e)=>validation(e.target.value,itemData,'value')"
-    )
-  label sp:
-    input.form-control.form-control-sm(
-      type="text"
-      v-model="itemData.option.sp"
-      @change="(e)=>validation(e.target.value,itemData.option,'sp')"
-    )
+  InputUrlByGS(
+    :label="'src:'"
+    v-model="itemData.value"
+    @change="()=>$emit('change')"
+  )
+  InputUrlByGS(
+    :label="'sp:'"
+    v-model="itemData.option.sp"
+    @change="()=>$emit('change')"
+  )
   label alt:
     input.form-control.form-control-sm(
       type="text"
@@ -25,21 +23,7 @@ div
       @change="()=>$emit('change')"
     )
 
-  //Google Storage
-  .google-storage.border.p-2.mt-3
-    label Google Storage
-    a.btn.btn-info.btn-sm.btn-block.mb-2(
-      @click="()=>$root.$emit('google-storage-view')"
-    )
-      span Explorer
-    a.btn.btn-info.btn-sm.btn-block(
-      @click="()=>$root.$emit('google-storage-upload',(url)=>{uploaded=url})"
-    )
-      span Upload
-
-    div(v-if="uploaded")
-      label Complete
-        input.form-control.form-control-sm(:value="uploaded")
+  GoogleStorage
 
   //a.btn.btn-secondary.btn-sm(href="https://console.firebase.google.com/project/" + process.env.projectId + "/storage/" + process.env.storageBucket + "/files~2Fimages?hl=ja" target="_blank")
     span Storage
@@ -50,10 +34,12 @@ div
 import {Component} from "~/node_modules/nuxt-property-decorator";
 import StyleComp from "~/molle/ui/property/StyleComp.vue";
 import {Profile} from "~/molle/module/Profile";
-import { StyleAlign } from "~/molle/Singleton";
+import {StyleAlign} from "~/molle/Singleton";
+import GoogleStorage from "~/molle/ui/GoogleStorage.vue";
+import InputUrlByGS from "~/molle/ui/property/InputUrlByGS.vue";
 
 @Component({
-  components: {StyleComp}
+  components: {InputUrlByGS, GoogleStorage, StyleComp}
 })
 export default class PictureProfile extends Profile {
   //style setting
@@ -65,17 +51,6 @@ export default class PictureProfile extends Profile {
     theme: {default: "", select: ["", "-sm", "-lg"]},
     // color: {default: "", select: ["", "dark"]},
   };
-
-  uploaded = "";
-
-  validation(str: string, obj: any, name: string) {
-    if (/firebasestorage.googleapis.com/.test(str)) {
-      str = str.match(".+/(.+?)([\?#;].*)?$")![1];
-      str = `https://storage.googleapis.com/${process.env.storageBucket}/${decodeURIComponent(str)}`
-      this.$set(obj, name, str);
-    }
-    this.$emit('change')
-  }
 }
 </script>
 

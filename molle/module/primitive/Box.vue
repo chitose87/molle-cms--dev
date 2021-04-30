@@ -10,7 +10,10 @@
     :node="node"
   )
 
-  AddModuleComp(:itemData="itemData", :label="`Box`")
+  AddModuleComp(
+    :label="`Box`"
+    :parentNode="loader.node"
+    )
 </template>
 
 <script lang="ts">

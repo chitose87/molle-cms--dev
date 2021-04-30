@@ -5,7 +5,7 @@
   :style="getStyle(itemData)"
 )
   .gallery__body(data-gallery="body")
-    ModuleLoader(:node="itemData.value[0]")
+     ModuleLoader(:node="itemData.value[0]")
 
   .gallery__thumbs
     .row
@@ -17,7 +17,7 @@
         ModuleLoader(:node="node", :key="node.id", :data-gallery="index")
 
   AddModuleComp(
-    :itemData="itemData",
+    :parentNode="loader.node"
     :label="`Gallery`",
     :style="{width: '100%'}"
   )

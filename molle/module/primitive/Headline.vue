@@ -5,7 +5,7 @@ component.module.headline(
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
 )
-  | {{itemData.value || itemData.superValue || ''}}
+  span(v-html="itemData.value || itemData.superValue || ''")
   span.headline__sub(
     v-if="itemData.option.text",
     v-html="itemData.option.text"
