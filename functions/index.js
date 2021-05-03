@@ -8,7 +8,6 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 
 setProject({
-  name: "molle",
   dir: "stgApp/",
   molleProjectID: "sandbox",
   molleBrunch: "beta",
@@ -50,7 +49,7 @@ function setProject(args) {
   /**
    * ベーシック認証を設定
    */
-  exports[`${args.name}_rewrites`] = functions
+  exports[`${args.molleProjectID}_rewrites`] = functions
     // .region('asia-northeast1')
     .https.onRequest(express()
       .use(basicAuth(config.basic.id, config.basic.pw))
@@ -63,7 +62,7 @@ function setProject(args) {
   /**
    * 予約時間を定期チェックし、deployQueを立てる
    */
-  exports[`${args.name}_scheduled`] = functions
+  exports[`${args.molleProjectID}_scheduled`] = functions
     .region('asia-northeast1')
     .pubsub.schedule(args.cron)
     .timeZone("Asia/Tokyo")
@@ -88,7 +87,7 @@ function setProject(args) {
   /**
    * DeployQueの変更を監視し、githubActionsへdeployをリクエストする
    */
-  exports[`${args.name}_watchDeployQue`] = functions
+  exports[`${args.molleProjectID}_watchDeployQue`] = functions
     .region('asia-northeast1')
     .firestore.document(`${args.molleProjectID}/${args.molleBrunch}`)
     .onWrite((change, context) => {
@@ -123,7 +122,7 @@ function setProject(args) {
   /**
    * github actions のステータスを確認するAPI
    */
-  exports[`${args.name}_ghStatus`] = functions
+  exports[`${args.molleProjectID}_ghStatus`] = functions
     // .region('asia-northeast1')
     .https.onRequest(async (req, res) => {
       if (checkOrign(req.headers.origin, res)) {

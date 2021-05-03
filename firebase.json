@@ -29,7 +29,7 @@
       "rewrites": [
         {
           "source": "**",
-          "function": "molle_rewrites"
+          "function": "sandbox_rewrites"
         }
       ]
     }
