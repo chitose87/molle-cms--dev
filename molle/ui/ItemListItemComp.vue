@@ -107,29 +107,35 @@ export default class ItemListItemComp extends Vue {
   @Watch("node", {immediate: true})
   updateNode() {
     if (!this.node.id) return;
-    //@ts-ignore
-    let checkLoop = (p: any) => {
-      if (!p) return false;
-      if (p.itemData && p.node.id === this.node.id) {
-        alert("loopしたので解決します。");
-        this.deleteModule();
-        return true;
-      }
-      if (p.$parent) return checkLoop(p.$parent);
-    };
-    if (checkLoop(this.$parent)) return;
+    if (this.checkLoop(this.$parent)) return;
 
     if (this.unsubscribe) this.unsubscribe();
     this.unsubscribe = Singleton.itemsRef
       .doc(this.node.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         if (!snap.exists) return;
-        let itemData = snap.data();
+        let itemData = <IItemData>snap.data();
 
-        // console.log("aaaaa")
+        let moduleProfile = this.$molleModules[itemData.moduleId];
+        if (!moduleProfile) {
+          //@ts-ignore
+          if (confirm(`${itemData.moduleId}は存在していないモジュールです。(id:${this.node.id})\n` + `親モジュール、${this.$parent.$parent.node.id}から削除しますか？`)) {
+            this.deleteModule();
+            return;
+          }
+        }
         this.$set(this, "itemData", itemData);
-        // console.log("bbbbb")
       });
+  }
+
+  private checkLoop(p: any): any {
+    if (!p) return false;
+    if (p.itemData && p.node.id === this.node.id) {
+      alert("loopしたので解決します。");
+      this.deleteModule();
+      return true;
+    }
+    if (p.$parent) return this.checkLoop(p.$parent);
   }
 
   getGroup(moduleId: string) {
@@ -155,7 +161,7 @@ export default class ItemListItemComp extends Vue {
     });
   }
 
-  groupChildSort(groupValue: any) {
+  private groupChildSort(groupValue: any) {
     let v: any[] = [];
     for (let i in groupValue) {
       v.push(groupValue[i]);

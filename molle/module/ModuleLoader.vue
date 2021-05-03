@@ -28,7 +28,6 @@ import {Module} from "~/molle/module/Module";
   components: {},
 })
 export default class ModuleLoader extends Vue {
-  lsStore = lsStore;
   /**
    * SSGの際にapp.jsから削除されるoption
    */
@@ -71,18 +70,13 @@ export default class ModuleLoader extends Vue {
               this.itemData = <IItemData>snap.data();
             });
         });
+
+        Singleton.modules[this.node.id] = this;
       }
     } else {
       this.itemData = this.$nuxt.context.payload.items[this.node.id];
       delete this.itemData.createTime;
       delete this.itemData.updateTime;
-    }
-  }
-
-  @Watch('lsStore.storage.focusModuleNode', {immediate: true})
-  watchFocusModuleNode() {
-    if (lsStore.storage.focusModuleNode.id == this.node.id) {
-      this.$root.$emit("focusModule", this);
     }
   }
 

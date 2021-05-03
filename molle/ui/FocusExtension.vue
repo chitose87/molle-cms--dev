@@ -67,28 +67,35 @@ export default class FocusExtension extends Vue {
       this.updateStyle();
     })
 
-    this.$root.$on("focusModule", (loader: ModuleLoader) => {
-      // console.log(loader)
-      this.$emit("beforeUpdate");
-      this.itemId = lsStore.storage.focusModuleNode.id;
-      this.$set(this, "loader", loader);
-
-      let once = true;
+    // on update focusModuleNode
+    this.$store.watch((state, getters) => {
+      return lsStore.storage.focusModuleNode
+    }, (newer: any, older: any) => {
       if (this.unsubscribe) this.unsubscribe();
-      this.unsubscribe = Singleton.itemsRef
-        .doc(this.itemId)
-        .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-          if (!snap.exists) return;
-          this.$set(this, "itemData", snap.data());
+      this.$emit("beforeUpdate");
 
-          setTimeout(() => {
-            this.updateStyle();
-            if (once) this.$emit("initialized"), once = false;
-            else this.$emit("update");
-          }, 1000/60)
-        });
+      let loader = Singleton.modules[newer.id];
+      if (loader) {
+        this.itemId = lsStore.storage.focusModuleNode.id;
+        this.$set(this, "loader", loader);
+
+        let once = true;
+        this.unsubscribe = Singleton.itemsRef
+          .doc(this.itemId)
+          .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+            if (!snap.exists) return;
+            this.$set(this, "itemData", snap.data());
+
+            setTimeout(() => {
+              this.updateStyle();
+              if (once) this.$emit("initialized"), once = false;
+              else this.$emit("update");
+            }, 1000 / 60)
+          });
+      }
     })
   }
+
 
   updateStyle() {
     // console.log(this.loader.toModule.$el)

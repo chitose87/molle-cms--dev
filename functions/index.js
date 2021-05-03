@@ -18,7 +18,7 @@ setProject({
 
 //getHtml
 exports.getHtml = functions
-  .region('asia-northeast1')
+  // .region('asia-northeast1')
   .https.onRequest(async (req, res) => {
     if (checkOrign(req.headers.origin, res)) {
       // req.query.text
@@ -51,7 +51,7 @@ function setProject(args) {
    * ベーシック認証を設定
    */
   exports[`${args.name}_rewrites`] = functions
-    .region('asia-northeast1')
+    // .region('asia-northeast1')
     .https.onRequest(express()
       .use(basicAuth(config.basic.id, config.basic.pw))
       .use(express.static(__dirname + '/' + args.dir))
@@ -124,7 +124,7 @@ function setProject(args) {
    * github actions のステータスを確認するAPI
    */
   exports[`${args.name}_ghStatus`] = functions
-    .region('asia-northeast1')
+    // .region('asia-northeast1')
     .https.onRequest(async (req, res) => {
       if (checkOrign(req.headers.origin, res)) {
         request(
