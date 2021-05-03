@@ -120,7 +120,7 @@ export default class MolleToolbar extends Vue {
 
   checkCI() {
     this.deployModal = true;
-    fetch(`${process.env.functions}/githubActionsStatus`)
+    fetch(`${process.env.functions}/molle_ghStatus`)
       .then((res: any) => {
         return (res.json());
       })

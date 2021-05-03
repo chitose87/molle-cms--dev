@@ -93,11 +93,11 @@ function setProject(args) {
     .firestore.document(`${args.molleProjectID}/${args.molleBrunch}`)
     .onWrite((change, context) => {
       let data = change.after.data();
-      console.log(data, data === true)
+      console.log(data)
       if (data.deployQue) {
         //deploy request
         var options = {
-          url: `https://api.github.com/repos/${arg.ghRepository}/actions/workflows/publish.yml/dispatches`,
+          url: `https://api.github.com/repos/${args.ghRepository}/actions/workflows/publish.yml/dispatches`,
           method: 'POST',
           body: '{"ref":"main"}',
           headers: {
@@ -129,7 +129,7 @@ function setProject(args) {
       if (checkOrign(req.headers.origin, res)) {
         request(
           {
-            url: `https://api.github.com/repos/${arg.ghRepository}/actions/runs?per_page=1`,
+            url: `https://api.github.com/repos/${args.ghRepository}/actions/runs?per_page=1`,
             // method: 'GET',
             // body: '{"ref":"main"}',
             headers: {
