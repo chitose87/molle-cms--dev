@@ -1,10 +1,12 @@
 import firebase from "~/node_modules/firebase";
 import {IPayload} from "~/molle/interface";
+import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 
 export class Singleton {
   static prefix = `${process.env.molleProjectID}/${process.env.molleBrunch}`;
   static payload?: IPayload;
   static user?: any;
+  static modules = <{ [key: string]: ModuleLoader }>{};
 
   static get systemDocRef(): firebase.firestore.DocumentReference {
     return this._systemDocRef ? this._systemDocRef :
@@ -22,7 +24,7 @@ export class Singleton {
   }
 
   static getCurrentPageData($route: any): Promise<any> {
-    let id=encodeURIComponent($route.fullPath.substr(1).replace(/\/$/g,""));
+    let id = encodeURIComponent($route.fullPath.substr(1).replace(/\/$/g, ""));
     // console.log("--------",id)
     return this.pagesRef.doc(id)
       .get()
