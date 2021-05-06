@@ -4,9 +4,9 @@
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
 )
-  ModuleLoader(:node="itemData.value.img")
-  ModuleLoader(:node="itemData.value.headline")
-  ModuleLoader(:node="itemData.value.text")
+  ModuleLoader(:node="itemData.value.img" :key="itemData.value.img.id")
+  ModuleLoader(:node="itemData.value.headline" :key="itemData.value.headline.id")
+  ModuleLoader(:node="itemData.value.text" :key="itemData.value.text.id")
 
 </template>
 
@@ -23,7 +23,6 @@ export default class Card extends Module {
 </script>
 
 <style lang="scss">
-.card {
-
+.module.card {
 }
 </style>

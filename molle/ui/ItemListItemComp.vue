@@ -113,7 +113,13 @@ export default class ItemListItemComp extends Vue {
     this.unsubscribe = Singleton.itemsRef
       .doc(this.node.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-        if (!snap.exists) return;
+        //todo シンボリックリンク
+        if (!snap.exists) {
+          Singleton.itemsRef.doc(this.node.id).set(
+            this.$molleModules[this.node!.fixedModuleId || "Box"].def
+          );
+          return;
+        }
         let itemData = <IItemData>snap.data();
 
         let moduleProfile = this.$molleModules[itemData.moduleId];

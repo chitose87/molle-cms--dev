@@ -137,7 +137,7 @@
                     input.form-control(type="text", v-model="added.path")
                   label Box id (Option)
                     input.form-control(type="text", v-model="added.itemId")
-                  button(
+                  button.btn.btn-primary.btn-block(
                     type="button",
                     :disabled="added.path === ''",
                     @click="addPage"

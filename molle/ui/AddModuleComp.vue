@@ -66,26 +66,36 @@ export default class AddModuleComp extends Vue {
     if (!this.pushModuleSelected) return;
     let data: IItemData = this.$molleModules[this.pushModuleSelected].def;
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};
-
-    if (this.beforeNode) {
-      this.itemData.value.some((_node: INodeObject, i: number) => {
-        if (this.beforeNode!.id == _node.id) {
-          this.itemData.value.splice(i, 0, node);
-          return true;
+    Singleton.itemsRef
+      .doc(node.id).set(data)
+      .then(() => {
+        if (this.beforeNode) {
+          this.itemData.value.some((_node: INodeObject, i: number) => {
+            if (this.beforeNode!.id == _node.id) {
+              this.itemData.value.splice(i, 0, node);
+              return true;
+            }
+          })
+        } else if (this.afterNode) {
+          this.itemData.value.some((_node: INodeObject, i: number) => {
+            if (this.afterNode!.id == _node.id) {
+              this.itemData.value.splice(i + 1, 0, node);
+              return true;
+            }
+          })
+        } else {
+          this.itemData.value.push(node);
         }
+        // firebase
+        Singleton.itemsRef.doc(this.parentNode.id)
+          .update({
+            updateTime: firebase.firestore.FieldValue.serverTimestamp(),
+            value: this.itemData.value
+          })
+          .then(() => {
+            lsStore.update({key: "focusModuleNode", value: node});
+          });
       })
-    } else if (this.afterNode) {
-      this.itemData.value.some((_node: INodeObject, i: number) => {
-        if (this.afterNode!.id == _node.id) {
-          this.itemData.value.splice(i + 1, 0, node);
-          return true;
-        }
-      })
-    } else {
-      this.itemData.value.push(node);
-    }
-    // console.log(this.itemData.value)
-    this.update(node, data);
   }
 
   addClone() {
@@ -110,14 +120,7 @@ export default class AddModuleComp extends Vue {
    * @private
    */
   private update(node: INodeObject, data: IItemData) {
-    let batch = firebase.firestore().batch();
-    batch.set(Singleton.itemsRef.doc(node.id), data);
-    batch.update(Singleton.itemsRef.doc(this.parentNode.id), {
-      updateTime: firebase.firestore.FieldValue.serverTimestamp(),
-      value: this.itemData.value
-    });
-    batch.commit();
-    lsStore.update({key: "focusModuleNode", value: node});
+
   }
 
   beforeDestroy() {

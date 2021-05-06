@@ -42,7 +42,7 @@ export default class ModuleLoader extends Vue {
   }
 
   get toModule(): Module {
-    return <Module>this.$refs[this, this.node.id];
+    return <Module>this.$refs[this.node.id];
   }
 
   itemData = <IItemData>{moduleId: "div"};
@@ -55,19 +55,11 @@ export default class ModuleLoader extends Vue {
       if (this.node.id) {
         if (this.unsubscribe) this.unsubscribe();
         Singleton.firebaseInit(() => {
-          // console.log(this.node.id);
           this.unsubscribe = Singleton.itemsRef
             .doc(this.node.id)
             .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-              //todo シンボリックリンク
-              if (!snap.exists) {
-                if (this.node!.fixedModuleId) {
-                  Singleton.itemsRef.doc(this.node.id).set(this.$molleModules[this.node!.fixedModuleId].def);
-                }
-                return;
-              }
-              // console.log(snap.data())
-              this.itemData = <IItemData>snap.data();
+              console.log(this.node.id,snap.exists);
+              if (snap.exists) this.$set(this, "itemData", snap.data());
             });
         });
 
