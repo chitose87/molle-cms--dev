@@ -4,7 +4,7 @@
   :style="style"
   :data-is-row="sibling.isRow")
   RealtimeTextInput(v-show="itemData.type=='text'")
-  .focus-extension__before
+  .focus-extension__before(v-show="isInsert")
     button.btn.btn-sm.btn-outline-info#addBefore
       b-icon(icon="plus")
 
@@ -20,7 +20,7 @@
         :beforeNode="loader.node"
       )
 
-  .focus-extension__after
+  .focus-extension__after(v-show="isInsert")
     button.btn.btn-sm.btn-outline-info#addAfter
       b-icon(icon="plus")
 
@@ -57,15 +57,18 @@ export default class FocusExtension extends Vue {
   itemId: string = "";
   itemData = <IItemData>{};
   private unsubscribe!: () => void;
+  private observer: any;
 
   loader = <ModuleLoader>{};
   style: any = {};
   sibling = {};
+  isInsert = true;
 
   mounted() {
     window.addEventListener("resize", () => {
       this.updateStyle();
     })
+    this.enterFrame();
 
     // on update focusModuleNode
     this.$store.watch((state, getters) => {
@@ -74,10 +77,15 @@ export default class FocusExtension extends Vue {
       if (this.unsubscribe) this.unsubscribe();
       this.$emit("beforeUpdate");
 
+      // console.log(newer.id, older.id)
+
       let loader = Singleton.modules[newer.id];
       if (loader) {
         this.itemId = lsStore.storage.focusModuleNode.id;
         this.$set(this, "loader", loader);
+
+        //子要素を差し込めない要素確認
+        this.isInsert = !(!loader.fromModule.itemData || loader.fromModule.itemData.type == "group");
 
         let once = true;
         this.unsubscribe = Singleton.itemsRef
@@ -88,6 +96,20 @@ export default class FocusExtension extends Vue {
 
             setTimeout(() => {
               this.updateStyle();
+              // if (this.observer) this.observer.disconnect();
+              // this.observer = new MutationObserver(() => {
+              //   //要素のサイズ確認
+              //   const width = loader.$el.getBoundingClientRect().width
+              //   const height = loader.$el.getBoundingClientRect().height
+              //   console.log(newer.id, width, height)
+              // })
+              // this.observer.observe(loader.$el, <MutationObserverInit>{
+              //   // attriblutes: true,
+              //   // characterData: true,
+              //   childList: true,
+              //   subtree: true,
+              // });
+
               if (once) this.$emit("initialized"), once = false;
               else this.$emit("update");
             }, 1000 / 60)
@@ -96,6 +118,24 @@ export default class FocusExtension extends Vue {
     })
   }
 
+  private enterFrame() {
+    try {
+      let el = <HTMLElement>this.loader.toModule.$el;
+      // console.log(this.loader);
+      let rect = el.getBoundingClientRect();
+      if (rect.width + "px" != this.style.width || rect.height + "px" != this.style.height) {
+        this.$set(this, "style", {
+          "top": pageYOffset + rect.top + "px",
+          "left": pageXOffset + rect.left + "px",
+          "width": rect.width + "px",
+          "height": rect.height + "px"
+        });
+      }
+    } catch (e) {
+    }
+
+    setTimeout(() => this.enterFrame(), Math.floor(1000 / 10));
+  }
 
   updateStyle() {
     // console.log(this.loader.toModule.$el)
