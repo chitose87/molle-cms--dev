@@ -1,9 +1,9 @@
 # MOLLE CMS v0
 
 ## 公開環境　(public)
-https://molle-cms--stg.web.app/
+https://e-and-buy-public.web.app/
 ## 管理画面環境 (public-cms)
-https://molle-cms---dev.web.app/
+https://e-and-buy-cms.web.app/
 
 ## セッティング
 npm i

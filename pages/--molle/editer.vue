@@ -14,9 +14,8 @@ div
             span Molle TOP
       ItemListViewComp(:itemId="pageData.itemId")
 
-    .l-molle__main(ref="main")
-      component(:is="theme", :pageDataByEditer="pageData")
-      //RealtimeTextInput(ref="RealtimeTextInput")
+    .l-molle__main
+      component(:is="theme", :pageDataByEditer="pageData" ref="main")
 
     .l-molle__right.bootstrap.shadow(:aria-expanded="expandedRight")
       button.btn.btn-outline-secondary.l-molle__toggle(

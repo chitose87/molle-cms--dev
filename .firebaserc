@@ -1,15 +1,15 @@
 {
   "projects": {
-    "default": "molle-cms---dev"
+    "default": "yuasa-group"
   },
   "targets": {
-    "molle-cms---dev": {
+    "yuasa-group": {
       "hosting": {
         "public": [
-          "molle-temp"
+          "e-and-buy-public"
         ],
         "cms": [
-          "molle-temp-cms"
+          "e-and-buy-cms"
         ]
       }
     }

@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const molle = require("./molle.json");
-molle.version = "0.5";
+molle.version = "0.6";
 molle.isMolleCms = process.env.IS_MOLLE_CMS == "true";
 const scssEnv = {
   breakPoint: molle.breakPoint,
@@ -123,7 +123,7 @@ export default {
     }
   },
   generate: {
-    dir: molle.isMolleCms ? 'public-cms' : 'public',
+    dir: molle.isMolleCms ? 'functions/e-and-buy' : 'public',
     crawler: false
   },
   router: {

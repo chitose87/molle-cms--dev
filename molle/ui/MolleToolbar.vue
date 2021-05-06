@@ -9,52 +9,75 @@
       button.btn.btn-info(type="submit")
         span Login
   div(v-else)
-    .form-inline
+    .mb-2
+      button.btn.btn-primary(type="button", @click="checkCI")
+        span 公開設定
+
+      .modal(v-if="deployModal" :aria-expanded="deployModal")
+        .modal__fiexd
+          .modal__close(@click="deployModal=!deployModal")
+          .modal__body
+
+            button.btn.btn-warning(type="button", @click="deployQue")
+              span() 即時実行
+            p.caption
+              | 5~10分程度かかります。
+              br
+              | 1日あたり100分を超えると料金が発生します。
+
+            hr
+            .form-inline
+              input.form-control.mr-2(type="date" v-model="schedule.date" @change="scheduleUpdate")
+              label.btn.btn-outline-primary
+                span.mr-2 予約
+                input(type="checkbox" v-model="schedule.active" @change="scheduleUpdate")
+            p.caption *指定日の朝9時頃に実行されます。
+
+            hr
+            h4 Github Actions Statu.
+            div(v-if="currentCIFlow.reading")
+              p 確認中…
+            div(v-else)
+              p
+                span タスク名：
+                span(v-html="currentCIFlow.name")
+              p
+                span ステータス：
+                span(v-html="currentCIFlow.status")
+              p
+                span 状態：
+                span(v-html="currentCIFlow.conclusion")
+              p
+                span 日時：
+                span(v-html="currentCIFlow.created_at")
+    hr
+    .mb-2
+      button.btn.btn-info(type="button" @click="onExport")
+        span Export
+    .mb-2
+      button.btn.btn-warning(type="submit" @click="importModal=true")
+        span Import
+      .modal(v-if="importModal" :aria-expanded="importModal")
+        .modal__fiexd
+          .modal__close(@click="importModal=!importModal")
+          .modal__body
+            form(@submit.prevent, @submit="onImport")
+              input(
+                type="file",
+                name="files",
+                accept="application/json",
+                multiple
+              )
+              button.btn.btn-info(type="submit")
+                span Import
+    hr
+    .mb-2
+      button.btn.btn-danger(@click="cleanup")
+        span Data Clean
+    .mb-2
       button.btn.btn-info(type="button" @click="onLogout")
         span Logout
 
-      .mr-2.ml-auto
-        button.btn.btn-warning(type="button", @click="checkCI")
-          span 公開
-
-        .modal(v-if="deployModal" :aria-expanded="deployModal")
-          .modal__fiexd
-            .modal__close(@click="deployModal=!deployModal")
-            .modal__body
-              p(v-html="currentCIFlow.name")
-              p(v-html="currentCIFlow.status")
-              p(v-html="currentCIFlow.conclusion")
-              p(v-html="currentCIFlow.created_at")
-              button.btn.btn-warning(type="button", @click="deployQue")
-                span() 公開
-              p.caption
-                |5~10分程度かかります。
-                br
-                |1日あたり100分を超えると料金が発生します。
-      span.mr-2 |
-      .mr-2
-        button.btn.btn-info(type="button" @click="onExport")
-          span Export
-      .mr-2
-        button.btn.btn-warning(type="submit" @click="importModal=true")
-          span Import
-        .modal(v-if="importModal" :aria-expanded="importModal")
-          .modal__fiexd
-            .modal__close(@click="importModal=!importModal")
-            .modal__body
-              form(@submit.prevent, @submit="onImport")
-                input(
-                  type="file",
-                  name="files",
-                  accept="application/json",
-                  multiple
-                )
-                button.btn.btn-info(type="submit")
-                  span Import
-      span.mr-2 |
-      .mr-2
-        button.btn.btn-danger(@click="cleanup")
-          span Data Clean
 </template>
 
 <script lang="ts">
@@ -89,6 +112,12 @@ export default class MolleToolbar extends Vue {
   importModal: boolean = false;
   deployModal: boolean = false;
   currentCIFlow: any = {};
+  schedule = {
+    min: "",
+    date: "",
+    active: false
+  }
+
 
   onLogin(e: any) {
     firebase.auth()
@@ -107,7 +136,9 @@ export default class MolleToolbar extends Vue {
 
   checkCI() {
     this.deployModal = true;
-    fetch(`${process.env.functions}/githubActionsStatus`)
+    this.$set(this, "currentCIFlow", {reading: true});
+
+    fetch(`${process.env.functions}/${process.env.molleProjectID}_ghStatus`)
       .then((res: any) => {
         return (res.json());
       })
@@ -116,26 +147,36 @@ export default class MolleToolbar extends Vue {
         console.log(json);
         this.$set(this, "currentCIFlow", json.workflow_runs[0]);
       });
+
+    //
+    Singleton.systemDocRef
+      .get()
+      .then((snap: firebase.firestore.DocumentSnapshot) => {
+        let data: any = snap.data();
+        this.$set(this.schedule, "date", data.deploySchedule);
+        this.$set(this.schedule, "active", data.deployScheduleActive);
+      })
+  }
+
+  scheduleUpdate() {
+    Singleton.systemDocRef.update({
+      deploySchedule: this.schedule.date,
+      deployScheduleActive: this.schedule.active,
+    });
   }
 
   deployQue() {
     this.deployModal = false;
-    fetch(`${process.env.functions}/publish`)
-    // fetch(`${process.env.functions}/githubActionsStatus`)
-      .then((res: any) => {
-        return (res.json());
-      })
-      .then((html: string) => {
-        console.log(html)
-      });
+    Singleton.systemDocRef.update({
+      deployQue: true
+    });
   }
 
   /**
    *
    */
   onExport() {
-    Singleton.pagesRef.onSnapshot(
-      (snap: firebase.firestore.QuerySnapshot) => {
+    Singleton.pagesRef.get().then((snap: firebase.firestore.QuerySnapshot) => {
         let obj: any = {pages: {}};
         snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
           obj.pages[_snap.id] = _snap.data();

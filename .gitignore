@@ -90,4 +90,5 @@ sw.*
 *.swp
 public
 public-cms
-functions/stgApp
+functions/e-and-buy
+.runtimeconfig.json

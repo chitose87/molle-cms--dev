@@ -1,0 +1,10 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if request.auth.uid=="2GjOP5nJCsNMws8PR44A2FlZ4fv1"
+                         || request.auth.uid=="P0d1qA26zxgl2N4Es0zepx4Jzd42"
+                         || request.auth.uid=="tAGCrNjVxCgJow6uX8CSyRvKFsG3";
+    }
+  }
+}

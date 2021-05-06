@@ -6,6 +6,7 @@
 import {Vue} from "nuxt-property-decorator";
 /* <imports */
 import Box from "~/molle/module/primitive/Box.vue"
+import BackgroundBox from "~/molle/module/primitive/BackgroundBox.vue"
 import Headline from "~/molle/module/primitive/Headline.vue"
 import Paragraph from "~/molle/module/primitive/Paragraph.vue"
 import Picture from "~/molle/module/primitive/Picture.vue"
@@ -41,6 +42,7 @@ declare module 'vue/types/vue' {
 const pluginStatic = Vue.prototype.$molleModules = {
   /* <molleModules */
  Box : {ref:  Box },
+ BackgroundBox : {ref:  BackgroundBox },
  Headline : {ref:  Headline },
  Paragraph : {ref:  Paragraph },
  Picture : {ref:  Picture },
