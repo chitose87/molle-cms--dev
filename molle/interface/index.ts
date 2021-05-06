@@ -1,28 +1,28 @@
 export interface IPageData {
-  path: string;
-  itemId?: string;
-  title?: string;
-  description?: string;
+  path: string;//URL
+  itemId?: string;//メインになるitemid
+  title?: string;//meta title
+  description?: string;//meta description
 
-  displayTitle?: string;
-  ogpImg?: string;
+  displayTitle?: string;//title
+  ogpImg?: string;//SNS用画像パス
 
-  date?: string;
-  utc?: string;
-  noExport?: boolean;
+  date?: string;//サイト日付設定
+  utc?: string;//
+  noExport?: boolean;//index.htmlを出力するかどうか
 
   option?: any;
 }
 
 export interface IItemData {
-  id: string;
+  // id: string;
   type: string;
   // follower?: { [key: string]: IItemStoreData };
   // superValue?: any//TODO<IValueStoreData>;
 
   //firestore互換
-  name?: string;
-  moduleId: string;
+  name?: string;//運用ラベル用
+  moduleId: string;//
   option?: any;
   createTime: any;
   updateTime: any;
@@ -44,6 +44,7 @@ export interface INodeObject {
   id: string;
   // uid: string;
   fixedModuleId?: string;
+  order?: number;
 }
 
 export interface IPayload {
