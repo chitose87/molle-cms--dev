@@ -1,31 +1,25 @@
 <template lang="pug">
 div
   .l-molle(v-if="pageData.itemId")
-    .l-molle__left.bootstrap.shadow(:aria-expanded="expandedLeft")
-      button.btn.btn-outline-secondary.l-molle__toggle(
-        @click="() => (expandedLeft = !expandedLeft)"
-      )
-        b-icon(icon="layout-sidebar-inset")
-
-      .card.bg-light
-        .card-header.pt-1.pb-1.pl-3.pr-3.text-right
-          a(href="/--molle/")
-            b-icon(icon="house-door")
-            span Molle TOP
-      ItemListViewComp(:itemId="pageData.itemId")
+    .l-molle__left.bootstrap.shadow(:style="{width:panelOption.left.value+'px'}")
+      .l-molle__scroll
+        .card.bg-light
+          .card-header.pt-1.pb-1.pl-3.pr-3.text-right
+            a(href="/--molle/")
+              b-icon(icon="house-door")
+              span Molle TOP
+        ItemListViewComp(:itemId="pageData.itemId")
+      .l-molle__side-bar(@mousedown="(e)=>onSidebar(e,'left')")
 
     .l-molle__main
       component(:is="theme", :pageDataByEditer="pageData" ref="main")
 
-    .l-molle__right.bootstrap.shadow(:aria-expanded="expandedRight")
-      button.btn.btn-outline-secondary.l-molle__toggle(
-        @click="() => (expandedRight = !expandedRight)"
-      )
-        b-icon(icon="layout-sidebar-inset-reverse")
-
-      EditorOptionComp
-      PagePropertyComp(:pageData="pageData", :pageId="pageId")
-      ModulePropertyComp
+    .l-molle__right.bootstrap.shadow(:style="{width:panelOption.right.value+'px'}")
+      .l-molle__scroll
+        EditorOptionComp
+        PagePropertyComp(:pageData="pageData", :pageId="pageId")
+        ModulePropertyComp
+      .l-molle__side-bar(@mousedown="(e)=>onSidebar(e,'right')")
     GoogleStorageModalComp(v-if="ready")
   FocusExtension
   #bootstrap-container.bootstrap
@@ -62,13 +56,22 @@ import FocusExtension from "~/molle/ui/FocusExtension.vue";
 })
 export default class MolleEditerPage extends Vue {
   pageData: IPageData = <IPageData>{};
-  expandedLeft = true;
-  expandedRight = true;
   pageId?: string;
 
   theme: string = "";
   private unsubscribe!: () => void;
   ready: boolean = false;
+
+  panelOption = {
+    unsubscribe: () => {
+    },
+    left: {
+      value: 200,
+    },
+    right: {
+      value: 200,
+    }
+  }
 
   head() {
     return {
@@ -142,6 +145,35 @@ export default class MolleEditerPage extends Vue {
     });
   }
 
+  onSidebar(event: MouseEvent, lr: string) {
+    //@ts-ignore
+    let option = this.panelOption[lr];
+    this.panelOption.unsubscribe();
+
+    let flag = true;
+    let value = lr == "right" ? window.innerWidth - event.clientX : event.clientX;
+    let enter = () => {
+      this.$set(option, "value", value > 50 ? value : 0);
+      if (flag) requestAnimationFrame(() => enter());
+    };
+    let move = (e: MouseEvent) => {
+      e.preventDefault();
+      value = lr == "right" ? window.innerWidth - e.clientX : e.clientX;
+    }
+    let up = (e?: MouseEvent) => {
+      this.panelOption.unsubscribe();
+    }
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", up);
+    enter();
+
+    this.panelOption.unsubscribe = () => {
+      window.removeEventListener("mousemove", move)
+      window.removeEventListener("mouseup", up);
+      flag = false;
+    };
+  }
+
   beforeDestroy() {
     this.unsubscribe && this.unsubscribe();
   }
@@ -168,7 +200,7 @@ export default class MolleEditerPage extends Vue {
   &__right {
     background-color: $color-gray-100;
     height: 100vh;
-    overflow: auto;
+    //overflow: auto;
     position: sticky;
     top: 0;
     width: 0;
@@ -176,33 +208,44 @@ export default class MolleEditerPage extends Vue {
     flex-shrink: 0;
     flex-grow: 0;
 
-    &[aria-expanded="true"] {
-      min-width: 200px;
-      max-width: 200px;
-    }
-
     @include mediaquery-sm {
       display: none;
     }
   }
 
-  &__toggle {
-    position: fixed;
-    top: 0rem;
-    z-index: $zindex-modal;
+  &__scroll {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: $color-gray-100;
+  }
+
+  &__side-bar {
+    position: absolute;
+    width: 1rem;
+    height: 100%;
+    background-color: $color-black;
+    opacity: 0;
+    top: 0;
+    transition: $tick $easeOut 0s;
+
+    &:hover {
+      opacity: 0.4;
+    }
   }
 
   &__left {
-    .l-molle__toggle {
-      left: 0rem;
+    .l-molle__side-bar {
+      right: -1rem;
     }
   }
 
   &__right {
-    .l-molle__toggle {
-      right: 0rem;
+    .l-molle__side-bar {
+      left: -1rem;
     }
   }
+
 
   //.u_auto-input
   .u_auto-input {
