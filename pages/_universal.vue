@@ -2,12 +2,11 @@
 .l-body.universal
   GlobalHeaderComp
   article.l-content
-    .container
-      Headline(
-        :static__value="pageData.displayTitle||pageData.title"
-        :static__option="{lv:'h2'}"
-      )
-      ModuleLoader(v-if="pageData.itemId" :node="{id:pageData.itemId}")
+    Headline(
+      :static__value="pageData.displayTitle||pageData.title"
+      :static__option="{lv:'h2'}"
+    )
+    ModuleLoader(v-if="pageData.itemId" :node="{id:pageData.itemId}")
 
   GlobalFooterComp
 </template>

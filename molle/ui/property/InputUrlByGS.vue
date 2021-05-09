@@ -18,7 +18,7 @@ import {OptionComp} from "./OptionComp";
 })
 /**
  */
-export default class ChildrenOptionComp extends OptionComp {
+export default class InputUrlByGS extends OptionComp {
   validation(str: string) {
     if (/firebasestorage.googleapis.com/.test(str)) {
       str = str.match(".+/(.+?)([\?#;].*)?$")![1];

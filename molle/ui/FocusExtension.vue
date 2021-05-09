@@ -3,10 +3,10 @@
   v-show="lsStore.storage.focusModuleNode.id"
   :style="style"
   :data-is-row="sibling.isRow")
-  RealtimeTextInput(v-show="itemData.type=='text'")
-  .focus-extension__before(v-show="isInsert")
+  .focus-extension__before(v-show="isBefore")
     button.btn.btn-sm.btn-outline-info#addBefore
       b-icon(icon="plus")
+      span Before
 
     b-popover(
       :target="'addBefore'"
@@ -20,9 +20,10 @@
         :beforeNode="loader.node"
       )
 
-  .focus-extension__after(v-show="isInsert")
+  .focus-extension__after(v-show="isAfter")
     button.btn.btn-sm.btn-outline-info#addAfter
       b-icon(icon="plus")
+      span After
 
     b-popover(
       :target="'addAfter'"
@@ -44,40 +45,32 @@ import {lsStore} from "~/utils/store-accessor";
 import {IItemData, INodeObject} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
-import RealtimeTextInput from "~/molle/ui/RealtimeTextInput.vue";
 import {Module} from "~/molle/module/Module";
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 
 @Component({
-  components: {AddModuleComp, RealtimeTextInput},
+  components: {AddModuleComp},
 })
 export default class FocusExtension extends Vue {
   lsStore = lsStore;
   itemId: string = "";
-  itemData = <IItemData>{};
-  private unsubscribe!: () => void;
   private observer: any;
 
   loader = <ModuleLoader>{};
   style: any = {};
   sibling = {};
-  isInsert = true;
+  isBefore = true;
+  isAfter = true;
 
   mounted() {
-    window.addEventListener("resize", () => {
-      this.updateStyle();
-    })
     this.enterFrame();
 
     // on update focusModuleNode
     this.$store.watch((state, getters) => {
       return lsStore.storage.focusModuleNode
     }, (newer: any, older: any) => {
-      if (this.unsubscribe) this.unsubscribe();
-      this.$emit("beforeUpdate");
-
-      // console.log(newer.id, older.id)
+      console.log(newer.id)
 
       let loader = Singleton.modules[newer.id];
       if (loader) {
@@ -85,35 +78,10 @@ export default class FocusExtension extends Vue {
         this.$set(this, "loader", loader);
 
         //子要素を差し込めない要素確認
-        this.isInsert = !(!loader.fromModule.itemData || loader.fromModule.itemData.type == "group");
-
-        let once = true;
-        this.unsubscribe = Singleton.itemsRef
-          .doc(this.itemId)
-          .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-            if (!snap.exists) return;
-            this.$set(this, "itemData", snap.data());
-
-            setTimeout(() => {
-              this.updateStyle();
-              // if (this.observer) this.observer.disconnect();
-              // this.observer = new MutationObserver(() => {
-              //   //要素のサイズ確認
-              //   const width = loader.$el.getBoundingClientRect().width
-              //   const height = loader.$el.getBoundingClientRect().height
-              //   console.log(newer.id, width, height)
-              // })
-              // this.observer.observe(loader.$el, <MutationObserverInit>{
-              //   // attriblutes: true,
-              //   // characterData: true,
-              //   childList: true,
-              //   subtree: true,
-              // });
-
-              if (once) this.$emit("initialized"), once = false;
-              else this.$emit("update");
-            }, 1000 / 60)
-          });
+        this.isBefore = this.isAfter = !(!loader.fromModule.itemData || loader.fromModule.itemData.type == "group");
+        if (loader.fromModule.itemData.value[loader.fromModule.itemData.value.length - 1].id == this.itemId) {
+          this.isAfter = false;
+        }
       }
     })
   }
@@ -121,26 +89,7 @@ export default class FocusExtension extends Vue {
   private enterFrame() {
     try {
       let el = <HTMLElement>this.loader.toModule.$el;
-      // console.log(this.loader);
-      let rect = el.getBoundingClientRect();
-      if (rect.width + "px" != this.style.width || rect.height + "px" != this.style.height) {
-        this.$set(this, "style", {
-          "top": pageYOffset + rect.top + "px",
-          "left": pageXOffset + rect.left + "px",
-          "width": rect.width + "px",
-          "height": rect.height + "px"
-        });
-      }
-    } catch (e) {
-    }
-
-    setTimeout(() => this.enterFrame(), Math.floor(1000 / 10));
-  }
-
-  updateStyle() {
-    // console.log(this.loader.toModule.$el)
-    try {
-      let el = <HTMLElement>this.loader.toModule.$el;
+      // console.log(el);
       let rect = el.getBoundingClientRect();
       this.$set(this, "style", {
         "top": pageYOffset + rect.top + "px",
@@ -149,11 +98,15 @@ export default class FocusExtension extends Vue {
         "height": rect.height + "px"
       });
     } catch (e) {
+      this.$set(this, "style", {
+        "display": "none"
+      });
     }
+
+    setTimeout(() => this.enterFrame(), Math.floor(1000 / 10));
   }
 
   beforeDestroy() {
-    this.unsubscribe && this.unsubscribe();
   }
 }
 </script>
@@ -180,17 +133,18 @@ export default class FocusExtension extends Vue {
   &:not([data-is-row]) {
     .focus-extension {
       &__before, &__after {
-        left: 50%;
       }
 
       &__before {
-        top: -0.5rem;
-        transform: translate(-50%, -100%);
+        top: 0rem;
+        left: 0rem;
+        transform: translate(0, -100%);
       }
 
       &__after {
-        bottom: -0.5rem;
-        transform: translate(-50%, 100%);
+        bottom: 0rem;
+        right: 0rem;
+        transform: translate(0, 100%);
       }
     }
   }
