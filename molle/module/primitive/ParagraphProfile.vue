@@ -1,16 +1,16 @@
 <template lang="pug">
   div
+    TextAreaQuill(
+      :label="'Text:'"
+      v-model="itemData.value"
+      @change="()=>$emit('change')"
+    )
+
     StyleComp(
       :itemData="itemData"
       :permission="stylePermission"
       @change="()=>$emit('change')"
     )
-    label.form-inline
-      span.mr-1 Text:
-      textarea.form-control.form-control-sm(
-        v-model="itemData.value"
-        @change="()=>$emit('change')"
-      )
 
 </template>
 
@@ -19,9 +19,10 @@
   import StyleComp from "~/molle/ui/property/StyleComp.vue";
   import {Profile} from "~/molle/module/Profile";
   import {StyleAlign} from "~/molle/Singleton";
+  import TextAreaQuill from "~/molle/ui/property/TextAreaQuill.vue";
 
   @Component({
-    components: {StyleComp}
+    components: {TextAreaQuill, StyleComp}
   })
   export default class ParagraphProfile extends Profile {
     //style setting

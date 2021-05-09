@@ -228,6 +228,7 @@ export default class MolleEditerPage extends Vue {
     opacity: 0;
     top: 0;
     transition: $tick $easeOut 0s;
+    cursor: col-resize;
 
     &:hover {
       opacity: 0.4;

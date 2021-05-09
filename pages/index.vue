@@ -2,7 +2,7 @@
 .l-body.top
   GlobalHeaderComp
   main
-    ModuleLoader(:node="{id:'top-content'}")
+    ModuleLoader(:node="{id:'_section%2Ftop'}")
 
     section
       .container

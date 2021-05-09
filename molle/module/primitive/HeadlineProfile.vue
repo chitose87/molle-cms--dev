@@ -1,17 +1,17 @@
 <template lang="pug">
   div
-    label.form-inline
-      span.mr-1 Text:
-      textarea.form-control.form-control-sm(
-        v-model="itemData.value"
-        @change="()=>$emit('change')"
-      )
-    label.form-inline
-      span.mr-1 subText:
-      textarea.form-control.form-control-sm(
-        v-model="itemData.option.text"
-        @change="()=>$emit('change')"
-      )
+    TextAreaQuill(
+      :label="'Text:'"
+      v-model="itemData.value"
+      @change="()=>$emit('change')"
+    )
+
+    TextAreaQuill(
+      :label="'subText:'"
+      v-model="itemData.option.text"
+      @change="()=>$emit('change')"
+    )
+
     label.form-inline
       span.mr-1 見出しレベル:
       select.form-control.form-control-sm(
@@ -33,9 +33,10 @@
   import {Profile} from "~/molle/module/Profile";
   import StyleComp from "~/molle/ui/property/StyleComp.vue";
   import {StyleAlign} from "~/molle/Singleton";
+  import TextAreaQuill from "~/molle/ui/property/TextAreaQuill.vue";
 
   @Component({
-    components: {StyleComp}
+    components: {TextAreaQuill, StyleComp}
   })
   export default class HeadlineProfile extends Profile {
     //style setting
