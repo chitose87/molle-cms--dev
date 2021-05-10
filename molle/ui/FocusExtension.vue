@@ -79,7 +79,8 @@ export default class FocusExtension extends Vue {
 
         //子要素を差し込めない要素確認
         this.isBefore = this.isAfter = !(!loader.fromModule.itemData || loader.fromModule.itemData.type == "group");
-        if (loader.fromModule.itemData.value[loader.fromModule.itemData.value.length - 1].id == this.itemId) {
+        if (this.isAfter &&
+          loader.fromModule.itemData.value[loader.fromModule.itemData.value.length - 1].id == this.itemId) {
           this.isAfter = false;
         }
       }
