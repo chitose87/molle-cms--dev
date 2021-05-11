@@ -29,10 +29,9 @@ div
 import {Component} from "~/node_modules/nuxt-property-decorator";
 import {Profile} from "~/molle/module/Profile";
 import StyleComp from "~/molle/ui/property/StyleComp.vue";
-import ChildrenOptionComp from "~/molle/ui/property/ChildrenOptionComp.vue";
 
 @Component({
-  components: {ChildrenOptionComp, StyleComp}
+  components: {StyleComp}
 })
 export default class GoogleFormProfile extends Profile {
   //style setting
