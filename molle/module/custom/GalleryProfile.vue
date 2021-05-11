@@ -19,11 +19,6 @@
       @change="()=>$emit('change')"
       :permission="stylePermission"
     )
-    ChildrenOptionComp(
-      :moduleId="itemData.moduleId"
-      v-model="itemData.value"
-      @change="()=>$emit('change')"
-    )
 
 </template>
 
@@ -31,10 +26,9 @@
   import {Component} from "~/node_modules/nuxt-property-decorator";
   import {Profile} from "~/molle/module/Profile";
   import StyleComp from "~/molle/ui/property/StyleComp.vue";
-  import ChildrenOptionComp from "~/molle/ui/property/ChildrenOptionComp.vue";
 
   @Component({
-    components: {ChildrenOptionComp, StyleComp}
+    components: {StyleComp}
   })
   export default class GalleryProfile extends Profile {
     //style setting

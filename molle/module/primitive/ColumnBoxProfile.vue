@@ -29,22 +29,15 @@
     p.caption *-1=auto
     p.caption *0=未設定
 
-    ChildrenOptionComp(
-      :moduleId="itemData.moduleId"
-      v-model="itemData.value"
-      @change="()=>$emit('change')"
-    )
-
 </template>
 
 <script lang="ts">
   import {Component} from "~/node_modules/nuxt-property-decorator";
   import StyleComp from "~/molle/ui/property/StyleComp.vue";
   import {Profile} from "~/molle/module/Profile";
-  import ChildrenOptionComp from "~/molle/ui/property/ChildrenOptionComp.vue";
 
   @Component({
-    components: {ChildrenOptionComp, StyleComp}
+    components: {StyleComp}
   })
   export default class ColumnBoxProfile extends Profile {
     //style setting
