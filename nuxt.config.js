@@ -111,11 +111,12 @@ export default {
       config.module.rules.forEach((rule) => {
         rule.oneOf && rule.oneOf.forEach((item) => {
           item.use.forEach((loader) => {
-            if (loader.loader === "sass-loader") {
+            console.log(loader.loader)
+
+            if (/sass-loader/.test(loader.loader)) {
               Object.assign(loader.options, {
                 additionalData: envStr
               });
-              // console.log(loader.options);
             }
           })
         })
