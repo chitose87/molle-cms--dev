@@ -23,7 +23,7 @@ export default class PageLoader extends Vue {
   async fetch() {
     if (this.pageDataByEditer.itemId) {
       this.itemId = this.pageDataByEditer.itemId;
-    } else if (this.$nuxt.context.isDev || process.env.isMolleCms) {
+    } else if (process.env.isMolleCms) {
       Singleton.getCurrentPageData(this.$route)
         .then((pageData: any) => {
           console.log(pageData.itemId)

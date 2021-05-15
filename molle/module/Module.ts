@@ -39,7 +39,9 @@ export class Module extends Vue {
 
   getClass(data: any) {
     // console.log("getClass",data.moduleId)
-    let obj: any = {};
+    let obj: any = {
+      noExport: data.noExport
+    };
 
     for (let key in data.class) {
       let value = data.class[key];

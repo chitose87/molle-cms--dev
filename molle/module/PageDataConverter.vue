@@ -46,7 +46,7 @@ export default class PageDataConverter extends Vue {
     //
     if (this.pageDataByEditer.itemId) {
       func(this.pageDataByEditer)
-    } else if (this.$nuxt.context.isDev || process.env.isMolleCms) {
+    } else if (process.env.isMolleCms) {
       Singleton.getCurrentPageData(this.$route)
         .then(func);
     } else {

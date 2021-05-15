@@ -1,7 +1,7 @@
 <template lang="pug">
 //SPA,DEV
 component(
-  v-if="$nuxt.context.isDev || isMolleCms"
+  v-if="isMolleCms && ($route.query.edit || !itemData.noExport)"
   :is="itemData.moduleId",
   :itemData="itemData",
   :data-item-id="node.id",
@@ -10,7 +10,7 @@ component(
 )
 //gen module
 component(
-  v-else-if="!$nuxt.context.isDev",
+  v-else-if="!itemData.noExport",
   :is="itemData.moduleId",
   :itemData="itemData"
 )
@@ -50,7 +50,7 @@ export default class ModuleLoader extends Vue {
 
   async fetch() {
     // console.log("node", this.node, this.isMolleCms)
-    if (this.$nuxt.context.isDev || this.isMolleCms) {
+    if (this.isMolleCms) {
       //SPA,DEV
       if (this.node.id) {
         if (this.unsubscribe) this.unsubscribe();
@@ -58,7 +58,7 @@ export default class ModuleLoader extends Vue {
           this.unsubscribe = Singleton.itemsRef
             .doc(this.node.id)
             .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-              console.log(this.node.id,snap.exists);
+              console.log(this.node.id, snap.exists);
               if (snap.exists) this.$set(this, "itemData", snap.data());
             });
         });
@@ -76,7 +76,7 @@ export default class ModuleLoader extends Vue {
     if (this.$route.query.hidden === "true") {
       return "";
     } else if (lsStore.storage.focusModuleNode.id == this.node.id) {
-      return {outline: "2px solid red"};
+      return {outline: "2px solid red", opacity: 1};
     } else if (lsStore.storage.hoverModuleNode.id == this.node.id) {
       return {outline: "2px solid orange"};
     }

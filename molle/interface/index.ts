@@ -9,7 +9,7 @@ export interface IPageData {
 
   date?: string;//サイト日付設定
   utc?: string;//
-  noExport?: boolean;//index.htmlを出力するかどうか
+  noExport?: boolean;//出力するかどうか
 
   option?: any;
 }
@@ -19,6 +19,7 @@ export interface IItemData {
   type: string;
   // follower?: { [key: string]: IItemStoreData };
   // superValue?: any//TODO<IValueStoreData>;
+  noExport?: boolean;//出力するかどうか
 
   //firestore互換
   name?: string;//運用ラベル用
