@@ -18,6 +18,11 @@ export class Singleton {
       this._itemsRef = this.systemDocRef.collection(`items`);
   }
 
+  static get logsRef(): firebase.firestore.CollectionReference {
+    return this._logsRef ? this._logsRef :
+      this._logsRef = this.systemDocRef.collection(`logs`);
+  }
+
   static get pagesRef(): firebase.firestore.CollectionReference {
     return this._pagesRef ? this._pagesRef :
       this._pagesRef = this.systemDocRef.collection(`pages`);
@@ -40,6 +45,7 @@ export class Singleton {
   private static _systemDocRef: firebase.firestore.DocumentReference;
   private static _pagesRef: firebase.firestore.CollectionReference;
   private static _itemsRef: firebase.firestore.CollectionReference;
+  private static _logsRef: firebase.firestore.CollectionReference;
 
   static firebaseInit(callBack: (user?: any) => void) {
     if (!this.user) {

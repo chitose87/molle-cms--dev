@@ -67,6 +67,10 @@
             v-model="itemData.tagClass"
             @change="update"
             placeholder="class")
+      hr
+
+      label.mr-2(v-if="itemData.dev") ログ
+        LogPropertyComp(:log="itemData.dev.log")
 
 </template>
 
@@ -76,9 +80,10 @@ import {lsStore} from "~/utils/store-accessor";
 import {IItemData, INodeObject} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "~/node_modules/firebase";
+import LogPropertyComp from "~/molle/ui/LogPropertyComp.vue";
 
 @Component({
-  components: {}
+  components: {LogPropertyComp}
 })
 export default class ModulePropertyComp extends Vue {
   itemId: string = "";
@@ -139,7 +144,6 @@ export default class ModulePropertyComp extends Vue {
     let after: any = JSON.parse(JSON.stringify(this.itemData));
     let obj: any = Object.assign({}, before, after);
     Object.keys(obj).forEach((key) => {
-      // console.log(key,before[key],after[key])
       if (typeof before[key] != typeof after[key]) {
         update[key] = after[key];
         flag = true;
@@ -155,8 +159,39 @@ export default class ModulePropertyComp extends Vue {
     });
     console.log(flag, "update", this.itemId, update)
     if (flag) {
-      update.updateTime = firebase.firestore.FieldValue.serverTimestamp();
-      Singleton.itemsRef.doc(this.itemId).update(update);
+
+      // firestoreのlogs登録 by青木
+      let batch = firebase.firestore().batch();
+      let updateTime = firebase.firestore.FieldValue.serverTimestamp();
+      let logsId = Singleton.logsRef.doc().id;
+      batch.set(Singleton.logsRef.doc(logsId),{
+        uid:firebase.auth().currentUser!.uid,
+        timestamp:updateTime,
+        update:update,
+        itemId:this.itemId
+      });
+
+      // itemsにlogIdを追加 by青木
+      let logs1st = {log : [logsId]};
+      let logs : any;
+      let historyNumber = 5;  //ログの最大履歴数
+      if (!this.itemData.dev) {
+        update.dev = logs1st;
+      } else {
+        logs = this.itemData.dev;
+        if (logs.log.length > (historyNumber - 1)){
+            let logsDelId = logs.log.slice(-1)[0];
+            logs.log.pop();
+            // Singleton.logsRef.doc(logsDelId).delete();
+            batch.delete(Singleton.logsRef.doc(logsDelId));
+        }
+        logs.log.unshift(logsId);
+        update.dev = logs;
+      }
+      console.log("logsId",logsId,"update.log",update.dev)
+
+      batch.update(Singleton.itemsRef.doc(this.itemId),update);
+      batch.commit();
     }
   }
 
