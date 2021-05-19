@@ -40,6 +40,7 @@ export default class LogDataComp extends Vue {
           this.LogData.timestamp = this.LogData.timestamp.toDate().toLocaleString({ timeZone: 'Asia/Tokyo' });
       }
       console.log("２通過",this.LogData)
+      console.log("２通過",this.LogData)
 
       let MapData2 = {
         "itemId":this.LogData.itemId,
