@@ -1,8 +1,14 @@
 <template lang="pug">
 .log-data-comp
   p.log-list-data
-    | {{ this.logId }}<br>
-    | {{ this.MapData }}
+    | 更新日時　{{ this.logData.timestamp }}
+    br
+    | 更新者　{{ this.logData.uid }}
+    br
+    | ログID　{{ this.logId }}
+    br
+    | 更新内容　
+    span.log-list-data2(v-html="this.logDataUpdate")
 
 </template>
 
@@ -19,38 +25,35 @@ import firebase from "~/node_modules/firebase";
 export default class LogDataComp extends Vue {
   itemId: string = "";
   itemData = <IItemData>{};
-  LogData = <ILogsData>{};
-  itemDataBefore = <IItemData>{};
+  logData = <ILogsData>{};
   @Prop() logId!:string;
   lsStore = lsStore;
   private unsubscribe?: () => void;
   flag = false;
-  MapData = {};
+  logDataUpdate: string = "";
 
   @Watch('logId', {immediate: true})
   onChangeLogsData() {
-    console.log("１通過")
+    console.log("１通過",this.logId)
     this.unsubscribe = Singleton.logsRef.doc(this.logId).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
       if (!snap.exists) return;
 
-      this.LogData = <ILogsData>snap.data();
-      let dateType = Object.prototype.toString.call(this.LogData.timestamp);
+      this.$set(this,"logData",snap.data());
+      console.log("timestampあ",this.logData.timestamp)
+      let dateType = Object.prototype.toString.call(this.logData.timestamp);
       if (dateType === "[object Object]") {
           console.log("if文通過")
-          this.LogData.timestamp = this.LogData.timestamp.toDate().toLocaleString({ timeZone: 'Asia/Tokyo' });
+          this.logData.timestamp = this.logData.timestamp.toDate().toLocaleString({ timeZone: 'Asia/Tokyo' });
       }
-      console.log("２通過",this.LogData)
-      console.log("２通過",this.LogData)
+      console.log("timestampい",this.logData.timestamp)
+      // this.logData.timestamp = this.logData.timestamp.toDate().toLocaleString({ timeZone: 'Asia/Tokyo' });
+      console.log("２通過",this.logId,this.logData)
 
-      let MapData2 = {
-        "itemId":this.LogData.itemId,
-        "timestamp":this.LogData.timestamp,
-        "update":this.LogData.update
-      }
-      console.log("MapData2",MapData2)
-      console.log("MapDataあ",this.MapData)
-      this.MapData = MapData2
-      console.log("MapDataい",this.MapData)
+      this.logDataUpdate = JSON.stringify(this.logData.update);
+      console.log(this.logDataUpdate)
+      this.logDataUpdate = this.logDataUpdate.replace( /{/g , "").replace( /}/g , "").replace( /"/g , "").replace( /,/g , "<br>");
+      console.log(this.logDataUpdate)
+      console.log("timestampう",this.logData.timestamp)
 
     });
 

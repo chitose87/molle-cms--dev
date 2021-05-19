@@ -163,8 +163,8 @@ export default class ModulePropertyComp extends Vue {
       // firestoreのlogs登録 by青木
       let batch = firebase.firestore().batch();
       let updateTime = firebase.firestore.FieldValue.serverTimestamp();
-      let logsId = Singleton.logsRef.doc().id;
-      batch.set(Singleton.logsRef.doc(logsId),{
+      let logId = Singleton.logsRef.doc().id;
+      batch.set(Singleton.logsRef.doc(logId),{
         uid:firebase.auth().currentUser!.uid,
         timestamp:updateTime,
         update:update,
@@ -172,23 +172,20 @@ export default class ModulePropertyComp extends Vue {
       });
 
       // itemsにlogIdを追加 by青木
-      let logs1st = {log : [logsId]};
-      let logs : any;
+      let logs1st = {log : [logId]};
       let historyNumber = 5;  //ログの最大履歴数
       if (!this.itemData.dev) {
         update.dev = logs1st;
       } else {
-        logs = this.itemData.dev;
-        if (logs.log.length > (historyNumber - 1)){
-            let logsDelId = logs.log.slice(-1)[0];
-            logs.log.pop();
-            // Singleton.logsRef.doc(logsDelId).delete();
+        this.itemData.dev.log.unshift(logId);
+        if (this.itemData.dev.log.length > historyNumber){
+            let logsDelId = this.itemData.dev.log.slice(-1)[0];
+            this.itemData.dev.log.length = historyNumber;
             batch.delete(Singleton.logsRef.doc(logsDelId));
         }
-        logs.log.unshift(logsId);
-        update.dev = logs;
+        update.dev = this.itemData.dev;
       }
-      console.log("logsId",logsId,"update.log",update.dev)
+      console.log("logId",logId,"update.log",update.dev)
 
       batch.update(Singleton.itemsRef.doc(this.itemId),update);
       batch.commit();
