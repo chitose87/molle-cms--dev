@@ -1,6 +1,8 @@
 <template lang="pug">
 .item-list-item-comp.list-group-item.list-group-item-action.p-0.border-right-0(
   v-if="itemData.moduleId"
+  :class="{_current:lsStore.storage.focusModuleNode.id === node.id}"
+  :data-item-id="node.id"
 )
   .d-flex.justify-content-between
     button.btn.btn-sm.btn-link.btn-block.text-left(
@@ -30,7 +32,7 @@
         span(v-if="itemData.name") :{{itemData.name}}
     //削除
       v-if="!$parent.notDeleted"
-    button.btn.btn-sm.btn-danger(
+    button.btn.btn-sm.btn-danger.item-list-item-comp__delete(
       v-if="!isRoot && lsStore.storage.focusModuleNode.id === node.id",
       @click="deleteModule()"
     ) x
@@ -190,5 +192,16 @@ export default class ItemListItemComp extends Vue {
 
 <style lang="scss">
 .item-list-item-comp {
+  &:hover, &:focus {
+    background-color: $color-gray-200 !important;
+  }
+
+  &._current {
+    background-color: $color-gray-300 !important;
+  }
+
+  &__delete {
+    min-width: auto;
+  }
 }
 </style>

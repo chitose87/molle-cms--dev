@@ -2,7 +2,7 @@
 div
   .l-molle(v-if="pageData.itemId")
     .l-molle__left.bootstrap.shadow(:style="{width:panelOption.left.value+'px'}")
-      .l-molle__scroll
+      .l-molle__scroll.pb-4(ref="left")
         .card.bg-light
           .card-header.pt-1.pb-1.pl-3.pr-3.text-right
             a(href="/--molle/")
@@ -26,8 +26,8 @@ div
 </template>
 
 <script lang="ts">
-import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
-import {IPageData} from "~/molle/interface";
+import {Component, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
+import {INodeObject, IPageData} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
 import ItemListViewComp from "~/molle/ui/ItemListViewComp.vue";
@@ -72,6 +72,7 @@ export default class MolleEditerPage extends Vue {
       value: 200,
     }
   }
+  lsStore = lsStore;
 
   head() {
     return {
@@ -143,6 +144,36 @@ export default class MolleEditerPage extends Vue {
         }
       }
     });
+  }
+
+  @Watch('lsStore.storage.focusModuleNode')
+  onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
+    let h = window.innerHeight;
+    if (newer && newer.id) {
+      try {
+        let leftPanel = <HTMLElement>this.$refs.left
+        let current = <HTMLElement>leftPanel.querySelector(`[data-item-id="${newer.id}"]`);
+        let v = current.getBoundingClientRect().top;
+        if (v < h * 0.1 || v > h * 0.9) {
+          v -= h * 0.2;
+          v += leftPanel.scrollTop;
+          leftPanel.scrollTo({top: v, behavior: "smooth"})
+        }
+      } catch (e) {
+      }
+
+      try {
+        let mainPanel = <Vue>this.$refs.main
+        let current = <HTMLElement>mainPanel.$el.querySelector(`[data-item-id="${newer.id}"]`);
+        let v = current.getBoundingClientRect().top;
+        if (v < h * 0.1 || v > h * 0.9) {
+          v -= h * 0.2;
+          v += pageYOffset;
+          window.scrollTo({top: v, behavior: "smooth"})
+        }
+      } catch (e) {
+      }
+    }
   }
 
   onSidebar(event: MouseEvent, lr: string) {
