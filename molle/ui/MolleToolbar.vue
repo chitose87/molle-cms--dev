@@ -1,14 +1,20 @@
 <template lang="pug">
 .molle-tool-bar
   div(v-if="!localValue")
+    // 未ログイン
     form.form-group(@submit.prevent, @submit="onLogin")
       label mail:
-        input.form-control.form-control-sm(type="email" name="email")
+        input.form-control.form-control-sm(type="email" name="email" v-model="user.email")
       label password:
         input.form-control.form-control-sm(type="password" name="password")
       button.btn.btn-info(type="submit")
         span Login
+      button.btn.btn-link.btn-sm(@click="sendPasswordResetEmail")
+        b-icon(icon="envelope")
+        span パスワード再設定
+
   div(v-else)
+    //ログイン済み
     .mb-2
       button.btn.btn-primary(type="button", @click="checkCI")
         span 公開設定
@@ -116,6 +122,10 @@ export default class MolleToolbar extends Vue {
     min: "",
     date: "",
     active: false
+  }
+
+  user = {
+    email: ""
   }
 
 
@@ -313,6 +323,19 @@ export default class MolleToolbar extends Vue {
       }
       batch.commit();
     })
+  }
+
+  /**
+   *
+   */
+  sendPasswordResetEmail() {
+    firebase.auth().sendPasswordResetEmail(this.user.email)
+      .then((result) => {
+        alert(`パスワード再設定メールをリクエストしました。メールをご確認ください`)
+      })
+      .catch((error) => {
+        alert(error + "/" + this.user.email)
+      });
   }
 }
 </script>

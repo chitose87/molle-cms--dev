@@ -6,8 +6,8 @@
         h1.text-info.mt-0
           span.text-nowrap MOdular
           span.text-nowrap Light
-          span.text-nowrap L****
-          span.text-nowrap E****
+          span.text-nowrap Layout
+          span.text-nowrap Easy
         p.text-info Contents Management System v{{version}}
 
         hr
