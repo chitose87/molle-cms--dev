@@ -6,7 +6,8 @@
   "functions": {
     "functions": {
       "source": "functions"
-    }
+    },
+    "source": "functions"
   },
   "hosting": [
     {
@@ -33,5 +34,8 @@
         }
       ]
     }
-  ]
+  ],
+  "storage": {
+    "rules": "storage.rules"
+  }
 }
