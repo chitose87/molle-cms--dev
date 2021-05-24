@@ -56,12 +56,12 @@
         )
         span :書き出さない
 
-      //label.small
+      p.small
         span Preview:
-        a(:href="`/--preview/${pageData.path}`" target="_blank")
-          span(v-html="pageData.path")
+        a(:href="`/${pageData.path}`" target="_blank")
+          span(v-html="'/'+pageData.path+'/'")
 
-      label.small
+      p.small
         span itemId:
         span(v-html="pageData.itemId")
 </template>
