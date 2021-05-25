@@ -201,32 +201,55 @@ export default class ItemListItemComp extends Vue {
       value: parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id),
     });
 
-    // firestoreのlogs登録 by青木
+    // firestoreのlogs登録（子） by青木
     let updateTime = firebase.firestore.FieldValue.serverTimestamp();
-    let logId = Singleton.logsRef.doc().id;
-    batch.set(Singleton.logsRef.doc(logId),{
+    let logIdChildren = Singleton.logsRef.doc().id;
+    batch.set(Singleton.logsRef.doc(logIdChildren),{
       uid:firebase.auth().currentUser!.uid,
       timestamp:updateTime,
       update: "アイテム削除",
       itemId:this.node.id
     });
-    console.log("logId", logId)
+    console.log("logIdChildren", logIdChildren)
     console.log("this.itemData",this.itemData)
-    let logs1st = {log : [logId]};
+    let logs1st = {log : [logIdChildren]};
     let historyNumber = 5;  //ログの最大履歴数
     if (!this.itemData.dev) {
         this.itemData.dev = logs1st;
     } else {
-        this.itemData.dev.log.unshift(logId);
+        this.itemData.dev.log.unshift(logIdChildren);
         if (this.itemData.dev.log.length > historyNumber){
-          let logsDelId = this.itemData.dev.log.slice(-1)[0];
+          let logsDelIdChildren = this.itemData.dev.log.slice(-1)[0];
           this.itemData.dev.log.length = historyNumber;
-          batch.delete(Singleton.logsRef.doc(logsDelId));
+          batch.delete(Singleton.logsRef.doc(logsDelIdChildren));
         }
     }
     batch.update(Singleton.itemsRef.doc(this.node.id),{
       dev: this.itemData.dev
     });
+
+    // firestoreのlogs登録（親） by青木
+    let logIdParent = Singleton.logsRef.doc().id;
+    batch.set(Singleton.logsRef.doc(logIdParent),{
+      uid:firebase.auth().currentUser!.uid,
+      timestamp:updateTime,
+      update: {
+        value: parent.itemData.value
+      },
+      itemId:parent.node.id
+    });
+    console.log("logIdParent", logIdParent)
+    console.log("this.itemData",parent.itemData)
+    parent.itemData.dev.log.unshift(logIdParent);
+    if (parent.itemData.dev.log.length > historyNumber){
+        let logsDelIdParent = parent.itemData.dev.log.slice(-1)[0];
+        parent.itemData.dev.log.length = historyNumber;
+        batch.delete(Singleton.logsRef.doc(logsDelIdParent));
+    }
+    batch.update(Singleton.itemsRef.doc(parent.node.id),{
+      dev: parent.itemData.dev
+    });
+
     batch.commit();
 
   }
