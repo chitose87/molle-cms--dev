@@ -69,7 +69,7 @@
             placeholder="class")
       hr
 
-      label.mr-2(v-if="itemData.dev") ログ
+      .mt-2(v-if="itemData.dev") ログ
         LogPropertyComp(:log="itemData.dev.log")
 
 </template>
