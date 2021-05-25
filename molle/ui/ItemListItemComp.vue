@@ -154,17 +154,81 @@ export default class ItemListItemComp extends Vue {
   }
 
   updateChild() {
-    console.log("updateChild", this.itemData.value);
-    Singleton.itemsRef.doc(this.node.id).update({
-      value: this.itemData.value,
+    console.log("updateChild", this.node.id);
+
+    // firestoreのlogs登録 by青木
+    let batch = firebase.firestore().batch();
+    let updateTime = firebase.firestore.FieldValue.serverTimestamp();
+    let logId = Singleton.logsRef.doc().id;
+    batch.set(Singleton.logsRef.doc(logId),{
+      uid:firebase.auth().currentUser!.uid,
+      timestamp:updateTime,
+      update: {
+          value: this.itemData.value
+      },
+      itemId:this.node.id
     });
+    console.log("logId", logId)
+    let logs1st = {log : [logId]};
+    let historyNumber = 5;  //ログの最大履歴数
+    if (!this.itemData.dev) {
+      this.itemData.dev = logs1st;
+    } else {
+      this.itemData.dev.log.unshift(logId);
+      if (this.itemData.dev.log.length > historyNumber){
+        let logsDelId = this.itemData.dev.log.slice(-1)[0];
+        this.itemData.dev.log.length = historyNumber;
+        batch.delete(Singleton.logsRef.doc(logsDelId));
+        }
+    }
+
+    batch.update(Singleton.itemsRef.doc(this.node.id),{
+      value: this.itemData.value,
+      dev: this.itemData.dev
+    });
+
+    batch.commit();
+
   }
 
   deleteModule() {
+    console.log("delete通過")
+    let batch = firebase.firestore().batch();
     let parent = <ItemListItemComp>this.$parent.$parent;
-    Singleton.itemsRef.doc(parent.node.id).update({
+    console.log("parent",parent)
+    console.log("parent.node.id",parent.node.id)
+    batch.update(Singleton.itemsRef.doc(parent.node.id),{
       value: parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id),
     });
+
+    // firestoreのlogs登録 by青木
+    let updateTime = firebase.firestore.FieldValue.serverTimestamp();
+    let logId = Singleton.logsRef.doc().id;
+    batch.set(Singleton.logsRef.doc(logId),{
+      uid:firebase.auth().currentUser!.uid,
+      timestamp:updateTime,
+      update: "アイテム削除",
+      itemId:this.node.id
+    });
+    console.log("logId", logId)
+    console.log("this.itemData",this.itemData)
+    let logs1st = {log : [logId]};
+    let historyNumber = 5;  //ログの最大履歴数
+    if (!this.itemData.dev) {
+        this.itemData.dev = logs1st;
+    } else {
+        this.itemData.dev.log.unshift(logId);
+        if (this.itemData.dev.log.length > historyNumber){
+          let logsDelId = this.itemData.dev.log.slice(-1)[0];
+          this.itemData.dev.log.length = historyNumber;
+          batch.delete(Singleton.logsRef.doc(logsDelId));
+        }
+    }
+    batch.update(Singleton.itemsRef.doc(this.node.id),{
+      dev: this.itemData.dev
+    });
+    batch.commit();
+
   }
 
   private groupChildSort(groupValue: any) {
