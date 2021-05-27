@@ -66,6 +66,22 @@ export default class AddModuleComp extends Vue {
     if (!this.pushModuleSelected) return;
     let data: IItemData = this.$molleModules[this.pushModuleSelected].def;
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};
+    let logIdChildren = Singleton.logsRef.doc().id;
+    let logIdParent = Singleton.logsRef.doc().id;
+    let updateTime = firebase.firestore.FieldValue.serverTimestamp();
+    let historyNumber = 5;  //ログの最大履歴数
+
+    // firestoreのlogs登録（子） by青木
+    if(!data.dev)data.dev={};
+    if(!data.dev.log)data.dev.log=[];
+    if(data.dev)data.dev.log.splice(0, data.dev.log.length);
+    data.dev.log.push(logIdChildren);   //itemsにログIDを登録
+    Singleton.logsRef.doc(logIdChildren).set({
+      uid:firebase.auth().currentUser!.uid,
+      timestamp:updateTime,
+      itemId:node.id
+    });
+
     Singleton.itemsRef
       .doc(node.id).set(data)
       .then(() => {
@@ -86,15 +102,37 @@ export default class AddModuleComp extends Vue {
         } else {
           this.itemData.value.push(node);
         }
+        console.log("親のdev.log 前",this.itemData.dev)
+        if(!this.itemData.dev)this.itemData.dev={};
+        if(!this.itemData.dev.log)this.itemData.dev.log=[];
+        this.itemData.dev.log.unshift(logIdParent);
+        if (this.itemData.dev.log.length > historyNumber){
+            console.log("親のdev.log 中",this.itemData.dev)
+            let logsDelId = this.itemData.dev.log.slice(-1)[0];
+            this.itemData.dev.log.length = historyNumber;
+            Singleton.logsRef.doc(logsDelId).delete;
+        }
+        console.log("親のdev.log 後",this.itemData.dev)
+        console.log("addの時のログID追加",this.itemData)
         // firebase
         Singleton.itemsRef.doc(this.parentNode.id)
           .update({
-            updateTime: firebase.firestore.FieldValue.serverTimestamp(),
-            value: this.itemData.value
+            value: this.itemData.value,
+            dev: this.itemData.dev
           })
           .then(() => {
             lsStore.update({key: "focusModuleNode", value: node});
           });
+
+        // firestoreのlogs登録（子） by青木
+        Singleton.logsRef.doc(logIdParent).set({
+            uid:firebase.auth().currentUser!.uid,
+            timestamp:updateTime,
+            update: {
+              value: this.itemData.value
+            },
+            itemId:this.parentNode.id
+        });
       })
   }
 

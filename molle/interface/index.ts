@@ -39,7 +39,7 @@ export interface IItemData {
     align?: string;
   };
 
-  dev: {
+  dev?: {
     log?: any;
   };
 }

@@ -1,15 +1,16 @@
 <template lang="pug">
 .log-data-comp
   .log-list-data(v-if="this.logData.timestamp" )
-    .log-list-data-title(v-html="'更新日時' + '　' + this.logData.timestamp" @click="isShow=!isShow")
-    p.log-list-data-detail(v-if="isShow")
-      | 更新者　
-      span.log-list-data-uid(v-html="this.logData.uid")
-      br
-      | 更新内容　
-      span.log-list-data-update(v-html="this.logDataUpdate")
-      br
-      | ログID　{{ this.logId }}
+    .log-list-data-title(v-html="'timestamp' + '　' + this.logData.timestamp" @click="isShow=!isShow")
+    .p-2(v-if="isShow")
+      p.mb-0
+        | uid　
+        span.log-list-data-uid(v-html="this.logData.uid")
+      p.mb-0(v-if="this.logDataUpdate")
+        | update　
+        span.log-list-data-update(v-html="this.logDataUpdate")
+      p.mb-0
+        | logId　{{ this.logId }}
 
 </template>
 
@@ -57,21 +58,21 @@ export default class LogDataComp extends Vue {
 
 }
 
-.log-list-data-title:hover {
-  opacity: .8;
-  cursor: pointer;
-}
-.log-list-data-title {
-  margin-bottom: 0.1rem;
-  padding: 0.5rem;
-  background-color: #EBE8E4;
-}
+/*.log-list-data-title:hover {*/
+/*  opacity: .8;*/
+/*  cursor: pointer;*/
+/*}*/
+/*.log-list-data-title {*/
+/*  margin-bottom: 0.1rem;*/
+/*  padding: 0.5rem;*/
+/*  background-color: #EBE8E4;*/
+/*}*/
 
-.log-list-data-detail {
-  background-color: #ffffff;
-  padding: 0.5rem;
-  margin-bottom: 0.1rem;
-}
+/*.log-list-data-detail {*/
+/*  background-color: #ffffff;*/
+/*  padding: 0.5rem;*/
+/*  margin-bottom: 0.1rem;*/
+/*}*/
 
 .hoge {
   z-index: $zindex-modal;
