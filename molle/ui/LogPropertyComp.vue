@@ -2,7 +2,7 @@
 .log-property-comp
   .log-body.log-1
     ul.log-list
-      li(v-for="id in this.log")
+      li(v-for="id in log")
         LogDataComp(:logId="id")
 
 </template>
