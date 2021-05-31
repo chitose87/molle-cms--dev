@@ -210,6 +210,8 @@ export default class ItemListItemComp extends Vue {
       },
       itemId:parent.node.id
     });
+    if(!parent.itemData.dev)parent.itemData.dev={};
+    if(!parent.itemData.dev.log)parent.itemData.dev.log=[];
     parent.itemData.dev.log.unshift(logIdParent);
     if (parent.itemData.dev.log.length > historyNumber){
         let logsDelIdParent = parent.itemData.dev.log.slice(-1)[0];
