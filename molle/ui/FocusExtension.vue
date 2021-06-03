@@ -20,6 +20,23 @@
         :beforeNode="loader.node"
       )
 
+    button.btn.btn-sm.btn-outline-info#copyBefore
+      b-icon(icon="plus")
+      span copy
+
+    b-popover(
+      :target="'copyBefore'"
+      triggers="focus"
+      :placement="sibling.isRow?'bottom':'right'"
+      container="bootstrap-container"
+    )
+      CopyModuleComp(
+        v-if="loader.fromModule && loader.fromModule.loader"
+        :parentNode="loader.fromModule.loader.node"
+        :beforeNode="loader.node"
+      )
+
+
   .focus-extension__after(v-show="isAfter")
     button.btn.btn-sm.btn-outline-info#addAfter
       b-icon(icon="plus")
@@ -37,6 +54,23 @@
         :afterNode="loader.node"
       )
 
+    button.btn.btn-sm.btn-outline-info#copyAfter
+      b-icon(icon="plus")
+      span copy
+
+    b-popover(
+      :target="'copyAfter'"
+      triggers="focus"
+      :placement="sibling.isRow?'bottom':'right'"
+      container="bootstrap-container"
+    )
+      CopyModuleComp(
+        v-if="loader.fromModule && loader.fromModule.loader"
+        :parentNode="loader.fromModule.loader.node"
+        :afterNode="loader.node"
+      )
+
+
 </template>
 
 <script lang="ts">
@@ -48,9 +82,10 @@ import firebase from "firebase";
 import {Module} from "~/molle/module/Module";
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
+import CopyModuleComp from "~/molle/ui/CopyModuleComp.vue";
 
 @Component({
-  components: {AddModuleComp},
+  components: {AddModuleComp,CopyModuleComp},
 })
 export default class FocusExtension extends Vue {
   lsStore = lsStore;
@@ -109,6 +144,9 @@ export default class FocusExtension extends Vue {
 
   beforeDestroy() {
   }
+
+  // ディープコピー
+
 }
 </script>
 

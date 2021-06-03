@@ -25,7 +25,7 @@ export interface IItemData {
   moduleId: string;//
   option?: any;
   createTime: any;
-  updateTime: any;
+  // updateTime: any;
 
   value?: any;
   // extends?: string;

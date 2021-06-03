@@ -229,7 +229,7 @@ function c(moduleId: string, type: string, opt?: any) {
     class: {},
     option: {},
     createTime: firebase.firestore.FieldValue.serverTimestamp(),
-    updateTime: firebase.firestore.FieldValue.serverTimestamp(),
+    // updateTime: firebase.firestore.FieldValue.serverTimestamp(),
   };
   switch (type) {
     case "children":

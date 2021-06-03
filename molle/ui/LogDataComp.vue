@@ -45,8 +45,9 @@ export default class LogDataComp extends Vue {
           this.logData.timestamp = this.logData.timestamp.toDate().toLocaleString({ timeZone: 'Asia/Tokyo' });
       }
       this.logDataUpdate = JSON.stringify(this.logData.update);
-      this.logDataUpdate = this.logDataUpdate.replace( /{/g , " ").replace( /}/g , " ").replace( /"/g , "").replace( /,/g , "<br>");
-
+      if (this.logDataUpdate) {
+        this.logDataUpdate = this.logDataUpdate.replace( /{/g , " ").replace( /}/g , " ").replace( /"/g , "").replace( /,/g , "<br>");
+      }
     });
   }
 }

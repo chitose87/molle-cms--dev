@@ -124,7 +124,7 @@ export default class AddModuleComp extends Vue {
             lsStore.update({key: "focusModuleNode", value: node});
           });
 
-        // firestoreのlogs登録（子） by青木
+        // firestoreのlogs登録（親） by青木
         Singleton.logsRef.doc(logIdParent).set({
             uid:firebase.auth().currentUser!.uid,
             timestamp:updateTime,
