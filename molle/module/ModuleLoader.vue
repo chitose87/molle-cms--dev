@@ -50,25 +50,35 @@ export default class ModuleLoader extends Vue {
 
   async fetch() {
     // console.log("node", this.node, this.isMolleCms)
+    console.log("ModuleLoaderが動き出した")
     if (this.$nuxt.context.isDev || this.isMolleCms) {
+      console.log("this.$nuxt.context.isDev",this.$nuxt.context.isDev)
+      console.log("this.isMolleCms",this.isMolleCms)
       //SPA,DEV
       if (this.node.id) {
+        console.log("this.node.id",this.node.id)
         if (this.unsubscribe) this.unsubscribe();
+        console.log("this.unsubscribe",this.unsubscribe)
         Singleton.firebaseInit(() => {
+          console.log("どこまで動いてるのか？１")
+          console.log("this.node.id",this.node.id)
           this.unsubscribe = Singleton.itemsRef
             .doc(this.node.id)
             .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+              console.log("どこまで動いてるのか？２")
               console.log(this.node.id,snap.exists);
               if (snap.exists) this.$set(this, "itemData", snap.data());
+              console.log("どこまで動いてるのか？３")
             });
         });
 
+        console.log("どこまで動いてるのか？４")
         Singleton.modules[this.node.id] = this;
+        console.log("どこまで動いてるのか？５")
       }
     } else {
       this.itemData = this.$nuxt.context.payload.items[this.node.id];
       delete this.itemData.createTime;
-      delete this.itemData.updateTime;
     }
   }
 

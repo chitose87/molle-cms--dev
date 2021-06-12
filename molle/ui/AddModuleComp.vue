@@ -40,9 +40,12 @@ export default class AddModuleComp extends Vue {
   private unsubscribe!: () => void;
 
   mounted() {
+    console.log("AddModuleCompのmountedスタート",this.parentNode.id)
     Singleton.itemsRef.doc(this.parentNode.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+        console.log("itemsの取得")
         this.$set(this, "itemData", snap.data());
+        console.log("itemsの設定",this.parentNode.id,this.itemData)
 
         // @ts-ignore
         let moduleOpt = this.$molleModules[this.itemData.moduleId];
@@ -122,6 +125,7 @@ export default class AddModuleComp extends Vue {
           })
           .then(() => {
             lsStore.update({key: "focusModuleNode", value: node});
+            console.log("AddModuleCompのnode",node)
           });
 
         // firestoreのlogs登録（親） by青木

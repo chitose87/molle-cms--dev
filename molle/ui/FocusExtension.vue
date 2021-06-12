@@ -30,7 +30,7 @@
       :placement="sibling.isRow?'bottom':'right'"
       container="bootstrap-container"
     )
-      CopyModuleComp(
+      CopyModuleComp2(
         v-if="loader.fromModule && loader.fromModule.loader"
         :parentNode="loader.fromModule.loader.node"
         :beforeNode="loader.node"
@@ -64,7 +64,7 @@
       :placement="sibling.isRow?'bottom':'right'"
       container="bootstrap-container"
     )
-      CopyModuleComp(
+      CopyModuleComp2(
         v-if="loader.fromModule && loader.fromModule.loader"
         :parentNode="loader.fromModule.loader.node"
         :afterNode="loader.node"
@@ -83,9 +83,10 @@ import {Module} from "~/molle/module/Module";
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 import CopyModuleComp from "~/molle/ui/CopyModuleComp.vue";
+import CopyModuleComp2 from "~/molle/ui/CopyModuleComp2.vue";
 
 @Component({
-  components: {AddModuleComp,CopyModuleComp},
+  components: {AddModuleComp,CopyModuleComp,CopyModuleComp2},
 })
 export default class FocusExtension extends Vue {
   lsStore = lsStore;
@@ -108,14 +109,20 @@ export default class FocusExtension extends Vue {
       console.log(newer.id)
 
       let loader = Singleton.modules[newer.id];
+      console.log("FocusExtension １","loaderは",loader)
       if (loader) {
+        console.log("FocusExtension ２","this.itemIdは",this.itemId)
         this.itemId = lsStore.storage.focusModuleNode.id;
+        console.log("FocusExtension ３")
         this.$set(this, "loader", loader);
+        console.log("FocusExtension ４")
 
         //子要素を差し込めない要素確認
         this.isBefore = this.isAfter = !(!loader.fromModule.itemData || loader.fromModule.itemData.type == "group");
+        console.log("FocusExtension ５")
         if (this.isAfter &&
           loader.fromModule.itemData.value[loader.fromModule.itemData.value.length - 1].id == this.itemId) {
+          console.log("FocusExtension ６")
           this.isAfter = false;
         }
       }

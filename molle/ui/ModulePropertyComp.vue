@@ -97,24 +97,30 @@ export default class ModulePropertyComp extends Vue {
 
   @Watch('lsStore.storage.focusModuleNode', {immediate: true})
   onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
+      console.log("ModulePropertyCompのonChangeFocusModuleNode通過")
       if (newer && newer.id) {
         console.log("onChangeFocusModuleNode")
         this.flag = false;
         if (this.unsubscribe) {
           this.unsubscribe();
         }
-
+        console.log("どこでエラー？　１")
         this.unsubscribe = Singleton.itemsRef.doc(newer.id).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+          console.log("どこでエラー？　２")
           if (!snap.exists) return;
 
           this.itemDataBefore = <IItemData>snap.data();
+          console.log("どこでエラー？　３")
           let itemData = Object.assign({}, this.$molleModules[this.itemDataBefore.moduleId].def, snap.data());
+          console.log("どこでエラー？　４")
 
           // if (!itemData.option) itemData.option = {};
           // if (!itemData.class) itemData.class = {};
           // if (!itemData.style) itemData.style = {};
           this.$set(this, "itemData", itemData);
+          console.log("どこでエラー？　５",this.itemData)
           this.$set(this, "itemId", snap.id);
+          console.log("どこでエラー？　６",this.itemId)
           this.flag = true;
         });
       }
@@ -124,6 +130,7 @@ export default class ModulePropertyComp extends Vue {
    *
    */
   update() {
+    console.log("ModulePropertyCompのupdateスタート")
     // console.log("update", this.itemData)
 
     function some(b: any, a: any): boolean {
@@ -193,6 +200,7 @@ export default class ModulePropertyComp extends Vue {
   }
 
   moduleChange() {
+    console.log("ModulePropertyCompのmoduleChangeスタート")
     if (this.changeModuleSelected) {
       let update: any = {moduleId: this.changeModuleSelected};
 

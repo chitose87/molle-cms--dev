@@ -20,14 +20,11 @@ export default class CopyModuleComp extends Vue {
   @Prop() parentNode!: INodeObject;
   @Prop() beforeNode?: INodeObject;
   @Prop() afterNode?: INodeObject;
-  pushModuleSelected: string = "";
   lsStore = lsStore
-  // localLoader!: ModuleLoader;
 
   itemData = <IItemData>{};
   itemDataParent = <IItemData>{};
 
-    moduleList: string[] = [];
   private unsubscribe!: () => void;
 
   mounted() {
@@ -61,6 +58,7 @@ export default class CopyModuleComp extends Vue {
 
 
   copyModule() {
+    console.log("CopyModuleCompのcopyModule通過")
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};
     let logId = Singleton.logsRef.doc().id;
     let logIdParent = Singleton.logsRef.doc().id;
