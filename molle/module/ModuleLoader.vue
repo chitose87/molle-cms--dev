@@ -68,7 +68,6 @@ export default class ModuleLoader extends Vue {
     } else {
       this.itemData = this.$nuxt.context.payload.items[this.node.id];
       delete this.itemData.createTime;
-      delete this.itemData.updateTime;
     }
   }
 

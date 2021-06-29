@@ -2,8 +2,8 @@
 .log-property-comp
   .log-body.log-1
     ul.log-list
-      li(v-for="id in log")
-        LogDataComp(:logId="id")
+      li(v-for="logData in history")
+        LogDataComp(:logData="logData")
 
 </template>
 
@@ -23,13 +23,13 @@ export default class LogPropertyComp extends Vue {
   itemData = <IItemData>{};
   itemDataBefore = <IItemData>{};
   // @Prop() log!:ILogsData[];
-  @Prop() log!:string[];
+  @Prop() history!:ILogsData[];
   lsStore = lsStore;
   private unsubscribe?: () => void;
   flag = false;
 
   mounted() {
-    console.log("★★LogPropertyComp通過★★",this.log)
+    console.log("★★LogPropertyComp通過★★",this.history)
   }
 
 }

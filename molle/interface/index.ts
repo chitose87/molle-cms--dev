@@ -39,9 +39,9 @@ export interface IItemData {
     align?: string;
   };
 
-  dev?: {
-    log?: any;
-  };
+  dev?: any;
+  //   log?: any;
+  // };
 }
 
 export interface INodeObject {
@@ -59,8 +59,7 @@ export interface IPayload {
 }
 
 export interface ILogsData {
-  itemId: string;
-  timestamp?: any;
-  uid?: string;
-  update: IItemData;
+  timestamp: any;
+  uid: string;
+  update: any;
 }

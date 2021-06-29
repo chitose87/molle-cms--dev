@@ -1,102 +1,107 @@
 <template lang="pug">
-.module-property-comp(v-if="lsStore.storage.focusModuleNode.id")
-  .card.bg-light(v-if="flag")
-    .card-header.pt-1.pb-1.pl-3.pr-3
-      span {{itemData.moduleId}} プロパティ
-      button.btn.btn-sm.btn-outline-secondary(
-        v-if="$molleModules[itemData.moduleId].convert"
-        :id="'moduleChange'"
-      )
-        b-icon(icon="arrow-repeat")
-      b-popover(
-        :target="'moduleChange'"
-        title="change type" triggers="focus"
-        placement="bottom"
-        container="bootstrap-container"
-        @show="()=>changeModuleSelected=$molleModules[itemData.moduleId].convert[0]"
-      )
-        form.form-group.form-check-inline(@submit.prevent @submit="moduleChange()")
-          select.form-control.form-control-sm(v-model="changeModuleSelected")
-            option(v-for="key in $molleModules[itemData.moduleId].convert" :value="key" v-html="key")
-          button.btn.btn-sm.btn-info(type="submit") +
-    .card-body.p-3
-      span.small.text-nowrap ID : {{lsStore.storage.focusModuleNode.id}}
+  .module-property-comp(v-if="lsStore.storage.focusModuleNode.id")
+    .card.bg-light(v-if="flag")
+      .card-header.pt-1.pb-1.pl-3.pr-3
+        span {{itemData.moduleId}} プロパティ
+        button.btn.btn-sm.btn-outline-secondary(
+          v-if="$molleModules[itemData.moduleId].convert"
+          :id="'moduleChange'"
+        )
+          b-icon(icon="arrow-repeat")
+        b-popover(
+          :target="'moduleChange'"
+          title="change type" triggers="focus"
+          placement="bottom"
+          container="bootstrap-container"
+          @show="()=>changeModuleSelected=$molleModules[itemData.moduleId].convert[0]"
+        )
+          form.form-group.form-check-inline(@submit.prevent @submit="moduleChange()")
+            select.form-control.form-control-sm(v-model="changeModuleSelected")
+              option(v-for="key in $molleModules[itemData.moduleId].convert" :value="key" v-html="key")
+            button.btn.btn-sm.btn-info(type="submit") +
+      .card-body.p-3
+        span.small.text-nowrap ID : {{lsStore.storage.focusModuleNode.id}}
 
-      //button.btn.module-editor__notExport(
-      //  v-if="!$parent.required"
-      //  @click="update('notExport',!itemData.notExport)"
-      //)
-      //  b-icon(icon="eye-slash-fill" v-if="itemData.notExport")
-      //  b-icon(icon="eye-fill" v-else)
-      //profile
-      component(
-        v-if="$molleModules[itemData.moduleId].profile"
-        :is="$molleModules[itemData.moduleId].profileName"
-        :itemData="itemData"
-        :itemId="itemId"
-        @change="update"
-      )
-      hr
+        //button.btn.module-editor__notExport(
+        //  v-if="!$parent.required"
+        //  @click="update('notExport',!itemData.notExport)"
+        //)
+        //  b-icon(icon="eye-slash-fill" v-if="itemData.notExport")
+        //  b-icon(icon="eye-fill" v-else)
+        //profile
+        component(
+          v-if="$molleModules[itemData.moduleId].profile"
+          :is="$molleModules[itemData.moduleId].profileName"
+          :itemData="itemData"
+          :itemId="itemId"
+          @change="update"
+        )
+        hr
 
-      //名前
-      label.mr-2
-        .u_auto-input
-          span.u_auto-input__static.form-control.form-control-sm(v-html="itemData.name || 'name'")
-          input.u_auto-input__input.form-control.form-control-sm(
-            type="text"
-            v-model="itemData.name"
-            @change="update"
-            placeholder="Name")
+        //名前
+        label.mr-2
+          .u_auto-input
+            span.u_auto-input__static.form-control.form-control-sm(v-html="itemData.name || 'name'")
+            input.u_auto-input__input.form-control.form-control-sm(
+              type="text"
+              v-model="itemData.name"
+              @change="update"
+              placeholder="Name")
 
-      //ID
-      label.mr-2 id
-        .u_auto-input
-          span.u_auto-input__static.form-control.form-control-sm(v-html="itemData.tagId || 'id'")
-          input.u_auto-input__input.form-control.form-control-sm(
-            type="text"
-            v-model="itemData.tagId"
-            @change="update"
-            placeholder="id")
+        //ID
+        label.mr-2 id
+          .u_auto-input
+            span.u_auto-input__static.form-control.form-control-sm(v-html="itemData.tagId || 'id'")
+            input.u_auto-input__input.form-control.form-control-sm(
+              type="text"
+              v-model="itemData.tagId"
+              @change="update"
+              placeholder="id")
 
-      //クラス
-      label.mr-2 class
-        .u_auto-input
-          span.u_auto-input__static.form-control.form-control-sm(v-html="itemData.tagClass || 'class'")
-          input.u_auto-input__input.form-control.form-control-sm(
-            type="text"
-            v-model="itemData.tagClass"
-            @change="update"
-            placeholder="class")
-      hr
+        //クラス
+        label.mr-2 class
+          .u_auto-input
+            span.u_auto-input__static.form-control.form-control-sm(v-html="itemData.tagClass || 'class'")
+            input.u_auto-input__input.form-control.form-control-sm(
+              type="text"
+              v-model="itemData.tagClass"
+              @change="update"
+              placeholder="class")
+        hr
 
-      .mt-2(v-if="itemData.dev") ログ
-        LogPropertyComp(:log="itemData.dev.log")
+        span.mt-2(v-if="logData" @click="isShow=!isShow") ログ
+        ul.log
+          li.mt-2(v-if="isShow")
+            LogPropertyComp(:history="logData")
 
 </template>
 
 <script lang="ts">
-import {Component, Vue, Watch, Prop} from "~/node_modules/nuxt-property-decorator";
-import {lsStore} from "~/utils/store-accessor";
-import {IItemData, INodeObject} from "~/molle/interface";
-import {Singleton} from "~/molle/Singleton";
-import firebase from "~/node_modules/firebase";
-import LogPropertyComp from "~/molle/ui/LogPropertyComp.vue";
+  import {Component, Vue, Watch, Prop} from "~/node_modules/nuxt-property-decorator";
+  import {lsStore} from "~/utils/store-accessor";
+  import {IItemData, INodeObject, ILogsData} from "~/molle/interface";
+  import {Singleton} from "~/molle/Singleton";
+  import firebase from "~/node_modules/firebase";
+  import LogPropertyComp from "~/molle/ui/LogPropertyComp.vue";
 
-@Component({
-  components: {LogPropertyComp}
-})
-export default class ModulePropertyComp extends Vue {
-  itemId: string = "";
-  itemData = <IItemData>{};
-  itemDataBefore = <IItemData>{};
-  changeModuleSelected = "";
-  lsStore = lsStore;
-  private unsubscribe?: () => void;
-  flag = false;
-  pageFlag = true;
+  @Component({
+    components: {LogPropertyComp}
+  })
+  export default class ModulePropertyComp extends Vue {
+    itemId: string = "";
+    itemData = <IItemData>{};
+    itemDataBefore = <IItemData>{};
+    logData: ILogsData[] = [];
+    changeModuleSelected = "";
+    lsStore = lsStore;
+    private unsubscribe?: () => void;
+    flag = false;
+    pageFlag = true;
+    isShow = false;
+    maxHistory: number = 100;
 
-  @Watch('lsStore.storage.focusModuleNode', {immediate: true})
-  onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
+    @Watch('lsStore.storage.focusModuleNode', {immediate: true})
+    onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
       if (newer && newer.id) {
         console.log("onChangeFocusModuleNode")
         this.flag = false;
@@ -109,116 +114,135 @@ export default class ModulePropertyComp extends Vue {
 
           this.itemDataBefore = <IItemData>snap.data();
           let itemData = Object.assign({}, this.$molleModules[this.itemDataBefore.moduleId].def, snap.data());
+          Singleton.logsRef.doc(newer.id)
+            .get()
+            .then((snap: firebase.firestore.DocumentSnapshot) => {
+              if (!snap.exists) return;
 
-          // if (!itemData.option) itemData.option = {};
-          // if (!itemData.class) itemData.class = {};
-          // if (!itemData.style) itemData.style = {};
-          this.$set(this, "itemData", itemData);
-          this.$set(this, "itemId", snap.id);
-          this.flag = true;
+              let data = snap.data();
+              if (data) {
+                this.logData = data.history || [];
+              }
+              // if (!itemData.option) itemData.option = {};
+              // if (!itemData.class) itemData.class = {};
+              // if (!itemData.style) itemData.style = {};
+              this.$set(this, "itemData", itemData);
+              this.$set(this, "itemId", snap.id);
+              this.flag = true;
+            })
         });
       }
-  }
-
-  /**
-   *
-   */
-  update() {
-    // console.log("update", this.itemData)
-
-    function some(b: any, a: any): boolean {
-      // console.log(b, a)
-      let obj: any = Object.assign({}, b, a);
-      return Object.keys(obj).some(key => {
-        if (typeof obj[key] == "object") {
-          return some(b[key] || {}, a[key] || {});
-        } else {
-          return b[key] != a[key];
-        }
-      });
     }
 
-    let flag = false;
-    let update: any = {};
-    let before: any = this.itemDataBefore;
-    let after: any = JSON.parse(JSON.stringify(this.itemData));
-    let obj: any = Object.assign({}, before, after);
-    Object.keys(obj).forEach((key) => {
-      if (typeof before[key] != typeof after[key]) {
-        update[key] = after[key];
-        flag = true;
-      } else if (typeof obj[key] == "object") {
-        if (some(before[key] || {}, after[key] || {})) {
+    /**
+     *
+     */
+    update() {
+      console.log("update", this.itemData)
+
+      function some(b: any, a: any): boolean {
+        // console.log(b, a)
+        let obj: any = Object.assign({}, b, a);
+        return Object.keys(obj).some(key => {
+          if (typeof obj[key] == "object") {
+            return some(b[key] || {}, a[key] || {});
+          } else {
+            return b[key] != a[key];
+          }
+        });
+      }
+
+      let flag = false;
+      let update: any = {};
+      let before: any = this.itemDataBefore;
+      let after: any = JSON.parse(JSON.stringify(this.itemData));
+      let obj: any = Object.assign({}, before, after);
+      Object.keys(obj).forEach((key) => {
+        if (typeof before[key] != typeof after[key]) {
+          update[key] = after[key];
+          flag = true;
+        } else if (typeof obj[key] == "object") {
+          if (some(before[key] || {}, after[key] || {})) {
+            update[key] = after[key];
+            flag = true;
+          }
+        } else if (before[key] != after[key]) {
           update[key] = after[key];
           flag = true;
         }
-      } else if (before[key] != after[key]) {
-        update[key] = after[key];
-        flag = true;
-      }
-    });
-    console.log(flag, "update", this.itemId, update)
-    if (flag) {
-
-      // firestoreのlogs登録 by青木
-      let batch = firebase.firestore().batch();
-      let updateTime = firebase.firestore.FieldValue.serverTimestamp();
-      let logId = Singleton.logsRef.doc().id;
-      batch.set(Singleton.logsRef.doc(logId),{
-        uid:firebase.auth().currentUser!.uid,
-        timestamp:updateTime,
-        update:update,
-        itemId:this.itemId
       });
+      console.log(flag, "update", this.itemId, update)
+      if (flag) {
 
-      // itemsにlogIdを追加 by青木
-      let logs1st = {log : [logId]};
-      let historyNumber = 5;  //ログの最大履歴数
-      if (!this.itemData.dev) {
-        update.dev = logs1st;
-      } else {
-        this.itemData.dev.log.unshift(logId);
-        if (this.itemData.dev.log.length > historyNumber){
-            let logsDelId = this.itemData.dev.log.slice(-1)[0];
-            this.itemData.dev.log.length = historyNumber;
-            batch.delete(Singleton.logsRef.doc(logsDelId));
-        }
-        update.dev = this.itemData.dev;
+        // firestoreのlogs登録 by青木
+        let batch = firebase.firestore().batch();
+        let updateTime = firebase.firestore.Timestamp.now();
+        Singleton.logsRef.doc(this.itemId)
+          .get()
+          .then((snap: firebase.firestore.DocumentSnapshot) => {
+            let data = snap.data();
+            if (data) {
+              let history: ILogsData[] = data.history || [];
+              history.unshift({
+                timestamp: updateTime,
+                uid: firebase.auth().currentUser!.uid,
+                update: update
+              });
+              if (history.length > this.maxHistory) history.length = this.maxHistory;
+              batch.update(Singleton.logsRef.doc(this.itemId), {history: history});
+            }
+            batch.update(Singleton.itemsRef.doc(this.itemId), update);
+            batch.commit();
+          })
       }
-      console.log("logId",logId,"update.log",update.dev)
+    }
 
-      batch.update(Singleton.itemsRef.doc(this.itemId),update);
-      batch.commit();
+    moduleChange() {
+      console.log("moduleChangeスタート")
+      if (this.changeModuleSelected) {
+        let update: any = {moduleId: this.changeModuleSelected};
+        // firestoreのlogs登録 by青木
+        let batch = firebase.firestore().batch();
+        let updateTime = firebase.firestore.Timestamp.now();
+        Singleton.logsRef.doc(this.itemId)
+          .get()
+          .then((snap: firebase.firestore.DocumentSnapshot) => {
+            let data = snap.data();
+            if (data) {
+              let history: ILogsData[] = data.history || [];
+              history.unshift({
+                timestamp: updateTime,
+                uid: firebase.auth().currentUser!.uid,
+                update: update
+              });
+              if (history.length > this.maxHistory) history.length = this.maxHistory;
+              batch.update(Singleton.logsRef.doc(this.itemId), {history: history});
+            }
+            update.updateTime = firebase.firestore.FieldValue.serverTimestamp();
+            batch.update(Singleton.itemsRef.doc(this.itemId), update);
+            batch.commit();
+          })
+        // convert
+        // switch (this.itemData.moduleId) {
+        //   case "Headline":
+        //     switch (this.changeModuleSelected) {
+        //       case "Paragraph":
+        //         break;
+        //     }
+        //     break;
+        //   case "Paragraph":
+        //     break;
+        // }
+      }
     }
   }
-
-  moduleChange() {
-    if (this.changeModuleSelected) {
-      let update: any = {moduleId: this.changeModuleSelected};
-
-      // convert
-      // switch (this.itemData.moduleId) {
-      //   case "Headline":
-      //     switch (this.changeModuleSelected) {
-      //       case "Paragraph":
-      //         break;
-      //     }
-      //     break;
-      //   case "Paragraph":
-      //     break;
-      // }
-      update.updateTime = firebase.firestore.FieldValue.serverTimestamp();
-      Singleton.itemsRef.doc(this.itemId).update(update);
-    }
-  }
-}
 </script>
 
 <style lang="scss">
-.module-property-comp {
-}
+  .module-property-comp {
+  }
 
-.hoge {
-  z-index: $zindex-modal;
-}
+  .hoge {
+    z-index: $zindex-modal;
+  }
 </style>
