@@ -23,13 +23,13 @@ export default class LogPropertyComp extends Vue {
   itemData = <IItemData>{};
   itemDataBefore = <IItemData>{};
   // @Prop() log!:ILogsData[];
-  @Prop() history!:ILogsData[];
+  @Prop() history!: ILogsData[];
   lsStore = lsStore;
   private unsubscribe?: () => void;
   flag = false;
 
   mounted() {
-    console.log("★★LogPropertyComp通過★★",this.history)
+    console.log("★★LogPropertyComp通過★★", this.history)
   }
 
 }

@@ -58,7 +58,7 @@ export default class ModuleLoader extends Vue {
           this.unsubscribe = Singleton.itemsRef
             .doc(this.node.id)
             .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-              console.log(this.node.id,snap.exists);
+              console.log(this.node.id, snap.exists);
               if (snap.exists) this.$set(this, "itemData", snap.data());
             });
         });
