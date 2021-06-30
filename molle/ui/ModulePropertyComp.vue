@@ -67,18 +67,23 @@
             v-model="itemData.tagClass"
             @change="update"
             placeholder="class")
+      hr
+
+      //LogPropertyComp(:history="logData")
+      LogPropertyComp(:itemId="itemId")
 
 </template>
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "~/node_modules/nuxt-property-decorator";
 import {lsStore} from "~/utils/store-accessor";
-import {IItemData, INodeObject} from "~/molle/interface";
+import {IItemData, INodeObject, ILogsData} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "~/node_modules/firebase";
+import LogPropertyComp from "~/molle/ui/LogPropertyComp.vue";
 
 @Component({
-  components: {}
+  components: {LogPropertyComp}
 })
 export default class ModulePropertyComp extends Vue {
   itemId: string = "";
@@ -89,6 +94,7 @@ export default class ModulePropertyComp extends Vue {
   private unsubscribe?: () => void;
   flag = false;
   pageFlag = true;
+  maxHistory: number = 100;
 
   @Watch('lsStore.storage.focusModuleNode', {immediate: true})
   onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
@@ -139,7 +145,6 @@ export default class ModulePropertyComp extends Vue {
     let after: any = JSON.parse(JSON.stringify(this.itemData));
     let obj: any = Object.assign({}, before, after);
     Object.keys(obj).forEach((key) => {
-      // console.log(key,before[key],after[key])
       if (typeof before[key] != typeof after[key]) {
         update[key] = after[key];
         flag = true;
@@ -155,15 +160,55 @@ export default class ModulePropertyComp extends Vue {
     });
     console.log(flag, "update", this.itemId, update)
     if (flag) {
-      update.updateTime = firebase.firestore.FieldValue.serverTimestamp();
-      Singleton.itemsRef.doc(this.itemId).update(update);
+
+      // firestoreのlogs登録 by青木
+      let batch = firebase.firestore().batch();
+      let updateTime = firebase.firestore.Timestamp.now();
+      Singleton.logsRef.doc(this.itemId)
+        .get()
+        .then((snap: firebase.firestore.DocumentSnapshot) => {
+          let data = snap.data();
+          if (data) {
+            let history: ILogsData[] = data.history || [];
+            history.unshift({
+              timestamp: updateTime,
+              uid: firebase.auth().currentUser!.uid,
+              update: update
+            });
+            if (history.length > this.maxHistory) history.length = this.maxHistory;
+            batch.update(Singleton.logsRef.doc(this.itemId), {history: history});
+          }
+          batch.update(Singleton.itemsRef.doc(this.itemId), update);
+          batch.commit();
+        })
     }
   }
 
   moduleChange() {
+    console.log("moduleChangeスタート")
     if (this.changeModuleSelected) {
       let update: any = {moduleId: this.changeModuleSelected};
-
+      // firestoreのlogs登録 by青木
+      let batch = firebase.firestore().batch();
+      let updateTime = firebase.firestore.Timestamp.now();
+      Singleton.logsRef.doc(this.itemId)
+        .get()
+        .then((snap: firebase.firestore.DocumentSnapshot) => {
+          let data = snap.data();
+          if (data) {
+            let history: ILogsData[] = data.history || [];
+            history.unshift({
+              timestamp: updateTime,
+              uid: firebase.auth().currentUser!.uid,
+              update: update
+            });
+            if (history.length > this.maxHistory) history.length = this.maxHistory;
+            batch.update(Singleton.logsRef.doc(this.itemId), {history: history});
+          }
+          update.updateTime = firebase.firestore.FieldValue.serverTimestamp();
+          batch.update(Singleton.itemsRef.doc(this.itemId), update);
+          batch.commit();
+        })
       // convert
       // switch (this.itemData.moduleId) {
       //   case "Headline":
@@ -175,8 +220,6 @@ export default class ModulePropertyComp extends Vue {
       //   case "Paragraph":
       //     break;
       // }
-      update.updateTime = firebase.firestore.FieldValue.serverTimestamp();
-      Singleton.itemsRef.doc(this.itemId).update(update);
     }
   }
 }

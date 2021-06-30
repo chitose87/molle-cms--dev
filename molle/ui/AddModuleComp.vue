@@ -21,7 +21,7 @@ import {lsStore} from "~/store";
 import ModuleLoader from "../module/ModuleLoader.vue";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
-import {IItemData, INodeObject} from "../interface";
+import {IItemData, INodeObject, ILogsData} from "../interface";
 
 @Component({
   components: {},
@@ -37,6 +37,7 @@ export default class AddModuleComp extends Vue {
 
   itemData = <IItemData>{};
   moduleList: string[] = [];
+  maxHistory: number = 100;
   private unsubscribe!: () => void;
 
   mounted() {
@@ -62,10 +63,24 @@ export default class AddModuleComp extends Vue {
   }
 
   pushModule() {
+    console.log("pushModuleスタート")
     // console.log("pushModule", this.pushModuleSelected)
     if (!this.pushModuleSelected) return;
     let data: IItemData = this.$molleModules[this.pushModuleSelected].def;
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};
+    let updateTime = firebase.firestore.Timestamp.now();
+    console.log("updateTime", updateTime)
+
+    // firestoreのlogs登録（子） by青木
+    console.log("logsの登録直前")
+    Singleton.logsRef.doc(node.id).set({
+      history: [{
+        timestamp: updateTime,
+        uid: firebase.auth().currentUser!.uid
+      }]
+    });
+    console.log("logsの登録直後")
+
     Singleton.itemsRef
       .doc(node.id).set(data)
       .then(() => {
@@ -89,12 +104,30 @@ export default class AddModuleComp extends Vue {
         // firebase
         Singleton.itemsRef.doc(this.parentNode.id)
           .update({
-            updateTime: firebase.firestore.FieldValue.serverTimestamp(),
-            value: this.itemData.value
+            value: this.itemData.value,
           })
           .then(() => {
             lsStore.update({key: "focusModuleNode", value: node});
           });
+
+        // firestoreのlogs登録（親） by青木
+        Singleton.logsRef.doc(this.parentNode.id)
+          .get()
+          .then((snap: firebase.firestore.DocumentSnapshot) => {
+            let data = snap.data();
+            if (data) {
+              let history: ILogsData[] = data.history || [];
+              history.unshift({
+                timestamp: updateTime,
+                uid: firebase.auth().currentUser!.uid,
+                update: {
+                  value: this.itemData.value
+                }
+              });
+              if (history.length > this.maxHistory) history.length = this.maxHistory;
+              Singleton.logsRef.doc(this.parentNode.id).update({history: history});
+            }
+          })
       })
   }
 

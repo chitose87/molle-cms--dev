@@ -38,6 +38,10 @@ export interface IItemData {
     border?: boolean;
     align?: string;
   };
+
+  dev?: any;
+  //   log?: any;
+  // };
 }
 
 export interface INodeObject {
@@ -52,4 +56,10 @@ export interface IPayload {
   pageData: IPageData;
   pages: { [key: string]: IPageData };
   items: { [key: string]: IItemData };
+}
+
+export interface ILogsData {
+  timestamp: any;
+  uid: string;
+  update: any;
 }

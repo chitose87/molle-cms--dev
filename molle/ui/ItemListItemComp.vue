@@ -90,7 +90,7 @@ import {
   Prop,
 } from "~/node_modules/nuxt-property-decorator";
 import {Singleton} from "~/molle/Singleton";
-import {IItemData, INodeObject} from "~/molle/interface";
+import {IItemData, INodeObject, ILogsData} from "~/molle/interface";
 import firebase from "~/node_modules/firebase";
 import {lsStore} from "~/utils/store-accessor";
 import draggable from "vuedraggable";
@@ -105,6 +105,7 @@ export default class ItemListItemComp extends Vue {
   lsStore = lsStore;
   pushModuleSelected: string = "";
   private unsubscribe!: () => void;
+  maxHistory: number = 100;
 
   @Watch("node", {immediate: true})
   updateNode() {
@@ -156,17 +157,60 @@ export default class ItemListItemComp extends Vue {
   }
 
   updateChild() {
-    console.log("updateChild", this.itemData.value);
-    Singleton.itemsRef.doc(this.node.id).update({
-      value: this.itemData.value,
-    });
+    console.log("updateChild", this.node.id);
+
+    // firestoreのlogs登録 by青木
+    let batch = firebase.firestore().batch();
+    let updateTime = firebase.firestore.Timestamp.now();
+    Singleton.logsRef.doc(this.node.id)
+      .get()
+      .then((snap: firebase.firestore.DocumentSnapshot) => {
+        let data = snap.data();
+        if (data) {
+          let history: ILogsData[] = data.history || [];
+          history.unshift({
+            timestamp: updateTime,
+            uid: firebase.auth().currentUser!.uid,
+            update: {
+              value: this.itemData.value
+            }
+          });
+          if (history.length > this.maxHistory) history.length = this.maxHistory;
+          batch.update(Singleton.logsRef.doc(this.node.id), {history: history});
+        }
+        batch.update(Singleton.itemsRef.doc(this.node.id), {value: this.itemData.value});
+        batch.commit();
+      })
   }
 
   deleteModule() {
+    let batch = firebase.firestore().batch();
     let parent = <ItemListItemComp>this.$parent.$parent;
-    Singleton.itemsRef.doc(parent.node.id).update({
-      value: parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id),
+    let value: any = parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id);
+    batch.update(Singleton.itemsRef.doc(parent.node.id), {
+      value: value
     });
+
+    // firestoreのlogs登録（親） by青木
+    let updateTime = firebase.firestore.Timestamp.now();
+    Singleton.logsRef.doc(parent.node.id)
+      .get()
+      .then((snap: firebase.firestore.DocumentSnapshot) => {
+        let data = snap.data();
+        if (data) {
+          let history: ILogsData[] = data.history || [];
+          history.unshift({
+            timestamp: updateTime,
+            uid: firebase.auth().currentUser!.uid,
+            update: {
+              value: value
+            }
+          });
+          if (history.length > this.maxHistory) history.length = this.maxHistory;
+          batch.update(Singleton.logsRef.doc(parent.node.id), {history: history});
+        }
+        batch.commit();
+      })
   }
 
   private groupChildSort(groupValue: any) {
