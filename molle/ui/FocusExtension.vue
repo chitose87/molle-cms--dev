@@ -78,9 +78,9 @@ import {IItemData, INodeObject} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
 import {Module} from "~/molle/module/Module";
-import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 import CopyModuleComp from "~/molle/ui/CopyModuleComp.vue";
+import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
 
 @Component({
   components: {AddModuleComp, CopyModuleComp},
@@ -90,7 +90,7 @@ export default class FocusExtension extends Vue {
   itemId: string = "";
   private observer: any;
 
-  loader = <ModuleLoader>{};
+  loader = <ModuleLoaderCms>{};
   style: any = {};
   sibling = {};
   isBefore = true;

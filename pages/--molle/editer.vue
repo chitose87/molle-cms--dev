@@ -33,7 +33,6 @@ import firebase from "firebase";
 import ItemListViewComp from "~/molle/ui/ItemListViewComp.vue";
 import ModulePropertyComp from "~/molle/ui/ModulePropertyComp.vue";
 import {lsStore} from "~/utils/store-accessor";
-import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import PagePropertyComp from "~/molle/ui/PagePropertyComp.vue";
 import UniversalPage from "~/pages/_universal.vue";
 import NewsDetailPage from "~/pages/news/_detail.vue";
@@ -41,6 +40,7 @@ import NewsDetailPage from "~/pages/news/_detail.vue";
 import EditorOptionComp from "~/molle/ui/EditorOptionComp.vue";
 import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
 import FocusExtension from "~/molle/ui/FocusExtension.vue";
+import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
 
 @Component({
   components: {
@@ -124,8 +124,8 @@ export default class MolleEditerPage extends Vue {
     this.$el.addEventListener("mouseover", (e: any) => {
       for (let i = 0; i < e.path.length; i++) {
         let v = e.path[i].__vue__;
-        if (v && v instanceof ModuleLoader) {
-          let module: ModuleLoader = v;
+        if (v && v instanceof ModuleLoaderCms) {
+          let module: ModuleLoaderCms = v;
           lsStore.update({key: "hoverModuleNode", value: module.$props.node});
           break;
         }
@@ -135,8 +135,8 @@ export default class MolleEditerPage extends Vue {
       // console.log(e.path)
       for (let i = 0; i < e.path.length; i++) {
         let v = e.path[i].__vue__;
-        if (v && v instanceof ModuleLoader) {
-          let loader: ModuleLoader = v;
+        if (v && v instanceof ModuleLoaderCms) {
+          let loader: ModuleLoaderCms = v;
           // console.log(module);
           lsStore.update({key: "focusModuleNode", value: loader.$props.node});
           // (<FocusExtension>this.$refs.FocusExtension).init(loader);
