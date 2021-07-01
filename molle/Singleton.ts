@@ -1,12 +1,13 @@
 import firebase from "~/node_modules/firebase";
 import {IPayload} from "~/molle/interface";
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
+import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
 
 export class Singleton {
   static prefix = `${process.env.molleProjectID}/${process.env.molleBrunch}`;
   static payload?: IPayload;
   static user?: any;
-  static modules = <{ [key: string]: ModuleLoader }>{};
+  static modules = <{ [key: string]: ModuleLoaderCms }>{};
 
   static get systemDocRef(): firebase.firestore.DocumentReference {
     return this._systemDocRef ? this._systemDocRef :

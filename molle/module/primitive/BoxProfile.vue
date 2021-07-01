@@ -1,10 +1,5 @@
 <template lang="pug">
 div
-  StyleComp(
-    :itemData="itemData"
-    @change="()=>$emit('change')"
-    :permission="stylePermission"
-  )
   label.form-inline
     span.mr-1 タグ:
     select.form-control.form-control-sm(
@@ -12,6 +7,12 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for="item in ['', 'section']" :value="item" v-html="item")
+
+  StyleComp(
+    :itemData="itemData"
+    @change="()=>$emit('change')"
+    :permission="stylePermission"
+  )
 
 </template>
 
@@ -27,11 +28,13 @@ export default class BoxProfile extends Profile {
   //style setting
   stylePermission = {
     container: false,
+    "container-fluid": false,
+    section: false,
     border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "container-fluid", "-quote"]},
-    color: {default: "", select: ["", "-dark"]},
+    theme: {default: "", select: ["", "-quote"]},
+    color: {default: "", select: ["", "-dark", "-gray", "-gray-box"]},
   };
 }
 </script>

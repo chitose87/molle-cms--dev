@@ -26,10 +26,9 @@
 <script lang="ts">
 import {Component, Prop, Watch} from "~/node_modules/nuxt-property-decorator";
 import {Module} from "~/molle/module/Module";
-import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 
 @Component({
-  components: {AddModuleComp},
+  components: {},
 })
 export default class Gallery extends Module {
   //@Prop({default: "Gallery"}) static__moduleId!: string;

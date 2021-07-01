@@ -13,7 +13,8 @@ div
         v-model="itemData.option.col"
         @change="()=>{$set(itemData.option,'col',Math.max(Math.min(Math.floor(itemData.option.col),12),0));$emit('change')}"
         type="number"
-        min="0" max="12" step="1"
+        min="0" max="12" step="1",
+        aria-autocomplete="false"
       )
       span /12
   label
@@ -24,6 +25,7 @@ div
         @change="()=>{$set(itemData.option,'colSm',Math.max(Math.min(Math.floor(itemData.option.colSm),12),0));$emit('change')}"
         type="number"
         min="0" max="12" step="1"
+        aria-autocomplete="false"
       )
       span /12
   //p.caption *-1=auto
@@ -55,6 +57,7 @@ div
 import {Component} from "~/node_modules/nuxt-property-decorator";
 import {Profile} from "~/molle/module/Profile";
 import StyleComp from "~/molle/ui/property/StyleComp.vue";
+import {StyleAlign} from "~/molle/Singleton";
 
 @Component({
   components: {StyleComp}
@@ -64,6 +67,7 @@ export default class ColumnProfile extends Profile {
   stylePermission = {
     // container: false,
     // border: false,
+    align: StyleAlign.None,
     margin: "",
     padding: "",
     // theme: {default: "", select: ["", "test"]},

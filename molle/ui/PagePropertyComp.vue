@@ -56,10 +56,19 @@
         )
         span :書き出さない
 
-      p.small
+      label
         span Preview:
-        a(:href="`/${pageData.path}`" target="_blank")
-          span(v-html="'/'+pageData.path+'/'")
+        input.form-control.form-control-sm(
+          type="text"
+          v-model="pageData.preview"
+          :placeholder="`/${pageData.path}`"
+          @change="update"
+        )
+      p.small
+        span /
+        a(:href="`/${pageData.preview || pageData.path}`" target="_blank")
+          span(v-html="`${pageData.preview || pageData.path}`")
+          b-icon.ml-2(icon="window")
 
       p.small
         span itemId:

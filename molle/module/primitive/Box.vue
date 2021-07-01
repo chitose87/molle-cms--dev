@@ -1,5 +1,6 @@
 <template lang="pug">
-.module.box(
+component.module.box(
+  :is="itemData.option.tag||'div'",
   :id="itemData.tagId",
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
@@ -13,16 +14,15 @@
   AddModuleComp(
     :label="`Box`"
     :parentNode="loader.node"
-    )
+  )
 </template>
 
 <script lang="ts">
 import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
 import {Module} from "~/molle/module/Module";
-import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 
 @Component({
-  components: {AddModuleComp},
+  components: {},
 })
 export default class Box extends Module {
 }
@@ -30,8 +30,8 @@ export default class Box extends Module {
 
 <style lang="scss">
 .box {
-  margin-top: 1rem;
-  margin-bottom: 3rem;
+  //margin-top: 1rem;
+  //margin-bottom: 3rem;
 
   > *:first-child {
     margin-top: 0;
@@ -68,8 +68,32 @@ export default class Box extends Module {
   }
 
   // color
+  &.-gray {
+    background-color: $color-gray-600;
+    @include mediaquery-not-sm {
+      padding-top: $gutter*2;
+      padding-bottom: $gutter*2;
+    }
+    @include mediaquery-sm {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+  }
+
+  &.-gray-box {
+    border: 6px solid $color-border-light;
+    padding: 1.5rem;
+    background-color: $color-white;
+    @include mediaquery-sm {
+      padding: 1rem;
+    }
+  }
+
   &.-dark {
     background-color: $color-black;
+    color: $color-text-white;
+    padding-top: $gutter*2;
+    padding-bottom: $gutter*2;
   }
 }
 </style>

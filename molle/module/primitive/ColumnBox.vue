@@ -1,5 +1,5 @@
 <template lang="pug">
-.module.column__item(
+.module.box.column__item(
   :id="itemData.tagId",
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
@@ -15,10 +15,9 @@
 <script lang="ts">
 import {Component, Prop, Watch} from "~/node_modules/nuxt-property-decorator";
 import {Module} from "~/molle/module/Module";
-import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 
 @Component({
-  components: {AddModuleComp},
+  components: {},
 })
 export default class ColumnBox extends Module {
   getClass() {

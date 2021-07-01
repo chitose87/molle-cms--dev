@@ -20,15 +20,6 @@
             option(v-for="key in $molleModules[itemData.moduleId].convert" :value="key" v-html="key")
           button.btn.btn-sm.btn-info(type="submit") +
     .card-body.p-3
-      span.small.text-nowrap ID : {{lsStore.storage.focusModuleNode.id}}
-
-      //button.btn.module-editor__notExport(
-      //  v-if="!$parent.required"
-      //  @click="update('notExport',!itemData.notExport)"
-      //)
-      //  b-icon(icon="eye-slash-fill" v-if="itemData.notExport")
-      //  b-icon(icon="eye-fill" v-else)
-      //profile
       component(
         v-if="$molleModules[itemData.moduleId].profile"
         :is="$molleModules[itemData.moduleId].profileName"
@@ -69,8 +60,21 @@
             placeholder="class")
       hr
 
-      //LogPropertyComp(:history="logData")
       LogPropertyComp(:itemId="itemId")
+      //
+      label.small.form-inline
+        input.form-control.form-control-sm(
+          v-model="itemData.noExport",
+          type="checkbox",
+          @change="update"
+        )
+        span :書き出さない
+
+      p.mb-0.text-right
+        span.small.text-nowrap ID : {{lsStore.storage.focusModuleNode.id}}
+        a.ml-2.text-nowrap(:href="firestoreUrl+itemId" target="firestore")
+          span >firestore
+          b-icon.ml-2(icon="window")
 
 </template>
 
@@ -95,6 +99,11 @@ export default class ModulePropertyComp extends Vue {
   flag = false;
   pageFlag = true;
   maxHistory: number = 100;
+  firestoreUrl = `https://console.firebase.google.com/project/${
+    process.env.projectId
+  }/firestore/data/${
+    [process.env.molleProjectID, process.env.molleBrunch, "items", ""].join("~2F")
+  }`;
 
   @Watch('lsStore.storage.focusModuleNode', {immediate: true})
   onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
@@ -145,6 +154,7 @@ export default class ModulePropertyComp extends Vue {
     let after: any = JSON.parse(JSON.stringify(this.itemData));
     let obj: any = Object.assign({}, before, after);
     Object.keys(obj).forEach((key) => {
+      // console.log(key,before[key],after[key])
       if (typeof before[key] != typeof after[key]) {
         update[key] = after[key];
         flag = true;
@@ -220,6 +230,8 @@ export default class ModulePropertyComp extends Vue {
       //   case "Paragraph":
       //     break;
       // }
+      update.updateTime = firebase.firestore.FieldValue.serverTimestamp();
+      Singleton.itemsRef.doc(this.itemId).update(update);
     }
   }
 }

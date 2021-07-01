@@ -1,90 +1,41 @@
-const firebase = require("firebase/app");
-require("firebase/auth");
-require("firebase/firestore");
 const molle = require("../../molle.json");
+const allData = require("./firestore-snap.json");
 var fs = require('fs');
 
-let allData = {
-  pages: {}, items: {}
-};
 let genDir = "";
 let dir = "";
 
-function cleaningFirestoreValue(_data) {
-  for (let key in _data) {
-    if (_data[key]) {
-      // if (_data[key].id) {
-      //   console.log(key,_data[key]);
-      //   _data[key] = _data[key].id;
-      // } else
-      if (key == "updateTime" || key == "createTime") {
-        _data[key] = "";
-      } else if (typeof _data[key] == "object") {
-        cleaningFirestoreValue(_data[key]);
-      }
-    }
-  }
-  return _data;
-}
-
 module.exports = function () {
-  /**
-   * firebaseから全件データを取得して保持
-   */
   this.nuxt.hook('generate:before', async (generator, generateOptions) => {
-    console.log("generate:before", process.env.IS_MOLLE_CMS);
+    console.log("generate:before", process.env.isMolleCms);
     if (process.env.IS_MOLLE_CMS == "true") return;
 
-    firebase.initializeApp({
-      apiKey: molle.apiKey,
-      authDomain: molle.authDomain,
-      databaseURL: molle.databaseURL,
-      projectId: molle.projectId,
-      storageBucket: molle.storageBucket,
-      messagingSenderId: molle.messagingSenderId,
+    let newsPage = [];
+    // console.log(generator)
+    console.log(generateOptions)
+    genDir = generateOptions.dir;
+    dir = generateOptions.staticAssets.dir;
+    for (let id in allData.pages) {
+      let data = allData.pages[id];
+      // if (data.noExport) return;
+      if (data.path.indexOf("news/") == 0) {
+        newsPage.push(data)
+      }
+    }
+    for (let id in allData.items) {
+      let data = allData.items[id];
+    }
+
+    //news jsonの書き出し
+    newsPage.sort((a, b) => {
+      return a.date < b.date ? 1 : -1;
     });
-
-    await new Promise((resolve, reject) => {
-      firebase.auth().signInWithEmailAndPassword(molle.developerId, process.env.FIRESTORE_PW)
-        .then((user) => {
-          Promise.all([
-            firebase.firestore().collection(`${molle.molleProjectID}/${molle.molleBrunch}/pages`).get(),
-            firebase.firestore().collection(`${molle.molleProjectID}/${molle.molleBrunch}/items`).get()
-          ])
-            .then(([pages, items]) => {
-              let newsPage = [];
-              console.log(generateOptions)
-              genDir = generateOptions.dir;
-              dir = generateOptions.staticAssets.dir;
-              pages.forEach((snap) => {
-                let data = cleaningFirestoreValue(snap.data());
-                if (data.noExport) return;
-                allData.pages[snap.id] = data;
-                if (data.path.indexOf("news/") == 0) {
-                  newsPage.push(data)
-                }
-              });
-              items.forEach((snap) => {
-                let data = cleaningFirestoreValue(snap.data());
-
-                data.id = snap.id;
-                allData.items[snap.id] = data;
-              });
-
-              //news jsonの書き出し
-              newsPage.sort((a, b) => {
-                return a.date < b.date ? 1 : -1;
-              });
-              for (let i = 0; i < newsPage.length / 10; i++) {
-                fs.writeFileSync(
-                  `${dir}/news/news-page-${i + 1}.json`,
-                  JSON.stringify(newsPage.slice(i * 10, i * 10 + 10))
-                );
-              }
-              resolve();
-            });
-        });
-    });
+    for (let i = 0; i < newsPage.length / 10; i++) {
+      fs.writeFileSync(
+        `${dir}/news/news-page-${i + 1}.json`,
+        JSON.stringify(newsPage.slice(i * 10, i * 10 + 10))
+      );
+    }
   });
 
   /**
@@ -98,13 +49,13 @@ module.exports = function () {
       })
       routes.splice(0, routes.length, ...routesToGenerate)
     }
-    routes.forEach((route) => {
-      route.payload = {
-        // id: snap.id,
-        pages: allData.pages,
-        items: allData.items,
-      }
-    });
+    // routes.forEach((route) => {
+    //   route.payload = {
+    // id: snap.id,
+    // pages: allData.pages,
+    // items: allData.items,
+    // }
+    // });
     for (let id in allData.pages) {
       let data = allData.pages[id];
 
@@ -113,8 +64,8 @@ module.exports = function () {
         , payload: {
           id: id,
           pageData: data,
-          pages: allData.pages,
-          items: allData.items,
+          // pages: allData.pages,
+          // items: allData.items,
         }
       })
     }
@@ -131,45 +82,20 @@ module.exports = function () {
      * ユーザーが生成後のパスと HTML を更新するときのフック
      * stateとpayloadを削除
      */
-    if (process.env.IS_MOLLE_CMS != "true") {
+    if (process.env.IS_MOLLE_CMS) {
 
     } else {
-
+      attr.html = attr.html
+        .replace(/data-n-head="1" /g, "")
+        //loaderの削除
+        .replace(/(<div id="__nuxt">)([\s\S]*?)(<script>window.__NUXT__)/, `<div id="__nuxt"></div><script>window.__NUXT__`);
     }
-    // attr.html = attr.html
-    //   .replace(/(<link rel="preload" href="\/_nuxt\/static)(.*)(state.js" as="script">)/, "")
-    // .replace(/(<link rel="preload" href="\/_nuxt\/static)(.*)(payload.js" as="script">)/, "")
-    // .replace(/(<script defer src="\/_nuxt\/static)(.*)(state.js"><\/script>)/, "")
-
-    // <script defer src="/_nuxt/static/1617113411/state.js"></script>
-    // <link rel="preload" href="/_nuxt/static/1617113411/state.js" as="script">
-    // <link rel="preload" href="/_nuxt/static/1617113411/payload.js" as="script">
-
   });
   this.nuxt.hook('generate:routeCreated', async generator => {
     console.log('pageのファイル作成が終わったよ')
   });
   this.nuxt.hook('generate:done', async generator => {
     if (process.env.IS_MOLLE_CMS == "true") {
-      /**
-       * 【app.js軽量化】
-       * pluginSpa.tsからProfileを抜いた、
-       * pluginStatic.tsを作成する
-       */
-      let imports = fs.readFileSync(`molle/nuxt-config/pluginSpa.ts`, "utf8")
-        .match(/(?!.*Profile.vue)(import )(.*)(.vue\")/g)
-        .join("\n");
-      let molleModules = imports
-        .match(/(import )(.*)( from)/g).map((str) => {
-          let name = str.substring(6, str.length - 4);
-          return `${name}: {ref: ${name}}`
-        })
-        .join(",\n");
-
-      let result = fs.readFileSync(`molle/nuxt-config/pluginStatic.ts`, "utf8")
-        .replace(/(\/\* <imports)([\s\S]*?)(> \*\/)/, ["/* <imports */", imports, "/* > */"].join("\n"))
-        .replace(/(\/\* <molleModules)([\s\S]*?)(> \*\/)/, ["/* <molleModules */", molleModules, "/* > */"].join("\n"))
-      fs.writeFileSync(`molle/nuxt-config/pluginStatic.ts`, result);
     } else {
       // console.time("a")
       /**

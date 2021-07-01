@@ -54,10 +54,14 @@
 
   //Group
   .list-group.pl-2.pb-2(
-    v-else-if="$molleModules[itemData.moduleId].def.type === 'group'",
+    v-else-if="$molleModules[itemData.moduleId].def.type === 'group'"
   )
     ItemListItemComp(v-for="node in groupChildSort(itemData.value)", :key="node.id", :node="node")
 
+  .list-group.pl-2.pb-2(
+    v-else-if="itemData.moduleId === 'Reference'"
+  )
+    ItemListItemComp(:node="itemData.value")
   // items
   //.list-group.mt-3(v-if="molleModules[itemData.moduleId].def.type==='items'")
   //  ItemListItemComp(
@@ -109,14 +113,16 @@ export default class ItemListItemComp extends Vue {
 
   @Watch("node", {immediate: true})
   updateNode() {
-    if (!this.node.id) return;
+    if (!this.node.id) {
+      this.$set(this, "itemData", {});
+      return;
+    }
     if (this.checkLoop(this.$parent)) return;
 
     if (this.unsubscribe) this.unsubscribe();
     this.unsubscribe = Singleton.itemsRef
       .doc(this.node.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-        //todo シンボリックリンク
         if (!snap.exists) {
           Singleton.itemsRef.doc(this.node.id).set(
             this.$molleModules[this.node!.fixedModuleId || "Box"].def
@@ -140,7 +146,8 @@ export default class ItemListItemComp extends Vue {
   private checkLoop(p: any): any {
     if (!p) return false;
     if (p.itemData && p.node.id === this.node.id) {
-      alert("loopしたので解決します。");
+      console.log(this.$parent)
+      alert(`loopしたので解決します。(id:${this.node.id})`);
       this.deleteModule();
       return true;
     }

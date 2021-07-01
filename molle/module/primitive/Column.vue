@@ -1,5 +1,5 @@
 <template lang="pug">
-.module.row.column(
+.module.column(
   :id="itemData.tagId",
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
@@ -21,10 +21,9 @@
 <script lang="ts">
 import {Component} from "~/node_modules/nuxt-property-decorator";
 import {Module} from "~/molle/module/Module";
-import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 
 @Component({
-  components: {AddModuleComp},
+  components: {},
 })
 export default class Column extends Module {
   //Unique Methods
@@ -70,12 +69,31 @@ export default class Column extends Module {
 
 <style lang="scss">
 .column {
+  display: flex;
+  flex-wrap: wrap;
+  @include mediaquery-not-sm {
+    margin-top: -2rem;
+    margin-right: -1rem;
+    margin-left: -1rem;
+    margin-bottom: 1rem;
+  }
+  @include mediaquery-sm {
+    margin-top: -1.5rem;
+    margin-right: -0.75rem;
+    margin-left: -0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
   > * {
     @include mediaquery-not-sm {
-      padding: 0.75rem;
+      padding-top: 2rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
     @include mediaquery-sm {
-      padding: 0.25rem 0.5rem;
+      padding-top: 1.5rem;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
     }
   }
 
@@ -88,6 +106,18 @@ export default class Column extends Module {
         @include col($i);
       }
     }
+  }
+
+  &.text-left {
+    justify-content: flex-start;
+  }
+
+  &.text-center {
+    justify-content: center;
+  }
+
+  &.text-right {
+    justify-content: flex-end;
   }
 }
 </style>

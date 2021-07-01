@@ -131,12 +131,12 @@ export default class MolleToolbar extends Vue {
 
   onLogin(e: any) {
     firebase.auth()
-      .signInWithEmailAndPassword(e.target.email.value, e.target.password.value)
-      .then((user) => {
-        if (user) {
-          this.localValue = true;
-        }
-      })
+        .signInWithEmailAndPassword(e.target.email.value, e.target.password.value)
+        .then((user) => {
+          if (user) {
+            this.localValue = true;
+          }
+        })
   }
 
   onLogout() {
@@ -149,23 +149,23 @@ export default class MolleToolbar extends Vue {
     this.$set(this, "currentCIFlow", {reading: true});
 
     fetch(`${process.env.functions}/${process.env.molleProjectID}_ghStatus`)
-      .then((res: any) => {
-        return (res.json());
-      })
-      .then((str: string) => {
-        let json = JSON.parse(str);
-        console.log(json);
-        this.$set(this, "currentCIFlow", json.workflow_runs[0]);
-      });
+        .then((res: any) => {
+          return (res.json());
+        })
+        .then((str: string) => {
+          let json = JSON.parse(str);
+          console.log(json);
+          this.$set(this, "currentCIFlow", json.workflow_runs[0]);
+        });
 
     //
     Singleton.systemDocRef
-      .get()
-      .then((snap: firebase.firestore.DocumentSnapshot) => {
-        let data: any = snap.data();
-        this.$set(this.schedule, "date", data.deploySchedule);
-        this.$set(this.schedule, "active", data.deployScheduleActive);
-      })
+        .get()
+        .then((snap: firebase.firestore.DocumentSnapshot) => {
+          let data: any = snap.data();
+          this.$set(this.schedule, "date", data.deploySchedule);
+          this.$set(this.schedule, "active", data.deployScheduleActive);
+        })
   }
 
   scheduleUpdate() {
@@ -187,20 +187,20 @@ export default class MolleToolbar extends Vue {
    */
   onExport() {
     Singleton.pagesRef.get().then((snap: firebase.firestore.QuerySnapshot) => {
-        let obj: any = {pages: {}};
-        snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
-          obj.pages[_snap.id] = _snap.data();
-        });
-        let a = document.createElement("a");
-        a.href = URL.createObjectURL(
-          new Blob(
-            [JSON.stringify(obj)],
-            {type: "text/plain"},
-          ),
-        );
-        a.download = `pages-${new Date().toUTCString()}.json`;
-        a.click();
-      },
+          let obj: any = {pages: {}};
+          snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+            obj.pages[_snap.id] = _snap.data();
+          });
+          let a = document.createElement("a");
+          a.href = URL.createObjectURL(
+              new Blob(
+                  [JSON.stringify(obj)],
+                  {type: "text/plain"},
+              ),
+          );
+          a.download = `pages-${new Date().toUTCString()}.json`;
+          a.click();
+        },
     );
 
     // items
@@ -212,9 +212,9 @@ export default class MolleToolbar extends Vue {
       });
       let a = document.createElement("a");
       a.href = URL.createObjectURL(
-        new Blob(
-          [JSON.stringify(obj)],
-          {type: "application/json"}),
+          new Blob(
+              [JSON.stringify(obj)],
+              {type: "application/json"}),
       );
       a.download = `items-${new Date().toUTCString()}.json`;
       a.click();
@@ -235,7 +235,7 @@ export default class MolleToolbar extends Vue {
     }
 
     if (
-      !window.confirm(`
+        !window.confirm(`
 この作業は破壊的な変更です。
 同一のIDの場合、既存のデータがすべて上書きされます。
 重複するjsonデータを読み込む場合、優先順位に規則性はありません。
@@ -276,7 +276,9 @@ export default class MolleToolbar extends Vue {
    */
   cleanup() {
     console.log("cleanup");
+
     let batch = firebase.firestore().batch();
+    let batchCount = 0;
 
     Promise.all([
       Singleton.pagesRef.get(),
@@ -303,7 +305,12 @@ export default class MolleToolbar extends Vue {
             }
           }
           if (flag) {
-            batch.update(Singleton.itemsRef.doc(_snap.id), "value", itemData.value)
+            batch.update(Singleton.itemsRef.doc(_snap.id), "value", itemData.value);
+            if (++batchCount >= 500) {
+              batch.commit();
+              alert("batch上限個数に達したので途中で処理を完了させます。");
+              return;
+            }
           }
         }
       });
@@ -319,9 +326,15 @@ export default class MolleToolbar extends Vue {
         if (obj[id] == 0) {
           console.log("delete", id);
           batch.delete(Singleton.itemsRef.doc(id));
+          if (++batchCount >= 500) {
+            batch.commit();
+            alert("batch上限個数に達したので途中で処理を完了させます。");
+            return;
+          }
         }
       }
       batch.commit();
+      alert("完了しました。結果はconsoleを見てください")
     })
   }
 
@@ -330,12 +343,12 @@ export default class MolleToolbar extends Vue {
    */
   sendPasswordResetEmail() {
     firebase.auth().sendPasswordResetEmail(this.user.email)
-      .then((result) => {
-        alert(`パスワード再設定メールをリクエストしました。メールをご確認ください`)
-      })
-      .catch((error) => {
-        alert(error + "/" + this.user.email)
-      });
+        .then((result) => {
+          alert(`パスワード再設定メールをリクエストしました。メールをご確認ください`)
+        })
+        .catch((error) => {
+          alert(error + "/" + this.user.email)
+        });
   }
 }
 </script>

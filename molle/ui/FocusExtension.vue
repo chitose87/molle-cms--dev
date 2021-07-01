@@ -46,8 +46,8 @@ import {IItemData, INodeObject} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
 import {Module} from "~/molle/module/Module";
-import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
+import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
 
 @Component({
   components: {AddModuleComp},
@@ -57,7 +57,7 @@ export default class FocusExtension extends Vue {
   itemId: string = "";
   private observer: any;
 
-  loader = <ModuleLoader>{};
+  loader = <ModuleLoaderCms>{};
   style: any = {};
   sibling = {};
   isBefore = true;
@@ -70,8 +70,7 @@ export default class FocusExtension extends Vue {
     this.$store.watch((state, getters) => {
       return lsStore.storage.focusModuleNode
     }, (newer: any, older: any) => {
-      console.log(newer.id)
-
+      // console.log(newer.id)
       let loader = Singleton.modules[newer.id];
       if (loader) {
         this.itemId = lsStore.storage.focusModuleNode.id;

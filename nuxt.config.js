@@ -28,14 +28,13 @@ if (molle.isMolleCms) {
   css.push('~/molle/css/molle.scss')
   modules.push('bootstrap-vue/nuxt');
   plugins.push(
-    '~/molle/nuxt-config/pluginSpa.ts'
+      '~/molle/nuxt-config/pluginSpa.ts'
   );
 } else {
   plugins.push('~/molle/nuxt-config/pluginStatic.ts');
 }
 
 export default {
-  mode: "universal",
   target: "static",
   ssr: !molle.isMolleCms,
   // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -100,9 +99,9 @@ export default {
   build: {
     extractCSS: true,
     filenames: {
-      app: ({isDev}) => true ? '[name]-app.js?[hash]' : '[contenthash].js',
-      chunk: ({isDev}) => true ? '[name].js?[hash]' : '[contenthash].js',
-      css: ({isDev}) => true ? '[name].css?[hash]' : '[contenthash].css',
+      app: ({isDev}) => true ? '[name]-app.js' : '[contenthash].js',
+      chunk: ({isDev}) => true ? '[name].js' : '[contenthash].js',
+      css: ({isDev}) => true ? '[name].css' : '[contenthash].css',
       img: ({isDev}) => isDev ? '[path][name].[ext]' : 'img/[contenthash:7].[ext]',
       font: ({isDev}) => isDev ? '[path][name].[ext]' : 'fonts/[contenthash:7].[ext]',
       video: ({isDev}) => isDev ? '[path][name].[ext]' : 'videos/[contenthash:7].[ext]'
@@ -111,11 +110,10 @@ export default {
       config.module.rules.forEach((rule) => {
         rule.oneOf && rule.oneOf.forEach((item) => {
           item.use.forEach((loader) => {
-            if (loader.loader === "sass-loader") {
+            if (/sass-loader/.test(loader.loader)) {
               Object.assign(loader.options, {
                 additionalData: envStr
               });
-              // console.log(loader.options);
             }
           })
         })
@@ -124,7 +122,10 @@ export default {
   },
   generate: {
     dir: molle.isMolleCms ? 'functions/stgApp' : 'public',
-    crawler: false
+    crawler: false,
+    staticAssets: {
+      "version": molle.molleProjectID + "/" + molle.molleBrunch
+    }
   },
   router: {
     scrollBehavior: function (to, from, savedPosition) {

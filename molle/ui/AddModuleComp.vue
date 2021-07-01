@@ -18,7 +18,6 @@
 <script lang="ts">
 import {Component, Vue, Prop} from "~/node_modules/nuxt-property-decorator";
 import {lsStore} from "~/store";
-import ModuleLoader from "../module/ModuleLoader.vue";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
 import {IItemData, INodeObject, ILogsData} from "../interface";
@@ -33,7 +32,6 @@ export default class AddModuleComp extends Vue {
   @Prop() afterNode?: INodeObject;
   pushModuleSelected: string = "";
   lsStore = lsStore
-  // localLoader!: ModuleLoader;
 
   itemData = <IItemData>{};
   moduleList: string[] = [];
@@ -41,6 +39,7 @@ export default class AddModuleComp extends Vue {
   private unsubscribe!: () => void;
 
   mounted() {
+    if (!lsStore.isEditer) return;
     Singleton.itemsRef.doc(this.parentNode.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         this.$set(this, "itemData", snap.data());

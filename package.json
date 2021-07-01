@@ -6,7 +6,7 @@
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
     "dev": "cross-env NUXT_PORT=1234 IS_MOLLE_CMS=true nuxt-ts",
-    "gen": "nuxt-ts generate",
+    "gen": "node ./molle/nuxt-config/node.js && nuxt-ts generate",
     "hosting:public": "firebase deploy --only hosting:public",
     "gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate",
     "hosting:cms": "firebase deploy --only functions",

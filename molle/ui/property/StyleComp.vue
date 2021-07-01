@@ -11,11 +11,23 @@
         option(v-for="color in permission.color.select" :val="color" v-html="color")
 
     .form-inline
+      //section
+      span.mr-3(v-if="permission.container!==undefined")
+        label
+          span.mr-1 section:
+          input.form-control.form-control-sm(v-model="itemData.class.section" type="checkbox" @change="()=>$emit('change')")
+
       //container
       span.mr-3(v-if="permission.container!==undefined")
         label
           span.mr-1 container:
           input.form-control.form-control-sm(v-model="itemData.class.container" type="checkbox" @change="()=>$emit('change')")
+
+      //container-fluid
+      span.mr-3(v-if="permission.container!==undefined")
+        label
+          span.mr-1 container-fluid:
+          input.form-control.form-control-sm(v-model="itemData.class['container-fluid']" type="checkbox" @change="()=>$emit('change')")
 
       //Border
       span.mr-3(v-if="permission.border!==undefined")

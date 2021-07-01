@@ -1,5 +1,4 @@
 import {Vue} from "~/node_modules/nuxt-property-decorator";
-import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import ItemListItemComp from "~/molle/ui/ItemListItemComp.vue";
 import firebase from "~/node_modules/firebase";
 import VueScrollTo from 'vue-scrollto';
@@ -26,7 +25,6 @@ if (!firebase.apps.length) {
 
 Vue.component("GlobalHeaderComp", GlobalHeaderComp);
 // delete with static mode
-Vue.component("ModuleLoader", ModuleLoader);
 Vue.component("GlobalFooterComp", GlobalFooterComp);
 
 // cms ui

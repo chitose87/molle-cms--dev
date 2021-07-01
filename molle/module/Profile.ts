@@ -34,16 +34,16 @@ export class Profile extends Vue {
   @Watch("itemData", {immediate: true})
   checkItemData(after?: IItemData, before?: IItemData) {
     let flag = false;
-    switch (after?.type) {
+    switch (after!.type) {
       case "children":
-        if (!Array.isArray(after.value)) {
-          flag = confirm(`error:valueに異常がありました。\nvalueをリセットしますか？\nitemId:${this.itemId}/${after.value}`);
+        if (!Array.isArray(after!.value)) {
+          flag = confirm(`error:valueに異常がありました。\nvalueをリセットしますか？\nitemId:${this.itemId}/${after!.value}`);
           after!.value = [];
         }
         break;
       case "group":
         try {
-          for (let name in after?.value) {
+          for (let name in after!.value) {
             if (!after!.value[name].id) {
               after!.value[name].id = this.itemId + "_" + name;
               flag = true;

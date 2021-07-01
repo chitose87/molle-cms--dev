@@ -1,4 +1,5 @@
 import firebase from "firebase";
+/* <imports */
 import Box from "~/molle/module/primitive/Box.vue";
 import BoxProfile from "~/molle/module/primitive/BoxProfile.vue";
 import BackgroundBox from "~/molle/module/primitive/BackgroundBox.vue";
@@ -29,7 +30,11 @@ import GoogleMap from "~/molle/module/custom/GoogleMap.vue";
 import GoogleMapProfile from "~/molle/module/custom/GoogleMapProfile.vue";
 import Table from "~/molle/module/primitive/Table.vue";
 import TableProfile from "~/molle/module/primitive/TableProfile.vue";
+/* > */
+
 import {Vue} from "nuxt-property-decorator";
+import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
+import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -55,7 +60,7 @@ const molleModules = Vue.prototype.$molleModules = {
     profileName: "BoxProfile",
     def: c("Box", "children"),
     black: ["ColumnBox"],
-    convert: ["ColumnBox"],
+    convert: ["ColumnBox", "BackgroundBox"],
     icon: "plus-square",
   },
   BackgroundBox: {
@@ -64,7 +69,7 @@ const molleModules = Vue.prototype.$molleModules = {
     profileName: "BackgroundBoxProfile",
     def: c("BackgroundBox", "children"),
     black: ["ColumnBox"],
-    convert: ["Box","ColumnBox"],
+    convert: ["Box", "ColumnBox"],
     icon: "plus-square",
   },
   Headline: {
@@ -201,6 +206,8 @@ const molleModules = Vue.prototype.$molleModules = {
 };
 // export type molleModules = typeof molleModules[keyof typeof molleModules];
 
+Vue.component("AddModuleComp", AddModuleComp);
+Vue.component("ModuleLoader", ModuleLoaderCms);
 //modules
 for (let key in molleModules) {
   // @ts-ignore
@@ -229,7 +236,7 @@ function c(moduleId: string, type: string, opt?: any) {
     class: {},
     option: {},
     createTime: firebase.firestore.FieldValue.serverTimestamp(),
-    updateTime: firebase.firestore.FieldValue.serverTimestamp(),
+    // updateTime: firebase.firestore.FieldValue.serverTimestamp(),
   };
   switch (type) {
     case "children":

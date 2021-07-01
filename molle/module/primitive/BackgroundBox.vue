@@ -1,5 +1,6 @@
 <template lang="pug">
-.module.background-box(
+component.module.background-box(
+  :is="itemData.option.tag||'div'",
   :id="itemData.tagId",
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
@@ -12,7 +13,7 @@
     )
     img.background-box__bg(:src="itemData.option.bg", :alt="itemData.option.alt")
 
-  .background-box__body
+  .background-box__body.box
     ModuleLoader(
       v-for="node in itemData.value",
       :key="node.id",
@@ -28,10 +29,9 @@
 <script lang="ts">
 import {Component, Vue} from "~/node_modules/nuxt-property-decorator";
 import {Module} from "~/molle/module/Module";
-import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 
 @Component({
-  components: {AddModuleComp},
+  components: {},
 })
 export default class BackgroundBox extends Module {
 }
@@ -43,14 +43,6 @@ export default class BackgroundBox extends Module {
   margin-bottom: 3rem;
   position: relative;
   z-index: 0;
-
-  > *:first-child {
-    margin-top: 0;
-  }
-
-  > *:last-child {
-    margin-bottom: 0;
-  }
 
   &__bg {
     position: absolute;
@@ -69,9 +61,13 @@ export default class BackgroundBox extends Module {
 
   //thema
 
-
   // color
   &.-dark {
+    background-color: $color-black;
+    color: $color-text-white;
+    text-shadow: $shadow-text-black;
+    > .background-box__body {
+    }
   }
 }
 </style>

@@ -21,6 +21,8 @@ import Card from "~/molle/module/custom/Card.vue"
 import GoogleMap from "~/molle/module/custom/GoogleMap.vue"
 import Table from "~/molle/module/primitive/Table.vue"
 /* > */
+import ModuleLoader from "~/molle/module/ModuleLoader.vue";
+import Blank from "~/molle/ui/Blank.vue";
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -60,6 +62,8 @@ const pluginStatic = Vue.prototype.$molleModules = {
 };
 // export type molleModules = typeof molleModules[keyof typeof molleModules];
 
+Vue.component("AddModuleComp", Blank);
+Vue.component("ModuleLoader", ModuleLoader);
 //modules
 for (let key in pluginStatic) {
   // @ts-ignore

@@ -8,7 +8,7 @@ export class Module extends Vue {
   }
 
   get parent(): Module {
-    return <Module>this.loader.$parent?.$parent;
+    return <Module>this.loader.$parent.$parent;
   }
 
   @Prop({default: () => ({class: {}, option: {}, moduleId: "", id: ""})})
@@ -39,7 +39,9 @@ export class Module extends Vue {
 
   getClass(data: any) {
     // console.log("getClass",data.moduleId)
-    let obj: any = {};
+    let obj: any = {
+      noExport: data.noExport
+    };
 
     for (let key in data.class) {
       let value = data.class[key];
