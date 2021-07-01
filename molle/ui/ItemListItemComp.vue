@@ -124,9 +124,18 @@ export default class ItemListItemComp extends Vue {
       .doc(this.node.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         if (!snap.exists) {
-          Singleton.itemsRef.doc(this.node.id).set(
+          let batch = firebase.firestore().batch();
+          batch.set(Singleton.itemsRef.doc(this.node.id),
             this.$molleModules[this.node!.fixedModuleId || "Box"].def
           );
+          // firestoreのlogs登録 by青木
+          batch.set(Singleton.logsRef.doc(this.node.id), {
+            history: [{
+              timestamp: firebase.firestore.Timestamp.now(),
+              uid: firebase.auth().currentUser!.uid
+            }]
+          });
+          batch.commit();
           return;
         }
         let itemData = <IItemData>snap.data();
