@@ -20,6 +20,22 @@
         :beforeNode="loader.node"
       )
 
+    button.btn.btn-sm.btn-outline-info#copyBefore
+      b-icon(icon="plus")
+      span copy
+
+    b-popover(
+      :target="'copyBefore'"
+      triggers="focus"
+      :placement="sibling.isRow?'bottom':'right'"
+      container="bootstrap-container"
+    )
+      CopyModuleComp(
+        v-if="loader.fromModule && loader.fromModule.loader"
+        :parentNode="loader.fromModule.loader.node"
+        :beforeNode="loader.node"
+      )
+
   .focus-extension__after(v-show="isAfter")
     button.btn.btn-sm.btn-outline-info#addAfter
       b-icon(icon="plus")
@@ -37,6 +53,22 @@
         :afterNode="loader.node"
       )
 
+    button.btn.btn-sm.btn-outline-info#copyAfter
+      b-icon(icon="plus")
+      span copy
+
+    b-popover(
+      :target="'copyAfter'"
+      triggers="focus"
+      :placement="sibling.isRow?'bottom':'right'"
+      container="bootstrap-container"
+    )
+      CopyModuleComp(
+        v-if="loader.fromModule && loader.fromModule.loader"
+        :parentNode="loader.fromModule.loader.node"
+        :afterNode="loader.node"
+      )
+
 </template>
 
 <script lang="ts">
@@ -46,18 +78,19 @@ import {IItemData, INodeObject} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
 import {Module} from "~/molle/module/Module";
+import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
-import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
+import CopyModuleComp from "~/molle/ui/CopyModuleComp.vue";
 
 @Component({
-  components: {AddModuleComp},
+  components: {AddModuleComp, CopyModuleComp},
 })
 export default class FocusExtension extends Vue {
   lsStore = lsStore;
   itemId: string = "";
   private observer: any;
 
-  loader = <ModuleLoaderCms>{};
+  loader = <ModuleLoader>{};
   style: any = {};
   sibling = {};
   isBefore = true;
@@ -70,7 +103,8 @@ export default class FocusExtension extends Vue {
     this.$store.watch((state, getters) => {
       return lsStore.storage.focusModuleNode
     }, (newer: any, older: any) => {
-      // console.log(newer.id)
+      console.log(newer.id)
+
       let loader = Singleton.modules[newer.id];
       if (loader) {
         this.itemId = lsStore.storage.focusModuleNode.id;
