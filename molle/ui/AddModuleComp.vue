@@ -1,5 +1,5 @@
 <template lang="pug">
-.add-module-comp.bootstrap(v-if="lsStore.isEditer && this.$route.query.hidden !== 'true'")
+.add-module-comp.bootstrap(v-if="true && this.$route.query.hidden !== 'true'")
   .mt-3.text-right
     span.text-info(v-if="label" v-html="label")
       b-icon.ml-1.mr-1(icon="box-arrow-in-left")
@@ -17,7 +17,6 @@
 
 <script lang="ts">
 import {Component, Vue, Prop} from "~/node_modules/nuxt-property-decorator";
-import {lsStore} from "~/store";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
 import {IItemData, INodeObject, ILogsData} from "../interface";
@@ -31,7 +30,6 @@ export default class AddModuleComp extends Vue {
   @Prop() beforeNode?: INodeObject;
   @Prop() afterNode?: INodeObject;
   pushModuleSelected: string = "";
-  lsStore = lsStore
 
   itemData = <IItemData>{};
   moduleList: string[] = [];
@@ -39,7 +37,6 @@ export default class AddModuleComp extends Vue {
   private unsubscribe!: () => void;
 
   mounted() {
-    if (!lsStore.isEditer) return;
     Singleton.itemsRef.doc(this.parentNode.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         this.$set(this, "itemData", snap.data());
@@ -106,7 +103,7 @@ export default class AddModuleComp extends Vue {
             value: this.itemData.value,
           })
           .then(() => {
-            lsStore.update({key: "focusModuleNode", value: node});
+            this.$router.push({query: {...this.$route.query, focus: node.id}})
           });
 
         // firestoreのlogs登録（親） by青木

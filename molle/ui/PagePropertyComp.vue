@@ -1,5 +1,5 @@
 <template lang="pug">
-.page-property-comp(v-if="!lsStore.storage.focusModuleNode.id")
+.page-property-comp(v-if="!$route.query.focus || $route.query.focus==0")
   .card.bg-light
     .card-header.pt-1.pb-1.pl-3.pr-3 ページ設定
     .card-body.p-3
@@ -77,7 +77,6 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop,} from "~/node_modules/nuxt-property-decorator";
-import {lsStore} from "~/utils/store-accessor";
 import {IPageData} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import GoogleStorage from "~/molle/ui/GoogleStorage.vue";
@@ -89,8 +88,6 @@ import InputUrlByGS from "~/molle/ui/property/InputUrlByGS.vue";
 export default class PagePropertyComp extends Vue {
   @Prop() pageData!: IPageData;
   @Prop() pageId!: string;
-
-  lsStore = lsStore;
 
   @Watch("pageData", {immediate: true})
   onChangePageData(newer: string, older?: string) {

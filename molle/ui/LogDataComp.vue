@@ -13,7 +13,6 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "~/node_modules/nuxt-property-decorator";
-import {lsStore} from "~/utils/store-accessor";
 import {IItemData, INodeObject, ILogsData} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "~/node_modules/firebase";
@@ -25,7 +24,6 @@ export default class LogDataComp extends Vue {
   itemId: string = "";
   itemData = <IItemData>{};
   @Prop() logData!: ILogsData;
-  lsStore = lsStore;
   private unsubscribe?: () => void;
   flag = false;
   logDataUpdate: string = "";

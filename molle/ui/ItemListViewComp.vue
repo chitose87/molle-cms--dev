@@ -7,9 +7,9 @@
     .list-group
       .item-list-item-comp.list-group-item.list-group-item-action.p-0.border-right-0
         button.btn.btn-sm.btn-link.btn-block.text-left(
-          :class="{active: !lsStore.storage.focusModuleNode.id}",
-          @click="lsStore.update({key: 'focusModuleNode', value: {id:0}})"
-          @mouseover="lsStore.update({key: 'hoverModuleNode', value: {id:0}})"
+          :class="{active: !this.$route.query.focus}",
+          @click="$router.push({query: {...$route.query, focus: 0}})"
+          @mouseover="$router.push({query: {...$route.query, focus: 0}})"
         )
           b-icon.ml-n1.mr-1(icon="window")
           b Page
@@ -20,14 +20,12 @@
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "~/node_modules/nuxt-property-decorator";
 import {INodeObject} from "~/molle/interface";
-import {lsStore} from "~/utils/store-accessor";
 
 @Component({
   components: {}
 })
 export default class ItemListViewComp extends Vue {
   @Prop() itemId!: String;
-  lsStore = lsStore;
 
   created() {
   }

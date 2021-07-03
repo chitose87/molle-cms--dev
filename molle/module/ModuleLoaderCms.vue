@@ -13,7 +13,6 @@ import {Component, Prop, Vue, Watch,} from "~/node_modules/nuxt-property-decorat
 import {Singleton} from "~/molle/Singleton";
 import firebase from "~/node_modules/firebase";
 import {IPageData, IItemData, INodeObject, IPayload} from "~/molle/interface";
-import {lsStore} from "~/utils/store-accessor";
 import {Module} from "~/molle/module/Module";
 
 @Component({
@@ -32,6 +31,7 @@ export default class ModuleLoaderCms extends Vue {
   }
 
   itemData = <IItemData>{moduleId: "div"};
+  style: any = {};
   private unsubscribe!: () => void;
 
   async fetch() {
@@ -54,9 +54,9 @@ export default class ModuleLoaderCms extends Vue {
   check() {
     if (this.$route.query.hidden === "true") {
       return "";
-    } else if (lsStore.storage.focusModuleNode.id == this.node.id) {
+    } else if (this.$route.query.focus == this.node.id) {
       return {outline: "2px solid red", opacity: 1};
-    } else if (lsStore.storage.hoverModuleNode.id == this.node.id) {
+    } else if (this.$route.query.hover == this.node.id) {
       return {outline: "2px solid orange"};
     }
   }

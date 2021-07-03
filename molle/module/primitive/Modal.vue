@@ -19,16 +19,12 @@
 <script lang="ts">
 import {Component, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
 import {Module} from "~/molle/module/Module";
-import lsStore from "~/store/lsStore";
 
 @Component({
   components: {},
 })
 export default class Modal extends Module {
-  lsStore = lsStore;
   isShow = false;
-
-
 }
 </script>
 

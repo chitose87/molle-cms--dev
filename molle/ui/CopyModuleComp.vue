@@ -1,12 +1,11 @@
 <template lang="pug">
-.copy-module-comp.bootstrap(v-if="lsStore.isEditer && this.$route.query.hidden !== 'true'")
+.copy-module-comp.bootstrap(v-if="true && this.$route.query.hidden !== 'true'")
   button.btn.btn-sm.btn-outline-info(type="button", @click="pushCopy") submit
 
 </template>
 
 <script lang="ts">
 import {Component, Vue, Prop} from "~/node_modules/nuxt-property-decorator";
-import {lsStore} from "~/store";
 import ModuleLoader from "../module/ModuleLoader.vue";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
@@ -21,7 +20,6 @@ export default class CopyModuleComp extends Vue {
   @Prop() parentNode!: INodeObject;
   @Prop() beforeNode?: INodeObject;
   @Prop() afterNode?: INodeObject;
-  lsStore = lsStore
 
   itemData = <IItemData>{};
   itemDataParent = <IItemData>{};

@@ -32,7 +32,6 @@ import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
 import ItemListViewComp from "~/molle/ui/ItemListViewComp.vue";
 import ModulePropertyComp from "~/molle/ui/ModulePropertyComp.vue";
-import {lsStore} from "~/utils/store-accessor";
 import PagePropertyComp from "~/molle/ui/PagePropertyComp.vue";
 import UniversalPage from "~/pages/_universal.vue";
 import NewsDetailPage from "~/pages/news/_detail.vue";
@@ -72,7 +71,6 @@ export default class MolleEditerPage extends Vue {
       value: 200,
     }
   }
-  lsStore = lsStore;
 
   head() {
     return {
@@ -86,28 +84,27 @@ export default class MolleEditerPage extends Vue {
     Singleton.firebaseInit(() => {
       this.pageId = <string>this.$route.query.pageId;
       this.unsubscribe = firebase
-        .firestore()
-        .doc(`${Singleton.prefix}/pages/${this.pageId}`)
-        .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-          if (!snap.exists) {
-            console.log("no page data");
-            return;
-          }
-          let pageData = <IPageData>snap.data();
+          .firestore()
+          .doc(`${Singleton.prefix}/pages/${this.pageId}`)
+          .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+            if (!snap.exists) {
+              console.log("no page data");
+              return;
+            }
+            let pageData = <IPageData>snap.data();
 
-          lsStore.init();
-          //theme set
-          if (pageData.path.indexOf("news/") == 0) {
-            this.$set(this, "theme", "NewsDetailPage");
-            // } else if (pageData.path.indexOf("case-study/") == 0) {
-            //   this.$set(this, "theme", "CaseStudyDetailPage");
-          } else {
-            this.$set(this, "theme", "UniversalPage");
-          }
+            //theme set
+            if (pageData.path.indexOf("news/") == 0) {
+              this.$set(this, "theme", "NewsDetailPage");
+              // } else if (pageData.path.indexOf("case-study/") == 0) {
+              //   this.$set(this, "theme", "CaseStudyDetailPage");
+            } else {
+              this.$set(this, "theme", "UniversalPage");
+            }
 
-          console.log(pageData)
-          this.$set(this, "pageData", pageData);
-        });
+            console.log(pageData)
+            this.$set(this, "pageData", pageData);
+          });
     });
 
     //check ready
@@ -126,7 +123,7 @@ export default class MolleEditerPage extends Vue {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoaderCms) {
           let module: ModuleLoaderCms = v;
-          lsStore.update({key: "hoverModuleNode", value: module.$props.node});
+          this.$router.push({query: {...this.$route.query, hover: module.$props.node.id}});
           break;
         }
       }
@@ -137,42 +134,40 @@ export default class MolleEditerPage extends Vue {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoaderCms) {
           let loader: ModuleLoaderCms = v;
-          // console.log(module);
-          lsStore.update({key: "focusModuleNode", value: loader.$props.node});
-          // (<FocusExtension>this.$refs.FocusExtension).init(loader);
+          this.$router.push({query: {...this.$route.query, focus: loader.$props.node.id}});
           break;
         }
       }
     });
   }
 
-  @Watch('lsStore.storage.focusModuleNode')
-  onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
+  @Watch('$route.query.focus', {immediate: true})
+  onChangeFocusModuleNode(newer: any, older?: any) {
+    console.log(newer)
+    if (!newer) return
     let h = window.innerHeight;
-    if (newer && newer.id) {
-      try {
-        let leftPanel = <HTMLElement>this.$refs.left
-        let current = <HTMLElement>leftPanel.querySelector(`[data-item-id="${newer.id}"]`);
-        let v = current.getBoundingClientRect().top;
-        if (v < h * 0.1 || v > h * 0.9) {
-          v -= h * 0.2;
-          v += leftPanel.scrollTop;
-          leftPanel.scrollTo({top: v, behavior: "smooth"})
-        }
-      } catch (e) {
+    try {
+      let leftPanel = <HTMLElement>this.$refs.left
+      let current = <HTMLElement>leftPanel.querySelector(`[data-item-id="${newer}"]`);
+      let v = current.getBoundingClientRect().top;
+      if (v < h * 0.1 || v > h * 0.9) {
+        v -= h * 0.2;
+        v += leftPanel.scrollTop;
+        leftPanel.scrollTo({top: v, behavior: "smooth"})
       }
+    } catch (e) {
+    }
 
-      try {
-        let mainPanel = <Vue>this.$refs.main
-        let current = <HTMLElement>mainPanel.$el.querySelector(`[data-item-id="${newer.id}"]`);
-        let v = current.getBoundingClientRect().top;
-        if (v < h * 0.1 || v > h * 0.9) {
-          v -= h * 0.2;
-          v += pageYOffset;
-          window.scrollTo({top: v, behavior: "smooth"})
-        }
-      } catch (e) {
+    try {
+      let mainPanel = <Vue>this.$refs.main
+      let current = <HTMLElement>mainPanel.$el.querySelector(`[data-item-id="${newer}"]`);
+      let v = current.getBoundingClientRect().top;
+      if (v < h * 0.1 || v > h * 0.9) {
+        v -= h * 0.2;
+        v += pageYOffset;
+        window.scrollTo({top: v, behavior: "smooth"})
       }
+    } catch (e) {
     }
   }
 

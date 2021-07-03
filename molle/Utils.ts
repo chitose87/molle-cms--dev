@@ -1,6 +1,5 @@
 import {Vue} from "~/node_modules/nuxt-property-decorator";
 import {IPageData} from "~/molle/interface";
-import {lsStore} from "~/utils/store-accessor";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
 

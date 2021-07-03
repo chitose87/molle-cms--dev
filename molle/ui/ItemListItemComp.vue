@@ -1,15 +1,15 @@
 <template lang="pug">
 .item-list-item-comp.list-group-item.list-group-item-action.p-0.border-right-0(
   v-if="itemData.moduleId"
-  :class="{_current:lsStore.storage.focusModuleNode.id === node.id}"
+  :class="{_current:$route.query.focus === node.id}"
   :data-item-id="node.id"
 )
   .d-flex.justify-content-between
     button.btn.btn-sm.btn-link.btn-block.text-left(
-      :class="{active: lsStore.storage.focusModuleNode.id === node.id}",
+      :class="{active: $route.query.focus === node.id}",
       :title="node.id",
-      @click="lsStore.update({key: 'focusModuleNode', value: node})"
-      @mouseover="lsStore.update({key: 'hoverModuleNode', value: node})"
+      @click="$router.push({query: {...$route.query, focus: node.id}})"
+      @mouseover="$router.push({query: {...$route.query, hover: node.id}})"
       style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
     )
       span(v-if="isRoot")
@@ -33,7 +33,7 @@
     //削除
       v-if="!$parent.notDeleted"
     button.btn.btn-sm.btn-danger.item-list-item-comp__delete(
-      v-if="!isRoot && lsStore.storage.focusModuleNode.id === node.id",
+      v-if="!isRoot && $route.query.focus === node.id",
       @click="deleteModule()"
     ) x
   // children
@@ -96,7 +96,6 @@ import {
 import {Singleton} from "~/molle/Singleton";
 import {IItemData, INodeObject, ILogsData} from "~/molle/interface";
 import firebase from "~/node_modules/firebase";
-import {lsStore} from "~/utils/store-accessor";
 import draggable from "vuedraggable";
 
 @Component({
@@ -106,7 +105,6 @@ export default class ItemListItemComp extends Vue {
   @Prop() node!: INodeObject;
   @Prop() isRoot?: boolean;
   itemData = <IItemData>{};
-  lsStore = lsStore;
   pushModuleSelected: string = "";
   private unsubscribe!: () => void;
   maxHistory: number = 100;

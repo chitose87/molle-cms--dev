@@ -19,7 +19,6 @@
 
 <script lang="ts">
 import {Component, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-import {lsStore} from "~/utils/store-accessor";
 import {Utils} from "~/molle/Utils";
 import {IPageData} from "~/molle/interface";
 

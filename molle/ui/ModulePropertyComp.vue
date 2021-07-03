@@ -1,5 +1,5 @@
 <template lang="pug">
-.module-property-comp(v-if="lsStore.storage.focusModuleNode.id")
+.module-property-comp(v-if="$route.query.focus")
   .card.bg-light(v-if="flag")
     .card-header.pt-1.pb-1.pl-3.pr-3
       span {{itemData.moduleId}} プロパティ
@@ -71,7 +71,7 @@
         span :書き出さない
 
       p.mb-0.text-right
-        span.small.text-nowrap ID : {{lsStore.storage.focusModuleNode.id}}
+        span.small.text-nowrap ID : {{$route.query.focus}}
         a.ml-2.text-nowrap(:href="firestoreUrl+itemId" target="firestore")
           span >firestore
           b-icon.ml-2(icon="window")
@@ -80,7 +80,6 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "~/node_modules/nuxt-property-decorator";
-import {lsStore} from "~/utils/store-accessor";
 import {IItemData, INodeObject, ILogsData} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "~/node_modules/firebase";
@@ -94,7 +93,6 @@ export default class ModulePropertyComp extends Vue {
   itemData = <IItemData>{};
   itemDataBefore = <IItemData>{};
   changeModuleSelected = "";
-  lsStore = lsStore;
   private unsubscribe?: () => void;
   flag = false;
   pageFlag = true;
@@ -105,16 +103,16 @@ export default class ModulePropertyComp extends Vue {
     [process.env.molleProjectID, process.env.molleBrunch, "items", ""].join("~2F")
   }`;
 
-  @Watch('lsStore.storage.focusModuleNode', {immediate: true})
-  onChangeFocusModuleNode(newer: INodeObject, older?: INodeObject) {
-      if (newer && newer.id) {
+  @Watch('$route.query.focus', {immediate: true})
+  onChangeFocusModuleNode(newer: string, older?: string) {
+      if (newer) {
         console.log("onChangeFocusModuleNode")
         this.flag = false;
         if (this.unsubscribe) {
           this.unsubscribe();
         }
 
-        this.unsubscribe = Singleton.itemsRef.doc(newer.id).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+        this.unsubscribe = Singleton.itemsRef.doc(newer).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
           if (!snap.exists) return;
 
           this.itemDataBefore = <IItemData>snap.data();

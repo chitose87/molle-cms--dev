@@ -7,18 +7,18 @@ component(
 
 <script lang="ts">
 import {Component, Prop, Vue} from "~/node_modules/nuxt-property-decorator";
-import {IItemData, INodeObject} from "~/molle/interface";
 import allData from "~/molle/nuxt-config/firestore-snap.json";
 
 @Component({
   components: {},
 })
 export default class ModuleLoader extends Vue {
-  @Prop({default: () => ({id: 0})}) node!: INodeObject;
+  @Prop({default: () => ({id: 0})}) node!: any;
 
-  itemData = <IItemData>{moduleId: "div"};
+  itemData = {moduleId: "div"};
 
   beforeMount() {
+    //@ts-ignore
     this.itemData = allData.items[this.node.id];
   }
 }

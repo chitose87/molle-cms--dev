@@ -1,6 +1,6 @@
 <template lang="pug">
 .focus-extension.bootstrap(
-  v-show="lsStore.storage.focusModuleNode.id"
+  v-show="$route.query.focus"
   :style="style"
   :data-is-row="sibling.isRow")
   .focus-extension__before(v-show="isBefore")
@@ -73,7 +73,6 @@
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from "~/node_modules/nuxt-property-decorator";
-import {lsStore} from "~/utils/store-accessor";
 import {IItemData, INodeObject} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
@@ -86,7 +85,6 @@ import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
   components: {AddModuleComp, CopyModuleComp},
 })
 export default class FocusExtension extends Vue {
-  lsStore = lsStore;
   itemId: string = "";
   private observer: any;
 
@@ -99,25 +97,23 @@ export default class FocusExtension extends Vue {
   mounted() {
     this.enterFrame();
 
-    // on update focusModuleNode
-    this.$store.watch((state, getters) => {
-      return lsStore.storage.focusModuleNode
-    }, (newer: any, older: any) => {
-      console.log(newer.id)
+    this.changeFocus(this.$route.query.focus + "");
+  }
 
-      let loader = Singleton.modules[newer.id];
-      if (loader) {
-        this.itemId = lsStore.storage.focusModuleNode.id;
-        this.$set(this, "loader", loader);
+  @Watch('$route.query.focus')
+  changeFocus(newer: string) {
+    let loader = Singleton.modules[newer];
+    if (loader) {
+      this.itemId = this.$route.query.focus + "";
+      this.$set(this, "loader", loader);
 
-        //子要素を差し込めない要素確認
-        this.isBefore = this.isAfter = !(!loader.fromModule.itemData || loader.fromModule.itemData.type == "group");
-        if (this.isAfter &&
-          loader.fromModule.itemData.value[loader.fromModule.itemData.value.length - 1].id == this.itemId) {
-          this.isAfter = false;
-        }
+      //子要素を差し込めない要素確認
+      this.isBefore = this.isAfter = !(!loader.fromModule.itemData || loader.fromModule.itemData.type == "group");
+      if (this.isAfter &&
+        loader.fromModule.itemData.value[loader.fromModule.itemData.value.length - 1].id == this.itemId) {
+        this.isAfter = false;
       }
-    })
+    }
   }
 
   private enterFrame() {

@@ -12,7 +12,6 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "~/node_modules/nuxt-property-decorator";
-import {lsStore} from "~/utils/store-accessor";
 import {IItemData, INodeObject, ILogsData} from "~/molle/interface";
 import {Singleton} from "~/molle/Singleton";
 import firebase from "~/node_modules/firebase";
@@ -29,7 +28,6 @@ export default class LogPropertyComp extends Vue {
   // @Prop() history!: ILogsData[];
   @Prop() itemId!: string;
 
-  lsStore = lsStore;
   private unsubscribe?: () => void;
   flag = false;
   isShow = false;
@@ -40,12 +38,12 @@ export default class LogPropertyComp extends Vue {
     // console.log("★★LogPropertyComp通過★★", this.history)
     console.log(this.itemId)
     Singleton.logsRef.doc(this.itemId)
-        .get()
-        .then((snap: firebase.firestore.DocumentSnapshot) => {
-          if (!snap.exists) return;
-          console.log(snap.data())
-          this.$set(this, "logDataList", snap.data() || []);
-        })
+      .get()
+      .then((snap: firebase.firestore.DocumentSnapshot) => {
+        if (!snap.exists) return;
+        console.log(snap.data())
+        this.$set(this, "logDataList", snap.data() || []);
+      })
   }
 
 }
