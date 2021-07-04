@@ -57,12 +57,12 @@ function cleaningFirestoreValue(_data) {
    */
 
   firebase.initializeApp({
-    apiKey: molle.apiKey,
-    authDomain: molle.authDomain,
-    databaseURL: molle.databaseURL,
-    projectId: molle.projectId,
-    storageBucket: molle.storageBucket,
-    messagingSenderId: molle.messagingSenderId,
+    apiKey: process.env.apiKey,
+    authDomain: process.env.authDomain,
+    databaseURL: process.env.databaseURL,
+    projectId: process.env.projectId,
+    storageBucket: process.env.storageBucket,
+    messagingSenderId: process.env.messagingSenderId,
   });
 
   const user = await firebase.auth().signInWithEmailAndPassword(molle.developerId, process.env.FIRESTORE_PW);

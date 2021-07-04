@@ -1,24 +1,12 @@
 {
-  "siteName":"{{MOLLE CMS v0.1}}",
-  "title":"{{MOLLE CMS v0.1}}",
-  "description":"{{MOLLE CMS v0.1}}",
-  "keywords":"{{keywords}}",
-  "domain":"https://molle-cms--stg.web.app/",
-  "molleProjectID":"sandbox",
-  "molleBrunch":"beta",
-
-  "apiKey":"AIzaSyCi8-uxlUVlUKEL8HuATVYBt6O89zylqwY",
-  "authDomain":"molle-cms---dev.firebaseapp.com",
-  "databaseURL":"https://molle-cms---dev.firebaseio.com",
-  "projectId":"molle-cms---dev",
-  "storageBucket":"molle-cms---dev.appspot.com",
-  "messagingSenderId":"965827033393",
-  "appId":"1:965827033393:web:b13a5b04b03a34ac4a981",
-  "measurementId":"G-3M15GS6HC2",
-  "functions":"https://us-central1-molle-cms---dev.cloudfunctions.net",
-
-  "developerId":"chitose87@gmail.com",
-
-  "breakPoint":"768",
-  "gutter":"18"
+  "siteName": "{{MOLLE CMS v0.1}}",
+  "title": "{{MOLLE CMS v0.1}}",
+  "description": "{{MOLLE CMS v0.1}}",
+  "keywords": "{{keywords}}",
+  "domain": "https://molle-cms--stg.web.app/",
+  "molleProjectID": "sandbox",
+  "molleBrunch": "beta",
+  "developerId": "chitose87@gmail.com",
+  "breakPoint": "768",
+  "gutter": "16"
 }
