@@ -88,8 +88,7 @@ sw.*
 
 # Vim swap files
 *.swp
-functions/app
 public
 public-cms
-functions/stgApp
+functions/site
 .runtimeconfig.json

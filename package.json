@@ -5,12 +5,12 @@
   "scripts": {
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
-    "dev": "cross-env NUXT_PORT=1234 IS_MOLLE_CMS=true nuxt-ts",
-    "gen": "node ./molle/nuxt-config/node.js && nuxt-ts generate",
-    "hosting:public": "firebase deploy --only hosting:public",
-    "gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate",
-    "hosting:cms": "firebase deploy --only functions",
-    "hosting": "firebase deploy --only hosting"
+    "dev": "cross-env NUXT_PORT=1234 IS_MOLLE_CMS=true nuxt-ts dev ./site",
+    "gen": "node ./molle/node.js site && nuxt-ts generate site",
+    "--hosting:public": "firebase deploy --only hosting:public",
+    "gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate site",
+    "--hosting:cms": "firebase deploy --only functions",
+    "--hosting": "firebase deploy --only hosting"
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.1.0",
@@ -23,6 +23,7 @@
     "firebase-tools": "^9.10.2",
     "nuxt": "^2.15.5",
     "quill": "^1.3.7",
+    "tsconfig-paths-webpack-plugin": "^3.5.1",
     "vue-scrollto": "^2.20.0",
     "vuex": "^3.6.2",
     "webpack": "^4.44.2"
