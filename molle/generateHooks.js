@@ -87,10 +87,10 @@ module.exports = function () {
     if (process.env.IS_MOLLE_CMS) {
 
     } else {
-      attr.html = attr.html
-          .replace(/data-n-head="1" /g, "")
-          //loaderの削除
-          .replace(/(<div id="__nuxt">)([\s\S]*?)(<script>window.__NUXT__)/, `<div id="__nuxt"></div><script>window.__NUXT__`);
+      // attr.html = attr.html
+      //     .replace(/data-n-head="1" /g, "")
+      //     //loaderの削除
+      //     .replace(/(<div id="__nuxt">)([\s\S]*?)(<script>window.__NUXT__)/, `<div id="__nuxt"></div><script>window.__NUXT__`);
     }
   });
   this.nuxt.hook('generate:routeCreated', async generator => {

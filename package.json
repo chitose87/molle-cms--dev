@@ -7,8 +7,11 @@
     "start": "nuxt-ts start",
     "dev": "cross-env NUXT_PORT=1234 IS_MOLLE_CMS=true nuxt-ts dev ./site",
     "gen": "node ./molle/node.js site && nuxt-ts generate site",
-    "--hosting:public": "firebase deploy --only hosting:public",
     "gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate site",
+    "it:dev": "cross-env NUXT_PORT=1234 IS_MOLLE_CMS=true nuxt-ts dev ./comthink",
+    "it:gen": "node ./molle/node.js comthink && nuxt-ts generate comthink",
+    "it:gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate comthink",
+    "--hosting:public": "firebase deploy --only hosting:public",
     "--hosting:cms": "firebase deploy --only functions",
     "--hosting": "firebase deploy --only hosting"
   },

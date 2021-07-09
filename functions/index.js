@@ -8,8 +8,15 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 
 setProject({
-  dir: "stgApp/",
+  dir: "site/",
   molleProjectID: "sandbox",
+  molleBrunch: "beta",
+  cron: "every day 10:00",
+  ghRepository: "chitose87/molle-cms--dev"
+})
+setProject({
+  dir: "comthink/",
+  molleProjectID: "comthink",
   molleBrunch: "beta",
   cron: "every day 10:00",
   ghRepository: "chitose87/molle-cms--dev"
