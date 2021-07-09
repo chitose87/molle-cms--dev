@@ -10,6 +10,8 @@ import Paragraph from "~/molle/module/primitive/Paragraph.vue";
 import ParagraphProfile from "~/molle/module/primitive/ParagraphProfile.vue";
 import Picture from "~/molle/module/primitive/Picture.vue";
 import PictureProfile from "~/molle/module/primitive/PictureProfile.vue";
+import LinkPicture from "~/molle/module/primitive/LinkPicture.vue";
+import LinkPictureProfile from "~/molle/module/primitive/LinkPictureProfile.vue";
 import Button from "~/molle/module/primitive/Button.vue";
 import ButtonProfile from "~/molle/module/primitive/ButtonProfile.vue";
 import Column from "~/molle/module/primitive/Column.vue";
@@ -97,6 +99,18 @@ const molleModules = Vue.prototype.$molleModules = {
     profile: PictureProfile,
     profileName: "PictureProfile",
     def: c("Picture", "picture", {
+      option: {
+        sp: "",
+        alt: "",
+      },
+    }),
+    icon: "image",
+  },
+  LinkPicture: {
+    ref: LinkPicture,
+    profile: LinkPictureProfile,
+    profileName: "LinkPictureProfile",
+    def: c("LinkPicture", "picture", {
       option: {
         sp: "",
         alt: "",
