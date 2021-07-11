@@ -1,9 +1,9 @@
-name: CI-Firebase-hosting
+name: CI-Firebase-hosting-comthink
 
 on:
-  push:
-    branches:
-      - main
+  #  push:
+  #    branches:
+  #      - main
   workflow_dispatch:
 
 jobs:
@@ -36,5 +36,5 @@ jobs:
           #- run: npm install
           #- run: npm run build
       - run: npm i
-      - run: FIRESTORE_PW=$FIRESTORE_PW npm run gen
-      - run: ./node_modules/.bin/firebase deploy --only hosting:public --token=$FIREBASE_TOKEN
+      - run: FIRESTORE_PW=$FIRESTORE_PW npm run comthink:gen
+      - run: ./node_modules/.bin/firebase deploy --only hosting:comthink-static --token=$FIREBASE_TOKEN

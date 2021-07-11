@@ -1,0 +1,14 @@
+{
+  "site": {
+    "molleProjectID": "sandbox",
+    "molleBrunch": "beta",
+    "cron": "every day 10:00",
+    "ghRepository": "chitose87/molle-cms--dev"
+  },
+  "comthink": {
+    "molleProjectID": "comthink",
+    "molleBrunch": "beta",
+    "cron": "every day 10:00",
+    "ghRepository": "chitose87/molle-cms--dev"
+  }
+}

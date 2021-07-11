@@ -5,11 +5,17 @@
   "targets": {
     "molle-cms---dev": {
       "hosting": {
-        "public": [
+        "site-static": [
           "molle-cms--stg"
         ],
-        "cms": [
+        "site-cms": [
           "molle-cms---dev"
+        ],
+        "comthink-static": [
+          "molle-it"
+        ],
+        "comthink-cms": [
+          "molle-it-cms"
         ]
       }
     }
