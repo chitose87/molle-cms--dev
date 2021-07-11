@@ -6,12 +6,13 @@
   "functions": {
     "functions": {
       "source": "functions"
-    }
+    },
+    "source": "functions"
   },
   "hosting": [
     {
-      "target": "public",
-      "public": "public",
+      "target": "site-static",
+      "public": "site/public",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -19,8 +20,8 @@
       ]
     },
     {
-      "target": "cms",
-      "public": "public-cms",
+      "target": "site-cms",
+      "public": "site/public-cms",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -29,9 +30,36 @@
       "rewrites": [
         {
           "source": "**",
-          "function": "molle_rewrites"
+          "function": "site_rewrites"
+        }
+      ]
+    },
+    {
+      "target": "comthink-static",
+      "public": "comthink/public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    },
+    {
+      "target": "comthink-cms",
+      "public": "comthink/public-cms",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "function": "comthink_rewrites"
         }
       ]
     }
-  ]
+  ],
+  "storage": {
+    "rules": "storage.rules"
+  }
 }
