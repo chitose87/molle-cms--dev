@@ -37,7 +37,7 @@ import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
 import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
 import ItemListItemComp from "~/molle/ui/ItemListItemComp.vue";
 
-declare module 'vue/types/vue' {
+declare module "vue/types/vue" {
   interface Vue {
     // @ts-ignore
     $molleModules: {
@@ -200,7 +200,7 @@ const molleModules = Vue.prototype.$molleModules = {
         img: {fixedModuleId: "Picture", order: 0},
         headline: {fixedModuleId: "Paragraph", order: 10},
         text: {fixedModuleId: "Paragraph", order: 20},
-      }
+      },
     }),
     icon: "file-richtext",
   },
