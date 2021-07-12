@@ -71,5 +71,15 @@ export default class ColumnBox extends Module {
 
 <style lang="scss">
 .column__item {
+  @for $i from 1 through 12 {
+    &.col-#{$i} {
+      @include col($i);
+    }
+    @include mediaquery-sm {
+      &.col-sm-#{$i} {
+        @include col($i);
+      }
+    }
+  }
 }
 </style>

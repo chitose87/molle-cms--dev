@@ -1,26 +1,21 @@
 <template lang="pug">
 component(
-  :is="itemData.moduleId",
-  :itemData="itemData"
+  :is="items[node.id].moduleId",
+  :itemData="items[node.id]"
 )
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from "nuxt-property-decorator";
 import allData from "~/molle/nuxt-config/firestore-snap.json";
+import {IItemData} from "~/molle/interface";
 
 @Component({
   components: {},
 })
 export default class ModuleLoader extends Vue {
   @Prop({default: () => ({id: 0})}) node!: any;
-
-  itemData = {moduleId: "div"};
-
-  beforeMount() {
-    //@ts-ignore
-    this.itemData = allData.items[this.node.id];
-  }
+  items = allData.items;
 }
 </script>
 
