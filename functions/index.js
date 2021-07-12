@@ -56,7 +56,7 @@ function setProject(args) {
   exports[`${args.molleProjectID}_rewrites`] = functions
     // .region('asia-northeast1')
     .https.onRequest(express()
-      .use(basicAuth(config.basic.id, config.basic.pw))
+      .use(basicAuth(config[args.dir].id, config[args.dir].pw))
       .use(express.static(__dirname + "/" + args.dir))
       .all("*", (req, res, next) => {
         res.sendFile(path.resolve(__dirname, args.dir + "/index.html"));
