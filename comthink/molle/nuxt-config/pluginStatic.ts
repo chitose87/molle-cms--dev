@@ -10,6 +10,7 @@ import BackgroundBox from "~/molle/module/primitive/BackgroundBox.vue"
 import Headline from "~/molle/module/primitive/Headline.vue"
 import Paragraph from "~/molle/module/primitive/Paragraph.vue"
 import Picture from "~/molle/module/primitive/Picture.vue"
+import LinkPicture from "~/molle/module/primitive/LinkPicture.vue";
 import Button from "~/molle/module/primitive/Button.vue"
 import Column from "~/molle/module/primitive/Column.vue"
 import ColumnBox from "~/molle/module/primitive/ColumnBox.vue"
@@ -48,6 +49,7 @@ const pluginStatic = Vue.prototype.$molleModules = {
  Headline : {ref:  Headline },
  Paragraph : {ref:  Paragraph },
  Picture : {ref:  Picture },
+ LinkPicture : {ref:  LinkPicture },
  Button : {ref:  Button },
  Column : {ref:  Column },
  ColumnBox : {ref:  ColumnBox },

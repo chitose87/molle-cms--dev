@@ -38,7 +38,7 @@ div
 </template>
 
 <script lang="ts">
-import {Component} from "~/node_modules/nuxt-property-decorator";
+import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle/ui/property/StyleComp.vue";
 import {Profile} from "~/molle/module/Profile";
 import {StyleAlign} from "~/molle/Singleton";

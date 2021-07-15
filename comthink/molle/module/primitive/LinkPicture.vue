@@ -3,7 +3,6 @@
   :id="itemData.tagId",
   :class="getClass(itemData)",
   :style="getStyle(itemData)",
-  :href="$route.query.edit ? 'javascript:void(0)' : itemData.option.href"
 )
   picture
     source(
@@ -11,11 +10,12 @@
       :srcset="itemData.option.sp",
       :alt="itemData.option.alt"
     )
-    img(:src="itemData.value", :alt="itemData.option.alt")
+    a(:href="itemData.option.href")
+      img(:src="itemData.value", :alt="itemData.option.alt")
 </template>
 
 <script lang="ts">
-import {Component} from "~/node_modules/nuxt-property-decorator";
+import {Component} from "nuxt-property-decorator";
 import {Module} from "~/molle/module/Module";
 
 @Component({
