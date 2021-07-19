@@ -6,7 +6,7 @@
 )
   picture
     source(
-      media="(max-width:" + (process.env.breakPoint - 1) + "px)"
+      :media="`(max-width:${breakPoint - 1}px)`"
       :srcset="itemData.option.sp",
       :alt="itemData.option.alt"
     )
@@ -21,6 +21,7 @@ import {Module} from "~/molle/module/Module";
   components: {},
 })
 export default class Picture extends Module {
+  breakPoint = process.env.breakPoint;
   //Unique Methods
 }
 </script>
