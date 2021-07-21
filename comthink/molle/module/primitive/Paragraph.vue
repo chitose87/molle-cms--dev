@@ -28,5 +28,8 @@ export default class Paragraph extends Module {
     font-size: 14px;
     color: $color-gray-500;
   }
+  &.padding {
+    padding: 6rem;
+  }
 }
 </style>

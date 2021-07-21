@@ -113,7 +113,7 @@ export default class CopyModuleComp extends Vue {
                       createLoop(_itemData.value[m].obj, _itemData.value[m].id);
                     }
                   }
-                  console.log("objを削除するところ", _itemData.value[0].obj)
+                  // console.log("objを削除するところ", _itemData.value[0].obj)
                   if (_itemData.value[0].obj) {
                     for (let i in _itemData.value) {
                       delete _itemData.value[i].obj;

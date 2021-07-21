@@ -57,6 +57,9 @@ h3.headline {
       }
     }
   }
+  &.padding {
+    padding: 6rem;
+  }
 }
 
 h4.headline {

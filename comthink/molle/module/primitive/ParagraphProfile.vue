@@ -39,7 +39,7 @@ export default class ParagraphProfile extends Profile {
     align: StyleAlign.None,
     margin: "",
     // padding: "",
-    theme: {default: "", select: ["", "-caption"]},
+    theme: {default: "", select: ["", "-caption", "padding"]},
     // color: {default: "", select: ["", "dark"]},
   };
 }

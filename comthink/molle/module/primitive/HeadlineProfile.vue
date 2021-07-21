@@ -45,7 +45,7 @@
       align: StyleAlign.None,
       margin: "",
       // padding: "",
-      theme: {default: "", select: ["", "decorate"]},
+      theme: {default: "", select: ["", "decorate", "padding"]},
       color: {default: "", select: ["", "text-white"]},
     };
   }
