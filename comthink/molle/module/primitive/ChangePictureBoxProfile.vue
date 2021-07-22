@@ -33,8 +33,6 @@ export default class ChangePictureBoxProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "-quote"]},
-    color: {default: "", select: ["", "-dark", "-gray", "-gray-box"]},
   };
 }
 </script>

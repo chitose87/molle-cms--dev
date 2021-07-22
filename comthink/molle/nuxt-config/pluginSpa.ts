@@ -146,8 +146,13 @@ const molleModules = Vue.prototype.$molleModules = {
     ref: ChangePictureBox,
     profile: ChangePictureBoxProfile,
     profileName: "ChangePictureBoxProfile",
-    def: c("ChangePictureBox", "children"),
-    white: ["Picture"],
+    def: c("ChangePictureBox", "group", {
+      value: {
+        img: {fixedModuleId: "Picture", order: 0},
+        headline: {fixedModuleId: "Picture", order: 10},
+        text: {fixedModuleId: "Picture", order: 20},
+      },
+    }),
     icon: "plus-square",
   },
   Table: {
