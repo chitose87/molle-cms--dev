@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import {Prop, Vue, Watch} from "nuxt-property-decorator";
-import {IItemData, INodeObject} from "~/molle/interface";
+import {IItemData, INodeObject} from "../interface";
 
 export class Profile extends Vue {
   @Prop() itemData!: IItemData;
@@ -50,14 +50,14 @@ export class Profile extends Vue {
             }
           }
         } catch (e) {
-          console.log(this.itemId,e)
+          console.log(this.itemId, e);
         }
         break;
       default:
         break;
     }
     if (flag) {
-      this.$emit('change');
+      this.$emit("change");
     }
   }
 }

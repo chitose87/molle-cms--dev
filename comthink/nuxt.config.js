@@ -29,13 +29,13 @@ const css = [
 const modules = [
   '@nuxtjs/dotenv',
   '@nuxtjs/style-resources',
-  '../molle/generateHooks'
+  '../molle-cms/generateHooks'
 ]
 const plugins = [
   './molle/nuxt-config/plugin.ts'
 ]
 if (molle.isMolleCms) {
-  css.push('./molle/css/molle.scss')
+  css.push('molle-cms/css/molle.scss')
   modules.push('bootstrap-vue/nuxt');
   plugins.push('./molle/nuxt-config/pluginSpa.ts');
 } else {

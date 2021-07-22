@@ -9,11 +9,11 @@ component(
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue, Watch,} from "nuxt-property-decorator";
-import {Singleton} from "~/molle/Singleton";
+import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
+import {Singleton} from "molle-cms/src/Singleton";
 import firebase from "firebase";
-import {IPageData, IItemData, INodeObject, IPayload} from "~/molle/interface";
-import {Module} from "~/molle/module/Module";
+import {IPageData, IItemData, INodeObject} from "molle-cms/src/interface";
+import {Module} from "molle-cms/src/module/Module";
 
 @Component({
   components: {},
@@ -33,6 +33,7 @@ export default class ModuleLoaderCms extends Vue {
   itemData = <IItemData>{moduleId: "div"};
   style: any = {};
   private unsubscribe!: () => void;
+  static modules = <{[key: string]: ModuleLoaderCms}>{};
 
   async fetch() {
     // console.log("node", this.node, this.isMolleCms)
@@ -40,14 +41,14 @@ export default class ModuleLoaderCms extends Vue {
       if (this.unsubscribe) this.unsubscribe();
       Singleton.firebaseInit(() => {
         this.unsubscribe = Singleton.itemsRef
-            .doc(this.node.id)
-            .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-              // console.log(this.node.id, snap.exists);
-              if (snap.exists) this.$set(this, "itemData", snap.data());
-            });
+          .doc(this.node.id)
+          .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+            // console.log(this.node.id, snap.exists);
+            if (snap.exists) this.$set(this, "itemData", snap.data());
+          });
       });
 
-      Singleton.modules[this.node.id] = this;
+      ModuleLoaderCms.modules[this.node.id] = this;
     }
   }
 

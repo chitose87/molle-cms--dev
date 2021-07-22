@@ -1,10 +1,9 @@
 import {Prop, Vue, Watch} from "nuxt-property-decorator";
-import {IItemData, INodeObject, IPayload} from "~/molle/interface";
-import ModuleLoader from "~/molle/module/ModuleLoader.vue";
+import {IItemData, INodeObject, IPayload} from "../interface";
 
 export class Module extends Vue {
-  get loader(): ModuleLoader {
-    return <ModuleLoader>this.$parent;
+  get loader(): any {
+    return this.$parent;
   }
 
   get parent(): Module {

@@ -77,10 +77,10 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop,} from "nuxt-property-decorator";
-import {IPageData} from "~/molle/interface";
-import {Singleton} from "~/molle/Singleton";
-import GoogleStorage from "~/molle/ui/GoogleStorage.vue";
-import InputUrlByGS from "~/molle/ui/property/InputUrlByGS.vue";
+import {IPageData} from "molle-cms/src/interface";
+import {Singleton} from "molle-cms/src/Singleton";
+import GoogleStorage from "molle-cms/src/ui/GoogleStorage.vue";
+import InputUrlByGS from "molle-cms/src/ui/property/InputUrlByGS.vue";
 
 @Component({
   components: {InputUrlByGS, GoogleStorage},

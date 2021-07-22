@@ -93,8 +93,8 @@ import {
   Watch,
   Prop,
 } from "nuxt-property-decorator";
-import {Singleton} from "~/molle/Singleton";
-import {IItemData, INodeObject, ILogsData} from "~/molle/interface";
+import {Singleton} from "molle-cms/src/Singleton";
+import {IItemData, INodeObject, ILogsData} from "molle-cms/src/interface";
 import firebase from "firebase";
 import draggable from "vuedraggable";
 

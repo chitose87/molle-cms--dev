@@ -20,12 +20,10 @@
 import {Component, Emit, Prop, Vue} from "nuxt-property-decorator";
 import {OptionComp} from "./OptionComp";
 import Quill from "quill";
-import {Singleton} from "~/molle/Singleton";
 import firebase from "firebase";
-import Button from "~/molle/module/primitive/Button.vue";
 
 @Component({
-  components: {Button}
+  components: {},
 })
 /**
  */
@@ -39,13 +37,13 @@ export default class TextAreaQuill extends OptionComp {
     this.quill = new Quill(<Element>this.$refs.quillEditor!, {
       modules: {
         toolbar: [
-          ["bold", "underline", "link", "clean"]
-        ]
+          ["bold", "underline", "link", "clean"],
+        ],
       },
-      theme: "snow"
+      theme: "snow",
     });
-    delete this.quill.getModule('keyboard').bindings["9"];//tab
-    this.$editer = <HTMLElement>this.$el.querySelector('.ql-editor');
+    delete this.quill.getModule("keyboard").bindings["9"];//tab
+    this.$editer = <HTMLElement>this.$el.querySelector(".ql-editor");
 
     // 入力
     this.quill.on("text-change", (e: any, old: any, source: string) => {
@@ -54,7 +52,7 @@ export default class TextAreaQuill extends OptionComp {
       }
     });
 
-    this.changeMode(false)
+    this.changeMode(false);
   }
 
   changeMode(flag: boolean) {
@@ -72,19 +70,19 @@ export default class TextAreaQuill extends OptionComp {
         children.forEach((child: any) => {
           let str = child.innerHTML || child.outerHTML || child;
           rows.push(str == "<br>" ? "" : str);
-        })
+        });
       }
     };
     loop(this.$editer.children);
 
     //空の行を削除
-    rows = rows.filter(v => v != "<br>" && v)
+    rows = rows.filter(v => v != "<br>" && v);
     let str = rows.join("<br>");
     //shift + enter killer
     str = str.replace(/(<br>)+/g, "<br>");
 
     this.$set(this, "localValue", str);
-    this.$emit('change')
+    this.$emit("change");
   }
 }
 </script>

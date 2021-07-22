@@ -27,18 +27,18 @@ div
 
 <script lang="ts">
 import {Component, Vue, Watch} from "nuxt-property-decorator";
-import {INodeObject, IPageData} from "~/molle/interface";
-import {Singleton} from "~/molle/Singleton";
+import {INodeObject, IPageData} from "molle-cms/src/interface";
+import {Singleton} from "molle-cms/src/Singleton";
 import firebase from "firebase";
-import ItemListViewComp from "~/molle/ui/ItemListViewComp.vue";
-import ModulePropertyComp from "~/molle/ui/ModulePropertyComp.vue";
-import PagePropertyComp from "~/molle/ui/PagePropertyComp.vue";
+import ItemListViewComp from "molle-cms/src/ui/ItemListViewComp.vue";
+import ModulePropertyComp from "molle-cms/src/ui/ModulePropertyComp.vue";
+import PagePropertyComp from "molle-cms/src/ui/PagePropertyComp.vue";
 import UniversalPage from "~/pages/_universal.vue";
 import NewsDetailPage from "~/pages/news/_detail.vue";
 
-import EditorOptionComp from "~/molle/ui/EditorOptionComp.vue";
-import GoogleStorageModalComp from "~/molle/ui/GoogleStorageModalComp.vue";
-import FocusExtension from "~/molle/ui/FocusExtension.vue";
+import EditorOptionComp from "molle-cms/src/ui/EditorOptionComp.vue";
+import GoogleStorageModalComp from "molle-cms/src/ui/GoogleStorageModalComp.vue";
+import FocusExtension from "molle-cms/src/ui/FocusExtension.vue";
 import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
 
 @Component({

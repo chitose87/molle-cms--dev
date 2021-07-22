@@ -32,11 +32,11 @@ div
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import StyleComp from "~/molle/ui/property/StyleComp.vue";
-import {Profile} from "~/molle/module/Profile";
-import {StyleAlign} from "~/molle/Singleton";
-import GoogleStorage from "~/molle/ui/GoogleStorage.vue";
-import InputUrlByGS from "~/molle/ui/property/InputUrlByGS.vue";
+import StyleComp from "molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "molle-cms/src/module/Profile";
+import {StyleAlign} from "molle-cms/src/Singleton";
+import GoogleStorage from "molle-cms/src/ui/GoogleStorage.vue";
+import InputUrlByGS from "molle-cms/src/ui/property/InputUrlByGS.vue";
 
 @Component({
   components: {InputUrlByGS, GoogleStorage, StyleComp}

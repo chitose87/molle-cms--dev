@@ -172,9 +172,9 @@
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
 import firebase from "firebase";
-import {Singleton} from "~/molle/Singleton";
-import {IItemData, IPageData} from "~/molle/interface";
-import MolleToolbar from "~/molle/ui/MolleToolbar.vue";
+import {Singleton} from "molle-cms/src/Singleton";
+import {IItemData, IPageData} from "molle-cms/src/interface";
+import MolleToolbar from "molle-cms/src/ui/MolleToolbar.vue";
 
 @Component({
   components: {MolleToolbar}

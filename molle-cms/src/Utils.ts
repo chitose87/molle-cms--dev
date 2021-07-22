@@ -1,6 +1,5 @@
-import {Vue} from "nuxt-property-decorator";
-import {IPageData} from "~/molle/interface";
-import {Singleton} from "~/molle/Singleton";
+import {IPageData} from "./interface";
+import {Singleton} from "./Singleton";
 import firebase from "firebase";
 
 export class Utils {
@@ -18,19 +17,19 @@ export class Utils {
     if (pageData.description) {
       obj.meta.push(
         {hid: "description", name: "description", content: pageData.description},
-        {hid: "og:description", property: "og:description", content: pageData.description,},
+        {hid: "og:description", property: "og:description", content: pageData.description},
       );
     }
     if (pageData.ogpImg) {
       obj.meta.push(
-        {hid: "og:image", property: "og:image", content: pageData.ogpImg,},
-        {hid: "twitter:image", property: "twitter:image", content: pageData.ogpImg,},
+        {hid: "og:image", property: "og:image", content: pageData.ogpImg},
+        {hid: "twitter:image", property: "twitter:image", content: pageData.ogpImg},
       );
     }
     if (pageData.ogpImg) {
       obj.meta.push(
-        {hid: "og:image", property: "og:image", content: pageData.ogpImg,},
-        {hid: "twitter:image", property: "twitter:image", content: pageData.ogpImg,},
+        {hid: "og:image", property: "og:image", content: pageData.ogpImg},
+        {hid: "twitter:image", property: "twitter:image", content: pageData.ogpImg},
       );
     }
     return obj;
@@ -40,7 +39,7 @@ export class Utils {
    *
    * @param self
    */
-  static getPageData(self: Vue) {
+  static getPageData(self: any) {
     if (self.$nuxt.context.isDev || process.env.isMolleCms) {
       //SPA,DEV
       return Singleton.getCurrentPageData(self.$route);

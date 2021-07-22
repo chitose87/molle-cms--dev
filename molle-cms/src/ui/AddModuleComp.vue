@@ -17,9 +17,9 @@
 
 <script lang="ts">
 import {Component, Vue, Prop} from "nuxt-property-decorator";
-import {Singleton} from "~/molle/Singleton";
+import {Singleton} from "molle-cms/src/Singleton";
 import firebase from "firebase";
-import {IItemData, INodeObject, ILogsData} from "../interface";
+import {IItemData, INodeObject, ILogsData} from "molle-cms/src/interface";
 
 @Component({
   components: {},

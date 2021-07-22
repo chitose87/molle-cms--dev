@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
-import {INodeObject} from "~/molle/interface";
+import {INodeObject} from "molle-cms/src/interface";
 
 @Component({
   components: {}

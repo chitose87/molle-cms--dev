@@ -12,10 +12,10 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
-import {IItemData, INodeObject, ILogsData} from "~/molle/interface";
-import {Singleton} from "~/molle/Singleton";
+import {IItemData, INodeObject, ILogsData} from "molle-cms/src/interface";
+import {Singleton} from "molle-cms/src/Singleton";
 import firebase from "firebase";
-import LogDataComp from "~/molle/ui/LogDataComp.vue";
+import LogDataComp from "molle-cms/src/ui/LogDataComp.vue";
 
 @Component({
   components: {LogDataComp}

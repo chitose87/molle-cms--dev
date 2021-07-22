@@ -1,13 +1,8 @@
 import firebase from "firebase";
-import {IPayload} from "~/molle/interface";
-import ModuleLoader from "~/molle/module/ModuleLoader.vue";
-import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
 
 export class Singleton {
   static prefix = `${process.env.molleProjectID}/${process.env.molleBrunch}`;
-  static payload?: IPayload;
   static user?: any;
-  static modules = <{ [key: string]: ModuleLoaderCms }>{};
 
   static get systemDocRef(): firebase.firestore.DocumentReference {
     return this._systemDocRef ? this._systemDocRef :
@@ -53,7 +48,7 @@ export class Singleton {
       firebase.auth().onAuthStateChanged((user) => {
         this.user = user;
         callBack(user);
-      })
+      });
     } else {
       callBack();
     }

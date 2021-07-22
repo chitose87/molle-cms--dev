@@ -22,7 +22,7 @@ import GoogleMap from "~/molle/module/custom/GoogleMap.vue"
 import Table from "~/molle/module/primitive/Table.vue"
 /* > */
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
-import Blank from "~/molle/ui/Blank.vue";
+import Blank from "molle-cms/src/ui/Blank.vue";
 
 declare module "vue/types/vue" {
   interface Vue {

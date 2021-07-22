@@ -73,12 +73,11 @@
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
-import {IItemData, INodeObject} from "~/molle/interface";
-import {Singleton} from "~/molle/Singleton";
+import {IItemData, INodeObject} from "molle-cms/src/interface";
+import {Singleton} from "molle-cms/src/Singleton";
 import firebase from "firebase";
-import {Module} from "~/molle/module/Module";
-import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
-import CopyModuleComp from "~/molle/ui/CopyModuleComp.vue";
+import AddModuleComp from "molle-cms/src/ui/AddModuleComp.vue";
+import CopyModuleComp from "molle-cms/src/ui/CopyModuleComp.vue";
 import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
 
 @Component({
@@ -102,7 +101,7 @@ export default class FocusExtension extends Vue {
 
   @Watch('$route.query.focus')
   changeFocus(newer: string) {
-    let loader = Singleton.modules[newer];
+    let loader = ModuleLoaderCms.modules[newer];
     if (loader) {
       this.itemId = this.$route.query.focus + "";
       this.$set(this, "loader", loader);
