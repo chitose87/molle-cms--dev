@@ -4,7 +4,7 @@ const fs = require("fs");
 
 const molleConfig = JSON.parse(
   stripJsonComments(
-    fs.readFileSync(`molle/molle.config.json`, "utf8"),
+    fs.readFileSync(`molle-cms/molle.config.json`, "utf8"),
   ),
 );
 
@@ -82,14 +82,14 @@ for (let siteId in molleConfig.sites) {
   //package.json
   scripts.push(
     `    "${siteId}:dev": "cross-env NUXT_PORT=${siteOption.port} IS_MOLLE_CMS=true nuxt-ts dev ${siteId}",`,
-    `    "${siteId}:gen": "node ./molle/before.node.js ${siteId} && nuxt-ts generate ${siteId}",`,
+    `    "${siteId}:gen": "node ./molle-cms/before.node.js ${siteId} && nuxt-ts generate ${siteId}",`,
     `    "${siteId}:gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate ${siteId}",`,
     `    "${siteId}:deploy": "firebase deploy --only hosting:${siteId}-static",`,
   );
 
   //github Actions
   fs.writeFileSync(`.github/workflows/${siteId}.yml`,
-    fs.readFileSync(`molle/github.actions.yml`, "utf8")
+    fs.readFileSync(`molle-cms/github.actions.yml`, "utf8")
       .replace(/\${ siteId }/g, siteId),
   );
 }

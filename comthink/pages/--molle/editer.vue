@@ -39,7 +39,7 @@ import NewsDetailPage from "~/pages/news/_detail.vue";
 import EditorOptionComp from "molle-cms/src/ui/EditorOptionComp.vue";
 import GoogleStorageModalComp from "molle-cms/src/ui/GoogleStorageModalComp.vue";
 import FocusExtension from "molle-cms/src/ui/FocusExtension.vue";
-import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
+import ModuleLoaderCms from "molle-cms/src/module/ModuleLoaderCms.vue";
 
 @Component({
   components: {
