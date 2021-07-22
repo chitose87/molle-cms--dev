@@ -16,6 +16,8 @@ import Column from "~/molle/module/primitive/Column.vue";
 import ColumnProfile from "~/molle/module/primitive/ColumnProfile.vue";
 import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
 import ColumnBoxProfile from "~/molle/module/primitive/ColumnBoxProfile.vue";
+import ChangePictureBox from "~/molle/module/primitive/ChangePictureBox.vue";
+import ChangePictureBoxProfile from "~/molle/module/primitive/ChangePictureBoxProfile.vue";
 import Gallery from "~/molle/module/custom/Gallery.vue";
 import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
@@ -138,6 +140,14 @@ const molleModules = Vue.prototype.$molleModules = {
     def: c("ColumnBox", "children"),
     black: ["ColumnBox"],
     convert: ["Box"],
+    icon: "plus-square",
+  },
+  ChangePictureBox: {
+    ref: ChangePictureBox,
+    profile: ChangePictureBoxProfile,
+    profileName: "ChangePictureBoxProfile",
+    def: c("ChangePictureBox", "children"),
+    white: ["Picture"],
     icon: "plus-square",
   },
   Table: {
