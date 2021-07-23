@@ -1,5 +1,5 @@
 <template lang="pug">
-button.btn.btn-info.mr-2(
+button.btn.btn-info.mx-2(
   type="button",
   @click="onExport"
 ) Export
@@ -15,13 +15,14 @@ import {
 } from "nuxt-property-decorator";
 import firebase from "firebase";
 import {Singleton} from "~/molle/Singleton";
-import {IItemData, IPageData} from "~/molle/interface";
+import {IItemData, ILogsData, IPageData} from "~/molle/interface";
 
 @Component({
   components: {},
 })
 export default class PageExport extends Vue {
   @Prop() public value!: any;
+  @Prop() pageId!: any;
 
   @Emit()
   public input(value: any) {
@@ -106,22 +107,22 @@ export default class PageExport extends Vue {
    *
    */
   onExport() {
-    Singleton.pagesRef.get().then((snap: firebase.firestore.QuerySnapshot) => {
-        let obj: any = {pages: {}};
-        snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
-          obj.pages[_snap.id] = _snap.data();
-        });
-        let a = document.createElement("a");
-        a.href = URL.createObjectURL(
-          new Blob(
-            [JSON.stringify(obj)],
-            {type: "text/plain"},
-          ),
-        );
-        a.download = `pages-${new Date().toUTCString()}.json`;
-        a.click();
-      },
-    );
+    Singleton.pagesRef.doc(this.pageId)
+      .get()
+      .then((snap: firebase.firestore.DocumentSnapshot) => {
+          let obj: any = {pages: {}};
+          obj.pages[this.pageId] = snap.data();
+          let a = document.createElement("a");
+          a.href = URL.createObjectURL(
+            new Blob(
+              [JSON.stringify(obj)],
+              {type: "text/plain"},
+            ),
+          );
+          a.download = `pages-${new Date().toUTCString()}.json`;
+          a.click();
+        },
+      );
 
     // items
     Singleton.itemsRef.get().then((snap: firebase.firestore.QuerySnapshot) => {

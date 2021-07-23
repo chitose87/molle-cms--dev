@@ -121,7 +121,7 @@
                   )
                     span(v-html="item.path")
                     b-icon(icon="chevron-right")
-                  PageExport(:key="key")
+                  PageExport(:pageId="key")
                   button.btn.btn-danger(
                     type="button",
                     @click="deletePage(key)"
