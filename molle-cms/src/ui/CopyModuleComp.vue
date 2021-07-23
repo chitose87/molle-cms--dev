@@ -1,6 +1,6 @@
 <template lang="pug">
 .copy-module-comp.bootstrap(v-if="true && this.$route.query.hidden !== 'true'")
-  button.btn.btn-sm.btn-outline-info(type="button", @click="pushCopy") submit
+  button.btn.btn-sm.btn-outline-info(type="button", @click="pushCopy") Copy
 
 </template>
 

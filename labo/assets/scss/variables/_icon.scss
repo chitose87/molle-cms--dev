@@ -1,0 +1,108 @@
+// icon
+@mixin _icon() {
+  font-family: "fontello", serif;
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+}
+
+@mixin icon-down-open {
+  @include _icon;
+  content: "\e800";
+} /* '' */
+@mixin icon-left-open {
+  @include _icon;
+  content: "\e801";
+} /* '' */
+@mixin icon-right-open {
+  @include _icon;
+  content: "\e802";
+} /* '' */
+@mixin icon-up-open {
+  @include _icon;
+  content: "\e803";
+} /* '' */
+@mixin icon-down-circle {
+  @include _icon;
+  content: "\e804";
+} /* '' */
+@mixin icon-left-circle {
+  @include _icon;
+  content: "\e805";
+} /* '' */
+@mixin icon-right-circle {
+  @include _icon;
+  content: "\e806";
+} /* '' */
+@mixin icon-up-circle {
+  @include _icon;
+  content: "\e807";
+} /* '' */
+@mixin icon-popup {
+  @include _icon;
+  content: "\e808";
+} /* '' */
+@mixin icon-download-cloud {
+  @include _icon;
+  content: "\f0ed";
+} /* '' */
+@mixin icon-twitter {
+  @include _icon;
+  content: "\f309";
+} /* '' */
+@mixin icon-twitter-circled {
+  @include _icon;
+  content: "\f30a";
+} /* '' */
+@mixin icon-facebook {
+  @include _icon;
+  content: "\f30c";
+} /* '' */
+@mixin icon-facebook-circled {
+  @include _icon;
+  content: "\f30d";
+} /* '' */
+
+@mixin icon-arrow-down-circle {
+}
+@mixin icon-arrow-down {
+}
+@mixin icon-arrow-left-circle {
+}
+@mixin icon-arrow-left {
+}
+@mixin icon-arrow-right-circle {
+}
+@mixin icon-arrow-right {
+}
+@mixin icon-arrow-up-circle {
+}
+@mixin icon-arrow-up {
+}
+@mixin icon-blank {
+  @include icon-popup;
+}
+
+@mixin cross($w, $h, $color, $deg, $noPosition) {
+  &:before,
+  &:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    background-color: $color;
+    width: $w;
+    height: $h;
+    @if $noPosition==false {
+      top: 50%;
+      left: 50%;
+    }
+    @content;
+  }
+  & {
+    @include _icon;
+    transform: translateX(-50%) rotate($deg);
+  }
+  &:after {
+    transform: translateX(-50%) rotate($deg + 90deg);
+  }
+}

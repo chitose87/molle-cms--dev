@@ -28,6 +28,18 @@
       },
       "cron": "every day 10:00",
       "ghRepository": "chitose87/molle-cms--dev"
+    },
+    //
+    "labo": {
+      "port": 1234,
+      "static": {
+        "hosting": "molle-labo"
+      },
+      "cms": {
+        "hosting": "molle-labo"
+      },
+      "cron": "every day 10:00",
+      "ghRepository": "chitose87/molle-cms--dev"
     }
   }
 }

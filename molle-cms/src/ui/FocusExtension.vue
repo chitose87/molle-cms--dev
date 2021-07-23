@@ -14,27 +14,16 @@
       :placement="sibling.isRow?'bottom':'right'"
       container="bootstrap-container"
     )
-      AddModuleComp(
-        v-if="loader.fromModule && loader.fromModule.loader"
-        :parentNode="loader.fromModule.loader.node"
-        :beforeNode="loader.node"
-      )
+      div(v-if="loader.fromModule && loader.fromModule.loader")
+        AddModuleComp(
+          :parentNode="loader.fromModule.loader.node"
+          :beforeNode="loader.node"
+        )
 
-    button.btn.btn-sm.btn-outline-info#copyBefore
-      b-icon(icon="plus")
-      span copy
-
-    b-popover(
-      :target="'copyBefore'"
-      triggers="focus"
-      :placement="sibling.isRow?'bottom':'right'"
-      container="bootstrap-container"
-    )
-      CopyModuleComp(
-        v-if="loader.fromModule && loader.fromModule.loader"
-        :parentNode="loader.fromModule.loader.node"
-        :beforeNode="loader.node"
-      )
+        CopyModuleComp(
+          :parentNode="loader.fromModule.loader.node"
+          :beforeNode="loader.node"
+        )
 
   .focus-extension__after(v-show="isAfter")
     button.btn.btn-sm.btn-outline-info#addAfter
@@ -47,27 +36,18 @@
       :placement="sibling.isRow?'bottom':'right'"
       container="bootstrap-container"
     )
-      AddModuleComp(
-        v-if="loader.fromModule && loader.fromModule.loader"
-        :parentNode="loader.fromModule.loader.node"
-        :afterNode="loader.node"
-      )
+      div(v-if="loader.fromModule && loader.fromModule.loader")
+        AddModuleComp(
+          v-if="loader.fromModule && loader.fromModule.loader"
+          :parentNode="loader.fromModule.loader.node"
+          :afterNode="loader.node"
+        )
 
-    button.btn.btn-sm.btn-outline-info#copyAfter
-      b-icon(icon="plus")
-      span copy
-
-    b-popover(
-      :target="'copyAfter'"
-      triggers="focus"
-      :placement="sibling.isRow?'bottom':'right'"
-      container="bootstrap-container"
-    )
-      CopyModuleComp(
-        v-if="loader.fromModule && loader.fromModule.loader"
-        :parentNode="loader.fromModule.loader.node"
-        :afterNode="loader.node"
-      )
+        CopyModuleComp(
+          v-if="loader.fromModule && loader.fromModule.loader"
+          :parentNode="loader.fromModule.loader.node"
+          :afterNode="loader.node"
+        )
 
 </template>
 
@@ -99,7 +79,7 @@ export default class FocusExtension extends Vue {
     this.changeFocus(this.$route.query.focus + "");
   }
 
-  @Watch('$route.query.focus')
+  @Watch("$route.query.focus")
   changeFocus(newer: string) {
     let loader = ModuleLoaderCms.modules[newer];
     if (loader) {
@@ -124,11 +104,11 @@ export default class FocusExtension extends Vue {
         "top": pageYOffset + rect.top + "px",
         "left": pageXOffset + rect.left + "px",
         "width": rect.width + "px",
-        "height": rect.height + "px"
+        "height": rect.height + "px",
       });
     } catch (e) {
       this.$set(this, "style", {
-        "display": "none"
+        "display": "none",
       });
     }
 
