@@ -20,9 +20,7 @@ export default class CopyModuleComp extends Vue {
 
   itemData = <IItemData>{};
   itemDataParent = <IItemData>{};
-  // itemDataGrandchild = <IItemData>{};
 
-  // private unsubscribe!: () => void;
   private totalCount: number = 0;
   private loopFinishCount: number = 0;
   private createFinishCount: number = 0;
@@ -38,7 +36,7 @@ export default class CopyModuleComp extends Vue {
         parent.value[index].id = Singleton.itemsRef.doc().id;
         parent.value[index].obj = itemData;
 
-        if (itemData.type == "children") {
+        if (itemData.type == "children" && itemData.value.length > 0) {
           let count: number = 0;
           let n: number;
           for (let i in itemData.value) {
@@ -64,7 +62,6 @@ export default class CopyModuleComp extends Vue {
 
   pushCopy() {
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};
-    // let itemId = Singleton.itemsRef.doc().id;
     let childNode!: INodeObject;
     if (this.beforeNode) childNode = this.beforeNode;
     if (this.afterNode) childNode = this.afterNode;
@@ -73,7 +70,7 @@ export default class CopyModuleComp extends Vue {
       .then((snap: firebase.firestore.DocumentSnapshot) => {
         let itemData: any = snap.data();
 
-        if (itemData.type == "children") {
+        if (itemData.type == "children" && itemData.value.length > 0) {
           let n: number;
           for (let i in itemData.value) {
             n = Number(i);
@@ -82,15 +79,14 @@ export default class CopyModuleComp extends Vue {
                 let complete: any = itemData;
 
                 let createLoop = (_itemData: any, _itemId: string) => {
-                  // let batch = firebase.firestore().batch();
                   let m: number;
-                  if (_itemData.type == "children") {
+                  if (_itemData.type == "children" && itemData.value.length > 0) {
                     for (let j in _itemData.value) {
                       m = Number(j);
                       createLoop(_itemData.value[m].obj, _itemData.value[m].id);
                     }
                   }
-                  if (_itemData.value[0].obj) {
+                  if (_itemData.value) {
                     for (let i in _itemData.value) {
                       delete _itemData.value[i].obj;
                     }
