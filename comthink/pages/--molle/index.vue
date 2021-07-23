@@ -121,6 +121,7 @@
                   )
                     span(v-html="item.path")
                     b-icon(icon="chevron-right")
+                  PageExport(:pageId="key")
                   button.btn.btn-danger(
                     type="button",
                     @click="deletePage(key)"
@@ -175,9 +176,10 @@ import firebase from "firebase";
 import {Singleton} from "molle-cms/src/Singleton";
 import {IItemData, IPageData} from "molle-cms/src/interface";
 import MolleToolbar from "molle-cms/src/ui/MolleToolbar.vue";
+import PageExport from "molle-cms/src/ui/PageExport.vue"
 
 @Component({
-  components: {MolleToolbar}
+  components: {MolleToolbar,PageExport}
 })
 export default class MolleTopPage extends Vue {
   version = process.env.version;
