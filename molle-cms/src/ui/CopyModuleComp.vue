@@ -61,6 +61,9 @@ export default class CopyModuleComp extends Vue {
   }
 
   pushCopy() {
+    this.totalCount = 0;
+    this.loopFinishCount = 0;
+    this.createFinishCount = 0;
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};
     let childNode!: INodeObject;
     if (this.beforeNode) childNode = this.beforeNode;
