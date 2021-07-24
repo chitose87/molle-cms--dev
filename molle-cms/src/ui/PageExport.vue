@@ -15,7 +15,7 @@ import {
 } from "nuxt-property-decorator";
 import firebase from "firebase";
 import {Singleton} from "molle-cms/src/Singleton";
-import {IItemData, IPageData} from "molle-cms/src/interface";
+import {IItemData, INodeObject, IPageData} from "molle-cms/src/interface";
 
 @Component({
   components: {},
@@ -36,6 +36,10 @@ export default class PageExport extends Vue {
     this.input(value);
   }
 
+  private totalCount: number = 0;
+  private loopFinishCount: number = 0;
+  private obj: any = {items: {}};
+
   importModal: boolean = false;
   deployModal: boolean = false;
   currentCIFlow: any = {};
@@ -50,62 +54,6 @@ export default class PageExport extends Vue {
   }
 
 
-  onLogin(e: any) {
-    firebase.auth()
-      .signInWithEmailAndPassword(e.target.email.value, e.target.password.value)
-      .then((user) => {
-        if (user) {
-          this.localValue = true;
-        }
-      })
-  }
-
-  onLogout() {
-    firebase.auth().signOut();
-    this.localValue = false;
-  }
-
-  checkCI() {
-    this.deployModal = true;
-    this.$set(this, "currentCIFlow", {reading: true});
-
-    fetch(`${process.env.functions}/${process.env.molleProjectID}_ghStatus`)
-      .then((res: any) => {
-        return (res.json());
-      })
-      .then((str: string) => {
-        let json = JSON.parse(str);
-        console.log(json);
-        this.$set(this, "currentCIFlow", json.workflow_runs[0]);
-      });
-
-    //
-    Singleton.systemDocRef
-      .get()
-      .then((snap: firebase.firestore.DocumentSnapshot) => {
-        let data: any = snap.data();
-        this.$set(this.schedule, "date", data.deploySchedule);
-        this.$set(this.schedule, "active", data.deployScheduleActive);
-      })
-  }
-
-  scheduleUpdate() {
-    Singleton.systemDocRef.update({
-      deploySchedule: this.schedule.date,
-      deployScheduleActive: this.schedule.active,
-    });
-  }
-
-  deployQue() {
-    this.deployModal = false;
-    Singleton.systemDocRef.update({
-      deployQue: true
-    });
-  }
-
-  /**
-   *
-   */
   onExport() {
     Singleton.pagesRef.doc(this.pageId)
       .get()
@@ -125,22 +73,71 @@ export default class PageExport extends Vue {
       );
 
     // items
-    Singleton.itemsRef.get().then((snap: firebase.firestore.QuerySnapshot) => {
-      let obj: any = {items: {}};
-      snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
-        let itemData = <IItemData>_snap.data();
-        obj.items[_snap.id] = itemData;
-      });
-      let a = document.createElement("a");
-      a.href = URL.createObjectURL(
-        new Blob(
-          [JSON.stringify(obj)],
-          {type: "application/json"}),
-      );
-      a.download = `items-${new Date().toUTCString()}.json`;
-      a.click();
-    });
+    this.itemsExport();
   }
+
+  loop(parent: any, index: number, end: any) {
+    this.totalCount++;
+    Singleton.itemsRef.doc(parent.value[index].id)
+      .get()
+      .then((snap: firebase.firestore.DocumentSnapshot) => {
+        this.obj.items[parent.value[index].id] = snap.data();
+        let itemData: any = snap.data();
+
+        if (itemData.type == "children" && itemData.value.length > 0) {
+          let count: number = 0;
+          let n: number;
+          for (let i in itemData.value) {
+            n = Number(i);
+            count++;
+            this.loop(itemData, n, () => {
+              count--;
+              if (count == 0) {
+                this.loopFinishCount++;
+                end();
+              }
+            });
+          }
+        } else {
+          this.loopFinishCount++;
+          end();
+        }
+      })
+  }
+
+  itemsExport() {
+    Singleton.itemsRef.doc(this.pageId)
+      .get()
+      .then((snap: firebase.firestore.DocumentSnapshot) => {
+        this.obj.items[this.pageId] = snap.data();
+
+        if (this.obj.items[this.pageId].value.length > 0) {
+          let n: number;
+          for (let i in this.obj.items[this.pageId].value) {
+            n = Number(i);
+            this.loop(this.obj.items[this.pageId], n, () => {
+              if (this.totalCount === this.loopFinishCount) {
+                this.itemsDownload();
+              }
+            });
+          }
+        } else {
+          this.itemsDownload();
+        }
+      })
+  }
+
+  itemsDownload() {
+    let a = document.createElement("a");
+    a.href = URL.createObjectURL(
+      new Blob(
+        [JSON.stringify(this.obj)],
+        {type: "application/json"}),
+    );
+    a.download = `items-${new Date().toUTCString()}.json`;
+    a.click();
+  }
+
 
   /**
    *
