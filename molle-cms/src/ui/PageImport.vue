@@ -32,6 +32,7 @@ import {Singleton} from "molle-cms/src/Singleton";
 export default class PageImport extends Vue {
   @Prop() pageId!: any;
   importModal: boolean = false;
+  private createTime = firebase.firestore.Timestamp.now();
 
   onImport(e: Event) {
     let target = <HTMLFormElement>e.target;
@@ -75,6 +76,7 @@ export default class PageImport extends Vue {
                     loopReplaceUpload(items[_id].value[n].id, newId);
                     items[_id].value[n].id = newId
                   }
+                  items[_id].createTime = this.createTime;
                   batch.set(ref.doc(_newId), items[_id]);
                   if (++batchCount >= 500) {
                     _arr.push(batch.commit());
@@ -82,6 +84,7 @@ export default class PageImport extends Vue {
                     batchCount = 0;
                   }
                 } else {
+                  items[_id].createTime = this.createTime;
                   batch.set(ref.doc(_newId), items[_id]);
                   if (++batchCount >= 500) {
                     _arr.push(batch.commit());
@@ -106,7 +109,8 @@ export default class PageImport extends Vue {
               }
               let rootId = Object.keys(items)[0];
               items[rootId].itemId = this.pageId;
-              items[rootId].path = this.pageId;
+              let pageIdPath = this.pageId.replace(/%2F/g, "/");
+              items[rootId].path = pageIdPath;
               batch.set(ref.doc(this.pageId), items[rootId]);
               _arr.push(batch.commit());
               Promise.all(_arr).then(resolve);
