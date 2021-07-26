@@ -11,6 +11,7 @@ component.module.box(
     :node="node"
   )
 
+  //p(v-html="`lv=${itemData.option.lv} / rate=${itemData.option.rate}`")
   AddModuleComp(
     :label="`Box`"
     :parentNode="loader.node"

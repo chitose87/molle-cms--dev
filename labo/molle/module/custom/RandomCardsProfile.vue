@@ -1,27 +1,5 @@
 <template lang="pug">
 div
-  TextAreaQuill(
-    :label="'Title:'"
-    v-model="itemData.option.text"
-    @change="()=>$emit('change')"
-  )
-  label
-    span.mr-1 Min lv =
-    span(v-html="itemData.option.minLv")
-    input.form-control.form-control-sm(
-      v-model="itemData.option.minLv"
-      @change="()=>$emit('change')"
-      type="range" min="1" :max="Math.min(10,itemData.option.maxLv)" step="1"
-    )
-  label
-    span.mr-1 Max lv =
-    span(v-html="itemData.option.maxLv")
-    input.form-control.form-control-sm(
-      v-model="itemData.option.maxLv"
-      @change="()=>$emit('change')"
-      type="range" :min="Math.max(1,itemData.option.minLv)" max="10" step="1"
-    )
-
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"

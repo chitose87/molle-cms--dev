@@ -36,7 +36,7 @@
         "hosting": "molle-labo"
       },
       "cms": {
-        "hosting": "molle-labo"
+        "hosting": "molle-labo-cms"
       },
       "cron": "every day 10:00",
       "ghRepository": "chitose87/molle-cms--dev"

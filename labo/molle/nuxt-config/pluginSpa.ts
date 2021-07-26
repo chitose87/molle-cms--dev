@@ -149,8 +149,10 @@ const molleModules = Vue.prototype.$molleModules = {
     profile: RandomCardsProfile,
     profileName: "RandomCardsProfile",
     def: c("RandomCards", "children", {
-      minLv: 1,
-      maxLv: 4,
+      option: {
+        minLv: 1,
+        maxLv: 4,
+      },
     }),
     white: ["RandomCardBox"],
     icon: "layout-three-columns",
@@ -160,8 +162,10 @@ const molleModules = Vue.prototype.$molleModules = {
     profile: RandomCardBoxProfile,
     profileName: "RandomCardBoxProfile",
     def: c("RandomCardBox", "children", {
-      lv: 3,
-      rate: 50,
+      option: {
+        lv: 3,
+        rate: 50,
+      },
     }),
     black: ["RandomCardBox", "RandomCards"],
     icon: "plus-square",
