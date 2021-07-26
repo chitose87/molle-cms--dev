@@ -69,23 +69,23 @@ export default class PageImport extends Vue {
             if (data.items) {
               let loopReplaceUpload = (_id: string, _newId: string) => {
                 let n: number;
-                if (items[_id].type == "children" && items[_id].value.length > 0) {
-                  for (let i in items[_id].value) {
+                if (data.items[_id].type == "children" && data.items[_id].value.length > 0) {
+                  for (let i in data.items[_id].value) {
                     n = Number(i);
                     let newId = ref.doc().id;
-                    loopReplaceUpload(items[_id].value[n].id, newId);
-                    items[_id].value[n].id = newId
+                    loopReplaceUpload(data.items[_id].value[n].id, newId);
+                    data.items[_id].value[n].id = newId
                   }
-                  items[_id].createTime = this.createTime;
-                  batch.set(ref.doc(_newId), items[_id]);
+                  data.items[_id].createTime = this.createTime;
+                  batch.set(ref.doc(_newId), data.items[_id]);
                   if (++batchCount >= 500) {
                     _arr.push(batch.commit());
                     batch = firebase.firestore().batch();
                     batchCount = 0;
                   }
                 } else {
-                  items[_id].createTime = this.createTime;
-                  batch.set(ref.doc(_newId), items[_id]);
+                  data.items[_id].createTime = this.createTime;
+                  batch.set(ref.doc(_newId), data.items[_id]);
                   if (++batchCount >= 500) {
                     _arr.push(batch.commit());
                     batch = firebase.firestore().batch();
@@ -94,7 +94,7 @@ export default class PageImport extends Vue {
                 }
               }
 
-              let rootId = Object.keys(items)[0];
+              let rootId = Object.keys(data.items)[0];
               loopReplaceUpload(rootId, this.pageId);
 
               _arr.push(batch.commit());
@@ -102,16 +102,14 @@ export default class PageImport extends Vue {
             }
 
             if (data.pages) {
-              console.log("Object.keys(items)[1]は", Object.keys(items)[1])
-              if (Object.keys(items)[1]) {
+              if (Object.keys(data.pages)[1]) {
                 alert("ファイル内のデータにページが複数存在します。");
                 return;
               }
-              let rootId = Object.keys(items)[0];
-              items[rootId].itemId = this.pageId;
-              let pageIdPath = this.pageId.replace(/%2F/g, "/");
-              items[rootId].path = pageIdPath;
-              batch.set(ref.doc(this.pageId), items[rootId]);
+              let rootId = Object.keys(data.pages)[0];
+              data.pages[rootId].itemId = this.pageId;
+              data.pages[rootId].path = this.pageId.replace(/%2F/g, "/");
+              batch.set(ref.doc(this.pageId), data.pages[rootId]);
               _arr.push(batch.commit());
               Promise.all(_arr).then(resolve);
             }
