@@ -23,6 +23,9 @@ export default class PositionParagraph extends Module {
 .position-paragraph {
   margin-top: 0;
   margin-bottom: 1rem;
+  position: absolute;
+  top:45%;
+  right: -1%;
 
   &.-caption {
     font-size: 14px;

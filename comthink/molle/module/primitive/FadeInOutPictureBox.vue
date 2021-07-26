@@ -13,7 +13,7 @@ component.module.fade-in-out-picture-box(
     li
       ModuleLoader(:node="itemData.value.picture3", :key="itemData.value.id")
 
-  ModuleLoader(:node="itemData.value.paragraph", :key="itemData.value.id")
+  ModuleLoader(:node="itemData.value.headline", :key="itemData.value.id")
 
 
 </template>
@@ -32,12 +32,11 @@ export default class FadeInOutPictureBox extends Module {
 
 <style lang="scss">
 .fade-in-out-picture-box {
+  position: relative;
+  overflow: hidden;
+  height: 800px;
 
   ul {
-    position: relative;
-    overflow: hidden;
-    height: 800px;
-
     li {
       position: absolute;
       top: 0;

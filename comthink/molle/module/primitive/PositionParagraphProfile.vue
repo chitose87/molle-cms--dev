@@ -6,21 +6,6 @@ div
     @change="()=>$emit('change')"
   )
 
-  label
-    span.mr-1 position-top:
-    input.form-control.form-control-sm(
-      type="number"
-      v-model="itemData.position.top"
-      @change="()=>$emit('change')"
-    )
-  label
-    span.mr-1 position-left:
-    input.form-control.form-control-sm(
-      type="number"
-      v-model="itemData.position.left"
-      @change="()=>$emit('change')"
-    )
-
   label.form-inline
     span.mr-1 タグ:
     select.form-control.form-control-sm(
@@ -51,11 +36,8 @@ export default class PositionParagraphProfile extends Profile {
   //style setting
   stylePermission = {
     border: false,
-    align: StyleAlign.None,
-    margin: "",
-    // padding: "",
     theme: {default: "", select: ["", "-caption"]},
-    // color: {default: "", select: ["", "dark"]},
+    position: {default: "", select: ["", "high","center","low"]},
   };
 }
 </script>

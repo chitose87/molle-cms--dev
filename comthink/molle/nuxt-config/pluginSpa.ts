@@ -6,10 +6,10 @@ import BackgroundBox from "~/molle/module/primitive/BackgroundBox.vue";
 import BackgroundBoxProfile from "~/molle/module/primitive/BackgroundBoxProfile.vue";
 import Headline from "~/molle/module/primitive/Headline.vue";
 import HeadlineProfile from "~/molle/module/primitive/HeadlineProfile.vue";
+import PositionHeadline from "~/molle/module/primitive/PositionHeadline.vue";
+import PositionHeadlineProfile from "~/molle/module/primitive/PositionHeadlineProfile.vue";
 import Paragraph from "~/molle/module/primitive/Paragraph.vue";
 import ParagraphProfile from "~/molle/module/primitive/ParagraphProfile.vue";
-import PositionParagraph from "~/molle/module/primitive/PositionParagraph.vue";
-import PositionParagraphProfile from "~/molle/module/primitive/PositionParagraphProfile.vue";
 import Picture from "~/molle/module/primitive/Picture.vue";
 import PictureProfile from "~/molle/module/primitive/PictureProfile.vue";
 import Button from "~/molle/module/primitive/Button.vue";
@@ -64,7 +64,7 @@ const molleModules = Vue.prototype.$molleModules = {
     profile: BoxProfile,
     profileName: "BoxProfile",
     def: c("Box", "children"),
-    black: ["ColumnBox", "PositionParagraph"],
+    black: ["ColumnBox", "PositionHeadline"],
     convert: ["ColumnBox", "BackgroundBox"],
     icon: "plus-square",
   },
@@ -89,19 +89,23 @@ const molleModules = Vue.prototype.$molleModules = {
     convert: ["Paragraph"],
     icon: "card-heading",
   },
+  PositionHeadline: {
+    ref: PositionHeadline,
+    profile: PositionHeadlineProfile,
+    profileName: "PositionHeadlineProfile",
+    def: c("PositionHeadline", "text", {
+      option: {
+        lv: "h1",
+      },
+    }),
+    icon: "card-heading",
+  },
   Paragraph: {
     ref: Paragraph,
     profile: ParagraphProfile,
     profileName: "ParagraphProfile",
     def: c("Paragraph", "text"),
     convert: ["Headline"],
-    icon: "text-paragraph",
-  },
-  PositionParagraph: {
-    ref: PositionParagraph,
-    profile: PositionParagraphProfile,
-    profileName: "PositionParagraphProfile",
-    def: c("PositionParagraph", "text"),
     icon: "text-paragraph",
   },
   Picture: {
@@ -160,7 +164,7 @@ const molleModules = Vue.prototype.$molleModules = {
         picture1: {fixedModuleId: "Picture", order: 0},
         picture2: {fixedModuleId: "Picture", order: 10},
         picture3: {fixedModuleId: "Picture", order: 20},
-        paragraph: {fixedModuleId: "PositionParagraph", order: 30},
+        headline: {fixedModuleId: "PositionHeadline", order: 30},
       },
     }),
     icon: "plus-square",
