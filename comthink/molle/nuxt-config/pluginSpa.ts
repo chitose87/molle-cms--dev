@@ -16,6 +16,8 @@ import Column from "~/molle/module/primitive/Column.vue";
 import ColumnProfile from "~/molle/module/primitive/ColumnProfile.vue";
 import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
 import ColumnBoxProfile from "~/molle/module/primitive/ColumnBoxProfile.vue";
+import FadeInOutPictureBox from "~/molle/module/primitive/FadeInOutPictureBox.vue";
+import FadeInOutPictureBoxProfile from "~/molle/module/primitive/FadeInOutPictureBoxProfile.vue";
 import Gallery from "~/molle/module/custom/Gallery.vue";
 import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
@@ -138,6 +140,19 @@ const molleModules = Vue.prototype.$molleModules = {
     def: c("ColumnBox", "children"),
     black: ["ColumnBox"],
     convert: ["Box"],
+    icon: "plus-square",
+  },
+  FadeInOutPictureBox: {
+    ref: FadeInOutPictureBox,
+    profile: FadeInOutPictureBoxProfile,
+    profileName: "FadeInOutPictureBoxProfile",
+    def: c("FadeInOutPictureBox", "group", {
+      value: {
+        picture1: {fixedModuleId: "Picture", order: 0},
+        picture2: {fixedModuleId: "Picture", order: 10},
+        picture3: {fixedModuleId: "Picture", order: 20},
+      },
+    }),
     icon: "plus-square",
   },
   Table: {
