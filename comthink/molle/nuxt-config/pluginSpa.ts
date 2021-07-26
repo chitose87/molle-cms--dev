@@ -16,6 +16,8 @@ import Column from "~/molle/module/primitive/Column.vue";
 import ColumnProfile from "~/molle/module/primitive/ColumnProfile.vue";
 import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
 import ColumnBoxProfile from "~/molle/module/primitive/ColumnBoxProfile.vue";
+import ButtonList from "~/molle/module/primitive/ButtonList.vue";
+import ButtonListProfile from "~/molle/module/primitive/ButtonListProfile.vue";
 import Gallery from "~/molle/module/custom/Gallery.vue";
 import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
@@ -139,6 +141,14 @@ const molleModules = Vue.prototype.$molleModules = {
     black: ["ColumnBox"],
     convert: ["Box"],
     icon: "plus-square",
+  },
+  ButtonList: {
+    ref: ButtonList,
+    profile: ButtonListProfile,
+    profileName: "ButtonListProfile",
+    def: c("ButtonList", "children"),
+    white: ["Button"],
+    icon: "layout-three-columns",
   },
   Table: {
     ref: Table,
