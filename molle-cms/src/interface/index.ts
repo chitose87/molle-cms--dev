@@ -42,6 +42,11 @@ export interface IItemData {
   dev?: any;
   //   log?: any;
   // };
+  position: {
+    top?: number;
+    left?: number;
+  };
+
 }
 
 export interface INodeObject {

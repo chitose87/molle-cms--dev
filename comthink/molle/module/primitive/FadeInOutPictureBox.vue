@@ -6,8 +6,15 @@ component.module.fade-in-out-picture-box(
   :style="getStyle(itemData)"
 )
   ul
-    li(v-for="node in itemData.value")
-      ModuleLoader(:node="node", :key="node.id")
+    li
+      ModuleLoader(:node="itemData.value.picture1", :key="itemData.value.id")
+    li
+      ModuleLoader(:node="itemData.value.picture2", :key="itemData.value.id")
+    li
+      ModuleLoader(:node="itemData.value.picture3", :key="itemData.value.id")
+
+  ModuleLoader(:node="itemData.value.paragraph", :key="itemData.value.id")
+
 
 </template>
 
