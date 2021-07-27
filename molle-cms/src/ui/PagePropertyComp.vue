@@ -73,6 +73,12 @@
       p.small
         span itemId:
         span(v-html="pageData.itemId")
+
+      hr
+
+      PageExport(:itemId = "pageData.itemId")
+      PageImport(:itemId = "pageData.itemId")
+
 </template>
 
 <script lang="ts">
@@ -81,9 +87,11 @@ import {IPageData} from "molle-cms/src/interface";
 import {Singleton} from "molle-cms/src/Singleton";
 import GoogleStorage from "molle-cms/src/ui/GoogleStorage.vue";
 import InputUrlByGS from "molle-cms/src/ui/property/InputUrlByGS.vue";
+import PageExport from "molle-cms/src/ui/PageExport.vue";
+import PageImport from "molle-cms/src/ui/PageImport.vue";
 
 @Component({
-  components: {InputUrlByGS, GoogleStorage},
+  components: {InputUrlByGS, GoogleStorage,PageExport,PageImport},
 })
 export default class PagePropertyComp extends Vue {
   @Prop() pageData!: IPageData;

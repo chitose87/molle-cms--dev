@@ -1,5 +1,5 @@
 <template lang="pug">
-button.btn.btn-info.mx-2(
+button.btn.btn-info.m-1(
   type="button",
   @click="onExport"
 ) Export
@@ -19,18 +19,18 @@ import {Singleton} from "molle-cms/src/Singleton";
   components: {},
 })
 export default class PageExport extends Vue {
-  @Prop() pageId!: any;
+  @Prop() itemId!: any;
 
   private totalCount: number = 0;
   private loopFinishCount: number = 0;
   private obj: any = {items: {}};
 
   onExport() {
-    Singleton.pagesRef.doc(this.pageId)
+    Singleton.pagesRef.doc(this.itemId)
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
           let obj: any = {pages: {}};
-          obj.pages[this.pageId] = snap.data();
+          obj.pages[this.itemId] = snap.data();
           let a = document.createElement("a");
           a.href = URL.createObjectURL(
             new Blob(
@@ -77,16 +77,16 @@ export default class PageExport extends Vue {
   }
 
   itemsExport() {
-    Singleton.itemsRef.doc(this.pageId)
+    Singleton.itemsRef.doc(this.itemId)
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
-        this.obj.items[this.pageId] = snap.data();
+        this.obj.items[this.itemId] = snap.data();
 
-        if (this.obj.items[this.pageId].value.length > 0) {
+        if (this.obj.items[this.itemId].value.length > 0) {
           let n: number;
-          for (let i in this.obj.items[this.pageId].value) {
+          for (let i in this.obj.items[this.itemId].value) {
             n = Number(i);
-            this.loop(this.obj.items[this.pageId], n, () => {
+            this.loop(this.obj.items[this.itemId], n, () => {
               if (this.totalCount === this.loopFinishCount) {
                 this.itemsDownload();
               }

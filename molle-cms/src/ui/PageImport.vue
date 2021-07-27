@@ -1,6 +1,6 @@
 <template lang="pug">
 .d-flex
-  button.btn.btn-warning.ml-2(type="submit" @click="importModal=true") Import
+  button.btn.btn-warning.m-1(type="submit" @click="importModal=true") Import
   .modal(v-if="importModal" :aria-expanded="importModal")
     .modal__fiexd
       .modal__close(@click="importModal=!importModal")
@@ -30,7 +30,7 @@ import {Singleton} from "molle-cms/src/Singleton";
   components: {},
 })
 export default class PageImport extends Vue {
-  @Prop() pageId!: any;
+  @Prop() itemId!: any;
   importModal: boolean = false;
   private createTime = firebase.firestore.Timestamp.now();
 
@@ -93,9 +93,9 @@ export default class PageImport extends Vue {
                   }
                 }
               }
-
+              
               let rootId = Object.keys(data.items)[0];
-              loopReplaceUpload(rootId, this.pageId);
+              loopReplaceUpload(rootId, this.itemId);
 
               _arr.push(batch.commit());
               Promise.all(_arr).then(resolve);
@@ -107,9 +107,9 @@ export default class PageImport extends Vue {
                 return;
               }
               let rootId = Object.keys(data.pages)[0];
-              data.pages[rootId].itemId = this.pageId;
-              data.pages[rootId].path = this.pageId.replace(/%2F/g, "/");
-              batch.set(ref.doc(this.pageId), data.pages[rootId]);
+              data.pages[rootId].itemId = this.itemId;
+              data.pages[rootId].path = this.itemId.replace(/%2F/g, "/");
+              batch.set(ref.doc(this.itemId), data.pages[rootId]);
               _arr.push(batch.commit());
               Promise.all(_arr).then(resolve);
             }
