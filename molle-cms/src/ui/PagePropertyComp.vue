@@ -76,8 +76,8 @@
 
       hr
 
-      PageExport(:itemId = "pageData.itemId")
-      PageImport(:itemId = "pageData.itemId" :path = "pageData.path")
+      PageExport(:itemId = "pageData.itemId" :pageId = "pageId")
+      PageImport(:path = "pageData.path" :pageId = "pageId")
 
 </template>
 
@@ -91,7 +91,7 @@ import PageExport from "molle-cms/src/ui/PageExport.vue";
 import PageImport from "molle-cms/src/ui/PageImport.vue";
 
 @Component({
-  components: {InputUrlByGS, GoogleStorage,PageExport,PageImport},
+  components: {InputUrlByGS, GoogleStorage, PageExport, PageImport},
 })
 export default class PagePropertyComp extends Vue {
   @Prop() pageData!: IPageData;

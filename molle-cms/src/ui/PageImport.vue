@@ -30,8 +30,8 @@ import {Singleton} from "molle-cms/src/Singleton";
   components: {},
 })
 export default class PageImport extends Vue {
-  @Prop() itemId!: any;
-  @Prop() path!:any;
+  @Prop() path!: any;
+  @Prop() pageId!: string;
   importModal: boolean = false;
   private createTime = firebase.firestore.Timestamp.now();
 
@@ -39,6 +39,7 @@ export default class PageImport extends Vue {
     let target = <HTMLFormElement>e.target;
     let files: FileList = target.files.files;
     let rootItemId = Singleton.itemsRef.doc().id;
+    console.log("rootItemId", rootItemId)
 
     if (files.length == 0) {
       alert("ファイルが選択されていません。");
@@ -69,13 +70,11 @@ export default class PageImport extends Vue {
 
             if (data.items) {
               let loopReplaceUpload = (_id: string, _newId: string) => {
-                let n: number;
                 if (data.items[_id].type == "children" && data.items[_id].value.length > 0) {
                   for (let i in data.items[_id].value) {
-                    n = Number(i);
                     let newId = ref.doc().id;
-                    loopReplaceUpload(data.items[_id].value[n].id, newId);
-                    data.items[_id].value[n].id = newId
+                    loopReplaceUpload(data.items[_id].value[i].id, newId);
+                    data.items[_id].value[i].id = newId
                   }
                   data.items[_id].createTime = this.createTime;
                   batch.set(ref.doc(_newId), data.items[_id]);
@@ -103,14 +102,14 @@ export default class PageImport extends Vue {
             }
 
             if (data.pages) {
-              if (Object.keys(data.pages)[1]) {
+              if (Object.keys(data.pages).length > 1) {
                 alert("ファイル内のデータにページが複数存在します。");
                 return;
               }
               let rootId = Object.keys(data.pages)[0];
               data.pages[rootId].itemId = rootItemId;
               data.pages[rootId].path = this.path.replace(/%2F/g, "/");
-              batch.set(ref.doc(this.itemId), data.pages[rootId]);
+              batch.set(ref.doc(this.pageId), data.pages[rootId]);
               _arr.push(batch.commit());
               Promise.all(_arr).then(resolve);
             }

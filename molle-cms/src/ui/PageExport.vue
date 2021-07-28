@@ -20,17 +20,18 @@ import {Singleton} from "molle-cms/src/Singleton";
 })
 export default class PageExport extends Vue {
   @Prop() itemId!: any;
+  @Prop() pageId!: string;
 
   private totalCount: number = 0;
   private loopFinishCount: number = 0;
   private obj: any = {items: {}};
 
   onExport() {
-    Singleton.pagesRef.doc(this.itemId)
+    Singleton.pagesRef.doc(this.pageId)
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
           let obj: any = {pages: {}};
-          obj.pages[this.itemId] = snap.data();
+          obj.pages[this.pageId] = snap.data();
           let a = document.createElement("a");
           a.href = URL.createObjectURL(
             new Blob(
@@ -47,21 +48,19 @@ export default class PageExport extends Vue {
     this.itemsExport();
   }
 
-  loop(parent: any, index: number, end: any) {
+  loop(chileId: any, end: any) {
     this.totalCount++;
-    Singleton.itemsRef.doc(parent.value[index].id)
+    Singleton.itemsRef.doc(chileId)
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
-        this.obj.items[parent.value[index].id] = snap.data();
+        this.obj.items[chileId] = snap.data();
         let itemData: any = snap.data();
 
         if (itemData.type == "children" && itemData.value.length > 0) {
           let count: number = 0;
-          let n: number;
           for (let i in itemData.value) {
-            n = Number(i);
             count++;
-            this.loop(itemData, n, () => {
+            this.loop(itemData.value[i].id, () => {
               count--;
               if (count == 0) {
                 this.loopFinishCount++;
@@ -83,10 +82,8 @@ export default class PageExport extends Vue {
         this.obj.items[this.itemId] = snap.data();
 
         if (this.obj.items[this.itemId].value.length > 0) {
-          let n: number;
           for (let i in this.obj.items[this.itemId].value) {
-            n = Number(i);
-            this.loop(this.obj.items[this.itemId], n, () => {
+            this.loop(this.obj.items[this.itemId].value[i].id, () => {
               if (this.totalCount === this.loopFinishCount) {
                 this.itemsDownload();
               }
