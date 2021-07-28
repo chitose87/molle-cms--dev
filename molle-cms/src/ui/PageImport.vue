@@ -31,12 +31,14 @@ import {Singleton} from "molle-cms/src/Singleton";
 })
 export default class PageImport extends Vue {
   @Prop() itemId!: any;
+  @Prop() path!:any;
   importModal: boolean = false;
   private createTime = firebase.firestore.Timestamp.now();
 
   onImport(e: Event) {
     let target = <HTMLFormElement>e.target;
     let files: FileList = target.files.files;
+    let rootItemId = Singleton.itemsRef.doc().id;
 
     if (files.length == 0) {
       alert("ファイルが選択されていません。");
@@ -61,7 +63,6 @@ export default class PageImport extends Vue {
             let _arr = [];
             let batch = firebase.firestore().batch();
             let batchCount = 0;
-            let items = data.pages || data.items;
             let ref: any = data.pages ? Singleton.pagesRef
               : data.items ? Singleton.itemsRef
                 : reject();
@@ -93,9 +94,9 @@ export default class PageImport extends Vue {
                   }
                 }
               }
-              
+
               let rootId = Object.keys(data.items)[0];
-              loopReplaceUpload(rootId, this.itemId);
+              loopReplaceUpload(rootId, rootItemId);
 
               _arr.push(batch.commit());
               Promise.all(_arr).then(resolve);
@@ -107,8 +108,8 @@ export default class PageImport extends Vue {
                 return;
               }
               let rootId = Object.keys(data.pages)[0];
-              data.pages[rootId].itemId = this.itemId;
-              data.pages[rootId].path = this.itemId.replace(/%2F/g, "/");
+              data.pages[rootId].itemId = rootItemId;
+              data.pages[rootId].path = this.path.replace(/%2F/g, "/");
               batch.set(ref.doc(this.itemId), data.pages[rootId]);
               _arr.push(batch.commit());
               Promise.all(_arr).then(resolve);

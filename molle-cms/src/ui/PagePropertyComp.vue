@@ -77,7 +77,7 @@
       hr
 
       PageExport(:itemId = "pageData.itemId")
-      PageImport(:itemId = "pageData.itemId")
+      PageImport(:itemId = "pageData.itemId" :path = "pageData.path")
 
 </template>
 
