@@ -83,11 +83,9 @@ export default class PageImport extends Vue {
                 loopReplaceUpload(data.items[_id].value[i].id, newId);
                 data.items[_id].value[i].id = newId
               }
-              data.items[_id].createTime = this.createTime;
-              batch.set(Singleton.itemsRef.doc(_newId), data.items[_id]);
+              this.itemSet(_newId, data.items[_id], batch);
             } else {
-              data.items[_id].createTime = this.createTime;
-              batch.set(Singleton.itemsRef.doc(_newId), data.items[_id]);
+              this.itemSet(_newId, data.items[_id], batch);
             }
           }
           loopReplaceUpload(rootItemId, newRootItemId);
@@ -104,6 +102,20 @@ export default class PageImport extends Vue {
       alert("complete")
     });
   }
+
+  itemSet(_newId: string, item: any, batch: any) {
+    item.createTime = this.createTime;
+    batch.set(Singleton.itemsRef.doc(_newId), item);
+    // log
+    batch.set(Singleton.logsRef.doc(_newId), {
+      history: [{
+        timestamp: this.createTime,
+        uid: firebase.auth().currentUser!.uid
+      }]
+    });
+  }
+
+
 }
 </script>
 
