@@ -38,95 +38,71 @@ export default class PageImport extends Vue {
   onImport(e: Event) {
     let target = <HTMLFormElement>e.target;
     let files: FileList = target.files.files;
-    let rootItemId = Singleton.itemsRef.doc().id;
-    console.log("rootItemId", rootItemId)
 
     if (files.length == 0) {
       alert("ファイルが選択されていません。");
       return;
     }
-
-    if (
-      !window.confirm(`
-この作業は破壊的な変更です。
-同一のIDの場合、既存のデータがすべて上書きされます。
-重複するjsonデータを読み込む場合、優先順位に規則性はありません。
-よろしいですか？`)
-    ) return;
-
-    let arr = [];
-    for (let i = 0; i < files.length; i++) {
-      arr.push(new Promise((resolve, reject) => {
-        let reader = new FileReader();
-        reader.onload = (e: any) => {
-          try {
-            let data = JSON.parse(e.target.result);
-            let _arr = [];
-            let batch = firebase.firestore().batch();
-            let batchCount = 0;
-            let ref: any = data.pages ? Singleton.pagesRef
-              : data.items ? Singleton.itemsRef
-                : reject();
-
-            if (data.items) {
-              let loopReplaceUpload = (_id: string, _newId: string) => {
-                if (data.items[_id].type == "children" && data.items[_id].value.length > 0) {
-                  for (let i in data.items[_id].value) {
-                    let newId = ref.doc().id;
-                    loopReplaceUpload(data.items[_id].value[i].id, newId);
-                    data.items[_id].value[i].id = newId
-                  }
-                  data.items[_id].createTime = this.createTime;
-                  batch.set(ref.doc(_newId), data.items[_id]);
-                  if (++batchCount >= 500) {
-                    _arr.push(batch.commit());
-                    batch = firebase.firestore().batch();
-                    batchCount = 0;
-                  }
-                } else {
-                  data.items[_id].createTime = this.createTime;
-                  batch.set(ref.doc(_newId), data.items[_id]);
-                  if (++batchCount >= 500) {
-                    _arr.push(batch.commit());
-                    batch = firebase.firestore().batch();
-                    batchCount = 0;
-                  }
-                }
-              }
-
-              let rootId = Object.keys(data.items)[0];
-              loopReplaceUpload(rootId, rootItemId);
-
-              _arr.push(batch.commit());
-              Promise.all(_arr).then(resolve);
-            }
-
-            if (data.pages) {
-              if (Object.keys(data.pages).length > 1) {
-                alert("ファイル内のデータにページが複数存在します。");
-                return;
-              }
-              let rootId = Object.keys(data.pages)[0];
-              data.pages[rootId].itemId = rootItemId;
-              data.pages[rootId].path = this.path.replace(/%2F/g, "/");
-              batch.set(ref.doc(this.pageId), data.pages[rootId]);
-              _arr.push(batch.commit());
-              Promise.all(_arr).then(resolve);
-            }
-
-          } catch (e) {
-            alert(e);
-            reject();
-          }
-        };
-        reader.readAsText(files[i]);
-      }));
+    if (files.length > 1) {
+      alert("複数ファイル選択されています。");
+      return;
     }
 
-    Promise.all(arr).then(() => {
+    let arr = new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.onload = (e: any) => {
+        try {
+          let data = JSON.parse(e.target.result);
+          if (!data.items) {
+            alert("ファイル内にitemsDataが存在しません。");
+            return;
+          }
+          if (!data.page) {
+            alert("ファイル内にpageDataが存在しません。");
+            return;
+          }
+          if (Object.keys(data).length > 2) {
+            alert("ファイル内に[page][items]以外のデータが存在します。");
+            return;
+          }
+
+          let batch = firebase.firestore().batch();
+          let rootItemId = data.page.itemId;
+          let newRootItemId = Singleton.itemsRef.doc().id;
+
+          //page import
+          data.page.itemId = newRootItemId;
+          data.page.path = this.path.replace(/%2F/g, "/");
+          batch.set(Singleton.pagesRef.doc(this.pageId), data.page);
+
+          //items import
+          let loopReplaceUpload = (_id: string, _newId: string) => {
+            if (data.items[_id].type == "children" && data.items[_id].value.length > 0) {
+              for (let i in data.items[_id].value) {
+                let newId = Singleton.itemsRef.doc().id;
+                loopReplaceUpload(data.items[_id].value[i].id, newId);
+                data.items[_id].value[i].id = newId
+              }
+              data.items[_id].createTime = this.createTime;
+              batch.set(Singleton.itemsRef.doc(_newId), data.items[_id]);
+            } else {
+              data.items[_id].createTime = this.createTime;
+              batch.set(Singleton.itemsRef.doc(_newId), data.items[_id]);
+            }
+          }
+          loopReplaceUpload(rootItemId, newRootItemId);
+          batch.commit().then(resolve);
+
+        } catch (e) {
+          alert(e);
+          reject();
+        }
+      };
+      reader.readAsText(files[0]);
+    });
+    arr.then(() => {
       alert("complete")
     });
-
   }
 }
 </script>

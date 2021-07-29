@@ -24,43 +24,40 @@ export default class PageExport extends Vue {
 
   private totalCount: number = 0;
   private loopFinishCount: number = 0;
-  private obj: any = {items: {}};
+  private obj: any = {
+    page: {},
+    items: {},
+  };
 
   onExport() {
+    // page
     Singleton.pagesRef.doc(this.pageId)
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
-          let obj: any = {pages: {}};
-          obj.pages[this.pageId] = snap.data();
-          let a = document.createElement("a");
-          a.href = URL.createObjectURL(
-            new Blob(
-              [JSON.stringify(obj)],
-              {type: "text/plain"},
-            ),
-          );
-          a.download = `pages-${new Date().toUTCString()}.json`;
-          a.click();
+          this.obj.page = snap.data();
         },
       );
-
     // items
-    this.itemsExport();
+    this.itemsLoop(this.itemId, () => {
+      if (this.totalCount === this.loopFinishCount) {
+        this.fileExport();
+      }
+    });
   }
 
-  loop(chileId: any, end: any) {
+  itemsLoop(_itemId: any, end: any) {
     this.totalCount++;
-    Singleton.itemsRef.doc(chileId)
+    Singleton.itemsRef.doc(_itemId)
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
-        this.obj.items[chileId] = snap.data();
+        this.obj.items[_itemId] = snap.data();
         let itemData: any = snap.data();
 
         if (itemData.type == "children" && itemData.value.length > 0) {
           let count: number = 0;
           for (let i in itemData.value) {
             count++;
-            this.loop(itemData.value[i].id, () => {
+            this.itemsLoop(itemData.value[i].id, () => {
               count--;
               if (count == 0) {
                 this.loopFinishCount++;
@@ -72,37 +69,18 @@ export default class PageExport extends Vue {
           this.loopFinishCount++;
           end();
         }
+
       })
   }
 
-  itemsExport() {
-    Singleton.itemsRef.doc(this.itemId)
-      .get()
-      .then((snap: firebase.firestore.DocumentSnapshot) => {
-        this.obj.items[this.itemId] = snap.data();
-
-        if (this.obj.items[this.itemId].value.length > 0) {
-          for (let i in this.obj.items[this.itemId].value) {
-            this.loop(this.obj.items[this.itemId].value[i].id, () => {
-              if (this.totalCount === this.loopFinishCount) {
-                this.itemsDownload();
-              }
-            });
-          }
-        } else {
-          this.itemsDownload();
-        }
-      })
-  }
-
-  itemsDownload() {
+  fileExport() {
     let a = document.createElement("a");
     a.href = URL.createObjectURL(
       new Blob(
         [JSON.stringify(this.obj)],
         {type: "application/json"}),
     );
-    a.download = `items-${new Date().toUTCString()}.json`;
+    a.download = `page&items-${new Date().toUTCString()}.json`;
     a.click();
   }
 
