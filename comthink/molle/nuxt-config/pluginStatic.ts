@@ -13,6 +13,7 @@ import Picture from "~/molle/module/primitive/Picture.vue"
 import Button from "~/molle/module/primitive/Button.vue"
 import Column from "~/molle/module/primitive/Column.vue"
 import ColumnBox from "~/molle/module/primitive/ColumnBox.vue"
+import ButtonList from "~/molle/module/primitive/ButtonList.vue"
 import Gallery from "~/molle/module/custom/Gallery.vue"
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue"
 import SocialShare from "~/molle/module/custom/SocialShare.vue"
@@ -51,6 +52,7 @@ const pluginStatic = Vue.prototype.$molleModules = {
  Button : {ref:  Button },
  Column : {ref:  Column },
  ColumnBox : {ref:  ColumnBox },
+ ButtonList : {ref:  ButtonList },
  Gallery : {ref:  Gallery },
  GoogleForm : {ref:  GoogleForm },
  SocialShare : {ref:  SocialShare },

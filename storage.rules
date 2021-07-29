@@ -5,6 +5,7 @@ service firebase.storage {
       allow read, write: if request.auth.uid=="yp0IpZs3l9WvJWvH2StqGuQmd6C2" ||
                             request.auth.uid=="KScZfgSXPeTHSj9XDoIQyUuTpI72" ||
                             request.auth.uid=="aztAvQVsajTIgjysUxN4W3268Z33" ||
+                            request.auth.uid=="yp0IpZs3l9WvJWvH2StqGuQmd6C2" ||
                             request.auth.uid=="wjliwiAQHxgLvWyRT9EVBZWmvQE3";
     }
   }
