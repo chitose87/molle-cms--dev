@@ -83,10 +83,8 @@ export default class PageImport extends Vue {
                 loopReplaceUpload(data.items[_id].value[i].id, newId);
                 data.items[_id].value[i].id = newId
               }
-              this.itemSet(_newId, data.items[_id], batch);
-            } else {
-              this.itemSet(_newId, data.items[_id], batch);
             }
+            this.itemSet(_newId, data.items[_id], batch);
           }
           loopReplaceUpload(rootItemId, newRootItemId);
           batch.commit().then(resolve);
