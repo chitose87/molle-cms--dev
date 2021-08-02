@@ -53,7 +53,9 @@ export default class PageExport extends Vue {
         this.obj.items[_itemId] = snap.data();
         let itemData: any = snap.data();
 
-        if (itemData.type == "children" && itemData.value.length > 0) {
+        if (itemData.type == "group"
+          ||
+          (itemData.type == "children" && itemData.value.length > 0)) {
           let count: number = 0;
           for (let i in itemData.value) {
             count++;
