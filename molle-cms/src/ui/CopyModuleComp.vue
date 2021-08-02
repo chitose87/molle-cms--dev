@@ -27,7 +27,7 @@ export default class CopyModuleComp extends Vue {
   private updateTime = firebase.firestore.Timestamp.now();
   maxHistory: number = 100;
 
-  loop(parent: any, index: number, end: any) {
+  loop(parent: any, index: any, end: any) {
     this.totalCount++;
     Singleton.itemsRef.doc(parent.value[index].id)
       .get()
@@ -36,13 +36,13 @@ export default class CopyModuleComp extends Vue {
         parent.value[index].id = Singleton.itemsRef.doc().id;
         parent.value[index].obj = itemData;
 
-        if (itemData.type == "children" && itemData.value.length > 0) {
+        if (itemData.type == "group"
+          ||
+          (itemData.type == "children" && itemData.value.length > 0)) {
           let count: number = 0;
-          let n: number;
           for (let i in itemData.value) {
-            n = Number(i);
             count++;
-            this.loop(itemData, n, () => {
+            this.loop(itemData, i, () => {
               count--;
               if (count == 0) {
                 this.loopFinishCount++;
@@ -50,9 +50,6 @@ export default class CopyModuleComp extends Vue {
               }
             });
           }
-        } else if (itemData.type == "group") {
-          alert("カスタムモジュールはコピーできません")
-          return;
         } else {
           this.loopFinishCount++;
           end();
@@ -73,20 +70,20 @@ export default class CopyModuleComp extends Vue {
       .then((snap: firebase.firestore.DocumentSnapshot) => {
         let itemData: any = snap.data();
 
-        if (itemData.type == "children" && itemData.value.length > 0) {
-          let n: number;
+        if (itemData.type == "group"
+          ||
+          (itemData.type == "children" && itemData.value.length > 0)) {
           for (let i in itemData.value) {
-            n = Number(i);
-            this.loop(itemData, n, () => {
+            this.loop(itemData, i, () => {
               if (this.totalCount === this.loopFinishCount) {
                 let complete: any = itemData;
 
                 let createLoop = (_itemData: any, _itemId: string) => {
-                  let m: number;
-                  if (_itemData.type == "children" && itemData.value.length > 0) {
+                  if (_itemData.type == "group"
+                    ||
+                    (_itemData.type == "children" && itemData.value.length > 0)) {
                     for (let j in _itemData.value) {
-                      m = Number(j);
-                      createLoop(_itemData.value[m].obj, _itemData.value[m].id);
+                      createLoop(_itemData.value[j].obj, _itemData.value[j].id);
                     }
                   }
                   if (_itemData.value) {
@@ -116,9 +113,6 @@ export default class CopyModuleComp extends Vue {
               }
             });
           }
-        } else if (itemData.type == "group") {
-          alert("カスタムモジュールはコピーできません")
-          return;
         } else {
           itemData.createTime = this.updateTime;
           Singleton.itemsRef.doc(node.id)

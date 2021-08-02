@@ -79,7 +79,7 @@ export default class PageImport extends Vue {
           let loopReplaceUpload = (_id: string, _newId: string) => {
             if (data.items[_id].type == "group"
               ||
-              data.items[_id].type == "children" && data.items[_id].value.length > 0) {
+              (data.items[_id].type == "children" && data.items[_id].value.length > 0)) {
               for (let i in data.items[_id].value) {
                 let newId = Singleton.itemsRef.doc().id;
                 loopReplaceUpload(data.items[_id].value[i].id, newId);
