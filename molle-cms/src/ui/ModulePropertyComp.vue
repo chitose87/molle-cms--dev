@@ -84,9 +84,10 @@ import {IItemData, INodeObject, ILogsData} from "molle-cms/src/interface";
 import {Singleton} from "molle-cms/src/Singleton";
 import firebase from "firebase";
 import LogPropertyComp from "molle-cms/src/ui/LogPropertyComp.vue";
+import {Utils} from "molle-cms/src/Utils";
 
 @Component({
-  components: {LogPropertyComp}
+  components: {LogPropertyComp},
 })
 export default class ModulePropertyComp extends Vue {
   itemId: string = "";
@@ -103,29 +104,30 @@ export default class ModulePropertyComp extends Vue {
     [process.env.molleProjectID, process.env.molleBrunch, "items", ""].join("~2F")
   }`;
 
-  @Watch('$route.query.focus', {immediate: true})
+  @Watch("$route.query.focus", {immediate: true})
   onChangeFocusModuleNode(newer: string, older?: string) {
-      if (newer) {
-        console.log("onChangeFocusModuleNode")
-        this.flag = false;
-        if (this.unsubscribe) {
-          this.unsubscribe();
-        }
-
-        this.unsubscribe = Singleton.itemsRef.doc(newer).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-          if (!snap.exists) return;
-
-          this.itemDataBefore = <IItemData>snap.data();
-          let itemData = Object.assign({}, this.$molleModules[this.itemDataBefore.moduleId].def, snap.data());
-
-          // if (!itemData.option) itemData.option = {};
-          // if (!itemData.class) itemData.class = {};
-          // if (!itemData.style) itemData.style = {};
-          this.$set(this, "itemData", itemData);
-          this.$set(this, "itemId", snap.id);
-          this.flag = true;
-        });
+    if (newer) {
+      console.log("onChangeFocusModuleNode");
+      this.flag = false;
+      if (this.unsubscribe) {
+        this.unsubscribe();
       }
+
+      this.unsubscribe = Singleton.itemsRef.doc(newer).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+        if (!snap.exists) return;
+
+        this.itemDataBefore = <IItemData>snap.data();
+        //@ts-ignore
+        let itemData = Object.assign({}, this.$molleModules[this.itemDataBefore.moduleId].def, snap.data());
+
+        // if (!itemData.option) itemData.option = {};
+        // if (!itemData.class) itemData.class = {};
+        // if (!itemData.style) itemData.style = {};
+        this.$set(this, "itemData", itemData);
+        this.$set(this, "itemId", snap.id);
+        this.flag = true;
+      });
+    }
   }
 
   /**
@@ -166,57 +168,15 @@ export default class ModulePropertyComp extends Vue {
         flag = true;
       }
     });
-    console.log(flag, "update", this.itemId, update)
+    console.log(flag, "update", this.itemId, update);
     if (flag) {
-
-      // firestoreのlogs登録 by青木
-      let batch = firebase.firestore().batch();
-      let updateTime = firebase.firestore.Timestamp.now();
-      Singleton.logsRef.doc(this.itemId)
-        .get()
-        .then((snap: firebase.firestore.DocumentSnapshot) => {
-          let data = snap.data();
-          if (data) {
-            let history: ILogsData[] = data.history || [];
-            history.unshift({
-              timestamp: updateTime,
-              uid: firebase.auth().currentUser!.uid,
-              update: update
-            });
-            if (history.length > this.maxHistory) history.length = this.maxHistory;
-            batch.update(Singleton.logsRef.doc(this.itemId), {history: history});
-          }
-          batch.update(Singleton.itemsRef.doc(this.itemId), update);
-          batch.commit();
-        })
+      Utils.updateItem(this.itemId, update);
     }
   }
 
   moduleChange() {
-    console.log("moduleChangeスタート")
+    // console.log("moduleChangeスタート")
     if (this.changeModuleSelected) {
-      let update: any = {moduleId: this.changeModuleSelected};
-      // firestoreのlogs登録 by青木
-      let batch = firebase.firestore().batch();
-      let updateTime = firebase.firestore.Timestamp.now();
-      Singleton.logsRef.doc(this.itemId)
-        .get()
-        .then((snap: firebase.firestore.DocumentSnapshot) => {
-          let data = snap.data();
-          if (data) {
-            let history: ILogsData[] = data.history || [];
-            history.unshift({
-              timestamp: updateTime,
-              uid: firebase.auth().currentUser!.uid,
-              update: update
-            });
-            if (history.length > this.maxHistory) history.length = this.maxHistory;
-            batch.update(Singleton.logsRef.doc(this.itemId), {history: history});
-          }
-          update.updateTime = firebase.firestore.FieldValue.serverTimestamp();
-          batch.update(Singleton.itemsRef.doc(this.itemId), update);
-          batch.commit();
-        })
       // convert
       // switch (this.itemData.moduleId) {
       //   case "Headline":
@@ -228,8 +188,7 @@ export default class ModulePropertyComp extends Vue {
       //   case "Paragraph":
       //     break;
       // }
-      update.updateTime = firebase.firestore.FieldValue.serverTimestamp();
-      Singleton.itemsRef.doc(this.itemId).update(update);
+      Utils.updateItem(this.itemId, {moduleId: this.changeModuleSelected});
     }
   }
 }

@@ -1,8 +1,42 @@
-import {IPageData} from "./interface";
+import {ILogsData, IPageData} from "./interface";
 import {Singleton} from "./Singleton";
 import firebase from "firebase";
 
 export class Utils {
+
+  /**
+   *
+   * @param id
+   * @param update
+   */
+  static updateItem(id: string, update: any) {
+    Singleton.itemsRef.doc(id)
+      .update({
+          ...update,
+          updateTime: firebase.firestore.FieldValue.serverTimestamp(),
+        },
+      );
+
+    //logs
+    let logRef = Singleton.logsRef.doc(id);
+    logRef.get()
+      .then((snap: firebase.firestore.DocumentSnapshot) => {
+        let data = snap.data() || {};
+        let history: ILogsData[] = data.history || [];
+        history.unshift({
+          timestamp: firebase.firestore.Timestamp.now(),
+          uid: firebase.auth().currentUser!.uid,
+          update: update,
+        });
+        //todo 短時間で同一idに対して変更があったものを統合
+        if (history.length > 100) history.length = 100;
+        if (snap.exists) {
+          logRef.update({history: history});
+        } else {
+          logRef.set({history: history});
+        }
+      });
+  }
 
   /**
    *
