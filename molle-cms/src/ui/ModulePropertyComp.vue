@@ -97,7 +97,6 @@ export default class ModulePropertyComp extends Vue {
   private unsubscribe?: () => void;
   flag = false;
   pageFlag = true;
-  maxHistory: number = 100;
   firestoreUrl = `https://console.firebase.google.com/project/${
     process.env.projectId
   }/firestore/data/${
