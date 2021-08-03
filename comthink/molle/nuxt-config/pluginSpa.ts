@@ -161,9 +161,9 @@ const molleModules = Vue.prototype.$molleModules = {
     profileName: "FadeInOutPictureBoxProfile",
     def: c("FadeInOutPictureBox", "group", {
       value: {
-        picture1: {fixedModuleId: "Picture", order: 0},
-        picture2: {fixedModuleId: "Picture", order: 10},
-        picture3: {fixedModuleId: "Picture", order: 20},
+        img1: {fixedModuleId: "Picture", order: 0},
+        img2: {fixedModuleId: "Picture", order: 10},
+        img3: {fixedModuleId: "Picture", order: 20},
         headline: {fixedModuleId: "PositionHeadline", order: 30},
       },
     }),

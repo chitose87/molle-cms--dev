@@ -7,13 +7,13 @@ component.module.fade-in-out-picture-box(
 )
   ul
     li
-      ModuleLoader(:node="itemData.value.picture1", :key="itemData.value.id")
+      ModuleLoader(:node="itemData.value.img1", :key="itemData.value.img1.id")
     li
-      ModuleLoader(:node="itemData.value.picture2", :key="itemData.value.id")
+      ModuleLoader(:node="itemData.value.img2", :key="itemData.value.img2.id")
     li
-      ModuleLoader(:node="itemData.value.picture3", :key="itemData.value.id")
+      ModuleLoader(:node="itemData.value.img3", :key="itemData.value.img3.id")
 
-  ModuleLoader(:node="itemData.value.headline", :key="itemData.value.id")
+  ModuleLoader(:node="itemData.value.headline", :key="itemData.value.headline.id")
 
 
 </template>
