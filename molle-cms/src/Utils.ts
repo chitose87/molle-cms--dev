@@ -9,44 +9,29 @@ export class Utils {
    * @param id
    * @param update
    */
-  static updateItem(id: string, update: any, isSet = false, end?: any) {
-    if (isSet) {
-      Singleton.itemsRef.doc(id)
-        .set(update)
-        .then(() => {
-          if (end) {
-            end()
-          }
-        });
-    } else {
-      Singleton.itemsRef.doc(id)
-        .update({...update})
-        .then(() => {
-          if (end) {
-            end()
-          }
-        });
-    }
-
-    //logs
+  static updateItem(id: string, update: any, isSet = false) {
+    let promisse;
+    let historyItem: any = {
+      timestamp: firebase.firestore.Timestamp.now(),
+      uid: firebase.auth().currentUser!.uid,
+    };
     let logRef = Singleton.logsRef.doc(id);
+
+    //
     if (isSet) {
-      logRef.set({
-        history: [{
-          timestamp: firebase.firestore.Timestamp.now(),
-          uid: firebase.auth().currentUser!.uid
-        }]
-      });
+      let batch = firebase.firestore().batch();
+      batch.set(Singleton.itemsRef.doc(id), update);
+      batch.set(logRef, {history: [historyItem]});
+      promisse = batch.commit();
     } else {
+      promisse = Singleton.itemsRef.doc(id).update({...update});
+      //log
       logRef.get()
         .then((snap: firebase.firestore.DocumentSnapshot) => {
           let data = snap.data() || {};
           let history: ILogsData[] = data.history || [];
-          history.unshift({
-            timestamp: firebase.firestore.Timestamp.now(),
-            uid: firebase.auth().currentUser!.uid,
-            update: update,
-          });
+          historyItem.update = update;
+          history.unshift(historyItem);
           //todo 短時間で同一idに対して変更があったものを統合
           if (history.length > 100) history.length = 100;
           if (snap.exists) {
@@ -56,6 +41,7 @@ export class Utils {
           }
         });
     }
+    return promisse;
   }
 
   /**
