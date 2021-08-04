@@ -10,7 +10,7 @@ export class Utils {
    * @param update
    */
   static updateItem(id: string, update: any, isSet = false) {
-    let promisse;
+    let promise;
     let historyItem: any = {
       timestamp: firebase.firestore.Timestamp.now(),
       uid: firebase.auth().currentUser!.uid,
@@ -22,9 +22,9 @@ export class Utils {
       let batch = firebase.firestore().batch();
       batch.set(Singleton.itemsRef.doc(id), update);
       batch.set(logRef, {history: [historyItem]});
-      promisse = batch.commit();
+      promise = batch.commit();
     } else {
-      promisse = Singleton.itemsRef.doc(id).update({...update});
+      promise = Singleton.itemsRef.doc(id).update({...update});
       //log
       logRef.get()
         .then((snap: firebase.firestore.DocumentSnapshot) => {
@@ -41,7 +41,7 @@ export class Utils {
           }
         });
     }
-    return promisse;
+    return promise;
   }
 
   /**

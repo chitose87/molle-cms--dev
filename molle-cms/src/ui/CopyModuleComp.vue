@@ -93,12 +93,13 @@ export default class CopyModuleComp extends Vue {
                     }
                   }
                   _itemData.createTime = this.updateTime;
-                  Utils.updateItem(_itemId, _itemData, true, () => {
-                    this.createFinishCount++;
-                    if (this.totalCount < this.createFinishCount) {
-                      this.parentUpdate(node);
-                    }
-                  });
+                  Utils.updateItem(_itemId, _itemData, true)
+                    .then(() => {
+                      this.createFinishCount++;
+                      if (this.totalCount < this.createFinishCount) {
+                        this.parentUpdate(node);
+                      }
+                    });
                 };
 
                 createLoop(complete, node.id);
@@ -108,15 +109,15 @@ export default class CopyModuleComp extends Vue {
           }
         } else {
           itemData.createTime = this.updateTime;
-          Utils.updateItem(node.id, itemData, true, () => {
-            this.parentUpdate(node);
-          });
+          Utils.updateItem(node.id, itemData, true)
+            .then(() => {
+              this.parentUpdate(node);
+            });
         }
       })
   }
 
   parentUpdate(node: any) {
-    console.log("parentUpdateスタート")
     Singleton.itemsRef.doc(this.parentNode.id)
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
