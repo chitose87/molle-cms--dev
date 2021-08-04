@@ -93,19 +93,11 @@ export default class CopyModuleComp extends Vue {
                     }
                   }
                   _itemData.createTime = this.updateTime;
-                  Singleton.itemsRef.doc(_itemId)
-                    .set(_itemData)
-                    .then(() => {
-                      this.createFinishCount++;
-                      if (this.totalCount < this.createFinishCount) {
-                        this.parentUpdate(node);
-                      }
-                    });
-                  Singleton.logsRef.doc(_itemId).set({
-                    history: [{
-                      timestamp: this.updateTime,
-                      uid: firebase.auth().currentUser!.uid
-                    }]
+                  Utils.updateItem(_itemId, _itemData, true, () => {
+                    this.createFinishCount++;
+                    if (this.totalCount < this.createFinishCount) {
+                      this.parentUpdate(node);
+                    }
                   });
                 };
 
@@ -116,11 +108,9 @@ export default class CopyModuleComp extends Vue {
           }
         } else {
           itemData.createTime = this.updateTime;
-          Singleton.itemsRef.doc(node.id)
-            .set(itemData)
-            .then(() => {
-              this.parentUpdate(node);
-            });
+          Utils.updateItem(node.id, itemData, true, () => {
+            this.parentUpdate(node);
+          });
         }
       })
   }

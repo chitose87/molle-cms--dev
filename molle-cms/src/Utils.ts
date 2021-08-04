@@ -9,35 +9,53 @@ export class Utils {
    * @param id
    * @param update
    */
-  static updateItem(id: string, update: any) {
-    console.log("updateItemスタート")
-    console.log("id",id,"update",update)
-    Singleton.itemsRef.doc(id)
-      .update({
-          ...update,
-          updateTime: firebase.firestore.FieldValue.serverTimestamp(),
-        },
-      );
+  static updateItem(id: string, update: any, isSet = false, end?: any) {
+    if (isSet) {
+      Singleton.itemsRef.doc(id)
+        .set(update)
+        .then(() => {
+          if (end) {
+            end()
+          }
+        });
+    } else {
+      Singleton.itemsRef.doc(id)
+        .update({...update})
+        .then(() => {
+          if (end) {
+            end()
+          }
+        });
+    }
 
     //logs
     let logRef = Singleton.logsRef.doc(id);
-    logRef.get()
-      .then((snap: firebase.firestore.DocumentSnapshot) => {
-        let data = snap.data() || {};
-        let history: ILogsData[] = data.history || [];
-        history.unshift({
+    if (isSet) {
+      logRef.set({
+        history: [{
           timestamp: firebase.firestore.Timestamp.now(),
-          uid: firebase.auth().currentUser!.uid,
-          update: update,
-        });
-        //todo 短時間で同一idに対して変更があったものを統合
-        if (history.length > 100) history.length = 100;
-        if (snap.exists) {
-          logRef.update({history: history});
-        } else {
-          logRef.set({history: history});
-        }
+          uid: firebase.auth().currentUser!.uid
+        }]
       });
+    } else {
+      logRef.get()
+        .then((snap: firebase.firestore.DocumentSnapshot) => {
+          let data = snap.data() || {};
+          let history: ILogsData[] = data.history || [];
+          history.unshift({
+            timestamp: firebase.firestore.Timestamp.now(),
+            uid: firebase.auth().currentUser!.uid,
+            update: update,
+          });
+          //todo 短時間で同一idに対して変更があったものを統合
+          if (history.length > 100) history.length = 100;
+          if (snap.exists) {
+            logRef.update({history: history});
+          } else {
+            logRef.set({history: history});
+          }
+        });
+    }
   }
 
   /**
