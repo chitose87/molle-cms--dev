@@ -9,6 +9,7 @@ import {Component, Vue, Prop} from "nuxt-property-decorator";
 import firebase from "firebase";
 import {Singleton} from "molle-cms/src/Singleton";
 import {IItemData, ILogsData, INodeObject} from "molle-cms/src/interface";
+import {Utils} from "molle-cms/src/Utils";
 
 @Component({
   components: {},
@@ -125,6 +126,7 @@ export default class CopyModuleComp extends Vue {
   }
 
   parentUpdate(node: any) {
+    console.log("parentUpdateスタート")
     Singleton.itemsRef.doc(this.parentNode.id)
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
@@ -147,28 +149,8 @@ export default class CopyModuleComp extends Vue {
         } else {
           itemDataParent.value.push(node);
         }
-        Singleton.itemsRef.doc(this.parentNode.id)
-          .update(itemDataParent)
-          .then(() => {
-            console.log("コピー完了")
-          });
-        Singleton.logsRef.doc(this.parentNode.id)
-          .get()
-          .then((snap: firebase.firestore.DocumentSnapshot) => {
-            let data = snap.data();
-            if (data) {
-              let history: ILogsData[] = data.history || [];
-              history.unshift({
-                timestamp: this.updateTime,
-                uid: firebase.auth().currentUser!.uid,
-                update: {
-                  value: itemDataParent.value
-                }
-              });
-              if (history.length > this.maxHistory) history.length = this.maxHistory;
-              Singleton.logsRef.doc(this.parentNode.id).update({history: history});
-            }
-          })
+        let update = {value: itemDataParent.value};
+        Utils.updateItem(this.parentNode.id, update)
       })
   }
 

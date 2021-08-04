@@ -10,6 +10,8 @@ export class Utils {
    * @param update
    */
   static updateItem(id: string, update: any) {
+    console.log("updateItemスタート")
+    console.log("id",id,"update",update)
     Singleton.itemsRef.doc(id)
       .update({
           ...update,
