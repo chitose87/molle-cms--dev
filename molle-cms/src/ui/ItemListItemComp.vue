@@ -97,6 +97,7 @@ import {Singleton} from "molle-cms/src/Singleton";
 import {IItemData, INodeObject, ILogsData} from "molle-cms/src/interface";
 import firebase from "firebase";
 import draggable from "vuedraggable";
+import {Utils} from "molle-cms/src/Utils";
 
 @Component({
   components: {draggable},
@@ -122,18 +123,8 @@ export default class ItemListItemComp extends Vue {
       .doc(this.node.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         if (!snap.exists) {
-          let batch = firebase.firestore().batch();
-          batch.set(Singleton.itemsRef.doc(this.node.id),
-            this.$molleModules[this.node!.fixedModuleId || "Box"].def
-          );
-          // firestoreのlogs登録 by青木
-          batch.set(Singleton.logsRef.doc(this.node.id), {
-            history: [{
-              timestamp: firebase.firestore.Timestamp.now(),
-              uid: firebase.auth().currentUser!.uid
-            }]
-          });
-          batch.commit();
+          let update = this.$molleModules[this.node!.fixedModuleId || "Box"].def;
+          Utils.updateItem(this.node.id, update, true);
           return;
         }
         let itemData = <IItemData>snap.data();
@@ -171,60 +162,15 @@ export default class ItemListItemComp extends Vue {
   }
 
   updateChild() {
-    console.log("updateChild", this.node.id);
-
-    // firestoreのlogs登録 by青木
-    let batch = firebase.firestore().batch();
-    let updateTime = firebase.firestore.Timestamp.now();
-    Singleton.logsRef.doc(this.node.id)
-      .get()
-      .then((snap: firebase.firestore.DocumentSnapshot) => {
-        let data = snap.data();
-        if (data) {
-          let history: ILogsData[] = data.history || [];
-          history.unshift({
-            timestamp: updateTime,
-            uid: firebase.auth().currentUser!.uid,
-            update: {
-              value: this.itemData.value
-            }
-          });
-          if (history.length > this.maxHistory) history.length = this.maxHistory;
-          batch.update(Singleton.logsRef.doc(this.node.id), {history: history});
-        }
-        batch.update(Singleton.itemsRef.doc(this.node.id), {value: this.itemData.value});
-        batch.commit();
-      })
+    let update = {value: this.itemData.value};
+    Utils.updateItem(this.node.id, update);
   }
 
   deleteModule() {
-    let batch = firebase.firestore().batch();
     let parent = <ItemListItemComp>this.$parent.$parent;
     let value: any = parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id);
-    batch.update(Singleton.itemsRef.doc(parent.node.id), {
-      value: value
-    });
-
-    // firestoreのlogs登録（親） by青木
-    let updateTime = firebase.firestore.Timestamp.now();
-    Singleton.logsRef.doc(parent.node.id)
-      .get()
-      .then((snap: firebase.firestore.DocumentSnapshot) => {
-        let data = snap.data();
-        if (data) {
-          let history: ILogsData[] = data.history || [];
-          history.unshift({
-            timestamp: updateTime,
-            uid: firebase.auth().currentUser!.uid,
-            update: {
-              value: value
-            }
-          });
-          if (history.length > this.maxHistory) history.length = this.maxHistory;
-          batch.update(Singleton.logsRef.doc(parent.node.id), {history: history});
-        }
-        batch.commit();
-      })
+    let update = {value: value}
+    Utils.updateItem(parent.node.id, update);
   }
 
   private groupChildSort(groupValue: any) {
