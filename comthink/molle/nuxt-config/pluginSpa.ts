@@ -6,6 +6,8 @@ import BackgroundBox from "~/molle/module/primitive/BackgroundBox.vue";
 import BackgroundBoxProfile from "~/molle/module/primitive/BackgroundBoxProfile.vue";
 import Headline from "~/molle/module/primitive/Headline.vue";
 import HeadlineProfile from "~/molle/module/primitive/HeadlineProfile.vue";
+import PositionHeadline from "~/molle/module/primitive/PositionHeadline.vue";
+import PositionHeadlineProfile from "~/molle/module/primitive/PositionHeadlineProfile.vue";
 import Paragraph from "~/molle/module/primitive/Paragraph.vue";
 import ParagraphProfile from "~/molle/module/primitive/ParagraphProfile.vue";
 import Picture from "~/molle/module/primitive/Picture.vue";
@@ -18,6 +20,8 @@ import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
 import ColumnBoxProfile from "~/molle/module/primitive/ColumnBoxProfile.vue";
 import ButtonList from "~/molle/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle/module/primitive/ButtonListProfile.vue";
+import FadeInOutPictureBox from "~/molle/module/primitive/FadeInOutPictureBox.vue";
+import FadeInOutPictureBoxProfile from "~/molle/module/primitive/FadeInOutPictureBoxProfile.vue";
 import Gallery from "~/molle/module/custom/Gallery.vue";
 import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
@@ -62,7 +66,7 @@ const molleModules = Vue.prototype.$molleModules = {
     profile: BoxProfile,
     profileName: "BoxProfile",
     def: c("Box", "children"),
-    black: ["ColumnBox"],
+    black: ["ColumnBox", "PositionHeadline"],
     convert: ["ColumnBox", "BackgroundBox"],
     icon: "plus-square",
   },
@@ -85,6 +89,17 @@ const molleModules = Vue.prototype.$molleModules = {
       },
     }),
     convert: ["Paragraph"],
+    icon: "card-heading",
+  },
+  PositionHeadline: {
+    ref: PositionHeadline,
+    profile: PositionHeadlineProfile,
+    profileName: "PositionHeadlineProfile",
+    def: c("PositionHeadline", "text", {
+      option: {
+        lv: "h1",
+      },
+    }),
     icon: "card-heading",
   },
   Paragraph: {
@@ -149,6 +164,20 @@ const molleModules = Vue.prototype.$molleModules = {
     def: c("ButtonList", "children"),
     white: ["Button"],
     icon: "layout-three-columns",
+  },
+  FadeInOutPictureBox: {
+    ref: FadeInOutPictureBox,
+    profile: FadeInOutPictureBoxProfile,
+    profileName: "FadeInOutPictureBoxProfile",
+    def: c("FadeInOutPictureBox", "group", {
+      value: {
+        img1: {fixedModuleId: "Picture", order: 0},
+        img2: {fixedModuleId: "Picture", order: 10},
+        img3: {fixedModuleId: "Picture", order: 20},
+        headline: {fixedModuleId: "PositionHeadline", order: 30},
+      },
+    }),
+    icon: "plus-square",
   },
   Table: {
     ref: Table,
