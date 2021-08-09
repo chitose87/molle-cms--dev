@@ -10,6 +10,10 @@ import PositionHeadline from "~/molle/module/primitive/PositionHeadline.vue";
 import PositionHeadlineProfile from "~/molle/module/primitive/PositionHeadlineProfile.vue";
 import Paragraph from "~/molle/module/primitive/Paragraph.vue";
 import ParagraphProfile from "~/molle/module/primitive/ParagraphProfile.vue";
+import VerticalParagraph from "~/molle/module/primitive/VerticalParagraph.vue";
+import VerticalParagraphProfile from "~/molle/module/primitive/VerticalParagraphProfile.vue";
+import VerticalHeadline from "~/molle/module/primitive/VerticalHeadline.vue";
+import VerticalHeadlineProfile from "~/molle/module/primitive/VerticalHeadlineProfile.vue";
 import Picture from "~/molle/module/primitive/Picture.vue";
 import PictureProfile from "~/molle/module/primitive/PictureProfile.vue";
 import Button from "~/molle/module/primitive/Button.vue";
@@ -18,6 +22,8 @@ import Column from "~/molle/module/primitive/Column.vue";
 import ColumnProfile from "~/molle/module/primitive/ColumnProfile.vue";
 import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
 import ColumnBoxProfile from "~/molle/module/primitive/ColumnBoxProfile.vue";
+import VerticalBox from "~/molle/module/primitive/VerticalBox.vue";
+import VerticalBoxProfile from "~/molle/module/primitive/VerticalBoxProfile.vue";
 import ButtonList from "~/molle/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle/module/primitive/ButtonListProfile.vue";
 import FadeInOutPictureBox from "~/molle/module/primitive/FadeInOutPictureBox.vue";
@@ -66,7 +72,7 @@ const molleModules = Vue.prototype.$molleModules = {
     profile: BoxProfile,
     profileName: "BoxProfile",
     def: c("Box", "children"),
-    black: ["ColumnBox", "PositionHeadline"],
+    black: ["ColumnBox", "PositionHeadline", "VerticalHeadline", "VerticalParagraph"],
     convert: ["ColumnBox", "BackgroundBox"],
     icon: "plus-square",
   },
@@ -107,6 +113,26 @@ const molleModules = Vue.prototype.$molleModules = {
     profile: ParagraphProfile,
     profileName: "ParagraphProfile",
     def: c("Paragraph", "text"),
+    convert: ["Headline"],
+    icon: "text-paragraph",
+  },
+  VerticalHeadline: {
+    ref: VerticalHeadline,
+    profile: VerticalHeadlineProfile,
+    profileName: "VerticalHeadlineProfile",
+    def: c("VerticalHeadline", "text", {
+      option: {
+        lv: "h3",
+      },
+    }),
+    convert: ["Paragraph"],
+    icon: "card-heading",
+  },
+  VerticalParagraph: {
+    ref: VerticalParagraph,
+    profile: VerticalParagraphProfile,
+    profileName: "VerticalParagraphProfile",
+    def: c("VerticalParagraph", "text"),
     convert: ["Headline"],
     icon: "text-paragraph",
   },
@@ -153,9 +179,21 @@ const molleModules = Vue.prototype.$molleModules = {
     profile: ColumnBoxProfile,
     profileName: "ColumnBoxProfile",
     def: c("ColumnBox", "children"),
-    black: ["ColumnBox"],
+    black: ["ColumnBox","VerticalParagraph","VerticalHeadline"],
     convert: ["Box"],
     icon: "plus-square",
+  },
+  VerticalBox: {
+    ref: VerticalBox,
+    profile: VerticalBoxProfile,
+    profileName: "VerticalBoxProfile",
+    def: c("VerticalBox", "group", {
+      value: {
+        paragraph: {fixedModuleId: "VerticalParagraph", order: 0},
+        headline: {fixedModuleId: "VerticalHeadline", order: 10},
+      },
+    }),
+    icon: "distribute-horizontal",
   },
   ButtonList: {
     ref: ButtonList,
