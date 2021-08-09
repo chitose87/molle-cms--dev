@@ -95,7 +95,8 @@ import {
 } from "nuxt-property-decorator";
 import firebase from "firebase";
 import {Singleton} from "molle-cms/src/Singleton";
-import {IItemData, IPageData} from "molle-cms/src/interface";
+import {IItemData, ILogsData, IPageData} from "molle-cms/src/interface";
+import {Utils} from "molle-cms/src/Utils";
 
 @Component({
   components: {},
@@ -121,12 +122,12 @@ export default class MolleToolbar extends Vue {
   schedule = {
     min: "",
     date: "",
-    active: false
-  }
+    active: false,
+  };
 
   user = {
-    email: ""
-  }
+    email: "",
+  };
 
 
   onLogin(e: any) {
@@ -136,7 +137,7 @@ export default class MolleToolbar extends Vue {
         if (user) {
           this.localValue = true;
         }
-      })
+      });
   }
 
   onLogout() {
@@ -165,7 +166,7 @@ export default class MolleToolbar extends Vue {
         let data: any = snap.data();
         this.$set(this.schedule, "date", data.deploySchedule);
         this.$set(this.schedule, "active", data.deployScheduleActive);
-      })
+      });
   }
 
   scheduleUpdate() {
@@ -178,7 +179,7 @@ export default class MolleToolbar extends Vue {
   deployQue() {
     this.deployModal = false;
     Singleton.systemDocRef.update({
-      deployQue: true
+      deployQue: true,
     });
   }
 
@@ -198,7 +199,7 @@ export default class MolleToolbar extends Vue {
             {type: "text/plain"},
           ),
         );
-        a.download = `pages-${new Date().toUTCString()}.json`;
+        a.download = `${process.env.molleProjectID}-${process.env.molleBrunch}-pages-${new Date().toUTCString()}.json`;
         a.click();
       },
     );
@@ -216,7 +217,7 @@ export default class MolleToolbar extends Vue {
           [JSON.stringify(obj)],
           {type: "application/json"}),
       );
-      a.download = `items-${new Date().toUTCString()}.json`;
+      a.download = `${process.env.molleProjectID}-${process.env.molleBrunch}-items-${new Date().toUTCString()}.json`;
       a.click();
     });
   }
@@ -242,42 +243,42 @@ export default class MolleToolbar extends Vue {
 よろしいですか？`)
     ) return;
 
-    let arr = [];
+    let batchQue: any = [];
+    let promiseList = [];
+
     for (let i = 0; i < files.length; i++) {
-      arr.push(new Promise((resolve, reject) => {
+      promiseList.push(new Promise<void>((resolve, reject) => {
         let reader = new FileReader();
         reader.onload = (e: any) => {
           try {
             let data = JSON.parse(e.target.result);
-            let _arr = [];
-            let batch = firebase.firestore().batch();
-            let batchCount = 0;
             let items = data.pages || data.items;
             let ref: any = data.pages ? Singleton.pagesRef
               : data.items ? Singleton.itemsRef
-                : reject();
+                : new Error();
+
             for (let id in items) {
-              batch.set(ref.doc(id), items[id]);
-              if (++batchCount >= 500) {
-                _arr.push(batch.commit());
-                batch = firebase.firestore().batch();
-                batchCount = 0;
-              }
+              batchQue.push({
+                cmd: "set",
+                ref: ref.doc(id),
+                data: items[id],
+              });
             }
-            _arr.push(batch.commit());
-            Promise.all(_arr).then(resolve);
+            resolve();
           } catch (e) {
             alert(e);
-            reject();
           }
         };
         reader.readAsText(files[i]);
       }));
     }
-
-    Promise.all(arr).then(() => {
-      alert("complete")
-    });
+    Promise.all(promiseList)
+      .then(() => {
+        console.log(batchQue.length);
+        Utils.updateBatch(batchQue).then(() => {
+          alert("complete");
+        });
+      });
   }
 
   /**
@@ -285,27 +286,28 @@ export default class MolleToolbar extends Vue {
    */
   cleanup() {
     console.log("cleanup");
-
-    let batch = firebase.firestore().batch();
-    let batchCount = 0;
+    let batchQue: any = [];
 
     Promise.all([
       Singleton.pagesRef.get(),
-      Singleton.itemsRef.get()
+      Singleton.itemsRef.get(),
+      Singleton.logsRef.get(),
     ]).then((v: any) => {
       let obj: any = {};
+      // カウントリセット
       v[1].forEach((_snap: firebase.firestore.DocumentSnapshot) => {
-        let itemData = <IItemData>_snap.data();
-        obj[_snap.id] = 0;
+        obj[_snap.id] = _snap.data();
+        obj[_snap.id]._count = 0;
       });
-      v[1].forEach((_snap: firebase.firestore.DocumentSnapshot) => {
-        let itemData = <IItemData>_snap.data();
+      for (let id in obj) {
+        let itemData = <IItemData>obj[id];
         let flag = false;
-        //@ts-ignore
-        if (itemData.type == "children") {
+        if (itemData.type == "children" || itemData.type == "group") {
+          // childに対してカウントアップ
           for (let i in itemData.value) {
             let item = itemData.value[i];
-            obj[item.id || item] += 1;
+            let _id = item.id || item;
+            obj[_id] && (obj[_id]._count += 1);
             // todo 参照されてるリストを作る
             if (typeof item == "string") {
               // node化
@@ -314,37 +316,65 @@ export default class MolleToolbar extends Vue {
             }
           }
           if (flag) {
-            batch.update(Singleton.itemsRef.doc(_snap.id), "value", itemData.value);
-            if (++batchCount >= 500) {
-              batch.commit();
-              batch = firebase.firestore().batch();
-              batchCount = 0;
-            }
-          }
-        }
-      });
-      v[0].forEach((_snap: firebase.firestore.DocumentSnapshot) => {
-        let pageData = <IPageData>_snap.data();
-        //@ts-ignore
-        obj[pageData.itemId] += 1;
-      });
-
-      //誰からも未参照のitemを削除
-      console.log(obj)
-      for (let id in obj) {
-        if (obj[id] == 0) {
-          console.log("delete", id);
-          batch.delete(Singleton.itemsRef.doc(id));
-          if (++batchCount >= 500) {
-            batch.commit();
-            batch = firebase.firestore().batch();
-            batchCount = 0;
+            batchQue.push({
+              cmd: "update",
+              ref: Singleton.itemsRef.doc(id),
+              data: {value: itemData.value},
+            });
           }
         }
       }
-      batch.commit();
-      alert("完了しました。結果はconsoleを確認してください")
-    })
+
+      // itemIdに対してカウントアップ
+      v[0].forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+        let pageData = <IPageData>_snap.data();
+        obj[pageData.itemId!] && (obj[pageData.itemId!]._count += 1);
+      });
+
+      //誰からも未参照のitemを削除
+      console.log(Object.keys(obj).length);
+      let flag = true;
+      while (flag) {
+        flag = false;
+        for (let id in obj) {
+          let itemData = obj[id];
+          if (!itemData._count) {
+            console.log("delete", id);
+            // childに対してカウントダウン
+            if (itemData.type == "children" || itemData.type == "group") {
+              for (let i in itemData.value) {
+                let item = itemData.value[i];
+                let _id = item.id || item;
+                obj[_id] && (obj[_id]._count -= 1);
+              }
+            }
+            batchQue.push({
+              cmd: "delete",
+              ref: Singleton.itemsRef.doc(id),
+            });
+            delete obj[id];
+            flag = true;
+          }
+        }
+      }
+      // logの削除
+      v[2].forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+        if (!obj[_snap.id]) {
+          batchQue.push({
+            cmd: "delete",
+            ref: Singleton.logsRef.doc(_snap.id),
+          });
+        }
+      });
+      console.log(batchQue.length);
+      if (batchQue.length) {
+        Utils.updateBatch(batchQue).then(() => {
+          alert("完了しました。結果はconsoleを確認してください");
+        });
+      } else {
+        alert("未参照のitemはありませんでした。");
+      }
+    });
   }
 
   /**
@@ -353,10 +383,10 @@ export default class MolleToolbar extends Vue {
   sendPasswordResetEmail() {
     firebase.auth().sendPasswordResetEmail(this.user.email)
       .then((result) => {
-        alert(`パスワード再設定メールをリクエストしました。メールをご確認ください`)
+        alert(`パスワード再設定メールをリクエストしました。メールをご確認ください`);
       })
       .catch((error) => {
-        alert(error + "/" + this.user.email)
+        alert(error + "/" + this.user.email);
       });
   }
 }

@@ -14,13 +14,13 @@ import {
 } from "nuxt-property-decorator";
 import firebase from "firebase";
 import {Singleton} from "molle-cms/src/Singleton";
+import {IPageData} from "~/src/interface";
 
 @Component({
   components: {},
 })
 export default class PageExport extends Vue {
-  @Prop() itemId!: any;
-  @Prop() pageId!: string;
+  @Prop() pageData!: IPageData;
 
   private totalCount: number = 0;
   private loopFinishCount: number = 0;
@@ -31,14 +31,9 @@ export default class PageExport extends Vue {
 
   onExport() {
     // page
-    Singleton.pagesRef.doc(this.pageId)
-      .get()
-      .then((snap: firebase.firestore.DocumentSnapshot) => {
-          this.obj.page = snap.data();
-        },
-      );
+    this.obj.page = this.pageData;
     // items
-    this.itemsLoop(this.itemId, () => {
+    this.itemsLoop(this.pageData.itemId, () => {
       if (this.totalCount === this.loopFinishCount) {
         this.fileExport();
       }
@@ -72,7 +67,7 @@ export default class PageExport extends Vue {
           end();
         }
 
-      })
+      });
   }
 
   fileExport() {
@@ -82,7 +77,7 @@ export default class PageExport extends Vue {
         [JSON.stringify(this.obj)],
         {type: "application/json"}),
     );
-    a.download = `page&items-${new Date().toUTCString()}.json`;
+    a.download = `${this.pageData.path}-${this.pageData.title}-${new Date().toUTCString()}.json`;
     a.click();
   }
 

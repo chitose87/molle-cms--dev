@@ -46,6 +46,35 @@ export class Utils {
 
   /**
    *
+   */
+  static updateBatch(arr: {cmd: string, ref: any, data: any}[]) {
+    let batch = firebase.firestore().batch();
+    let promiseList = [];
+
+    for (let i = 0; i < arr.length; i++) {
+      let que = arr[i];
+      switch (que.cmd) {
+        case "set":
+          batch.set(que.ref, que.data);
+          break;
+        case "update":
+          batch.update(que.ref, que.data);
+          break;
+        case "delete":
+          batch.delete(que.ref);
+          break;
+      }
+      if ((i + 1) % 500 == 0) {
+        promiseList.push(batch.commit());
+        batch = firebase.firestore().batch();
+      }
+    }
+    promiseList.push(batch.commit());
+    return Promise.all(promiseList);
+  }
+
+  /**
+   *
    * @param pageData
    */
   static setMeta(pageData: IPageData) {

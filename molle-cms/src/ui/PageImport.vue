@@ -10,7 +10,6 @@
             type="file",
             name="files",
             accept="application/json",
-            multiple
           )
           button.btn.btn-info(type="submit")
             span Import
@@ -25,15 +24,16 @@ import {
 } from "nuxt-property-decorator";
 import firebase from "firebase";
 import {Singleton} from "molle-cms/src/Singleton";
+import {IItemData, INodeObject, IPageData} from "molle-cms/src/interface";
+import {Utils} from "molle-cms/src/Utils";
 
 @Component({
   components: {},
 })
 export default class PageImport extends Vue {
-  @Prop() path!: any;
+  @Prop() pageData!: IPageData;
   @Prop() pageId!: string;
   importModal: boolean = false;
-  private createTime = firebase.firestore.Timestamp.now();
 
   onImport(e: Event) {
     let target = <HTMLFormElement>e.target;
@@ -43,79 +43,77 @@ export default class PageImport extends Vue {
       alert("ファイルが選択されていません。");
       return;
     }
-    if (files.length > 1) {
-      alert("複数ファイル選択されています。");
-      return;
-    }
 
-    let arr = new Promise((resolve, reject) => {
-      let reader = new FileReader();
-      reader.onload = (e: any) => {
-        try {
-          let data = JSON.parse(e.target.result);
-          if (!data.items) {
-            alert("ファイル内にitemsDataが存在しません。");
-            return;
-          }
-          if (!data.page) {
-            alert("ファイル内にpageDataが存在しません。");
-            return;
-          }
-          if (Object.keys(data).length > 2) {
-            alert("ファイル内に[page][items]以外のデータが存在します。");
-            return;
-          }
-
-          let batch = firebase.firestore().batch();
-          let rootItemId = data.page.itemId;
-          let newRootItemId = Singleton.itemsRef.doc().id;
-
-          //page import
-          data.page.itemId = newRootItemId;
-          data.page.path = this.path.replace(/%2F/g, "/");
-          batch.set(Singleton.pagesRef.doc(this.pageId), data.page);
-
-          //items import
-          let loopReplaceUpload = (_id: string, _newId: string) => {
-            if (data.items[_id].type == "group"
-              ||
-              (data.items[_id].type == "children" && data.items[_id].value.length > 0)) {
-              for (let i in data.items[_id].value) {
-                let newId = Singleton.itemsRef.doc().id;
-                loopReplaceUpload(data.items[_id].value[i].id, newId);
-                data.items[_id].value[i].id = newId
-              }
-            }
-            this.itemSet(_newId, data.items[_id], batch);
-          }
-          loopReplaceUpload(rootItemId, newRootItemId);
-          batch.commit().then(resolve);
-
-        } catch (e) {
-          alert(e);
-          reject();
+    let reader = new FileReader();
+    reader.onload = (e: any) => {
+      try {
+        let data = JSON.parse(e.target.result);
+        if (!data.items) {
+          alert("ファイル内にitemsDataが存在しません。");
+          return;
         }
-      };
-      reader.readAsText(files[0]);
-    });
-    arr.then(() => {
-      alert("complete")
-    });
+        if (!data.page) {
+          alert("ファイル内にpageDataが存在しません。");
+          return;
+        }
+
+        let createTime = firebase.firestore.Timestamp.now();
+        let batchQue: any = [];
+
+        //items import
+        let loopReplaceUpload = (node: INodeObject) => {
+          let _newId = Singleton.itemsRef.doc().id;
+          let item = <IItemData>data.items[node.id];
+          if (item.type == "group" || item.type == "children") {
+            for (let i in item.value) {
+              // console.log(item.value[i])
+              item.value[i].id = loopReplaceUpload(item.value[i]);
+            }
+          }
+
+          // itemSet
+          item.createTime = createTime;
+          batchQue.push({
+            cmd: "set",
+            ref: Singleton.itemsRef.doc(_newId),
+            data: item,
+          });
+
+          // log
+          batchQue.push({
+            cmd: "set",
+            ref: Singleton.logsRef.doc(_newId),
+            data: {
+              history: [{
+                timestamp: createTime,
+                uid: firebase.auth().currentUser!.uid,
+              }],
+            },
+          });
+          return _newId;
+        };
+
+        //page import
+        data.page.itemId = loopReplaceUpload({id: data.page.itemId});
+        data.page.path = this.pageData.path;
+
+        batchQue.push({
+          cmd: "set",
+          ref: Singleton.pagesRef.doc(this.pageId),
+          data: data.page,
+        });
+
+        // commit
+        Utils.updateBatch(batchQue).then(() => {
+          alert("complete");
+        });
+
+      } catch (e) {
+        alert(e);
+      }
+    };
+    reader.readAsText(files[0]);
   }
-
-  itemSet(_newId: string, item: any, batch: any) {
-    item.createTime = this.createTime;
-    batch.set(Singleton.itemsRef.doc(_newId), item);
-    // log
-    batch.set(Singleton.logsRef.doc(_newId), {
-      history: [{
-        timestamp: this.createTime,
-        uid: firebase.auth().currentUser!.uid
-      }]
-    });
-  }
-
-
 }
 </script>
 
