@@ -28,6 +28,8 @@ import ButtonList from "~/molle/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle/module/primitive/ButtonListProfile.vue";
 import FadeInOutPictureBox from "~/molle/module/primitive/FadeInOutPictureBox.vue";
 import FadeInOutPictureBoxProfile from "~/molle/module/primitive/FadeInOutPictureBoxProfile.vue";
+import LinkPicture from "~/molle/module/primitive/LinkPicture.vue";
+import LinkPictureProfile from "~/molle/module/primitive/LinkPictureProfile.vue";
 import TextOnPictureBox from "~/molle/module/primitive/TextOnPictureBox.vue";
 import TextOnPictureBoxProfile from "~/molle/module/primitive/TextOnPictureBoxProfile.vue";
 import TextByPictureBox from "~/molle/module/primitive/TextByPictureBox.vue";
@@ -152,6 +154,20 @@ const molleModules = Vue.prototype.$molleModules = {
         alt: "",
       },
     }),
+    convert: ["LinkPicture"],
+    icon: "image",
+  },
+  LinkPicture: {
+    ref: LinkPicture,
+    profile: LinkPictureProfile,
+    profileName: "LinkPictureProfile",
+    def: c("LinkPicture", "picture", {
+      option: {
+        sp: "",
+        alt: "",
+      },
+    }),
+    convert: ["Picture"],
     icon: "image",
   },
   Button: {
