@@ -45,6 +45,9 @@ export default class TextBox extends Module {
 
   &.-side-by-side{
     background: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     @include mediaquery-not-sm {
       margin-top: 0;
       margin-left: 0;
