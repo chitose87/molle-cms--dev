@@ -41,6 +41,7 @@ export default class TextOnPictureBox extends Module {
 .text-on-picture-box {
   display: flex;
   position: relative;
+  margin-bottom: 3rem;
 
   > div:nth-child(1) {
     width: 50%;
