@@ -27,9 +27,10 @@ export default class PositionHeadline extends Module {
 <style lang="scss">
 .position-headline {
   position: absolute;
-  top: 50%;
+  top: 48%;
   right: 10%;
-  font-size: 4.3vw;
+  font-size: 4.1vw;
+  line-height: 130%;
 
   &.text-white {
     color: $color-text-white;

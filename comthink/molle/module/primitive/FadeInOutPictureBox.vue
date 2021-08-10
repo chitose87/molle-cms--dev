@@ -38,7 +38,7 @@ export default class FadeInOutPictureBox extends Module {
   .fade-in-out-picture-box {
     position: relative;
     overflow: hidden;
-    height: 100vh;
+    height: 80vh;
 
     ul {
       margin: 0;

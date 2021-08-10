@@ -67,7 +67,38 @@ export default class Box extends Module {
     }
   }
 
+  &.-overlay {
+    background-color: rgba(164,164,164,0.3);
+    position: relative;
+    z-index: 10;
+    @include mediaquery-not-sm {
+      margin: -$gutter*2.5 $gutter*3 $gutter*2;
+      padding-top: $gutter*2;
+      padding-bottom: $gutter*2;
+
+    }
+    @include mediaquery-sm {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+  }
+
+  &.-right {
+    width: 93%;
+    margin-left: 7%;
+    padding: 3%;
+  }
+
+
   // color
+  &.see-through-gray {
+    background-color: rgba(164,164,164,0.3);
+  }
+
+  &.see-through-white {
+    background-color: rgba(255,255,255,0.7);
+  }
+
   &.-gray {
     background-color: $color-gray-600;
     @include mediaquery-not-sm {
