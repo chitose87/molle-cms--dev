@@ -43,6 +43,19 @@ export default class TextBox extends Module {
     padding: $gutter*1;
   }
 
+  &.-side-by-side{
+    background: none;
+    @include mediaquery-not-sm {
+      margin-top: 0;
+      margin-left: 0;
+      padding: $gutter*1.5;
+    }
+    @include mediaquery-sm {
+      margin-top: 0;
+      margin-left: 0;
+      padding: $gutter*1.5;
+    }
+  }
 
   .module.button {
     display: block;

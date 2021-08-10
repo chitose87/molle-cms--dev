@@ -1,5 +1,5 @@
 <template lang="pug">
-component.module.text-on-picture-box(
+component.module.text-by-picture-box(
   :is="itemData.option.tag||'div'",
   :id="itemData.tagId",
   :class="getClass(itemData)",
@@ -22,7 +22,7 @@ import {Module} from "molle-cms/src/module/Module";
 @Component({
   components: {},
 })
-export default class TextOnPictureBox extends Module {
+export default class TextByPictureBox extends Module {
   getClass() {
     let obj = super.getClass(this.itemData);
 
@@ -38,25 +38,24 @@ export default class TextOnPictureBox extends Module {
 
 <style lang="scss">
 
-.text-on-picture-box {
+.text-by-picture-box {
   display: flex;
   position: relative;
 
   > div:nth-child(1) {
-    width: 50%;
+    width: 40%;
     margin-left: 2rem;
 
   }
 
   > div:nth-child(2) {
     width: 50%;
-    @include mediaquery-not-sm {
-      margin-left: -7rem;
-    }
-    @include mediaquery-sm {
-      margin-left: -7rem;
-    }
-
+    //@include mediaquery-not-sm {
+    //  margin-left: -7rem;
+    //}
+    //@include mediaquery-sm {
+    //  margin-left: -7rem;
+    //}
   }
 
 }

@@ -30,6 +30,8 @@ import FadeInOutPictureBox from "~/molle/module/primitive/FadeInOutPictureBox.vu
 import FadeInOutPictureBoxProfile from "~/molle/module/primitive/FadeInOutPictureBoxProfile.vue";
 import TextOnPictureBox from "~/molle/module/primitive/TextOnPictureBox.vue";
 import TextOnPictureBoxProfile from "~/molle/module/primitive/TextOnPictureBoxProfile.vue";
+import TextByPictureBox from "~/molle/module/primitive/TextByPictureBox.vue";
+import TextByPictureBoxProfile from "~/molle/module/primitive/TextByPictureBoxProfile.vue";
 import TextBox from "~/molle/module/primitive/TextBox.vue";
 import TextBoxProfile from "~/molle/module/primitive/TextBoxProfile.vue";
 import Gallery from "~/molle/module/custom/Gallery.vue";
@@ -226,6 +228,18 @@ const molleModules = Vue.prototype.$molleModules = {
     profile: TextOnPictureBoxProfile,
     profileName: "TextOnPictureBoxProfile",
     def: c("TextOnPictureBox", "group", {
+      value: {
+        img: {fixedModuleId: "Picture", order: 0},
+        textBox: {fixedModuleId: "TextBox", order: 10},
+      },
+    }),
+    icon: "plus-square",
+  },
+  TextByPictureBox: {
+    ref: TextByPictureBox,
+    profile: TextByPictureBoxProfile,
+    profileName: "TextByPictureBoxProfile",
+    def: c("TextByPictureBox", "group", {
       value: {
         img: {fixedModuleId: "Picture", order: 0},
         textBox: {fixedModuleId: "TextBox", order: 10},

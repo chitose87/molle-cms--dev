@@ -86,17 +86,22 @@ export default class Box extends Module {
   &.-right {
     width: 93%;
     margin-left: 7%;
-    padding: 2.5rem;
+    padding: 3.9%;
   }
 
   &.-sm-left {
-    width: 40%;
-    padding-left: 7%;
+    width: 45%;
+    padding-left: 10.9%;
+    padding-right: 3.9%;
   }
 
   &.-wide-full{
-    width: 100vw;
-    padding: 2.5rem;
+    width: 89.1vw;
+
+    .add-module-comp{
+      padding-right: 30rem;
+    }
+
   }
 
 
