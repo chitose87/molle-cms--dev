@@ -48,10 +48,11 @@ export default class TextBox extends Module {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 50%;
     @include mediaquery-not-sm {
       margin-top: 0;
       margin-left: 0;
-      padding: $gutter*1.5;
+      padding: 0;
     }
     @include mediaquery-sm {
       margin-top: 0;

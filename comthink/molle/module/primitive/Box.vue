@@ -86,16 +86,28 @@ export default class Box extends Module {
   &.-right {
     width: 93%;
     margin-left: 7%;
+    margin-bottom: 5rem;
     padding: 3.9%;
   }
 
   &.-sm-left {
-    width: 45%;
-    padding-left: 10.9%;
+    width: 35%;
+    margin-left: 7%;
+    margin-bottom: 5rem;
+    padding-left: 3.9%;
     padding-right: 3.9%;
   }
 
-  &.-wide-full{
+  &.-sm-right {
+    width: 35%;
+    margin: 0 7% 0 auto;
+    //margin-left: 53%;
+    //margin-bottom: 5rem;
+    padding-left: 3.9%;
+    padding-right: 3.9%;
+  }
+
+  &.-inner-sm-left{
     width: 89.1vw;
 
     .add-module-comp{
@@ -104,6 +116,15 @@ export default class Box extends Module {
 
   }
 
+  &.-inner-sm-right{
+    width: 89.1vw;
+    margin-left: -185%;
+
+    .add-module-comp{
+      padding-right: 30rem;
+    }
+
+  }
 
   // color
   &.see-through-gray {

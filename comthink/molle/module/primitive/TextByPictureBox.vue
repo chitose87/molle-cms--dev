@@ -43,13 +43,15 @@ export default class TextByPictureBox extends Module {
   position: relative;
 
   > div:nth-child(1) {
-    width: 40%;
     margin-left: 2rem;
+    margin-right: 3rem;
+    width: 40%;
+    //margin-left: 2rem;
 
   }
 
   > div:nth-child(2) {
-    width: 50%;
+    width: 40%;
     //@include mediaquery-not-sm {
     //  margin-left: -7rem;
     //}
