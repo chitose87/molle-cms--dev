@@ -72,7 +72,7 @@ export default class Box extends Module {
     position: relative;
     z-index: 10;
     @include mediaquery-not-sm {
-      margin: -$gutter*2.5 $gutter*3 $gutter*2;
+      margin: -$gutter*2.5 0 $gutter*2;
       padding-top: $gutter*2;
       padding-bottom: $gutter*2;
 

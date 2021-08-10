@@ -24,7 +24,7 @@ import {Profile} from "molle-cms/src/module/Profile";
 @Component({
   components: {StyleComp}
 })
-export default class BoxProfile extends Profile {
+export default class TextBoxProfile extends Profile {
   //style setting
   stylePermission = {
     container: false,
@@ -33,8 +33,6 @@ export default class BoxProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "-overlay", "-right", "-quote"]},
-    color: {default: "", select: ["", "see-through-gray", "see-through-white", "-dark", "-gray", "-gray-box"]},
   };
 }
 </script>

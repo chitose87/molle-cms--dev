@@ -28,6 +28,10 @@ import ButtonList from "~/molle/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle/module/primitive/ButtonListProfile.vue";
 import FadeInOutPictureBox from "~/molle/module/primitive/FadeInOutPictureBox.vue";
 import FadeInOutPictureBoxProfile from "~/molle/module/primitive/FadeInOutPictureBoxProfile.vue";
+import TextOnPictureBox from "~/molle/module/primitive/TextOnPictureBox.vue";
+import TextOnPictureBoxProfile from "~/molle/module/primitive/TextOnPictureBoxProfile.vue";
+import TextBox from "~/molle/module/primitive/TextBox.vue";
+import TextBoxProfile from "~/molle/module/primitive/TextBoxProfile.vue";
 import Gallery from "~/molle/module/custom/Gallery.vue";
 import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
@@ -215,6 +219,26 @@ const molleModules = Vue.prototype.$molleModules = {
         headline: {fixedModuleId: "PositionHeadline", order: 30},
       },
     }),
+    icon: "plus-square",
+  },
+  TextOnPictureBox: {
+    ref: TextOnPictureBox,
+    profile: TextOnPictureBoxProfile,
+    profileName: "TextOnPictureBoxProfile",
+    def: c("TextOnPictureBox", "group", {
+      value: {
+        img: {fixedModuleId: "Picture", order: 0},
+        textBox: {fixedModuleId: "TextBox", order: 10},
+      },
+    }),
+    icon: "plus-square",
+  },
+  TextBox: {
+    ref: TextBox,
+    profile: TextBoxProfile,
+    profileName: "TextBoxProfile",
+    def: c("TextBox", "children"),
+    white: ["Headline", "Paragraph", "Button"],
     icon: "plus-square",
   },
   Table: {
