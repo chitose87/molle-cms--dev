@@ -29,10 +29,28 @@ export default class Headline extends Module {
   &.text-white {
     color: $color-text-white;
   }
+
   &__sub {
     display: block;
     font-size: 75%;
   }
+
+  &.line {
+    font-size: 40px;
+    position: relative;
+    &:before {
+      content: "";
+      display: block;
+      height: 1px;
+      background: #000;
+      position: absolute;
+      top: 50%;
+      left: -10px;
+      transform: translate3d(-100%,0,0);
+      width: 3.7vw;
+    }
+  }
+
 }
 
 h3.headline {

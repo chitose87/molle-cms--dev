@@ -1,16 +1,26 @@
 <template lang="pug">
-.module.picture(
+.module.link-picture(
   :id="itemData.tagId",
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
 )
-  picture
+  picture(v-if="!itemData.option.href")
     source(
       :media="`(max-width:${breakPoint - 1}px)`"
       :srcset="itemData.option.sp",
       :alt="itemData.option.alt"
     )
     img(:src="itemData.value", :alt="itemData.option.alt")
+
+  a(:href="$route.query.edit ? 'javascript:void(0)' : itemData.option.href" v-if="itemData.option.href")
+    picture
+      source(
+        :media="`(max-width:${breakPoint - 1}px)`"
+        :srcset="itemData.option.sp",
+        :alt="itemData.option.alt"
+      )
+      img(:src="itemData.value", :alt="itemData.option.alt")
+
 </template>
 
 <script lang="ts">
@@ -20,14 +30,14 @@ import {Module} from "molle-cms/src/module/Module";
 @Component({
   components: {},
 })
-export default class Picture extends Module {
+export default class LinkPicture extends Module {
   breakPoint = process.env.breakPoint;
   //Unique Methods
 }
 </script>
 
 <style lang="scss">
-.picture {
+.link-picture {
   img {
     height: auto;
     @include mediaquery-not-sm {

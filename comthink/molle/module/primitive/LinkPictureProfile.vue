@@ -22,6 +22,12 @@ div
       v-model="itemData.option.alt"
       @change="()=>$emit('change')"
     )
+  label.form-inline
+    span.mr-1 URL:
+    input.form-control.form-control-sm(
+      v-model="itemData.option.href"
+      @change="()=>$emit('change')"
+    )
 
   GoogleStorage
 
@@ -41,7 +47,7 @@ import InputUrlByGS from "molle-cms/src/ui/property/InputUrlByGS.vue";
 @Component({
   components: {InputUrlByGS, GoogleStorage, StyleComp}
 })
-export default class PictureProfile extends Profile {
+export default class LinkPictureProfile extends Profile {
   //style setting
   stylePermission = {
     border: false,

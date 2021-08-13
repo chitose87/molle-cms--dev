@@ -67,7 +67,74 @@ export default class Box extends Module {
     }
   }
 
+  &.-overlay {
+    background-color: rgba(164,164,164,0.3);
+    position: relative;
+    z-index: 10;
+    @include mediaquery-not-sm {
+      margin: -$gutter*2.5 7% $gutter*2;
+      padding-top: $gutter*2;
+      padding-bottom: $gutter*2;
+
+    }
+    @include mediaquery-sm {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+  }
+
+  &.-right {
+    width: 93%;
+    margin-left: 7%;
+    margin-bottom: 5rem;
+    padding: 3.9%;
+  }
+
+  &.-sm-left {
+    width: 35%;
+    margin-left: 7%;
+    margin-bottom: 5rem;
+    padding-left: 3.9%;
+    padding-right: 3.9%;
+  }
+
+  &.-sm-right {
+    width: 35%;
+    margin: 0 7% 0 auto;
+    //margin-left: 53%;
+    //margin-bottom: 5rem;
+    padding-left: 3.9%;
+    padding-right: 3.9%;
+  }
+
+  &.-inner-sm-left{
+    width: 89.1vw;
+
+    .add-module-comp{
+      padding-right: 30rem;
+    }
+
+  }
+
+  &.-inner-sm-right{
+    width: 89.1vw;
+    margin-left: -185%;
+
+    .add-module-comp{
+      padding-right: 30rem;
+    }
+
+  }
+
   // color
+  &.see-through-gray {
+    background-color: rgba(164,164,164,0.3);
+  }
+
+  &.see-through-white {
+    background-color: rgba(255,255,255,0.7);
+  }
+
   &.-gray {
     background-color: $color-gray-600;
     @include mediaquery-not-sm {
