@@ -8,7 +8,7 @@ component(
 <script lang="ts">
 import {Component, Prop, Vue} from "nuxt-property-decorator";
 import allData from "~/molle/nuxt-config/firestore-snap.json";
-import {IItemData} from "molle-cms/src/interface";
+import {IItemData} from "~/molle-cms/src/interface";
 
 @Component({
   components: {},

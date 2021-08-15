@@ -45,8 +45,8 @@
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import {Module} from "molle-cms/src/module/Module";
-import {IItemData, INodeObject} from "molle-cms/src/interface";
+import {Module} from "~/molle-cms/src/module/Module";
+import {IItemData, INodeObject} from "~/molle-cms/src/interface";
 
 @Component({
   components: {},
