@@ -33,9 +33,9 @@ import TableProfile from "~/molle/module/primitive/TableProfile.vue";
 /* > */
 
 import {Vue} from "nuxt-property-decorator";
-import ModuleLoaderCms from "molle-cms/src/module/ModuleLoaderCms.vue";
-import AddModuleComp from "molle-cms/src/ui/AddModuleComp.vue";
-import ItemListItemComp from "molle-cms/src/ui/ItemListItemComp.vue";
+import ModuleLoaderCms from "~/molle-cms/src/module/ModuleLoaderCms.vue";
+import AddModuleComp from "~/molle-cms/src/ui/AddModuleComp.vue";
+import ItemListItemComp from "~/molle-cms/src/ui/ItemListItemComp.vue";
 
 declare module 'vue/types/vue' {
   interface Vue {

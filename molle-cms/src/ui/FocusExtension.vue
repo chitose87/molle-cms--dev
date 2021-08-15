@@ -53,12 +53,12 @@
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
-import {IItemData, INodeObject} from "molle-cms/src/interface";
-import {Singleton} from "molle-cms/src/Singleton";
+import {IItemData, INodeObject} from "~/molle-cms/src/interface";
+import {Singleton} from "~/molle-cms/src/Singleton";
 import firebase from "firebase";
-import AddModuleComp from "molle-cms/src/ui/AddModuleComp.vue";
-import CopyModuleComp from "molle-cms/src/ui/CopyModuleComp.vue";
-import ModuleLoaderCms from "molle-cms/src/module/ModuleLoaderCms.vue";
+import AddModuleComp from "~/molle-cms/src/ui/AddModuleComp.vue";
+import CopyModuleComp from "~/molle-cms/src/ui/CopyModuleComp.vue";
+import ModuleLoaderCms from "~/molle-cms/src/module/ModuleLoaderCms.vue";
 
 @Component({
   components: {AddModuleComp, CopyModuleComp},

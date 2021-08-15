@@ -74,8 +74,8 @@
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
-import {IItemData} from "molle-cms/src/interface";
-import {StyleAlign} from "molle-cms/src/Singleton";
+import {IItemData} from "~/molle-cms/src/interface";
+import {StyleAlign} from "~/molle-cms/src/Singleton";
 
 @Component({
   components: {},

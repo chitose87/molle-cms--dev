@@ -1,6 +1,7 @@
 const stripJsonComments = require("strip-json-comments");
 require("dotenv").config();
 const fs = require("fs");
+const {execSync} = require("child_process");
 
 const molleConfig = JSON.parse(
   stripJsonComments(
@@ -39,7 +40,13 @@ let scripts = [
 for (let siteId in molleConfig.sites) {
   let siteOption = molleConfig.sites[siteId];
   const molleJson = require("../" + siteId + "/molle.json");
-  // console.log(siteOption, molleJson);
+  console.log(siteId,siteOption, molleJson);
+
+  // file
+  execSync(`mkdir -p ${siteId}`);
+  execSync(`mkdir -p ${siteId}/public-cms`);
+  execSync(`ln -fs ../molle-cms ${siteId}/molle-cms`);
+  execSync(`rm ./molle-cms/molle-cms`);
 
   //firebase.json
   firebase.json.hosting.push({

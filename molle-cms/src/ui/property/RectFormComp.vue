@@ -23,7 +23,7 @@
 
 <script lang="ts">
   import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
-  import SpaceFormComp from "molle-cms/src/ui/property/SpaceFormComp.vue";
+  import SpaceFormComp from "~/molle-cms/src/ui/property/SpaceFormComp.vue";
 
   @Component({
     components: {SpaceFormComp}

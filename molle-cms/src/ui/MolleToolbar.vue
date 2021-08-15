@@ -94,9 +94,9 @@ import {
   Prop, Emit,
 } from "nuxt-property-decorator";
 import firebase from "firebase";
-import {Singleton} from "molle-cms/src/Singleton";
-import {IItemData, ILogsData, IPageData} from "molle-cms/src/interface";
-import {Utils} from "molle-cms/src/Utils";
+import {Singleton} from "~/molle-cms/src/Singleton";
+import {IItemData, ILogsData, IPageData} from "~/molle-cms/src/interface";
+import {Utils} from "~/molle-cms/src/Utils";
 
 @Component({
   components: {},

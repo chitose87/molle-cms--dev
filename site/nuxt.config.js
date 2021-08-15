@@ -29,7 +29,7 @@ const css = [
 const modules = [
   '@nuxtjs/dotenv',
   '@nuxtjs/style-resources',
-  '../molle-cms/generateHooks'
+  './molle-cms/generateHooks'
 ]
 const plugins = [
   './molle/nuxt-config/plugin.ts'

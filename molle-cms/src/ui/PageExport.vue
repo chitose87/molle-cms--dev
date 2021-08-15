@@ -13,8 +13,8 @@ import {
   Prop,
 } from "nuxt-property-decorator";
 import firebase from "firebase";
-import {Singleton} from "molle-cms/src/Singleton";
-import {IPageData} from "molle-cms/src/interface";
+import {Singleton} from "~/molle-cms/src/Singleton";
+import {IPageData} from "~/molle-cms/src/interface";
 
 @Component({
   components: {},

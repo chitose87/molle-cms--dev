@@ -17,10 +17,10 @@
 
 <script lang="ts">
 import {Component, Vue, Prop} from "nuxt-property-decorator";
-import {Singleton} from "molle-cms/src/Singleton";
+import {Singleton} from "~/molle-cms/src/Singleton";
 import firebase from "firebase";
-import {IItemData, INodeObject, ILogsData} from "molle-cms/src/interface";
-import {Utils} from "molle-cms/src/Utils";
+import {IItemData, INodeObject, ILogsData} from "~/molle-cms/src/interface";
+import {Utils} from "~/molle-cms/src/Utils";
 
 @Component({
   components: {},

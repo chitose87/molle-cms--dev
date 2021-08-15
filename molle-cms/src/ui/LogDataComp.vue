@@ -13,8 +13,8 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
-import {IItemData, INodeObject, ILogsData} from "molle-cms/src/interface";
-import {Singleton} from "molle-cms/src/Singleton";
+import {IItemData, INodeObject, ILogsData} from "~/molle-cms/src/interface";
+import {Singleton} from "~/molle-cms/src/Singleton";
 import firebase from "firebase";
 
 @Component({
