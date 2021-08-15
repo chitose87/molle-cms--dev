@@ -8,12 +8,6 @@ div
     )
       option(v-for="item in ['', 'section']" :value="item" v-html="item")
 
-  .form-inline
-    span.mr-3
-      label
-        span.mr-1 逆向き:
-        input.form-control.form-control-sm(v-model="itemData.option.reverse" type="checkbox" @change="()=>$emit('change')")
-
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
@@ -26,11 +20,12 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "molle-cms/src/module/Profile";
+import OverlapBox from "~/molle/module/custom/OverlapBox.vue";
 
 @Component({
   components: {StyleComp}
 })
-export default class TextOnPictureBoxProfile extends Profile {
+export default class BesideCardProfile extends Profile {
   //style setting
   stylePermission = {
     container: false,
@@ -39,7 +34,7 @@ export default class TextOnPictureBoxProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
-
+    theme: {default: "", select: ["", "-reverse"]},
   };
 }
 </script>

@@ -30,6 +30,10 @@ import TextByPictureBox from "~/molle/module/primitive/TextByPictureBox.vue";
 import TextByPictureBoxProfile from "~/molle/module/primitive/TextByPictureBoxProfile.vue";
 import TextBox from "~/molle/module/primitive/TextBox.vue";
 import TextBoxProfile from "~/molle/module/primitive/TextBoxProfile.vue";
+import OverlapBox from "~/molle/module/custom/OverlapBox.vue";
+import OverlapBoxProfile from "~/molle/module/custom/OverlapBoxProfile.vue";
+import BesideCard from "~/molle/module/custom/BesideCard.vue";
+import BesideCardProfile from "~/molle/module/custom/BesideCardProfile.vue";
 import Gallery from "~/molle/module/custom/Gallery.vue";
 import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
@@ -293,6 +297,34 @@ const molleModules = Vue.prototype.$molleModules = {
         img: {fixedModuleId: "Picture", order: 0},
         headline: {fixedModuleId: "Paragraph", order: 10},
         text: {fixedModuleId: "Paragraph", order: 20},
+      },
+    }),
+    icon: "file-richtext",
+  },
+  OverlapBox: {
+    ref: OverlapBox,
+    profile: OverlapBoxProfile,
+    profileName: "OverlapBoxProfile",
+    def: c("OverlapBox", "group", {
+      value: {
+        headline: {fixedModuleId: "Headline", order: 0},
+        text: {fixedModuleId: "Paragraph", order: 10},
+        btn: {fixedModuleId: "Button", order: 20},
+        img: {fixedModuleId: "Picture", order: 30},
+      },
+    }),
+    icon: "file-richtext",
+  },
+  BesideCard: {
+    ref: BesideCard,
+    profile: BesideCardProfile,
+    profileName: "BesideCardProfile",
+    def: c("BesideCard", "group", {
+      value: {
+        headline: {fixedModuleId: "Headline", order: 0},
+        text: {fixedModuleId: "Paragraph", order: 10},
+        btn: {fixedModuleId: "Button", order: 20},
+        img: {fixedModuleId: "Picture", order: 30},
       },
     }),
     icon: "file-richtext",

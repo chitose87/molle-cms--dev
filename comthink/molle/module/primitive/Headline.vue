@@ -36,7 +36,6 @@ export default class Headline extends Module {
   }
 
   &.line {
-    font-size: 40px;
     position: relative;
     &:before {
       content: "";
@@ -45,12 +44,11 @@ export default class Headline extends Module {
       background: #000;
       position: absolute;
       top: 50%;
-      left: -10px;
+      left: -2%;
       transform: translate3d(-100%,0,0);
-      width: 3.7vw;
+      width: 5%;
     }
   }
-
 }
 
 h3.headline {

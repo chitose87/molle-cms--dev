@@ -1,5 +1,5 @@
 <template lang="pug">
-component.module.overlap-box(
+component.module.beside-card(
   :is="itemData.option.tag||'div'",
   :id="itemData.tagId",
   :class="getClass(itemData)",
@@ -22,22 +22,27 @@ import {Module} from "molle-cms/src/module/Module";
 @Component({
   components: {},
 })
-export default class OverlapBox extends Module {
+export default class BesideCard extends Module {
 }
 
 </script>
 
 <style lang="scss">
 
-.overlap-box {
+.beside-card {
   width: 100%;
+  height: 100%;
   margin-bottom: 3rem;
+  padding-right: 10%;
   display: flex;
-  flex-direction: column-reverse;
-  position: relative;
+  @include mediaquery-not-sm {
+    flex-direction: row-reverse;
+  }
+  @include mediaquery-sm {
+    flex-direction: column-reverse;
+  }
 
   .overlap-text-box {
-    z-index: 1;
     padding: 3% 3rem;
     background-color: rgba(255, 255, 255, 0.8);
     display: flex;
@@ -46,11 +51,6 @@ export default class OverlapBox extends Module {
 
     @include mediaquery-not-sm {
       width: 50%;
-      height: 100%;
-      min-height: 300px;
-      position: relative;
-      margin-top: 7%;
-      margin-left: 33%;
     }
     @include mediaquery-sm {
       width: 100%;
@@ -70,10 +70,6 @@ export default class OverlapBox extends Module {
 
     @include mediaquery-not-sm {
       width: 50%;
-      margin-left: 10%;
-      position: absolute;
-      top: 0;
-      left: 0;
     }
     @include mediaquery-sm {
       width: 100%;
@@ -81,25 +77,19 @@ export default class OverlapBox extends Module {
 
     .picture {
       width: 100%;
+      margin-bottom: 0;
 
       &.picture img {
         width: 100%;
+        height: 100%;
         object-fit: cover;
       }
     }
   }
 
   &.-reverse {
-    .overlap-text-box {
-      @include mediaquery-not-sm {
-        margin-left: 10%;
-      }
-    }
-
-    .overlap-img {
-      @include mediaquery-not-sm {
-        margin-left: 33%;
-      }
+    @include mediaquery-not-sm {
+      flex-direction: row;
     }
   }
 }
