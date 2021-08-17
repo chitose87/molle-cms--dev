@@ -20,12 +20,11 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "molle-cms/src/module/Profile";
-import OverlapBox from "~/molle/module/custom/OverlapBox.vue";
 
 @Component({
   components: {StyleComp}
 })
-export default class OverlapBoxProfile extends Profile {
+export default class SlideShowProfile extends Profile {
   //style setting
   stylePermission = {
     container: false,
@@ -34,7 +33,7 @@ export default class OverlapBoxProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "-reverse"]},
+    theme: {default: "", select: ["", "-fade"]},
   };
 }
 </script>

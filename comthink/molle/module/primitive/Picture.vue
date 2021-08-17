@@ -61,16 +61,5 @@ export default class Picture extends Module {
     }
   }
 
-  &.-text-on {
-    margin-left: 2rem;
-    img {
-      @include mediaquery-not-sm {
-        width: 100%;
-      }
-      @include mediaquery-sm {
-        width: 100%;
-      }
-    }
-  }
 }
 </style>

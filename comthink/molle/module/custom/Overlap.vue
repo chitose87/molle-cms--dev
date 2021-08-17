@@ -1,5 +1,5 @@
 <template lang="pug">
-component.module.beside-card(
+component.module.overlap(
   :is="itemData.option.tag||'div'",
   :id="itemData.tagId",
   :class="getClass(itemData)",
@@ -22,27 +22,22 @@ import {Module} from "molle-cms/src/module/Module";
 @Component({
   components: {},
 })
-export default class BesideCard extends Module {
+export default class Overlap extends Module {
 }
 
 </script>
 
 <style lang="scss">
 
-.beside-card {
+.overlap {
   width: 100%;
-  height: 100%;
   margin-bottom: 3rem;
-  padding-right: 10%;
   display: flex;
-  @include mediaquery-not-sm {
-    flex-direction: row-reverse;
-  }
-  @include mediaquery-sm {
-    flex-direction: column-reverse;
-  }
+  flex-direction: column-reverse;
+  position: relative;
 
   .overlap-text-box {
+    z-index: 1;
     padding: 3% 3rem;
     background-color: rgba(255, 255, 255, 0.8);
     display: flex;
@@ -51,6 +46,11 @@ export default class BesideCard extends Module {
 
     @include mediaquery-not-sm {
       width: 50%;
+      height: 100%;
+      min-height: 300px;
+      position: relative;
+      margin-top: 7%;
+      margin-left: 33%;
     }
     @include mediaquery-sm {
       width: 100%;
@@ -70,6 +70,10 @@ export default class BesideCard extends Module {
 
     @include mediaquery-not-sm {
       width: 50%;
+      margin-left: 10%;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
     @include mediaquery-sm {
       width: 100%;
@@ -77,28 +81,27 @@ export default class BesideCard extends Module {
 
     .picture {
       width: 100%;
-      margin-bottom: 0;
 
       &.picture img {
         width: 100%;
-        height: 100%;
         object-fit: cover;
       }
     }
   }
 
   &.-reverse {
-    @include mediaquery-not-sm {
-      flex-direction: row;
+    .overlap-text-box {
+      @include mediaquery-not-sm {
+        margin-left: 10%;
+      }
+    }
+
+    .overlap-img {
+      @include mediaquery-not-sm {
+        margin-left: 33%;
+      }
     }
   }
 }
-
-.box {
-  > *:last-child {
-    margin-bottom: 3rem;
-  }
-}
-
 
 </style>

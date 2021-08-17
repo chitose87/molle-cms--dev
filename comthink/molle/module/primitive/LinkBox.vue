@@ -1,20 +1,23 @@
 <template lang="pug">
-component.module.box(
+component.module.link-box(
   :is="itemData.option.tag||'div'",
   :id="itemData.tagId",
   :class="getClass(itemData)",
-  :style="getStyle(itemData)"
+  :style="getStyle(itemData)",
 )
-  ModuleLoader(
-    v-for="node in itemData.value",
-    :key="node.id",
-    :node="node"
-  )
 
-  AddModuleComp(
-    :label="`Box`"
-    :parentNode="loader.node"
-  )
+  a.link(:href="$route.query.edit ? 'javascript:void(0)' : itemData.option.href")
+
+    ModuleLoader(
+      v-for="node in itemData.value",
+      :key="node.id",
+      :node="node"
+    )
+
+    AddModuleComp(
+      :label="`Link-Box`"
+      :parentNode="loader.node"
+    )
 </template>
 
 <script lang="ts">
@@ -24,14 +27,15 @@ import {Module} from "molle-cms/src/module/Module";
 @Component({
   components: {},
 })
-export default class Box extends Module {
+export default class LinkBox extends Module {
 }
 </script>
 
 <style lang="scss">
-.box {
-  //margin-top: 1rem;
-  //margin-bottom: 3rem;
+.link-box {
+  .link {
+    display: block;
+  }
 
   > *:first-child {
     margin-top: 0;
@@ -68,51 +72,40 @@ export default class Box extends Module {
   }
 
   &.-overlay {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(164, 164, 164, 0.3);
     position: relative;
     z-index: 10;
     @include mediaquery-not-sm {
-      margin: -4rem 7% 8rem;
-      padding: 3.9%;
+      margin: -$gutter*2.5 7% $gutter*2;
+      padding-top: $gutter*2;
+      padding-bottom: $gutter*2;
+
     }
     @include mediaquery-sm {
-      margin: -4rem 7% 8rem;
-      padding: 3.9%;
+      padding-top: 3rem;
+      padding-bottom: 3rem;
     }
   }
 
   &.-right {
+    margin-left: 7%;
     margin-bottom: 8rem;
     padding: 3.9%;
-    margin-left: 7%;
     background-color: rgba(164, 164, 164, 0.3);
-    @include mediaquery-sm {
-      margin-right: 7%;
-    }
   }
 
   &.-left {
     margin-bottom: 8rem;
     padding: 3.9% 3.9% 3.9% 10.9%;
     background: linear-gradient(to right, rgba(164, 164, 164, 0.3) 0%, rgba(164, 164, 164, 0.3) 93%, #ffffff 93%, #ffffff 100%);
-    @include mediaquery-sm {
-      padding: 3.9%;
-      margin-right: 7%;
-      margin-left: 7%;
-      background: linear-gradient(to right, rgba(164, 164, 164, 0.3) 0%, rgba(164, 164, 164, 0.3) 100%);
-    }
   }
 
   &.-sm-right {
+    //margin-left: 7%;
+    //padding: 3.9%;
     padding: 3.9% 3.9% 3.9% 10.9%;
     margin-bottom: 8rem;
-    background: linear-gradient(to right, #ffffff 0%, #ffffff 65%, rgba(164, 164, 164, 0.3) 65%, rgba(164, 164, 164, 0.3) 93%, #ffffff 93%, #ffffff 100%);
-    @include mediaquery-sm {
-      padding: 3.9%;
-      margin-right: 7%;
-      margin-left: 7%;
-      background: linear-gradient(to right, #ffffff 0%, #ffffff 50%, rgba(164, 164, 164, 0.3) 50%, rgba(164, 164, 164, 0.3) 100%);
-    }
+    background: linear-gradient(to right, #ffffff 0%, #ffffff 65%, rgba(164, 164, 164, 0.3) 65%, rgba(164, 164, 164, 0.3) 93%, #ffffff 93%, #ffffff 100%,);
   }
 
   &.-sm-left {
@@ -120,12 +113,6 @@ export default class Box extends Module {
     padding: 3.9%;
     margin-bottom: 8rem;
     background: linear-gradient(to right, rgba(164, 164, 164, 0.3) 0%, rgba(164, 164, 164, 0.3) 35%, #ffffff 35%, #ffffff 100%);
-    @include mediaquery-sm {
-      padding: 3.9%;
-      margin-right: 7%;
-      margin-left: 7%;
-      background: linear-gradient(to right, rgba(164, 164, 164, 0.3) 0%, rgba(164, 164, 164, 0.3) 50%, #ffffff 50%, #ffffff 100%);
-    }
   }
 
   // color

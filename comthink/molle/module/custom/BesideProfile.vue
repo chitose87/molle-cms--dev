@@ -20,11 +20,12 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "molle-cms/src/module/Profile";
+import Beside from "~/molle/module/custom/Beside.vue";
 
 @Component({
   components: {StyleComp}
 })
-export default class TextBoxProfile extends Profile {
+export default class BesideProfile extends Profile {
   //style setting
   stylePermission = {
     container: false,
@@ -33,7 +34,7 @@ export default class TextBoxProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "-side-by-side"]},
+    theme: {default: "", select: ["", "-reverse"]},
   };
 }
 </script>

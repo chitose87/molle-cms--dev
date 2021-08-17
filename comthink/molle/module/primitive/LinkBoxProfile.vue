@@ -8,11 +8,12 @@ div
     )
       option(v-for="item in ['', 'section']" :value="item" v-html="item")
 
-  .form-inline
-    span.mr-3
-      label
-        span.mr-1 逆向き:
-        input.form-control.form-control-sm(v-model="itemData.option.reverse" type="checkbox" @change="()=>$emit('change')")
+  label.form-inline
+    span.mr-1 URL:
+    input.form-control.form-control-sm(
+      v-model="itemData.option.href"
+      @change="()=>$emit('change')"
+    )
 
   StyleComp(
     :itemData="itemData"
@@ -30,7 +31,7 @@ import {Profile} from "molle-cms/src/module/Profile";
 @Component({
   components: {StyleComp}
 })
-export default class TextOnPictureBoxProfile extends Profile {
+export default class LinkBoxProfile extends Profile {
   //style setting
   stylePermission = {
     container: false,
@@ -39,7 +40,8 @@ export default class TextOnPictureBoxProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
-
+    theme: {default: "", select: ["", "-overlay", "-right", "-left", "-sm-right", "-sm-left", "-quote"]},
+    color: {default: "", select: ["", "-dark", "-gray", "-gray-box"]},
   };
 }
 </script>

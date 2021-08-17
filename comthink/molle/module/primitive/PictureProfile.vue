@@ -48,7 +48,7 @@ export default class PictureProfile extends Profile {
     align: StyleAlign.None,
     // margin: "",
     // padding: "",
-    theme: {default: "", select: ["", "-sm", "-lg", "-text-on"]},
+    theme: {default: "", select: ["", "-sm", "-lg"]},
     // color: {default: "", select: ["", "dark"]},
   };
 }

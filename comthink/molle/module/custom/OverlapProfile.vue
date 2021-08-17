@@ -20,11 +20,12 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "molle-cms/src/module/Profile";
+import Overlap from "~/molle/module/custom/Overlap.vue";
 
 @Component({
   components: {StyleComp}
 })
-export default class FadeInOutPictureBoxProfile extends Profile {
+export default class OverlapProfile extends Profile {
   //style setting
   stylePermission = {
     container: false,
@@ -33,6 +34,7 @@ export default class FadeInOutPictureBoxProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
+    theme: {default: "", select: ["", "-reverse"]},
   };
 }
 </script>
