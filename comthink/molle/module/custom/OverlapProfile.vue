@@ -34,7 +34,7 @@ export default class OverlapProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "-reverse"]},
+    theme: {default: "", select: ["", "-reverse", "-anime", "-reverse -anime"]},
   };
 }
 </script>

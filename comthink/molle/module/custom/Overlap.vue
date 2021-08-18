@@ -3,7 +3,8 @@ component.module.overlap(
   :is="itemData.option.tag||'div'",
   :id="itemData.tagId",
   :class="getClass(itemData)",
-  :style="getStyle(itemData)"
+  :style="getStyle(itemData)",
+  v-isview
 )
 
   div.overlap-text-box
@@ -28,6 +29,16 @@ export default class Overlap extends Module {
 </script>
 
 <style lang="scss">
+[data-isview] {
+  transition: none;
+
+  &.-anime {
+    transition-property: opacity, transform;
+    transition-duration: 0.8s, 0.8s;
+    transition-delay: 0.4s, 0.4s;
+    transition-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
+  }
+}
 
 .overlap {
   width: 100%;
