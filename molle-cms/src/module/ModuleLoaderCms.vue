@@ -53,7 +53,7 @@ export default class ModuleLoaderCms extends Vue {
   }
 
   check() {
-    if (this.$route.query.hidden === "true") {
+    if (this.$route.query.edit != "true" || this.$route.query.hidden === "true") {
       return "";
     } else if (this.$route.query.focus == this.node.id) {
       return {outline: "2px solid red", opacity: 1};

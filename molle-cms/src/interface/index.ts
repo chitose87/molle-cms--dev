@@ -1,5 +1,5 @@
 export interface IPageData {
-  path: string;//URL
+  path: string;//URL todo:TBDel?
   itemId?: string;//メインになるitemid
   title?: string;//meta title
   description?: string;//meta description

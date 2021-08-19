@@ -1,8 +1,9 @@
 <template lang="pug">
-.page-property-comp(v-if="!$route.query.focus || $route.query.focus==0")
+.page-property-comp
   .card.bg-light
-    .card-header.pt-1.pb-1.pl-3.pr-3 ページ設定
-    .card-body.p-3
+    .card-header.pt-1.pb-1.pl-3.pr-3(@click="flag=!flag") ページ設定
+      b-icon(:icon="flag?'chevron-up':'chevron-down'")
+    .card-body.p-3(v-if="flag")
       label
         span Title (meta):
         textarea.form-control.form-control-sm(
@@ -112,6 +113,7 @@ export default class PagePropertyComp extends Vue {
   @Prop() pageData!: IPageData;
   @Prop() pageId!: string;
 
+  flag = false;
   importModal: boolean = false;
 
   @Watch("pageData", {immediate: true})

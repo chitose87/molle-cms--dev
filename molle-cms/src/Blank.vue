@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-if="$route.query.edit && $route.query.hidden !== 'true'")
+div(v-if="false")
 </template>
 
 <script lang="ts">

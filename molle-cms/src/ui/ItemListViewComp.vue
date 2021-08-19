@@ -1,19 +1,19 @@
 <template lang="pug">
-.item-list-view-comp
-  .card.bg-light
+.item-list-view-comp.list-group
+  //.card.bg-light
 
-    .card-header.pt-1.pb-1.pl-3.pr-3.text-right 構造/Structure
+    //.card-header.pt-1.pb-1.pl-3.pr-3.text-right 構造/Structure
 
-    .list-group
-      .item-list-item-comp.list-group-item.list-group-item-action.p-0.border-right-0
-        button.btn.btn-sm.btn-link.btn-block.text-left(
-          :class="{active: !this.$route.query.focus}",
-          @click="$router.push({query: {...$route.query, focus: 0}})"
-          @mouseover="$router.push({query: {...$route.query, focus: 0}})"
-        )
-          b-icon.ml-n1.mr-1(icon="window")
-          b Page
-      ItemListItemComp(:node="{id:itemId}" :isRoot="true")
+
+      //.item-list-item-comp.list-group-item.list-group-item-action.p-0.border-right-0
+      //  button.btn.btn-sm.btn-link.btn-block.text-left(
+      //    :class="{active: !this.$route.query.focus}",
+      //    @click="$router.push({query: {...$route.query, focus: 0}})"
+      //    @mouseover="$router.push({query: {...$route.query, focus: 0}})"
+      //  )
+      //    b-icon.ml-n1.mr-1(icon="window")
+      //    b Page
+  ItemListItemComp(:node="{id:itemId}" :isRoot="true")
 
 </template>
 

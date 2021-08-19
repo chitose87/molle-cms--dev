@@ -24,14 +24,18 @@ export class Singleton {
       this._pagesRef = this.systemDocRef.collection(`pages`);
   }
 
+  static getPageIdByPath($route: any): string {
+    return encodeURIComponent($route.path.substr(1).replace(/\/$/g, ""));
+  }
+
   static getCurrentPageData($route: any): Promise<any> {
-    let id = encodeURIComponent($route.fullPath.substr(1).replace(/\/$/g, ""));
+    let id = this.getPageIdByPath($route);
     // console.log("--------",id)
     return this.pagesRef.doc(id)
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
         if (!snap.exists) {
-          console.log("no page data", $route.fullPath);
+          console.log("no page data", $route.path, id);
           return;
         }
         return snap.data();

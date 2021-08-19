@@ -36,6 +36,7 @@ import {Vue} from "nuxt-property-decorator";
 import ModuleLoaderCms from "~/molle-cms/src/module/ModuleLoaderCms.vue";
 import AddModuleComp from "~/molle-cms/src/ui/AddModuleComp.vue";
 import ItemListItemComp from "~/molle-cms/src/ui/ItemListItemComp.vue";
+import MolleEditerComp from "~/molle-cms/src/ui/MolleEditerComp.vue";
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -207,6 +208,7 @@ const molleModules = Vue.prototype.$molleModules = {
 };
 // export type molleModules = typeof molleModules[keyof typeof molleModules];
 
+Vue.component("MolleEditerComp", MolleEditerComp);
 Vue.component("AddModuleComp", AddModuleComp);
 Vue.component("ItemListItemComp", ItemListItemComp);
 Vue.component("ModuleLoader", ModuleLoaderCms);

@@ -1,13 +1,14 @@
 <template lang="pug">
 .l-body.top
   GlobalHeaderComp
+  MolleEditerComp
   main
     ModuleLoader(:node="{id:'top-content'}")
 
     section
       .container
         h3 News
-        NewsList(:max="3")
+        //NewsList(:max="3")
 
         .text-center
           Button.-primary(
