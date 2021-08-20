@@ -8,7 +8,9 @@ header.global-header(:aria-expanded="isMenuOpen")
       span.global-header__menu__btn__line
       span.global-header__menu__btn__label
 
-    ul.global-header__menu__body
+    ModuleLoader(:node="{id:'_global-header'}" :isRoot="true")
+
+    //ul.global-header__menu__body
       li.global-header__menu__item
         a(href="/about")
           span About
@@ -21,6 +23,7 @@ header.global-header(:aria-expanded="isMenuOpen")
       li.global-header__menu__item
         a(href="/contact")
           span  Contact
+
 </template>
 
 <script lang="ts">

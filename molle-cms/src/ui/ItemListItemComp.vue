@@ -13,8 +13,8 @@
       style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
     )
       span(v-if="isRoot")
-        b-icon.ml-n1.mr-1(icon="box")
-        b Root Item
+        b-icon.ml-n1.mr-1(icon="stack")
+        b(v-html="node.id")
       span(v-else-if="itemData.moduleId=='Headline'")
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b H
@@ -25,7 +25,7 @@
         span :{{itemData.value}}
       span(v-else-if="itemData.option.tag=='section'")
         b-icon.ml-n1.mr-1(icon="bookmark-check-fill")
-        b {{itemData.name||'Section'}}
+        b {{itemData.name||"Section"}}
       span(v-else)
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b(v-html="itemData.moduleId")

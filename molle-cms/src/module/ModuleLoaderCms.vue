@@ -10,16 +10,19 @@ component(
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
-import {Singleton} from "~/molle-cms/src/Singleton";
 import firebase from "firebase";
-import {IPageData, IItemData, INodeObject} from "~/molle-cms/src/interface";
-import {Module} from "~/molle-cms/src/module/Module";
+import {IPageData, IItemData, INodeObject} from "../interface";
+import {Singleton} from "../Singleton";
+import {Module} from "./Module";
 
 @Component({
   components: {},
 })
 export default class ModuleLoaderCms extends Vue {
+  static modules = <{[key: string]: ModuleLoaderCms}>{};
+
   @Prop({default: () => ({id: 0})}) node!: INodeObject;
+  @Prop({default: false}) isRoot!: boolean;
 
   //SPA,DEV
   get fromModule(): Module {
@@ -31,9 +34,7 @@ export default class ModuleLoaderCms extends Vue {
   }
 
   itemData = <IItemData>{moduleId: "div"};
-  style: any = {};
   private unsubscribe!: () => void;
-  static modules = <{[key: string]: ModuleLoaderCms}>{};
 
   async fetch() {
     // console.log("node", this.node, this.isMolleCms)

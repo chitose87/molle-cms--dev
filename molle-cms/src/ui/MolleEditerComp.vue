@@ -16,7 +16,7 @@
       |   margin-right: {{panelOption.right.value}}px;
       | }
 
-    //right
+    // left
     .molle-editer__left.shadow(:style="{width:panelOption.left.value+'px'}")
       .molle-editer__scroll.pb-4(ref="left")
         .card.bg-light
@@ -37,13 +37,14 @@
             :itemId="vobj.pageData.itemId"
           )
           ItemListViewComp(
-            v-for="node in entryPoints"
-            :itemId="node.id"
-            :key="node.id"
+            v-for="(loader,id) in moduleLoaderCms.modules"
+            v-if="loader.isRoot"
+            :itemId="id"
+            :key="id"
           )
       .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'left')")
 
-    // left
+    // right
     .molle-editer__right.shadow(:style="{width:panelOption.right.value+'px'}")
       .molle-editer__scroll
         EditorOptionComp
@@ -52,22 +53,22 @@
       .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'right')")
     GoogleStorageModalComp(v-if="ready")
 
-    //FocusExtension
+    FocusExtension
     #bootstrap-container
 </template>
 
 <script lang="ts">
 import {Component, Vue, Watch} from "nuxt-property-decorator";
-import FocusExtension from "~/molle-cms/src/ui/FocusExtension.vue";
-import GoogleStorageModalComp from "~/molle-cms/src/ui/GoogleStorageModalComp.vue";
-import PagePropertyComp from "~/molle-cms/src/ui/PagePropertyComp.vue";
-import ModulePropertyComp from "~/molle-cms/src/ui/ModulePropertyComp.vue";
-import ItemListViewComp from "~/molle-cms/src/ui/ItemListViewComp.vue";
-import EditorOptionComp from "~/molle-cms/src/ui/EditorOptionComp.vue";
-import {INodeObject, IPageData} from "~/molle-cms/src/interface";
-import {Singleton} from "~/molle-cms/src/Singleton";
+import FocusExtension from "./FocusExtension.vue";
+import GoogleStorageModalComp from "./GoogleStorageModalComp.vue";
+import PagePropertyComp from "./PagePropertyComp.vue";
+import ModulePropertyComp from "./ModulePropertyComp.vue";
+import ItemListViewComp from "./ItemListViewComp.vue";
+import EditorOptionComp from "./EditorOptionComp.vue";
+import {INodeObject, IPageData} from "../interface";
+import {Singleton} from "../Singleton";
 import firebase from "firebase";
-import ModuleLoaderCms from "~/molle-cms/src/module/ModuleLoaderCms.vue";
+import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
 
 @Component({
   components: {
@@ -104,44 +105,24 @@ export default class MolleEditerComp extends Vue {
     },
   };
 
-  entryPoints = <INodeObject[]>[];
+  moduleLoaderCms = ModuleLoaderCms;
 
   mounted() {
-    let _this = this;
-
-    // search entryPoints
-    let entryPoints = <INodeObject[]>[];
-    search(this.$parent);
-    this.$set(this, "entryPoints", entryPoints);
-
-    function search(target: Vue) {
-      for (let child of target.$children) {
-        if (child == _this) {
-          continue;
-        }
-        //@ts-ignore
-        if (child.node) {
-          //@ts-ignore
-          entryPoints.push(child.node);
-        } else {
-          search(child);
-        }
-      }
-    }
-
     // pageData
     let id = Singleton.getPageIdByPath(this.$route);
-    Singleton.pagesRef.doc(id)
-      .get()
-      .then((snap: firebase.firestore.DocumentSnapshot) => {
-        if (!snap.exists) {
-          console.log("no page data", this.$route.path, id);
-          return;
-        }
-        // console.log(id, snap.data());
-        this.$set(this.vobj, "pageId", id);
-        this.$set(this.vobj, "pageData", snap.data());
-      });
+    if (id) {
+      Singleton.pagesRef.doc(id)
+        .get()
+        .then((snap: firebase.firestore.DocumentSnapshot) => {
+          if (!snap.exists) {
+            console.log("no page data", this.$route.path, id);
+            return;
+          }
+          // console.log(id, snap.data());
+          this.$set(this.vobj, "pageId", id);
+          this.$set(this.vobj, "pageData", snap.data());
+        });
+    }
 
     this.enterFrame();
 

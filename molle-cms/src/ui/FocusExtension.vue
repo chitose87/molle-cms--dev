@@ -53,12 +53,12 @@
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
-import {IItemData, INodeObject} from "~/molle-cms/src/interface";
-import {Singleton} from "~/molle-cms/src/Singleton";
+import {IItemData, INodeObject} from "../interface";
+import {Singleton} from "../Singleton";
 import firebase from "firebase";
-import AddModuleComp from "~/molle-cms/src/ui/AddModuleComp.vue";
-import CopyModuleComp from "~/molle-cms/src/ui/CopyModuleComp.vue";
-import ModuleLoaderCms from "~/molle-cms/src/module/ModuleLoaderCms.vue";
+import AddModuleComp from "./AddModuleComp.vue";
+import CopyModuleComp from "./CopyModuleComp.vue";
+import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
 
 @Component({
   components: {AddModuleComp, CopyModuleComp},
@@ -100,9 +100,10 @@ export default class FocusExtension extends Vue {
       let el = <HTMLElement>this.loader.toModule.$el;
       // console.log(el);
       let rect = el.getBoundingClientRect();
+      // console.log(pageYOffset,rect.top)
       this.$set(this, "style", {
-        "top": pageYOffset + rect.top + "px",
-        "left": pageXOffset + rect.left + "px",
+        "top": 0 + rect.top + "px",
+        "left": 0 + rect.left + "px",
         "width": rect.width + "px",
         "height": rect.height + "px",
       });
@@ -112,7 +113,10 @@ export default class FocusExtension extends Vue {
       });
     }
 
-    setTimeout(() => this.enterFrame(), Math.floor(1000 / 10));
+    requestAnimationFrame(()=>{
+      this.enterFrame()
+    })
+    // setTimeout(() => this.enterFrame(), Math.floor(1000 / 10));
   }
 
   beforeDestroy() {
@@ -122,9 +126,9 @@ export default class FocusExtension extends Vue {
 
 <style lang="scss">
 .focus-extension {
-  position: absolute;
+  position: fixed;
   z-index: $zindex-on;
-  outline: 2px solid $color-red;
+  //outline: 2px solid $color-red;
   pointer-events: none;
 
   &__before, &__after {
