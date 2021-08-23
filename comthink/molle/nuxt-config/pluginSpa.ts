@@ -22,10 +22,12 @@ import SlideShow from "~/molle/module/custom/SlideShow.vue";
 import SlideShowProfile from "~/molle/module/custom/SlideShowProfile.vue";
 import LinkBox from "~/molle/module/primitive/LinkBox.vue";
 import LinkBoxProfile from "~/molle/module/primitive/LinkBoxProfile.vue";
-import Overlap from "~/molle/module/custom/Overlap.vue";
-import OverlapProfile from "~/molle/module/custom/OverlapProfile.vue";
-import Beside from "~/molle/module/custom/Beside.vue";
-import BesideProfile from "~/molle/module/custom/BesideProfile.vue";
+import TopMessage from "~/molle/module/custom/TopMessage.vue";
+import TopMessageProfile from "~/molle/module/custom/TopMessageProfile.vue";
+import TopPage from "~/molle/module/custom/TopPage.vue";
+import TopPageProfile from "~/molle/module/custom/TopPageProfile.vue";
+import Content from "~/molle/module/custom/Content.vue";
+import ContentProfile from "~/molle/module/custom/ContentProfile.vue";
 import Gallery from "~/molle/module/custom/Gallery.vue";
 import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
@@ -245,25 +247,35 @@ const molleModules = Vue.prototype.$molleModules = {
     }),
     icon: "file-richtext",
   },
-  Overlap: {
-    ref: Overlap,
-    profile: OverlapProfile,
-    profileName: "OverlapProfile",
-    def: c("Overlap", "group", {
+  TopMessage: {
+    ref: TopMessage,
+    profile: TopMessageProfile,
+    profileName: "TopMessageProfile",
+    def: c("TopMessage", "group", {
       value: {
         headline: {fixedModuleId: "Headline", order: 0},
         text: {fixedModuleId: "Paragraph", order: 10},
-        btn: {fixedModuleId: "Button", order: 20},
-        img: {fixedModuleId: "Picture", order: 30},
       },
     }),
-    icon: "file-richtext",
+    icon: "card-heading",
   },
-  Beside: {
-    ref: Beside,
-    profile: BesideProfile,
-    profileName: "BesideProfile",
-    def: c("Beside", "group", {
+  TopPage: {
+    ref: TopPage,
+    profile: TopPageProfile,
+    profileName: "TopPageProfile",
+    def: c("TopPage", "children", {
+      option: {
+        title: "Lorem ipsum...",
+      },
+    }),
+    white: ["Content"],
+    icon: "plus-square",
+  },
+  Content: {
+    ref: Content,
+    profile: ContentProfile,
+    profileName: "ContentProfile",
+    def: c("Content", "group", {
       value: {
         headline: {fixedModuleId: "Headline", order: 0},
         text: {fixedModuleId: "Paragraph", order: 10},

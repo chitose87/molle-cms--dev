@@ -8,6 +8,12 @@ div
     )
       option(v-for="item in ['', 'section']" :value="item" v-html="item")
 
+  TextAreaQuill(
+    :label="'Title:'"
+    v-model="itemData.option.title"
+    @change="()=>$emit('change')"
+  )
+
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
@@ -20,12 +26,12 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "molle-cms/src/module/Profile";
-import Overlap from "~/molle/module/custom/Overlap.vue";
+import TextAreaQuill from "molle-cms/src/ui/property/TextAreaQuill.vue";
 
 @Component({
-  components: {StyleComp}
+  components: {TextAreaQuill, StyleComp}
 })
-export default class OverlapProfile extends Profile {
+export default class TopPageProfile extends Profile {
   //style setting
   stylePermission = {
     container: false,
@@ -34,7 +40,7 @@ export default class OverlapProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "-reverse", "-anime", "-reverse -anime"]},
+    theme: {default: "", select: ["", "-sub -right", "-sub -left"]},
   };
 }
 </script>

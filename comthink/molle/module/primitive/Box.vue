@@ -67,67 +67,6 @@ export default class Box extends Module {
     }
   }
 
-  &.-overlay {
-    background-color: rgba(255, 255, 255, 0.8);
-    position: relative;
-    z-index: 10;
-    @include mediaquery-not-sm {
-      margin: -4rem 7% 8rem;
-      padding: 3.9%;
-    }
-    @include mediaquery-sm {
-      margin: -4rem 7% 8rem;
-      padding: 3.9%;
-    }
-  }
-
-  &.-right {
-    margin-bottom: 8rem;
-    padding: 3.9%;
-    margin-left: 7%;
-    background-color: rgba(164, 164, 164, 0.3);
-    @include mediaquery-sm {
-      margin-right: 7%;
-    }
-  }
-
-  &.-left {
-    margin-bottom: 8rem;
-    padding: 3.9% 3.9% 3.9% 10.9%;
-    background: linear-gradient(to right, rgba(164, 164, 164, 0.3) 0%, rgba(164, 164, 164, 0.3) 93%, #ffffff 93%, #ffffff 100%);
-    @include mediaquery-sm {
-      padding: 3.9%;
-      margin-right: 7%;
-      margin-left: 7%;
-      background: linear-gradient(to right, rgba(164, 164, 164, 0.3) 0%, rgba(164, 164, 164, 0.3) 100%);
-    }
-  }
-
-  &.-sm-right {
-    padding: 3.9% 3.9% 3.9% 10.9%;
-    margin-bottom: 8rem;
-    background: linear-gradient(to right, #ffffff 0%, #ffffff 65%, rgba(164, 164, 164, 0.3) 65%, rgba(164, 164, 164, 0.3) 93%, #ffffff 93%, #ffffff 100%);
-    @include mediaquery-sm {
-      padding: 3.9%;
-      margin-right: 7%;
-      margin-left: 7%;
-      background: linear-gradient(to right, #ffffff 0%, #ffffff 50%, rgba(164, 164, 164, 0.3) 50%, rgba(164, 164, 164, 0.3) 100%);
-    }
-  }
-
-  &.-sm-left {
-    margin-left: 7%;
-    padding: 3.9%;
-    margin-bottom: 8rem;
-    background: linear-gradient(to right, rgba(164, 164, 164, 0.3) 0%, rgba(164, 164, 164, 0.3) 35%, #ffffff 35%, #ffffff 100%);
-    @include mediaquery-sm {
-      padding: 3.9%;
-      margin-right: 7%;
-      margin-left: 7%;
-      background: linear-gradient(to right, rgba(164, 164, 164, 0.3) 0%, rgba(164, 164, 164, 0.3) 50%, #ffffff 50%, #ffffff 100%);
-    }
-  }
-
   // color
   &.-gray {
     background-color: $color-gray-600;
