@@ -22,6 +22,8 @@ import SlideShow from "~/molle/module/custom/SlideShow.vue";
 import SlideShowProfile from "~/molle/module/custom/SlideShowProfile.vue";
 import LinkBox from "~/molle/module/primitive/LinkBox.vue";
 import LinkBoxProfile from "~/molle/module/primitive/LinkBoxProfile.vue";
+import IsviewBox from "~/molle/module/primitive/IsviewBox.vue";
+import IsviewBoxProfile from "~/molle/module/primitive/IsviewBoxProfile.vue";
 import TopMessage from "~/molle/module/custom/TopMessage.vue";
 import TopMessageProfile from "~/molle/module/custom/TopMessageProfile.vue";
 import TopPage from "~/molle/module/custom/TopPage.vue";
@@ -73,7 +75,7 @@ const molleModules = Vue.prototype.$molleModules = {
     profileName: "BoxProfile",
     def: c("Box", "children"),
     black: ["ColumnBox"],
-    convert: ["ColumnBox", "BackgroundBox", "LinkBox"],
+    convert: ["ColumnBox", "BackgroundBox", "LinkBox", "IsviewBox"],
     icon: "plus-square",
   },
   BackgroundBox: {
@@ -82,7 +84,7 @@ const molleModules = Vue.prototype.$molleModules = {
     profileName: "BackgroundBoxProfile",
     def: c("BackgroundBox", "children"),
     black: ["ColumnBox"],
-    convert: ["Box", "ColumnBox", "LinkBox"],
+    convert: ["Box", "ColumnBox", "LinkBox", "IsviewBox"],
     icon: "plus-square",
   },
   LinkBox: {
@@ -91,7 +93,16 @@ const molleModules = Vue.prototype.$molleModules = {
     profileName: "LinkBoxProfile",
     def: c("LinkBox", "children"),
     black: ["ColumnBox"],
-    convert: ["Box", "ColumnBox", "BackgroundBox"],
+    convert: ["Box", "ColumnBox", "BackgroundBox", "IsviewBox"],
+    icon: "plus-square",
+  },
+  IsviewBox: {
+    ref: IsviewBox,
+    profile: IsviewBoxProfile,
+    profileName: "IsviewBoxProfile",
+    def: c("IsviewBox", "children"),
+    black: ["ColumnBox"],
+    convert: ["Box", "ColumnBox", "BackgroundBox", "LinkBox"],
     icon: "plus-square",
   },
   Headline: {

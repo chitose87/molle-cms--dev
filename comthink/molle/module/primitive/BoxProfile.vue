@@ -33,7 +33,7 @@ export default class BoxProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "-overlay", "-quote"]},
+    theme: {default: "", select: ["", "-quote"]},
     color: {default: "", select: ["", "-dark", "-gray", "-gray-box"]},
   };
 }
