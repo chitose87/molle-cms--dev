@@ -1,5 +1,6 @@
 <template lang="pug">
-label {{label}}
+label.w-100
+  span {{label}}
   input.form-control.form-control-sm(
     type="url"
     v-model="localValue"

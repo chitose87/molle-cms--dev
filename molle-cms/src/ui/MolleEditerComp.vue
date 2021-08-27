@@ -12,8 +12,8 @@
       |   height: calc(100% - {{panelOption.top}}px);
       | }
       | .molle-editer + * {
-      |   margin-left: {{panelOption.left.value}}px;
-      |   margin-right: {{panelOption.right.value}}px;
+      |   margin-left: {{panelOption.left.value+8}}px;
+      |   margin-right: {{panelOption.right.value+8}}px;
       | }
 
     // left
@@ -24,6 +24,8 @@
             a(href="/--molle/")
               b-icon(icon="house-door")
               span Molle TOP
+
+        PageListComp
 
         PagePropertyComp(
           v-if="vobj.pageData && vobj.pageId"
@@ -69,9 +71,11 @@ import {INodeObject, IPageData} from "../interface";
 import {Singleton} from "../Singleton";
 import firebase from "firebase";
 import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
+import PageListComp from "./PageListComp.vue";
 
 @Component({
   components: {
+    PageListComp,
     FocusExtension,
     GoogleStorageModalComp,
     PagePropertyComp,
@@ -136,6 +140,7 @@ export default class MolleEditerComp extends Vue {
     }, 100);
 
     let listener = (e: any) => {
+      if (e.type == "click") console.log(e.target);
       for (let i = 0; i < e.path.length; i++) {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoaderCms) {
@@ -177,7 +182,7 @@ export default class MolleEditerComp extends Vue {
    */
   @Watch("$route.query.focus", {immediate: true})
   onChangeFocusModuleNode(newer: any, older?: any) {
-    console.log(newer);
+    // console.log(newer);
     if (!newer) return;
     let h = window.innerHeight;
     try {
@@ -353,5 +358,10 @@ export default class MolleEditerComp extends Vue {
       width: 100% !important;
     }
   }
+}
+
+#bootstrap-container {
+  //z-index: $zindex-modal;
+  pointer-events: auto;
 }
 </style>

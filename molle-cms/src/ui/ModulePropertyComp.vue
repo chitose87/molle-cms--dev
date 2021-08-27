@@ -106,7 +106,7 @@ export default class ModulePropertyComp extends Vue {
   @Watch("$route.query.focus", {immediate: true})
   onChangeFocusModuleNode(newer: string, older?: string) {
     if (newer) {
-      console.log("onChangeFocusModuleNode");
+      // console.log("onChangeFocusModuleNode");
       this.flag = false;
       if (this.unsubscribe) {
         this.unsubscribe();

@@ -44,29 +44,8 @@
             | News Data
           .row
             .col
+              IndexPageListView(:pages="news")
               ul.list-group
-                li.list-group-item.list-group-item-action.d-flex.justify-content-between(
-                  v-for="(item, key) in news"
-                )
-                  span.mr-2(v-html="item.date || '0000-00-00'")
-                  span.mr-2 :
-                  span.mr-2(v-html="item.title || '{no title}'")
-                  label.mr-2
-                    select.form-control.form-control-sm(
-                      :value="item.option && item.option.tag",
-                      @change="(e) => changeItemTag(key, item, e.target.value)"
-                    )
-                      option(value="活動報告") 活動報告
-                      option(value="お知らせ") お知らせ
-                  NuxtLink.mr-auto(
-                    :to="{path: '/--molle/editer', query: {pageId: key, edit: 'true'}}"
-                  )
-                    span(v-html="item.path + '/'")
-                    b-icon(icon="chevron-right")
-                  button.btn.btn-danger(
-                    type="button",
-                    @click="deletePage(key)"
-                  ) Delete
 
             .col-4
               .card.position-sticky(style="top:0")
@@ -95,6 +74,7 @@
                     label.w-100.mr-2
                       span タイトル
                       input.form-control(type="text", v-model="addNewsObj.title")
+
                   button.btn.btn-primary.btn-block(
                     type="button",
                     :disabled="addNewsObj.date === '' || addNewsObj.title === ''",
@@ -108,23 +88,7 @@
             | Universal pages
           .row
             .col
-              ul.list-group
-                li.list-group-item.list-group-item-action.d-flex.justify-content-between(
-                  v-for="(item, key) in pages"
-                )
-                  span.mr-2(v-html="item.date || '0000-00-00'")
-                  span.mr-2 :
-                  span.mr-2(v-html="item.title || '{no title}'")
-
-                  NuxtLink.mr-auto(
-                    :to="{path: '/--molle/editer', query: {pageId: key, edit: 'true'}}"
-                  )
-                    span(v-html="item.path")
-                    b-icon(icon="chevron-right")
-                  button.btn.btn-danger(
-                    type="button",
-                    @click="deletePage(key)"
-                  ) Delete
+              IndexPageListView(:pages="pages")
 
             .col-4
               .card.position-sticky(style="top:0")
@@ -175,9 +139,10 @@ import firebase from "firebase";
 import {Singleton} from "~/molle-cms/src/Singleton";
 import {IItemData, IPageData} from "~/molle-cms/src/interface";
 import MolleToolbar from "~/molle-cms/src/ui/MolleToolbar.vue";
+import IndexPageListView from "~/molle-cms/src/ui/IndexPageListView.vue";
 
 @Component({
-  components: {MolleToolbar}
+  components: {IndexPageListView, MolleToolbar},
 })
 export default class MolleTopPage extends Vue {
   version = process.env.version;
@@ -195,8 +160,8 @@ export default class MolleTopPage extends Vue {
     option: {},
   };
 
-  pages: { [key: string]: IPageData } = {};
-  news: { [key: string]: IPageData } = {};
+  pages: {[key: string]: IPageData} = {};
+  news: {[key: string]: IPageData} = {};
   systemData = {deployQue: false, deployStatus: "undefinde"};
 
   isLogin = false;
@@ -204,10 +169,7 @@ export default class MolleTopPage extends Vue {
   head() {
     return {
       title: "[MOLLE]" + process.env.title,
-      script: [{
-        src: "https://cdnjs.cloudflare.com/ajax/libs/jimp/0.16.1/jimp.js"
-      }]
-    }
+    };
   }
 
   created() {
@@ -236,8 +198,8 @@ export default class MolleTopPage extends Vue {
             let pageData = <IPageData>_snap.data();
             if (pageData.path.indexOf("news/") == 0) {
               this.$set(this.news, _snap.id, pageData);
-            // } else if (pageData.path.indexOf("case-study/") == 0) {
-            //   this.$set(this.casestudy, _snap.id, pageData);
+              // } else if (pageData.path.indexOf("case-study/") == 0) {
+              //   this.$set(this.casestudy, _snap.id, pageData);
             } else {
               this.$set(this.pages, _snap.id, pageData);
             }
@@ -253,7 +215,7 @@ export default class MolleTopPage extends Vue {
   addNews() {
     let path = "news/" + (this.addNewsObj.id || this.addNewsObj.date);
     let pageId = encodeURIComponent(path);
-    console.log(this.addNewsObj.date);
+    // console.log(this.addNewsObj.date);
     Singleton.pagesRef.doc(pageId).set({
       path: path,
       itemId: pageId,
@@ -271,20 +233,6 @@ export default class MolleTopPage extends Vue {
       path: this.added.path,
       itemId: this.added.itemId || pageId,
     });
-  }
-
-  /**
-   *
-   * @param id
-   */
-  deletePage(id: string) {
-    Singleton.pagesRef.doc(id).delete();
-  }
-
-  changeItemTag(id: string, item: any, value: string) {
-    let update = {option: item.option || {}};
-    update.option.tag = value;
-    Singleton.pagesRef.doc(id).update(update);
   }
 }
 </script>

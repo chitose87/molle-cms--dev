@@ -17,10 +17,10 @@
 
 <script lang="ts">
 import {Component, Vue, Prop} from "nuxt-property-decorator";
-import {Singleton} from "~/molle-cms/src/Singleton";
+import {Singleton} from "../Singleton";
 import firebase from "firebase";
-import {IItemData, INodeObject, ILogsData} from "~/molle-cms/src/interface";
-import {Utils} from "~/molle-cms/src/Utils";
+import {IItemData, INodeObject, ILogsData} from "../interface";
+import {Utils} from "../Utils";
 
 @Component({
   components: {},
@@ -60,6 +60,7 @@ export default class AddModuleComp extends Vue {
   }
 
   pushModule() {
+    console.log("pushModule",this.pushModuleSelected);
     if (!this.pushModuleSelected) return;
     let data: IItemData = this.$molleModules[this.pushModuleSelected].def;
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};
@@ -72,14 +73,14 @@ export default class AddModuleComp extends Vue {
               this.itemData.value.splice(i, 0, node);
               return true;
             }
-          })
+          });
         } else if (this.afterNode) {
           this.itemData.value.some((_node: INodeObject, i: number) => {
             if (this.afterNode!.id == _node.id) {
               this.itemData.value.splice(i + 1, 0, node);
               return true;
             }
-          })
+          });
         } else {
           this.itemData.value.push(node);
         }
@@ -87,8 +88,8 @@ export default class AddModuleComp extends Vue {
         let update = {value: this.itemData.value};
         Utils.updateItem(this.parentNode.id, update)
           .then(() => {
-            this.$router.push({query: {...this.$route.query, focus: node.id}})
-          })
+            this.$router.push({query: {...this.$route.query, focus: node.id}});
+          });
       });
 
   }

@@ -4,28 +4,28 @@
     .card-header.pt-1.pb-1.pl-3.pr-3(@click="flag=!flag") ページ設定
       b-icon(:icon="flag?'chevron-up':'chevron-down'")
     .card-body.p-3(v-if="flag")
-      label
+      label.w-100
         span Title (meta):
         textarea.form-control.form-control-sm(
           v-model="pageData.title",
           :placeholder="pageData.displayTitle",
           @change="update"
         )
-      label
+      label.w-100
         span Title (表示用):
         textarea.form-control.form-control-sm(
           v-model="pageData.displayTitle",
           :placeholder="pageData.title",
           @change="update"
         )
-      label
+      label.w-100
         span Description (meta):
         textarea.form-control.form-control-sm(
           v-model="pageData.description",
           @change="update"
         )
 
-      label
+      label.w-100
         span 日付(表示用):
         input.form-control.form-control-sm(
           type="date",
@@ -56,24 +56,6 @@
           @change="update"
         )
         span :書き出さない
-
-      //label
-      //  span Preview:
-      //  input.form-control.form-control-sm(
-      //    type="text"
-      //    v-model="pageData.preview"
-      //    :placeholder="`/${pageData.path}`"
-      //    @change="update"
-      //  )
-      //p.small
-      //  span /
-      //  a(:href="`/${pageData.preview || pageData.path}`" target="_blank")
-      //    span(v-html="`${pageData.preview || pageData.path}`")
-      //    b-icon.ml-2(icon="window")
-
-      //p.small
-      //  span itemId:
-      //  span(v-html="pageData.itemId")
 
       hr
 

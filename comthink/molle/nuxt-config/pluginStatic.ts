@@ -64,6 +64,7 @@ const pluginStatic = Vue.prototype.$molleModules = {
 };
 // export type molleModules = typeof molleModules[keyof typeof molleModules];
 
+Vue.component("MolleEditerComp", Blank);
 Vue.component("AddModuleComp", Blank);
 Vue.component("ModuleLoader", ModuleLoader);
 //modules

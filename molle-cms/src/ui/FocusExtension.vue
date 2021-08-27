@@ -24,6 +24,10 @@
           :parentNode="loader.fromModule.loader.node"
           :beforeNode="loader.node"
         )
+  //.focus-extension__tr
+  //  button.btn.btn-sm.btn-outline-danger#delete
+  //    span Delete
+  //    b-icon(icon="x")
 
   .focus-extension__after(v-show="isAfter")
     button.btn.btn-sm.btn-outline-info#addAfter
@@ -113,9 +117,9 @@ export default class FocusExtension extends Vue {
       });
     }
 
-    requestAnimationFrame(()=>{
-      this.enterFrame()
-    })
+    requestAnimationFrame(() => {
+      this.enterFrame();
+    });
     // setTimeout(() => this.enterFrame(), Math.floor(1000 / 10));
   }
 
@@ -127,13 +131,13 @@ export default class FocusExtension extends Vue {
 <style lang="scss">
 .focus-extension {
   position: fixed;
-  z-index: $zindex-on;
+  z-index: $zindex-modal;
   //outline: 2px solid $color-red;
   pointer-events: none;
 
-  &__before, &__after {
+  &__before, &__after, &__tr {
     position: absolute;
-    pointer-events: all;
+    pointer-events: auto;
   }
 
   &__before {
@@ -151,6 +155,12 @@ export default class FocusExtension extends Vue {
       &__before {
         top: 0rem;
         left: 0rem;
+        transform: translate(0, -100%);
+      }
+
+      &__tr {
+        top: 0rem;
+        right: 0rem;
         transform: translate(0, -100%);
       }
 

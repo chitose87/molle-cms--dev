@@ -95,12 +95,6 @@ export class Utils {
         {hid: "twitter:image", property: "twitter:image", content: pageData.ogpImg},
       );
     }
-    if (pageData.ogpImg) {
-      obj.meta.push(
-        {hid: "og:image", property: "og:image", content: pageData.ogpImg},
-        {hid: "twitter:image", property: "twitter:image", content: pageData.ogpImg},
-      );
-    }
     return obj;
   }
 

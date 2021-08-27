@@ -8,13 +8,16 @@
     button.btn.btn-sm.btn-link.btn-block.text-left(
       :class="{active: $route.query.focus === node.id}",
       :title="node.id",
-      @click="$router.push({query: {...$route.query, focus: node.id}})"
-      @mouseover="$router.push({query: {...$route.query, hover: node.id}})"
+      @click="onClick"
+      @mouseover="$router.replace({query: {...$route.query, hover: node.id}}).catch(err=>{})"
       style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
     )
       span(v-if="isRoot")
-        b-icon.ml-n1.mr-1(icon="stack")
+        b-icon.ml-n1.mr-1(icon="aspect-ratio-fill")
         b(v-html="node.id")
+      span(v-else-if="itemData.option.tag=='section'")
+        b-icon.ml-n1.mr-1(icon="bookmark-check-fill")
+        b {{itemData.name||"Section"}}
       span(v-else-if="itemData.moduleId=='Headline'")
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b H
@@ -23,28 +26,33 @@
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b Btn
         span :{{itemData.value}}
-      span(v-else-if="itemData.option.tag=='section'")
-        b-icon.ml-n1.mr-1(icon="bookmark-check-fill")
-        b {{itemData.name||"Section"}}
       span(v-else)
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b(v-html="itemData.moduleId")
         span(v-if="itemData.name") :{{itemData.name}}
+
+      //
+      b-icon.ml-1(
+        v-if="$molleModules[itemData.moduleId].def.type === 'children' || $molleModules[itemData.moduleId].def.type === 'group'"
+        :icon="expanded?'chevron-up':'chevron-down'"
+      )
+
     //削除
       v-if="!$parent.notDeleted"
     button.btn.btn-sm.btn-danger.item-list-item-comp__delete(
       v-if="!isRoot && $route.query.focus === node.id",
       @click="deleteModule()"
     ) x
+
   // children
   draggable.list-group.pl-2.pb-2(
-    v-if="$molleModules[itemData.moduleId].def.type === 'children'",
-    v-model="itemData.value",
-    :group="getGroup(itemData.moduleId)",
-    @remove="updateChild",
-    @add="updateChild",
-    @update="updateChild",
-    @end="hoge"
+    v-if="$molleModules[itemData.moduleId].def.type === 'children'"
+    v-show="expanded"
+    v-model="itemData.value"
+    :group="getGroup(itemData.moduleId)"
+    @remove="updateChild"
+    @add="updateChild"
+    @update="updateChild"
   )
     ItemListItemComp(v-for="node in itemData.value", :key="node.id", :node="node")
     .item-list-item-comp.list-group-item.list-group-item-action.pr-0.border-right-0(
@@ -55,6 +63,7 @@
   //Group
   .list-group.pl-2.pb-2(
     v-else-if="$molleModules[itemData.moduleId].def.type === 'group'"
+    v-show="expanded"
   )
     ItemListItemComp(v-for="node in groupChildSort(itemData.value)", :key="node.id", :node="node")
 
@@ -62,28 +71,6 @@
     v-else-if="itemData.moduleId === 'Reference'"
   )
     ItemListItemComp(:node="itemData.value")
-  // items
-  //.list-group.mt-3(v-if="molleModules[itemData.moduleId].def.type==='items'")
-  //  ItemListItemComp(
-  //    v-for="id in itemData.value"
-  //    :key="id"
-  //    :itemId="id"
-  //    :dic="dic"
-  //  )
-  //  .list-group-item.pr-0.border-right-0
-  //    form.form-group.d-flex.justify-content-between.mb-0.mr-2(@submit.prevent @submit="pushModule()")
-  //      span Add Item
-  //      button.btn.btn-sm.btn-info(type="submit")
-  //a group
-  //.list-group.mt-3(v-if="molleModules[itemData.moduleId].def.type==='group'")
-  //  ItemListItemComp(
-  //    v-for="id in itemData.value"
-  //    :key="id"
-  //    :itemId="id"
-  //    :dic="dic"
-  //  )
-  //div(v-else="")
-  //  p.mb-0(v-html="dic[itemId].value")
 </template>
 
 <script lang="ts">
@@ -109,6 +96,7 @@ export default class ItemListItemComp extends Vue {
   pushModuleSelected: string = "";
   private unsubscribe!: () => void;
   maxHistory: number = 100;
+  expanded = true;
 
   @Watch("node", {immediate: true})
   updateNode() {
@@ -144,7 +132,7 @@ export default class ItemListItemComp extends Vue {
   private checkLoop(p: any): any {
     if (!p) return false;
     if (p.itemData && p.node.id === this.node.id) {
-      console.log(this.$parent)
+      console.log(this.$parent);
       alert(`loopしたので解決します。(id:${this.node.id})`);
       this.deleteModule();
       return true;
@@ -169,7 +157,7 @@ export default class ItemListItemComp extends Vue {
   deleteModule() {
     let parent = <ItemListItemComp>this.$parent.$parent;
     let value: any = parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id);
-    let update = {value: value}
+    let update = {value: value};
     Utils.updateItem(parent.node.id, update);
   }
 
@@ -184,13 +172,23 @@ export default class ItemListItemComp extends Vue {
     return v;
   }
 
+  /**
+   *
+   */
+  onClick() {
+    this.$router.replace({query: {...this.$route.query, focus: this.node.id}}).catch(err => {
+    });
+
+    this.expanded = !this.expanded;
+  }
+
   beforeDestroy() {
     if (this.unsubscribe) this.unsubscribe();
   }
 
-  hoge(e: any) {
-    console.log(e.item);
-  }
+  // hoge(e: any) {
+  //   console.log(e.item);
+  // }
 }
 </script>
 

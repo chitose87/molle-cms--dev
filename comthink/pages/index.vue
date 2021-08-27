@@ -1,6 +1,7 @@
 <template lang="pug">
 .l-body.top
   GlobalHeaderComp
+  MolleEditerComp
   main
     ModuleLoader(:node="{id:'embed%2Ftop'}")
 
