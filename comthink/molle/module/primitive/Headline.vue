@@ -34,21 +34,6 @@ export default class Headline extends Module {
     display: block;
     font-size: 75%;
   }
-
-  &.line {
-    position: relative;
-    &:before {
-      content: "";
-      display: block;
-      height: 1px;
-      background: #000;
-      position: absolute;
-      top: 50%;
-      left: -2%;
-      transform: translate3d(-100%,0,0);
-      width: 5%;
-    }
-  }
 }
 
 h3.headline {

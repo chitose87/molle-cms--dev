@@ -1,5 +1,8 @@
 <template lang="pug">
-header.global-header(:aria-expanded="isMenuOpen")
+header.global-header(
+  :aria-expanded="isMenuOpen"
+  v-isscroll
+)
   a.company-name(href="/")
     span LOGO
 
@@ -32,7 +35,7 @@ export default class GlobalHeaderComp extends Vue {
   $pcH: 4.5rem;
   $spH: 4rem;
 
-  z-index: 2;
+  z-index: 99;
   position: fixed;
   top: 0;
   left: 0;

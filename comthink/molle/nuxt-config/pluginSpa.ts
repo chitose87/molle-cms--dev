@@ -20,10 +20,18 @@ import ButtonList from "~/molle/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle/module/primitive/ButtonListProfile.vue";
 import SlideShow from "~/molle/module/custom/SlideShow.vue";
 import SlideShowProfile from "~/molle/module/custom/SlideShowProfile.vue";
+import SlideShowSK from "~/molle/module/custom/SlideShowSK.vue";
+import SlideShowSKProfile from "~/molle/module/custom/SlideShowSKProfile.vue";
 import LinkBox from "~/molle/module/primitive/LinkBox.vue";
 import LinkBoxProfile from "~/molle/module/primitive/LinkBoxProfile.vue";
 import IsviewBox from "~/molle/module/primitive/IsviewBox.vue";
 import IsviewBoxProfile from "~/molle/module/primitive/IsviewBoxProfile.vue";
+import IsscrollBox from "~/molle/module/primitive/IsscrollBox.vue";
+import IsscrollBoxProfile from "~/molle/module/primitive/IsscrollBoxProfile.vue";
+import BorderBox from "~/molle/module/custom/BorderBox.vue";
+import BorderBoxProfile from "~/molle/module/custom/BorderBoxProfile.vue";
+import VisualMenu from "~/molle/module/custom/VisualMenu.vue";
+import VisualMenuProfile from "~/molle/module/custom/VisualMenuProfile.vue";
 import TopMessage from "~/molle/module/custom/TopMessage.vue";
 import TopMessageProfile from "~/molle/module/custom/TopMessageProfile.vue";
 import TopPage from "~/molle/module/custom/TopPage.vue";
@@ -103,6 +111,24 @@ const molleModules = Vue.prototype.$molleModules = {
     def: c("IsviewBox", "children"),
     black: ["ColumnBox"],
     convert: ["Box", "ColumnBox", "BackgroundBox", "LinkBox"],
+    icon: "plus-square",
+  },
+  IsscrollBox: {
+    ref: IsscrollBox,
+    profile: IsscrollBoxProfile,
+    profileName: "IsscrollBoxProfile",
+    def: c("IsscrollBox", "children"),
+    black: ["ColumnBox"],
+    convert: ["Box", "ColumnBox", "BackgroundBox", "LinkBox"],
+    icon: "plus-square",
+  },
+  BorderBox: {
+    ref: BorderBox,
+    profile: BorderBoxProfile,
+    profileName: "BorderBoxProfile",
+    def: c("BorderBox", "children"),
+    black: ["ColumnBox"],
+    convert: ["Box", "ColumnBox", "BackgroundBox", "LinkBox", "IsviewBox"],
     icon: "plus-square",
   },
   Headline: {
@@ -194,6 +220,20 @@ const molleModules = Vue.prototype.$molleModules = {
     }),
     icon: "file-richtext",
   },
+  SlideShowSK: {
+    ref: SlideShowSK,
+    profile: SlideShowSKProfile,
+    profileName: "SlideShowSKProfile",
+    def: c("SlideShowSK", "group", {
+      value: {
+        img1: {fixedModuleId: "Picture", order: 0},
+        img2: {fixedModuleId: "Picture", order: 10},
+        img3: {fixedModuleId: "Picture", order: 20},
+        headline: {fixedModuleId: "Headline", order: 30},
+      },
+    }),
+    icon: "file-richtext",
+  },
   Table: {
     ref: Table,
     profile: TableProfile,
@@ -257,6 +297,18 @@ const molleModules = Vue.prototype.$molleModules = {
       },
     }),
     icon: "file-richtext",
+  },
+  VisualMenu: {
+    ref: VisualMenu,
+    profile: VisualMenuProfile,
+    profileName: "VisualMenuProfile",
+    def: c("VisualMenu", "group", {
+      value: {
+        headline: {fixedModuleId: "Headline", order: 0},
+        btnlist: {fixedModuleId: "ButtonList", order: 10},
+      },
+    }),
+    icon: "card-heading",
   },
   TopMessage: {
     ref: TopMessage,

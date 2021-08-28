@@ -26,14 +26,8 @@ export default class TopMessage extends Module {
     background-color: rgba(255, 255, 255, 0.8);
     position: relative;
     z-index: 10;
-    @include mediaquery-not-sm {
-      margin: -4rem 7% 8rem;
-      padding: 3.9%;
-    }
-    @include mediaquery-sm {
-      margin: -4rem 7% 8rem;
-      padding: 3.9%;
-    }
+    margin: -4rem 7% 8rem;
+    padding: 3.9%;
   }
 }
 </style>

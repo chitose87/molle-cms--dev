@@ -33,12 +33,12 @@ export default class SlideShow extends Module {
 <style lang="scss">
 
 .module {
-  margin-top: 0;
 
   .slide-show {
+    margin-top: -5.5rem;
     position: relative;
     overflow: hidden;
-    height: 93.5vh;
+    min-height: 100vh;
 
     .headline {
       position: absolute;
@@ -60,6 +60,8 @@ export default class SlideShow extends Module {
       .module {
         height: 100%;
         width: 100%;
+        margin-top: 0;
+        margin-bottom: 0;
 
         picture img {
           object-fit: cover;

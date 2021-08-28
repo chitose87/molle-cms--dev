@@ -15,7 +15,7 @@ component.module.top-page(
   )
 
   AddModuleComp(
-    :label="`MC-Box`"
+    :label="`TopPage`"
     :parentNode="loader.node"
   )
 </template>
