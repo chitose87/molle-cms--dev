@@ -218,9 +218,9 @@ const molleModules = Vue.prototype.$molleModules = {
 };
 // export type molleModules = typeof molleModules[keyof typeof molleModules];
 
+Vue.component("MolleEditerComp", MolleEditerComp);
 Vue.component("AddModuleComp", AddModuleComp);
 Vue.component("ItemListItemComp", ItemListItemComp);
-Vue.component("ModuleLoader", ModuleLoaderCms);
 Vue.component("ModuleLoader", ModuleLoaderCms);
 
 //modules
