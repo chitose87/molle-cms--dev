@@ -45,12 +45,17 @@ for (let siteId in molleConfig.sites) {
   console.log(siteId,siteOption, molleJson);
 
   // file
-  if(!fs.existsSync(siteId))fs.mkdirSync(siteId);
-  if(!fs.existsSync(`${siteId}/public-cms`))fs.mkdirSync(`${siteId}/public-cms`);
+  if(!fs.existsSync(siteId)){
+    fs.mkdirSync(siteId);
+  }
+  if(!fs.existsSync(`${siteId}/public-cms`)){
+    fs.mkdirSync(`${siteId}/public-cms`);
+  }
   if(!fs.existsSync(`${siteId}/molle-cms`)){
+    console.log(is_mac,is_linux)
     if(is_mac||is_linux){
       execSync(`ln -fs ../molle-cms ${siteId}/molle-cms`);
-      execSync(`rm ./molle-cms/molle-cms`);
+      //execSync(`rm ./molle-cms/molle-cms`);
     }else{
       execSync(`mklink /j "${siteId}/molle-cms" "molle-cms"`);
     }
