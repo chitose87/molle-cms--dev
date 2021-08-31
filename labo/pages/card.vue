@@ -3,7 +3,7 @@
   //GlobalHeaderComp
   MolleEditerComp
   main
-    ModuleLoader(:node="{id:'top-content'}" :isRoot="true")
+    ModuleLoader(:node="{id:'card-content'}" :isRoot="true")
 
     //section
     //  .container
