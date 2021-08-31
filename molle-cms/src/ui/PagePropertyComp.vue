@@ -57,6 +57,18 @@
         )
         span :書き出さない
 
+      div(v-if="pageData.noExport")
+        span redirect:
+        NuxtLink.mr-2(
+          :to="{path: '/'+(pageData.redirect || ''), query: {edit: 'true'}}"
+        )
+          span /{{pageData.redirect || ""}}
+          b-icon(icon="chevron-right")
+        input.form-control.form-control-sm(
+          v-model="pageData.redirect",
+          @change="update"
+        )
+
       hr
 
       .mb-2
@@ -80,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue, Watch, Prop,} from "nuxt-property-decorator";
+import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
 import {IItemData, INodeObject, IPageData} from "~/molle-cms/src/interface";
 import {Singleton} from "~/molle-cms/src/Singleton";
 import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";

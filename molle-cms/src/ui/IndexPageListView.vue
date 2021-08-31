@@ -17,11 +17,11 @@ ul.list-group
 
     label.small.form-inline.mr-2
       input.form-control.form-control-sm(
-        v-model="!item.noExport",
+        v-model="item.noExport",
         type="checkbox",
         @change="updatePage(key,item)"
       )
-      span :書き出し
+      span :書き出さない
 
     button.btn.btn-danger.btn-sm(
       type="button",

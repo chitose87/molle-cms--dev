@@ -11,6 +11,7 @@ export interface IPageData {
   utc?: string;//
   noExport?: boolean;//index.htmlを出力するかどうか
 
+  redirect?: string;
   option?: any;
 }
 
@@ -54,8 +55,8 @@ export interface INodeObject {
 export interface IPayload {
   id: string;
   pageData: IPageData;
-  pages: { [key: string]: IPageData };
-  items: { [key: string]: IItemData };
+  pages: {[key: string]: IPageData};
+  items: {[key: string]: IItemData};
 }
 
 export interface ILogsData {
