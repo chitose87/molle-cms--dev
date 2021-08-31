@@ -1,3 +1,6 @@
+const is_windows = process.platform==='win32';
+const is_mac = process.platform==='darwin';
+const is_linux = process.platform==='linux';
 const stripJsonComments = require("strip-json-comments");
 require("dotenv").config();
 const fs = require("fs");
@@ -36,17 +39,22 @@ let scripts = [
   `    "deploy": "npm run ${molleConfig.defaultSite}:deploy",`,
 ];
 
-//
 for (let siteId in molleConfig.sites) {
   let siteOption = molleConfig.sites[siteId];
   const molleJson = require("../" + siteId + "/molle.json");
   console.log(siteId,siteOption, molleJson);
 
   // file
-  execSync(`mkdir -p ${siteId}`);
-  execSync(`mkdir -p ${siteId}/public-cms`);
-  execSync(`ln -fs ../molle-cms ${siteId}/molle-cms`);
-  execSync(`rm ./molle-cms/molle-cms`);
+  if(!fs.existsSync(siteId))fs.mkdirSync(siteId);
+  if(!fs.existsSync(`${siteId}/public-cms`))fs.mkdirSync(`${siteId}/public-cms`);
+  if(!fs.existsSync(`${siteId}/molle-cms`)){
+    if(is_mac||is_linux){
+      execSync(`ln -fs ../molle-cms ${siteId}/molle-cms`);
+      execSync(`rm ./molle-cms/molle-cms`);
+    }else{
+      execSync(`mklink /j "${siteId}/molle-cms" "molle-cms"`);
+    }
+  }
 
   //firebase.json
   firebase.json.hosting.push({
