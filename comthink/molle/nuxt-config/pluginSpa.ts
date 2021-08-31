@@ -211,16 +211,16 @@ const molleModules = Vue.prototype.$molleModules = {
         img: {fixedModuleId: "Picture", order: 0},
         headline: {fixedModuleId: "Paragraph", order: 10},
         text: {fixedModuleId: "Paragraph", order: 20},
-      },
+      }
     }),
     icon: "file-richtext",
   },
 };
 // export type molleModules = typeof molleModules[keyof typeof molleModules];
 
+Vue.component("MolleEditerComp", MolleEditerComp);
 Vue.component("AddModuleComp", AddModuleComp);
 Vue.component("ItemListItemComp", ItemListItemComp);
-Vue.component("ModuleLoader", ModuleLoaderCms);
 Vue.component("ModuleLoader", ModuleLoaderCms);
 
 //modules
