@@ -18,6 +18,26 @@ import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
 import ColumnBoxProfile from "~/molle/module/primitive/ColumnBoxProfile.vue";
 import ButtonList from "~/molle/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle/module/primitive/ButtonListProfile.vue";
+import SlideShow from "~/molle/module/custom/SlideShow.vue";
+import SlideShowProfile from "~/molle/module/custom/SlideShowProfile.vue";
+import SlideShowSK from "~/molle/module/custom/SlideShowSK.vue";
+import SlideShowSKProfile from "~/molle/module/custom/SlideShowSKProfile.vue";
+import LinkBox from "~/molle/module/primitive/LinkBox.vue";
+import LinkBoxProfile from "~/molle/module/primitive/LinkBoxProfile.vue";
+import IsviewBox from "~/molle/module/primitive/IsviewBox.vue";
+import IsviewBoxProfile from "~/molle/module/primitive/IsviewBoxProfile.vue";
+import IsscrollBox from "~/molle/module/primitive/IsscrollBox.vue";
+import IsscrollBoxProfile from "~/molle/module/primitive/IsscrollBoxProfile.vue";
+import BorderBox from "~/molle/module/custom/BorderBox.vue";
+import BorderBoxProfile from "~/molle/module/custom/BorderBoxProfile.vue";
+import VisualMenu from "~/molle/module/custom/VisualMenu.vue";
+import VisualMenuProfile from "~/molle/module/custom/VisualMenuProfile.vue";
+import TopMessage from "~/molle/module/custom/TopMessage.vue";
+import TopMessageProfile from "~/molle/module/custom/TopMessageProfile.vue";
+import TopPage from "~/molle/module/custom/TopPage.vue";
+import TopPageProfile from "~/molle/module/custom/TopPageProfile.vue";
+import Content from "~/molle/module/custom/Content.vue";
+import ContentProfile from "~/molle/module/custom/ContentProfile.vue";
 import Gallery from "~/molle/module/custom/Gallery.vue";
 import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
@@ -64,7 +84,7 @@ const molleModules = Vue.prototype.$molleModules = {
     profileName: "BoxProfile",
     def: c("Box", "children"),
     black: ["ColumnBox"],
-    convert: ["ColumnBox", "BackgroundBox"],
+    convert: ["ColumnBox", "BackgroundBox", "LinkBox", "IsviewBox"],
     icon: "plus-square",
   },
   BackgroundBox: {
@@ -73,7 +93,43 @@ const molleModules = Vue.prototype.$molleModules = {
     profileName: "BackgroundBoxProfile",
     def: c("BackgroundBox", "children"),
     black: ["ColumnBox"],
-    convert: ["Box", "ColumnBox"],
+    convert: ["Box", "ColumnBox", "LinkBox", "IsviewBox"],
+    icon: "plus-square",
+  },
+  LinkBox: {
+    ref: LinkBox,
+    profile: LinkBoxProfile,
+    profileName: "LinkBoxProfile",
+    def: c("LinkBox", "children"),
+    black: ["ColumnBox"],
+    convert: ["Box", "ColumnBox", "BackgroundBox", "IsviewBox"],
+    icon: "plus-square",
+  },
+  IsviewBox: {
+    ref: IsviewBox,
+    profile: IsviewBoxProfile,
+    profileName: "IsviewBoxProfile",
+    def: c("IsviewBox", "children"),
+    black: ["ColumnBox"],
+    convert: ["Box", "ColumnBox", "BackgroundBox", "LinkBox"],
+    icon: "plus-square",
+  },
+  IsscrollBox: {
+    ref: IsscrollBox,
+    profile: IsscrollBoxProfile,
+    profileName: "IsscrollBoxProfile",
+    def: c("IsscrollBox", "children"),
+    black: ["ColumnBox"],
+    convert: ["Box", "ColumnBox", "BackgroundBox", "LinkBox"],
+    icon: "plus-square",
+  },
+  BorderBox: {
+    ref: BorderBox,
+    profile: BorderBoxProfile,
+    profileName: "BorderBoxProfile",
+    def: c("BorderBox", "children"),
+    black: ["ColumnBox"],
+    convert: ["Box", "ColumnBox", "BackgroundBox", "LinkBox", "IsviewBox"],
     icon: "plus-square",
   },
   Headline: {
@@ -151,6 +207,34 @@ const molleModules = Vue.prototype.$molleModules = {
     white: ["Button"],
     icon: "layout-three-columns",
   },
+  SlideShow: {
+    ref: SlideShow,
+    profile: SlideShowProfile,
+    profileName: "SlideShowProfile",
+    def: c("SlideShow", "group", {
+      value: {
+        img1: {fixedModuleId: "Picture", order: 0},
+        img2: {fixedModuleId: "Picture", order: 10},
+        img3: {fixedModuleId: "Picture", order: 20},
+        headline: {fixedModuleId: "Headline", order: 30},
+      },
+    }),
+    icon: "file-richtext",
+  },
+  SlideShowSK: {
+    ref: SlideShowSK,
+    profile: SlideShowSKProfile,
+    profileName: "SlideShowSKProfile",
+    def: c("SlideShowSK", "group", {
+      value: {
+        img1: {fixedModuleId: "Picture", order: 0},
+        img2: {fixedModuleId: "Picture", order: 10},
+        img3: {fixedModuleId: "Picture", order: 20},
+        headline: {fixedModuleId: "Headline", order: 30},
+      },
+    }),
+    icon: "file-richtext",
+  },
   Table: {
     ref: Table,
     profile: TableProfile,
@@ -211,6 +295,56 @@ const molleModules = Vue.prototype.$molleModules = {
         img: {fixedModuleId: "Picture", order: 0},
         headline: {fixedModuleId: "Paragraph", order: 10},
         text: {fixedModuleId: "Paragraph", order: 20},
+      },
+    }),
+    icon: "file-richtext",
+  },
+  VisualMenu: {
+    ref: VisualMenu,
+    profile: VisualMenuProfile,
+    profileName: "VisualMenuProfile",
+    def: c("VisualMenu", "group", {
+      value: {
+        headline: {fixedModuleId: "Headline", order: 0},
+        btnlist: {fixedModuleId: "ButtonList", order: 10},
+      },
+    }),
+    icon: "card-heading",
+  },
+  TopMessage: {
+    ref: TopMessage,
+    profile: TopMessageProfile,
+    profileName: "TopMessageProfile",
+    def: c("TopMessage", "group", {
+      value: {
+        headline: {fixedModuleId: "Headline", order: 0},
+        text: {fixedModuleId: "Paragraph", order: 10},
+      },
+    }),
+    icon: "card-heading",
+  },
+  TopPage: {
+    ref: TopPage,
+    profile: TopPageProfile,
+    profileName: "TopPageProfile",
+    def: c("TopPage", "children", {
+      option: {
+        title: "Lorem ipsum...",
+      },
+    }),
+    white: ["Content"],
+    icon: "plus-square",
+  },
+  Content: {
+    ref: Content,
+    profile: ContentProfile,
+    profileName: "ContentProfile",
+    def: c("Content", "group", {
+      value: {
+        headline: {fixedModuleId: "Headline", order: 0},
+        text: {fixedModuleId: "Paragraph", order: 10},
+        btn: {fixedModuleId: "Button", order: 20},
+        img: {fixedModuleId: "Picture", order: 30},
       },
     }),
     icon: "file-richtext",

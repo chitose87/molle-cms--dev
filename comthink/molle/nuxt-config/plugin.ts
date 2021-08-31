@@ -26,3 +26,4 @@ Vue.use(VueScrollTo, {
 });
 
 import "./_isview";
+import "./_isscroll";

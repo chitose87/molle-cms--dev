@@ -60,5 +60,6 @@ export default class Picture extends Module {
       }
     }
   }
+
 }
 </style>

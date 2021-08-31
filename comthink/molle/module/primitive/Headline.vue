@@ -29,6 +29,7 @@ export default class Headline extends Module {
   &.text-white {
     color: $color-text-white;
   }
+
   &__sub {
     display: block;
     font-size: 75%;
