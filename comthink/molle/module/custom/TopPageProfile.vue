@@ -24,9 +24,9 @@ div
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import StyleComp from "molle-cms/src/ui/property/StyleComp.vue";
-import {Profile} from "molle-cms/src/module/Profile";
-import TextAreaQuill from "molle-cms/src/ui/property/TextAreaQuill.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 
 @Component({
   components: {TextAreaQuill, StyleComp}

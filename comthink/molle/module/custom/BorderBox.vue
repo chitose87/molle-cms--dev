@@ -19,7 +19,7 @@ component.module.border-box(
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Module} from "molle-cms/src/module/Module";
+import {Module} from "~/molle-cms/src/module/Module";
 
 @Component({
   components: {},

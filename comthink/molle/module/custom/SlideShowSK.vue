@@ -32,7 +32,7 @@ component.module.slide-show-s-k(
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import {Module} from "molle-cms/src/module/Module";
+import {Module} from "~/molle-cms/src/module/Module";
 
 @Component({
   components: {},
