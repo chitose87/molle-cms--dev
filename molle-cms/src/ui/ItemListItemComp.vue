@@ -110,6 +110,7 @@ export default class ItemListItemComp extends Vue {
     this.unsubscribe = Singleton.itemsRef
       .doc(this.node.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+        console.log(!snap.exists)
         if (!snap.exists) {
           let update = this.$molleModules[this.node!.fixedModuleId || "Box"].def;
           Utils.updateItem(this.node.id, update, true);

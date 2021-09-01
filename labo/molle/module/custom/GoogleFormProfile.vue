@@ -43,6 +43,10 @@ export default class GoogleFormProfile extends Profile {
     // theme: {default: "", select: ["", "test"]},
     // color: {default: "", select: ["", "dark"]},
   };
+  static settings = {
+    type: "any",
+    icon: "ui-radios",
+  }
 
   status = "更新"
 

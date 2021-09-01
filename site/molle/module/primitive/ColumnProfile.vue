@@ -58,6 +58,8 @@ import {Component} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
+import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
+import Box from "~/molle/module/primitive/Box.vue";
 
 @Component({
   components: {StyleComp}
@@ -73,6 +75,11 @@ export default class ColumnProfile extends Profile {
     // theme: {default: "", select: ["", "test"]},
     // color: {default: "", select: ["", "dark"]},
   };
+  static settings = {
+    type: "children",
+    white: [ColumnBox, Box],
+    icon: "layout-three-columns",
+  }
 }
 </script>
 

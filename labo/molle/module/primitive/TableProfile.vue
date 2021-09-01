@@ -48,6 +48,14 @@ export default class TableProfile extends Profile {
     // theme: {default: "", select: ["", "test"]},
     // color: {default: "", select: ["", "dark"]},
   };
+  static settings = {
+    type: "text",
+    opt: {
+      value: "th,aaa\nth,bbb",
+      option: {columnHeading: true},
+    },
+    icon: "table",
+  }
 }
 </script>
 

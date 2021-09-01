@@ -51,6 +51,16 @@ export default class PictureProfile extends Profile {
     theme: {default: "", select: ["", "-sm", "-lg"]},
     // color: {default: "", select: ["", "dark"]},
   };
+  static settings = {
+    type: "picture",
+    opt: {
+      option: {
+        sp: "",
+        alt: "",
+      },
+    },
+    icon: "image",
+  }
 }
 </script>
 

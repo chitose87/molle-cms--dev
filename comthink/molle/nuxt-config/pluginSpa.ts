@@ -47,7 +47,7 @@ declare module "vue/types/vue" {
       [key: string]: {
         ref: any;
         profile?: any;
-        profileName?: string;
+        // profileName?: string;
         def: any;
         convert?: string[];
         black?: string[];
@@ -61,7 +61,7 @@ const molleModules = Vue.prototype.$molleModules = {
   Box: {
     ref: Box,
     profile: BoxProfile,
-    profileName: "BoxProfile",
+    //profileName: "BoxProfile",
     def: c("Box", "children"),
     black: ["ColumnBox"],
     convert: ["ColumnBox", "BackgroundBox"],
@@ -70,7 +70,7 @@ const molleModules = Vue.prototype.$molleModules = {
   BackgroundBox: {
     ref: BackgroundBox,
     profile: BackgroundBoxProfile,
-    profileName: "BackgroundBoxProfile",
+    //profileName: "BackgroundBoxProfile",
     def: c("BackgroundBox", "children"),
     black: ["ColumnBox"],
     convert: ["Box", "ColumnBox"],
@@ -79,7 +79,7 @@ const molleModules = Vue.prototype.$molleModules = {
   Headline: {
     ref: Headline,
     profile: HeadlineProfile,
-    profileName: "HeadlineProfile",
+    //profileName: "HeadlineProfile",
     def: c("Headline", "text", {
       option: {
         lv: "h3",
@@ -91,7 +91,7 @@ const molleModules = Vue.prototype.$molleModules = {
   Paragraph: {
     ref: Paragraph,
     profile: ParagraphProfile,
-    profileName: "ParagraphProfile",
+    //profileName: "ParagraphProfile",
     def: c("Paragraph", "text"),
     convert: ["Headline"],
     icon: "text-paragraph",
@@ -99,7 +99,7 @@ const molleModules = Vue.prototype.$molleModules = {
   Picture: {
     ref: Picture,
     profile: PictureProfile,
-    profileName: "PictureProfile",
+    //profileName: "PictureProfile",
     def: c("Picture", "picture", {
       option: {
         sp: "",
@@ -111,7 +111,7 @@ const molleModules = Vue.prototype.$molleModules = {
   Button: {
     ref: Button,
     profile: ButtonProfile,
-    profileName: "ButtonProfile",
+    //profileName: "ButtonProfile",
     def: c("Button", "button", {
       option: {
         href: "https://placehold.jp/",
@@ -129,7 +129,7 @@ const molleModules = Vue.prototype.$molleModules = {
   Column: {
     ref: Column,
     profile: ColumnProfile,
-    profileName: "ColumnProfile",
+    //profileName: "ColumnProfile",
     def: c("Column", "children"),
     white: ["ColumnBox", "Box"],
     icon: "layout-three-columns",
@@ -137,7 +137,7 @@ const molleModules = Vue.prototype.$molleModules = {
   ColumnBox: {
     ref: ColumnBox,
     profile: ColumnBoxProfile,
-    profileName: "ColumnBoxProfile",
+    //profileName: "ColumnBoxProfile",
     def: c("ColumnBox", "children"),
     black: ["ColumnBox"],
     convert: ["Box"],
@@ -146,7 +146,7 @@ const molleModules = Vue.prototype.$molleModules = {
   ButtonList: {
     ref: ButtonList,
     profile: ButtonListProfile,
-    profileName: "ButtonListProfile",
+    //profileName: "ButtonListProfile",
     def: c("ButtonList", "children"),
     white: ["Button"],
     icon: "layout-three-columns",
@@ -154,7 +154,7 @@ const molleModules = Vue.prototype.$molleModules = {
   Table: {
     ref: Table,
     profile: TableProfile,
-    profileName: "TableProfile",
+    //profileName: "TableProfile",
     def: c("Table", "text", {
       value: "th,aaa\nth,bbb",
       option: {columnHeading: true},
@@ -164,7 +164,7 @@ const molleModules = Vue.prototype.$molleModules = {
   Modal: {
     ref: Modal,
     profile: ModalProfile,
-    profileName: "ModalProfile",
+    //profileName: "ModalProfile",
     def: c("Modal", "children"),
     // black: ["ColumnBox"],
     // convert: ["ColumnBox"],
@@ -175,7 +175,7 @@ const molleModules = Vue.prototype.$molleModules = {
   Gallery: {
     ref: Gallery,
     profile: GalleryProfile,
-    profileName: "GalleryProfile",
+    //profileName: "GalleryProfile",
     def: c("Gallery", "children"),
     white: ["Picture"],
     icon: "three-dots",
@@ -183,21 +183,21 @@ const molleModules = Vue.prototype.$molleModules = {
   GoogleForm: {
     ref: GoogleForm,
     profile: GoogleFormProfile,
-    profileName: "GoogleFormProfile",
+    //profileName: "GoogleFormProfile",
     def: c("GoogleForm", "any"),
     icon: "ui-radios",
   },
   GoogleMap: {
     ref: GoogleMap,
     profile: GoogleMapProfile,
-    profileName: "GoogleMapProfile",
+    //profileName: "GoogleMapProfile",
     def: c("GoogleMap", "any"),
     icon: "geo-alt",
   },
   SocialShare: {
     ref: SocialShare,
     profile: SocialShareProfile,
-    profileName: "SocialShareProfile",
+    //profileName: "SocialShareProfile",
     def: c("SocialShare", "any"),
     icon: "share",
   },
@@ -205,7 +205,7 @@ const molleModules = Vue.prototype.$molleModules = {
   Card: {
     ref: Card,
     profile: CardProfile,
-    profileName: "CardProfile",
+    //profileName: "CardProfile",
     def: c("Card", "group", {
       value: {
         img: {fixedModuleId: "Picture", order: 0},
@@ -230,7 +230,7 @@ for (let key in molleModules) {
   // @ts-ignore
   if (molleModules[key].profile) {
     // @ts-ignore
-    Vue.component(molleModules[key].profileName, molleModules[key].profile);
+    Vue.component(molleModules[key].profile.name, molleModules[key].profile);
   }
 }
 

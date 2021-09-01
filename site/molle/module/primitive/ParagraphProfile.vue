@@ -28,6 +28,7 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
+import Headline from "~/molle/module/primitive/Headline.vue";
 
 @Component({
   components: {TextAreaQuill, StyleComp}
@@ -42,6 +43,11 @@ export default class ParagraphProfile extends Profile {
     theme: {default: "", select: ["", "-caption"]},
     // color: {default: "", select: ["", "dark"]},
   };
+  static settings = {
+    type: "text",
+    convert: [Headline],
+    icon: "text-paragraph",
+  }
 }
 </script>
 

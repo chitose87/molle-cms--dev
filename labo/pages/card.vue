@@ -1,9 +1,9 @@
 <template lang="pug">
-.l-body.top
+div
   //GlobalHeaderComp
   MolleEditerComp
   main
-    ModuleLoader(:node="{id:'card-content'}" :isRoot="true")
+    ModuleLoader.hoge(:node="{id:'card-content'}" :isRoot="true")
 
     //section
     //  .container
@@ -31,7 +31,9 @@ export default class Index extends Vue {
 </script>
 
 <style lang="scss">
-.top {
-
+.hoge {
+  @include mediaquery-sm{
+  margin: 0;
+  }
 }
 </style>

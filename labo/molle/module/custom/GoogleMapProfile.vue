@@ -52,6 +52,10 @@
       // theme: {default: "", select: ["", "test"]},
       // color: {default: "", select: ["", "dark"]},
     };
+    static settings = {
+      type: "any",
+      icon: "geo-alt",
+    }
   }
 </script>
 

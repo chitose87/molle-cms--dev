@@ -32,7 +32,7 @@ declare module "vue/types/vue" {
       [key: string]: {
         ref: any;
         profile?: any;
-        profileName?: string;
+        // profileName?: string;
         def?: any;
         convert?: string[];
         black?: string[];

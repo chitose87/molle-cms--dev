@@ -20,9 +20,11 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
+import ColumnBox from "./ColumnBox.vue";
+import BackgroundBox from "./BackgroundBox.vue";
 
 @Component({
-  components: {StyleComp}
+  components: {StyleComp},
 })
 export default class BoxProfile extends Profile {
   //style setting
@@ -35,6 +37,13 @@ export default class BoxProfile extends Profile {
     padding: "",
     theme: {default: "", select: ["", "-quote"]},
     color: {default: "", select: ["", "-dark", "-gray", "-gray-box"]},
+  };
+
+  static settings = {
+    type: "children",
+    black: [ColumnBox],
+    convert: [ColumnBox, BackgroundBox],
+    icon: "plus-square",
   };
 }
 </script>

@@ -2,7 +2,7 @@ const SITE_DIR = process.argv[3];
 require("dotenv").config();
 
 const molle = require("./molle.json");
-molle.version = "0.7";
+molle.version = "0.8";
 molle.isMolleCms = process.env.IS_MOLLE_CMS == "true";
 molle.apiKey = process.env.apiKey;
 molle.authDomain = process.env.authDomain;

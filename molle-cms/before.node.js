@@ -40,10 +40,10 @@ function cleaningFirestoreValue(_data) {
       .join("\n");
   let molleModules = imports
       .match(/(import )(.*)( from)/g).map((str) => {
-        let name = str.substring(6, str.length - 4);
-        return `${name}: {ref: ${name}}`
+        let name = str.substring(7, str.length - 5);
+        return `Vue.component("${name}", ${name});`
       })
-      .join(",\n");
+      .join("\n");
 
   let result = fs.readFileSync(`${SITE_DIR}/molle/nuxt-config/pluginStatic.ts`, "utf8")
       .replace(/(\/\* <imports)([\s\S]*?)(> \*\/)/, ["/* <imports */", imports, "/* > */"].join("\n"))

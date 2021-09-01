@@ -3,26 +3,27 @@
   .card.bg-light(v-if="flag")
     .card-header.pt-1.pb-1.pl-3.pr-3
       span {{itemData.moduleId}} プロパティ
-      button.btn.btn-sm.btn-outline-secondary(
-        v-if="$molleModules[itemData.moduleId].convert"
-        :id="'moduleChange'"
-      )
-        b-icon(icon="arrow-repeat")
-      b-popover(
-        :target="'moduleChange'"
-        title="change type" triggers="focus"
-        placement="bottom"
-        container="bootstrap-container"
-        @show="()=>changeModuleSelected=$molleModules[itemData.moduleId].convert[0]"
-      )
-        form.form-group.form-check-inline(@submit.prevent @submit="moduleChange()")
-          select.form-control.form-control-sm(v-model="changeModuleSelected")
-            option(v-for="key in $molleModules[itemData.moduleId].convert" :value="key" v-html="key")
-          button.btn.btn-sm.btn-info(type="submit") +
+      // todo
+      //button.btn.btn-sm.btn-outline-secondary(
+      //  v-if="$molleModules[itemData.moduleId].convert"
+      //  :id="'moduleChange'"
+      //)
+      //  b-icon(icon="arrow-repeat")
+      //b-popover(
+      //  :target="'moduleChange'"
+      //  title="change type" triggers="focus"
+      //  placement="bottom"
+      //  container="bootstrap-container"
+      //  @show="()=>changeModuleSelected=$molleModules[itemData.moduleId].convert[0].name"
+      //)
+      //  form.form-group.form-check-inline(@submit.prevent @submit="moduleChange()")
+      //    select.form-control.form-control-sm(v-model="changeModuleSelected")
+      //      option(v-for="key in $molleModules[itemData.moduleId].convert.name" :value="key" v-html="key")
+      //    button.btn.btn-sm.btn-info(type="submit") +
     .card-body.p-3
       component(
         v-if="$molleModules[itemData.moduleId].profile"
-        :is="$molleModules[itemData.moduleId].profileName"
+        :is="$molleModules[itemData.moduleId].profile.name"
         :itemData="itemData"
         :itemId="itemId"
         @change="update"

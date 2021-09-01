@@ -6,7 +6,7 @@
 
     form.form-group.form-check-inline(@submit.prevent v-if="itemData.moduleId" @submit="pushModule()")
       select.form-control.form-control-sm(v-model="pushModuleSelected")
-        option(v-for="key in moduleList", :value="key", v-html="key")
+        option(v-for="item in moduleList", :value="item.ref.name", v-html="item.ref.name")
       button.btn.btn-sm.btn-info(type="submit") +
 
     //.text-center(v-if="beforeNode||afterNode")
@@ -33,7 +33,7 @@ export default class AddModuleComp extends Vue {
   pushModuleSelected: string = "";
 
   itemData = <IItemData>{};
-  moduleList: string[] = [];
+  moduleList: any[] = [];
   maxHistory: number = 100;
   private unsubscribe!: () => void;
 
@@ -44,23 +44,26 @@ export default class AddModuleComp extends Vue {
 
         // @ts-ignore
         let moduleOpt = this.$molleModules[this.itemData.moduleId];
-        let response: string[] = [];
-        if (moduleOpt.white) {
-          response = moduleOpt.white;
-        } else if (moduleOpt.black) {
-          response = Object.keys(this.$molleModules).filter(
-            (name: string) => moduleOpt.black!.indexOf(name) == -1,
-          );
-        }
+        let response: any[] = [];
+        // todo
+        // if (moduleOpt.white) {
+        //   response = moduleOpt.white.name;
+        // } else if (moduleOpt.black) {
+        //   response = Object.keys(this.$molleModules).filter(
+        //     (name: string) => moduleOpt.black.name!.indexOf(name) == -1,
+        //   );
+        // }else{
+        response = this.$molleModuleList;
+        // }
         if (!this.pushModuleSelected) {
-          this.pushModuleSelected = response[0];
+          this.pushModuleSelected = response[0].ref.name;
         }
         this.$set(this, "moduleList", response);
       });
   }
 
   pushModule() {
-    console.log("pushModule",this.pushModuleSelected);
+    console.log("pushModule", this.pushModuleSelected);
     if (!this.pushModuleSelected) return;
     let data: IItemData = this.$molleModules[this.pushModuleSelected].def;
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};

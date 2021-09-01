@@ -26,6 +26,10 @@
       // theme: {default: "", select: ["", "-quote"]},
       // color: {default: "", select: ["", "-dark"]},
     };
+    static settings = {
+      type: "children",
+      icon: "pip",
+    }
   }
 </script>
 

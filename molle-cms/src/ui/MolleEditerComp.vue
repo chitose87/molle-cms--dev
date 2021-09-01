@@ -358,7 +358,11 @@ export default class MolleEditerComp extends Vue {
       width: 100% !important;
     }
   }
+  @include mediaquery-sm{
+    display: none !important;
+  }
 }
+
 
 #bootstrap-container {
   //z-index: $zindex-modal;

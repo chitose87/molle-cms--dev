@@ -65,10 +65,11 @@ export default {
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
-      {rel: 'preconnect', href: 'https://fonts.gstatic.com'},
+      {rel:"preconnect",href:"https://fonts.googleapis.com"},
+      {rel: 'preconnect', href: 'https://fonts.gstatic.com',crossOrigin:true},
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap'
+        href: 'https://fonts.googleapis.com/css2?family=Alex+Brush&family=Audiowide&family=Libre+Barcode+39+Text&family=Noto+Sans+JP:wght@300;400;500;700&family=Righteous&family=Vibur&family=Yesteryear&display=swap'
       },
     ],
     script: []

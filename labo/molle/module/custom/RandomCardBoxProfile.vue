@@ -29,9 +29,11 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
+import RandomCardBox from "~/molle/module/custom/RandomCardBox.vue";
+import RandomCards from "~/molle/module/custom/RandomCards.vue";
 
 @Component({
-  components: {StyleComp}
+  components: {StyleComp},
 })
 export default class RandomCardBoxProfile extends Profile {
   //style setting
@@ -40,6 +42,17 @@ export default class RandomCardBoxProfile extends Profile {
     padding: "",
     // theme: {default: "", select: ["", "-quote"]},
     // color: {default: "", select: ["", "-dark", "-gray", "-gray-box"]},
+  };
+  static settings = {
+    type: "children",
+    opt: {
+      option: {
+        lv: 3,
+        rate: 50,
+      },
+    },
+    black: [RandomCardBox,RandomCards],
+    icon: "plus-square",
   };
 }
 </script>
