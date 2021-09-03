@@ -82,7 +82,7 @@ export default class CopyModuleComp extends Vue {
                 let createLoop = (_itemData: any, _itemId: string) => {
                   if (_itemData.type == "group"
                     ||
-                    (_itemData.type == "children" && itemData.value.length > 0)) {
+                    (_itemData.type == "children" && _itemData.value.length > 0)) {
                     for (let j in _itemData.value) {
                       createLoop(_itemData.value[j].obj, _itemData.value[j].id);
                     }

@@ -3,7 +3,7 @@
   GlobalHeaderComp
   MolleEditerComp
   main
-    ModuleLoader(:node="{id:'embed%2Ftop'}")
+    ModuleLoader(:node="{id:'embed%2Ftop'}" :isRoot="true")
 
     section
       .container
@@ -32,6 +32,14 @@ export default class Index extends Vue {
 
 <style lang="scss">
 .top {
-
+  .overlay{
+    background-color: rgba(255, 255, 255, 0.8);
+    position: relative;
+    z-index: 10;
+    margin: -4rem 7% 8rem;
+    padding: 3.9%;
+    border: 1px solid #A09B97;
+    text-align: center;
+  }
 }
 </style>

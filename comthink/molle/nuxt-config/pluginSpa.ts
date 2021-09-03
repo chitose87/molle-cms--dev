@@ -18,6 +18,16 @@ import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
 import ColumnBoxProfile from "~/molle/module/primitive/ColumnBoxProfile.vue";
 import ButtonList from "~/molle/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle/module/primitive/ButtonListProfile.vue";
+import SlideShow from "~/molle/module/custom/SlideShow.vue";
+import SlideShowProfile from "~/molle/module/custom/SlideShowProfile.vue";
+import LinkBox from "~/molle/module/primitive/LinkBox.vue";
+import LinkBoxProfile from "~/molle/module/primitive/LinkBoxProfile.vue";
+import IsviewBox from "~/molle/module/primitive/IsviewBox.vue";
+import IsviewBoxProfile from "~/molle/module/primitive/IsviewBoxProfile.vue";
+import Content from "~/molle/module/custom/Content.vue";
+import ContentProfile from "~/molle/module/custom/ContentProfile.vue";
+import Feature from "~/molle/module/custom/Feature.vue";
+import FeatureProfile from "~/molle/module/custom/FeatureProfile.vue";
 import Gallery from "~/molle/module/custom/Gallery.vue";
 import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
@@ -64,7 +74,7 @@ const molleModules = Vue.prototype.$molleModules = {
     //profileName: "BoxProfile",
     def: c("Box", "children"),
     black: ["ColumnBox"],
-    convert: ["ColumnBox", "BackgroundBox"],
+    convert: ["ColumnBox", "BackgroundBox", "LinkBox", "IsviewBox"],
     icon: "plus-square",
   },
   BackgroundBox: {
@@ -73,7 +83,25 @@ const molleModules = Vue.prototype.$molleModules = {
     //profileName: "BackgroundBoxProfile",
     def: c("BackgroundBox", "children"),
     black: ["ColumnBox"],
-    convert: ["Box", "ColumnBox"],
+    convert: ["Box", "ColumnBox", "LinkBox", "IsviewBox"],
+    icon: "plus-square",
+  },
+  LinkBox: {
+    ref: LinkBox,
+    profile: LinkBoxProfile,
+    profileName: "LinkBoxProfile",
+    def: c("LinkBox", "children"),
+    black: ["ColumnBox"],
+    convert: ["Box", "ColumnBox", "BackgroundBox", "IsviewBox"],
+    icon: "plus-square",
+  },
+  IsviewBox: {
+    ref: IsviewBox,
+    profile: IsviewBoxProfile,
+    profileName: "IsviewBoxProfile",
+    def: c("IsviewBox", "children"),
+    black: ["ColumnBox"],
+    convert: ["Box", "ColumnBox", "BackgroundBox", "LinkBox"],
     icon: "plus-square",
   },
   Headline: {
@@ -151,6 +179,20 @@ const molleModules = Vue.prototype.$molleModules = {
     white: ["Button"],
     icon: "layout-three-columns",
   },
+  SlideShow: {
+    ref: SlideShow,
+    profile: SlideShowProfile,
+    profileName: "SlideShowProfile",
+    def: c("SlideShow", "group", {
+      value: {
+        img1: {fixedModuleId: "Picture", order: 0},
+        img2: {fixedModuleId: "Picture", order: 10},
+        img3: {fixedModuleId: "Picture", order: 20},
+        headline: {fixedModuleId: "Headline", order: 30},
+      },
+    }),
+    icon: "file-richtext",
+  },
   Table: {
     ref: Table,
     profile: TableProfile,
@@ -211,6 +253,32 @@ const molleModules = Vue.prototype.$molleModules = {
         img: {fixedModuleId: "Picture", order: 0},
         headline: {fixedModuleId: "Paragraph", order: 10},
         text: {fixedModuleId: "Paragraph", order: 20},
+      },
+    }),
+    icon: "file-richtext",
+  },
+  Content: {
+    ref: Content,
+    profile: ContentProfile,
+    profileName: "ContentProfile",
+    def: c("Content", "children", {
+      option: {
+        title: "Lorem ipsum...",
+      },
+    }),
+    white: ["Feature"],
+    icon: "plus-square",
+  },
+  Feature: {
+    ref: Feature,
+    profile: FeatureProfile,
+    profileName: "FeatureProfile",
+    def: c("Feature", "group", {
+      value: {
+        headline: {fixedModuleId: "Headline", order: 0},
+        text: {fixedModuleId: "Paragraph", order: 10},
+        btn: {fixedModuleId: "Button", order: 20},
+        img: {fixedModuleId: "Picture", order: 30},
       },
     }),
     icon: "file-richtext",
