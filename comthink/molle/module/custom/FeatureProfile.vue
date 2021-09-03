@@ -30,10 +30,10 @@ export default class FeatureProfile extends Profile {
     type: "group",
     opt: {
       value: {
-        headline: {fixedModuleId: Headline, order: 0},
-        text: {fixedModuleId: Paragraph, order: 10},
-        btn: {fixedModuleId: Button, order: 20},
-        img: {fixedModuleId: Picture, order: 30},
+        headline: {fixedModuleId: "Headline", order: 0},
+        text: {fixedModuleId: "Paragraph", order: 10},
+        btn: {fixedModuleId: "Button", order: 20},
+        img: {fixedModuleId: "Picture", order: 30},
       },
     },
     icon: "file-richtext",

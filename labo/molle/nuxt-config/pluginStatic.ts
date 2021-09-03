@@ -23,6 +23,9 @@ import RandomCards from "~/molle/module/custom/RandomCards.vue"
 import RandomCardBox from "~/molle/module/custom/RandomCardBox.vue"
 import LabelCard from "~/molle/module/custom/LabelCard.vue"
 import Embed from "~/molle/module/primitive/Embed.vue"
+import LinkBox from "~/molle/module/primitive/LinkBox.vue"
+import IsviewBox from "~/molle/module/primitive/IsviewBox.vue"
+import ButtonList from "~/molle/module/primitive/ButtonList.vue"
 import Table from "~/molle/module/primitive/Table.vue"
 /* > */
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
@@ -47,6 +50,9 @@ Vue.component("RandomCards", RandomCards);
 Vue.component("RandomCardBox", RandomCardBox);
 Vue.component("LabelCard", LabelCard);
 Vue.component("Embed", Embed);
+Vue.component("LinkBox", LinkBox);
+Vue.component("IsviewBox", IsviewBox);
+Vue.component("ButtonList", ButtonList);
 Vue.component("Table", Table);
 /* > */
 

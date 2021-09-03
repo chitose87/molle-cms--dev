@@ -19,6 +19,10 @@ import SocialShare from "~/molle/module/custom/SocialShare.vue"
 import Modal from "~/molle/module/primitive/Modal.vue"
 import Card from "~/molle/module/custom/Card.vue"
 import GoogleMap from "~/molle/module/custom/GoogleMap.vue"
+import Embed from "~/molle/module/primitive/Embed.vue"
+import LinkBox from "~/molle/module/primitive/LinkBox.vue"
+import IsviewBox from "~/molle/module/primitive/IsviewBox.vue"
+import ButtonList from "~/molle/module/primitive/ButtonList.vue"
 import Table from "~/molle/module/primitive/Table.vue"
 /* > */
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
@@ -39,6 +43,10 @@ Vue.component("SocialShare", SocialShare);
 Vue.component("Modal", Modal);
 Vue.component("Card", Card);
 Vue.component("GoogleMap", GoogleMap);
+Vue.component("Embed", Embed);
+Vue.component("LinkBox", LinkBox);
+Vue.component("IsviewBox", IsviewBox);
+Vue.component("ButtonList", ButtonList);
 Vue.component("Table", Table);
 /* > */
 

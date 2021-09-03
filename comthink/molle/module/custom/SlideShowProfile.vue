@@ -42,10 +42,10 @@ export default class SlideShowProfile extends Profile {
     type: "group",
     opt: {
       value: {
-        img1: {fixedModuleId: Picture, order: 0},
-        img2: {fixedModuleId: Picture, order: 10},
-        img3: {fixedModuleId: Picture, order: 20},
-        headline: {fixedModuleId: Headline, order: 30},
+        img1: {fixedModuleId: "Picture", order: 0},
+        img2: {fixedModuleId: "Picture", order: 10},
+        img3: {fixedModuleId: "Picture", order: 20},
+        headline: {fixedModuleId: "Headline", order: 30},
       },
     },
     icon: "file-richtext",

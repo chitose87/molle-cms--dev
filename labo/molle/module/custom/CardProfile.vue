@@ -33,9 +33,9 @@ export default class CardProfile extends Profile {
     type: "group",
     opt: {
       value: {
-        img: {fixedModuleId: Picture, order: 0},
-        headline: {fixedModuleId: Paragraph, order: 10},
-        text: {fixedModuleId: Paragraph, order: 20},
+        img: {fixedModuleId: "Picture", order: 0},
+        headline: {fixedModuleId: "Paragraph", order: 10},
+        text: {fixedModuleId: "Paragraph", order: 20},
       },
     },
     icon: "file-richtext",

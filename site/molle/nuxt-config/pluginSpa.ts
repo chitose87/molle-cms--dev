@@ -30,9 +30,14 @@ import GoogleMap from "~/molle/module/custom/GoogleMap.vue";
 import GoogleMapProfile from "~/molle/module/custom/GoogleMapProfile.vue";
 import Embed from "~/molle/module/primitive/Embed.vue";
 import EmbedProfile from "~/molle/module/primitive/EmbedProfile.vue";
+import LinkBox from "~/molle/module/primitive/LinkBox.vue";
+import LinkBoxProfile from "~/molle/module/primitive/LinkBoxProfile.vue";
+import IsviewBox from "~/molle/module/primitive/IsviewBox.vue";
+import IsviewBoxProfile from "~/molle/module/primitive/IsviewBoxProfile.vue";
+import ButtonList from "~/molle/module/primitive/ButtonList.vue";
+import ButtonListProfile from "~/molle/module/primitive/ButtonListProfile.vue";
 import Table from "~/molle/module/primitive/Table.vue";
 import TableProfile from "~/molle/module/primitive/TableProfile.vue";
-
 /* > */
 import {Vue} from "nuxt-property-decorator";
 import ModuleLoaderCms from "~/molle-cms/src/module/ModuleLoaderCms.vue";
@@ -82,6 +87,12 @@ let _molleModuleList: any[] = [];
   ref: BackgroundBox,
   profile: BackgroundBoxProfile,
 }, {
+  ref: LinkBox,
+  profile: LinkBoxProfile,
+}, {
+  ref: IsviewBox,
+  profile: IsviewBoxProfile,
+}, {
   ref: Headline,
   profile: HeadlineProfile,
 }, {
@@ -96,6 +107,9 @@ let _molleModuleList: any[] = [];
 }, {
   ref: Button,
   profile: ButtonProfile,
+}, {
+  ref: ButtonList,
+  profile: ButtonListProfile,
 }, {
   ref: Column,
   profile: ColumnProfile,
