@@ -50,9 +50,11 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
+import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
+import Box from "~/molle/module/primitive/Box.vue";
 
 @Component({
-  components: {StyleComp}
+  components: {StyleComp},
 })
 export default class BackgroundBoxProfile extends Profile {
   //style setting
@@ -67,15 +69,22 @@ export default class BackgroundBoxProfile extends Profile {
     color: {default: "", select: ["", "-dark"]},
   };
 
+  static settings = {
+    type: "children",
+    black: [ColumnBox],
+    convert: [Box, ColumnBox],
+    icon: "plus-square",
+  };
+
   uploaded = "";
 
   validation(str: string, obj: any, name: string) {
     if (/firebasestorage.googleapis.com/.test(str)) {
       str = str.match(".+/(.+?)([\?#;].*)?$")![1];
-      str = `https://storage.googleapis.com/${process.env.storageBucket}/${decodeURIComponent(str)}`
+      str = `https://storage.googleapis.com/${process.env.storageBucket}/${decodeURIComponent(str)}`;
       this.$set(obj, name, str);
     }
-    this.$emit('change')
+    this.$emit("change");
   }
 }
 </script>

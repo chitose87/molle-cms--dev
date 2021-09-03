@@ -26,6 +26,7 @@
   import {Component} from "nuxt-property-decorator";
   import {Profile} from "~/molle-cms/src/module/Profile";
   import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+  import Picture from "~/molle/module/primitive/Picture.vue";
 
   @Component({
     components: {StyleComp}
@@ -40,6 +41,11 @@
       // theme: {default: "", select: ["", "test"]},
       // color: {default: "", select: ["", "dark"]},
     };
+    static settings = {
+      type: "children",
+      white: [Picture],
+      icon: "three-dots",
+    }
   }
 </script>
 

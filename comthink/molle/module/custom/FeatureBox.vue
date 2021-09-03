@@ -1,5 +1,5 @@
 <template lang="pug">
-component.module.content(
+component.module.feature-box(
   :is="itemData.option.tag||'div'",
   :id="itemData.tagId",
   :class="getClass(itemData)",
@@ -15,7 +15,7 @@ component.module.content(
   )
 
   AddModuleComp(
-    :label="`Content.vue`"
+    :label="`FeatureBox`"
     :parentNode="loader.node"
   )
 </template>
@@ -27,12 +27,12 @@ import {Module} from "~/molle-cms/src/module/Module";
 @Component({
   components: {},
 })
-export default class Content extends Module {
+export default class FeatureBox extends Module {
 }
 </script>
 
 <style lang="scss">
-.content {
+.feature-box {
 
   > .headline {
     position: relative;
@@ -57,7 +57,7 @@ export default class Content extends Module {
     margin-right: 7%;
   }
 
-  //content
+  //feature-box
   .feature {
     width: 100%;
     margin-bottom: 3rem;
@@ -174,8 +174,8 @@ export default class Content extends Module {
       }
     }
 
-    //content
-    .content {
+    //feature-box
+    .feature-box {
       height: 100%;
       padding-right: 10%;
       display: flex;
@@ -215,16 +215,14 @@ export default class Content extends Module {
     }
 
     &.-right {
-      .content {
+      .feature-box {
         @include mediaquery-not-sm {
           flex-direction: row;
         }
       }
     }
   }
-}
 
-.module {
   &.top-page {
     margin-bottom: 10rem;
   }

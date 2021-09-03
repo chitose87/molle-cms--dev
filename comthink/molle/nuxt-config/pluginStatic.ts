@@ -13,7 +13,6 @@ import Picture from "~/molle/module/primitive/Picture.vue"
 import Button from "~/molle/module/primitive/Button.vue"
 import Column from "~/molle/module/primitive/Column.vue"
 import ColumnBox from "~/molle/module/primitive/ColumnBox.vue"
-import ButtonList from "~/molle/module/primitive/ButtonList.vue"
 import Gallery from "~/molle/module/custom/Gallery.vue"
 import GoogleForm from "~/molle/module/custom/GoogleForm.vue"
 import SocialShare from "~/molle/module/custom/SocialShare.vue"
@@ -25,50 +24,24 @@ import Table from "~/molle/module/primitive/Table.vue"
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import Blank from "~/molle-cms/src/Blank.vue";
 
-declare module "vue/types/vue" {
-  interface Vue {
-    // @ts-ignore
-    $molleModules: {
-      [key: string]: {
-        ref: any;
-        profile?: any;
-        // profileName?: string;
-        def?: any;
-        convert?: string[];
-        black?: string[];
-        white?: string[];
-        icon?: string;
-      };
-    }
-  }
-}
-const pluginStatic = Vue.prototype.$molleModules = {
-  /* <molleModules */
- Box : {ref:  Box },
- BackgroundBox : {ref:  BackgroundBox },
- Headline : {ref:  Headline },
- Paragraph : {ref:  Paragraph },
- Picture : {ref:  Picture },
- Button : {ref:  Button },
- Column : {ref:  Column },
- ColumnBox : {ref:  ColumnBox },
- ButtonList : {ref:  ButtonList },
- Gallery : {ref:  Gallery },
- GoogleForm : {ref:  GoogleForm },
- SocialShare : {ref:  SocialShare },
- Modal : {ref:  Modal },
- Card : {ref:  Card },
- GoogleMap : {ref:  GoogleMap },
- Table : {ref:  Table }
+/* <molleModules */
+Vue.component("Box", Box);
+Vue.component("BackgroundBox", BackgroundBox);
+Vue.component("Headline", Headline);
+Vue.component("Paragraph", Paragraph);
+Vue.component("Picture", Picture);
+Vue.component("Button", Button);
+Vue.component("Column", Column);
+Vue.component("ColumnBox", ColumnBox);
+Vue.component("Gallery", Gallery);
+Vue.component("GoogleForm", GoogleForm);
+Vue.component("SocialShare", SocialShare);
+Vue.component("Modal", Modal);
+Vue.component("Card", Card);
+Vue.component("GoogleMap", GoogleMap);
+Vue.component("Table", Table);
 /* > */
-};
-// export type molleModules = typeof molleModules[keyof typeof molleModules];
 
 Vue.component("MolleEditerComp", Blank);
 Vue.component("AddModuleComp", Blank);
 Vue.component("ModuleLoader", ModuleLoader);
-//modules
-for (let key in pluginStatic) {
-  // @ts-ignore
-  Vue.component(key, pluginStatic[key].ref);
-}

@@ -27,11 +27,12 @@ import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
+import Feature from "~/molle/module/custom/Feature.vue";
 
 @Component({
-  components: {TextAreaQuill, StyleComp}
+  components: {TextAreaQuill, StyleComp},
 })
-export default class ContentProfile extends Profile {
+export default class FeatureBoxProfile extends Profile {
   //style setting
   stylePermission = {
     container: false,
@@ -41,6 +42,17 @@ export default class ContentProfile extends Profile {
     margin: "",
     padding: "",
     theme: {default: "", select: ["", "-sub -right", "-sub -left"]},
+  };
+
+  static settings = {
+    type: "children",
+    opt: {
+      option: {
+        title: "Lorem ipsum...",
+      },
+    },
+    white: [Feature],
+    icon: "plus-square",
   };
 }
 </script>

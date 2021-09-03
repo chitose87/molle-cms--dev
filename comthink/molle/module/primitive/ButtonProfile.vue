@@ -46,6 +46,16 @@
       theme: {default: "", select: ["", "-sm", "-lg"]},
       color: {default: "", select: ["", "-primary", "-secondary", "-link"]},
     };
+    static settings = {
+      type: "button",
+      opt: {
+        option: {
+          href: "https://placehold.jp/",
+          target: "",
+        },
+      },
+      icon: "hand-index",
+    }
   }
 </script>
 

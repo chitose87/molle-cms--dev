@@ -21,7 +21,6 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Picture extends Module {
-  breakPoint = process.env.breakPoint;
   //Unique Methods
 }
 </script>

@@ -20,9 +20,11 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
+import Picture from "~/molle/module/primitive/Picture.vue";
+import Headline from "~/molle/module/primitive/Headline.vue";
 
 @Component({
-  components: {StyleComp}
+  components: {StyleComp},
 })
 export default class SlideShowProfile extends Profile {
   //style setting
@@ -34,6 +36,19 @@ export default class SlideShowProfile extends Profile {
     margin: "",
     padding: "",
     theme: {default: "", select: ["", "-fade"]},
+  };
+
+  static settings = {
+    type: "group",
+    opt: {
+      value: {
+        img1: {fixedModuleId: Picture, order: 0},
+        img2: {fixedModuleId: Picture, order: 10},
+        img3: {fixedModuleId: Picture, order: 20},
+        headline: {fixedModuleId: Headline, order: 30},
+      },
+    },
+    icon: "file-richtext",
   };
 }
 </script>

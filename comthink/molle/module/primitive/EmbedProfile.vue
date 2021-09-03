@@ -1,18 +1,11 @@
 <template lang="pug">
 div
-  TextAreaQuill(
-    :label="'Text:'"
-    v-model="itemData.value"
-    @change="()=>$emit('change')"
-  )
-
-  label.form-inline
-    span.mr-1 タグ:
-    select.form-control.form-control-sm(
-      v-model="itemData.option.tag"
+  label.w-100
+    span HTML:
+    textarea.form-control.form-control-sm(
+      v-model="itemData.value"
       @change="()=>$emit('change')"
     )
-      option(v-for="item in ['', 'span']" :value="item" v-html="item")
 
   StyleComp(
     :itemData="itemData"
@@ -28,26 +21,24 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
-import Headline from "~/molle/module/primitive/Headline.vue";
 
 @Component({
-  components: {TextAreaQuill, StyleComp}
+  components: {TextAreaQuill, StyleComp},
 })
-export default class ParagraphProfile extends Profile {
+export default class EmbedProfile extends Profile {
   //style setting
   stylePermission = {
-    border: false,
-    align: StyleAlign.None,
-    margin: "",
+    // border: false,
+    // align: StyleAlign.None,
+    // margin: "",
     // padding: "",
-    theme: {default: "", select: ["", "-caption"]},
+    // theme: {default: "", select: ["", "-caption"]},
     // color: {default: "", select: ["", "dark"]},
   };
   static settings = {
     type: "text",
-    convert: [Headline],
     icon: "text-paragraph",
-  }
+  };
 }
 </script>
 

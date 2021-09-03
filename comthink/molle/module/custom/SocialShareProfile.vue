@@ -41,6 +41,10 @@
       // theme: {default: "", select: ["", "decorate"]},
       // color: {default: "", select: ["", "text-white"]},
     };
+    static settings = {
+      type: "any",
+      icon: "share",
+    }
   }
 </script>
 
