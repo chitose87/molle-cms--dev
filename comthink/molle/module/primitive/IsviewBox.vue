@@ -41,7 +41,7 @@ export default class IsviewBox extends Module {
   }
 
   &.-fade {
-    transition-property: opacity, transform;
+    transition-property: opacity;
     transition-duration: 1.2s, 1.2s;
     transition-delay: 0.4s, 0.4s;
     transition-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
@@ -49,15 +49,13 @@ export default class IsviewBox extends Module {
 }
 
 [data-isview*="outview"] {
-  opacity: 0;
-  transform: translate3d(0, 0, 0);
-
   &.-slide {
+    opacity: 0;
     transform: translate3d(0, 100px, 0);
   }
 
   &.-fade {
-    transform: translate3d(0, 0, 0);
+    opacity: 0;
   }
 }
 

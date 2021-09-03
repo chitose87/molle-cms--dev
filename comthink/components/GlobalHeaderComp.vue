@@ -1,7 +1,6 @@
 <template lang="pug">
 header.global-header(
   :aria-expanded="isMenuOpen"
-  v-isscroll
 )
   a.company-name(href="/")
     span LOGO

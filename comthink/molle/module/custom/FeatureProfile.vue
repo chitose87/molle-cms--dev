@@ -1,13 +1,5 @@
 <template lang="pug">
 div
-  label.form-inline
-    span.mr-1 タグ:
-    select.form-control.form-control-sm(
-      v-model="itemData.option.tag"
-      @change="()=>$emit('change')"
-    )
-      option(v-for="item in ['', 'section']" :value="item" v-html="item")
-
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
@@ -24,16 +16,11 @@ import {Profile} from "~/molle-cms/src/module/Profile";
 @Component({
   components: {StyleComp}
 })
-export default class SlideShowSKProfile extends Profile {
+export default class FeatureProfile extends Profile {
   //style setting
   stylePermission = {
-    container: false,
-    "container-fluid": false,
-    section: false,
-    border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "-fade"]},
   };
 }
 </script>
