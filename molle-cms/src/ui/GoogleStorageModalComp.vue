@@ -117,28 +117,28 @@ export default class GoogleStorageModalComp extends Vue {
 
   hAlign = {
     current: "center",
-    option: <{ [key: string]: any }>{
+    option: <{[key: string]: any}>{
       left: Jimp.HORIZONTAL_ALIGN_LEFT,
       center: Jimp.HORIZONTAL_ALIGN_CENTER,
       right: Jimp.HORIZONTAL_ALIGN_RIGHT,
-    }
-  }
+    },
+  };
   vAlign = {
     current: "middle",
-    option: <{ [key: string]: any }>{
+    option: <{[key: string]: any}>{
       top: Jimp.VERTICAL_ALIGN_TOP,
       middle: Jimp.VERTICAL_ALIGN_MIDDLE,
       bottom: Jimp.VERTICAL_ALIGN_BOTTOM,
-    }
-  }
+    },
+  };
 
   mime = {
     // current: "jpg",
-    option: <{ [key: string]: any }>{
+    option: <{[key: string]: any}>{
       jpg: Jimp.MIME_JPEG,
       png: Jimp.MIME_PNG,
-    }
-  }
+    },
+  };
 
   profiles = {
     current: 0,
@@ -148,24 +148,24 @@ export default class GoogleStorageModalComp extends Vue {
         mime: "jpg",
         width: 800,
         height: 800,
-        quality: 80
+        quality: 80,
       },
       {
         label: "3:2 JPEG 80%",
         mime: "jpg",
         width: 1200,
         height: 800,
-        quality: 80
+        quality: 80,
       },
       {
         label: "800:auto JPEG 80%",
         mime: "jpg",
         width: 800,
         height: "auto",
-        quality: 80
-      }
-    ]
-  }
+        quality: 80,
+      },
+    ],
+  };
 
   option = {
     name: "",
@@ -187,7 +187,7 @@ export default class GoogleStorageModalComp extends Vue {
         }/files~2F${
           process.env.molleProjectID
         }`,
-        "google-storage-view"
+        "google-storage-view",
       );
     });
     this.$root.$on("google-storage-upload", (callBack: (url: string) => void) => {
@@ -213,15 +213,15 @@ export default class GoogleStorageModalComp extends Vue {
         const img = this.jimpImg.clone();
 
         if (valueW == "auto") {
-          img.resize(Jimp.AUTO, Number.parseInt(valueH + ""))
+          img.resize(Jimp.AUTO, Number.parseInt(valueH + ""));
         } else if (valueH == "auto") {
-          img.resize(Number.parseInt(valueW + ""), Jimp.AUTO)
+          img.resize(Number.parseInt(valueW + ""), Jimp.AUTO);
         } else {
           img.cover(
             Number.parseInt(valueW + ""),
             Number.parseInt(valueH + ""),
             this.hAlign.option[this.hAlign.current] | this.vAlign.option[this.vAlign.current],
-          )
+          );
         }
 
         // if (this.option.scale) {
@@ -234,7 +234,7 @@ export default class GoogleStorageModalComp extends Vue {
         img.quality(profile.quality || 80)
           .getBase64(this.mime.option[profile.mime], (err: any, src: any) => {
             this.src = src;
-          })
+          });
       } catch (e) {
         console.log(e);
         this.src = "";
@@ -253,9 +253,9 @@ export default class GoogleStorageModalComp extends Vue {
             this.$set(this, "jimpImg", img);
             // console.log(this.jimpImg)
             this.onJimp();
-          }
+          },
         );
-    }
+    };
     // console.log(this.files![0])
     reader.readAsDataURL(this.files![0]);
     this.option.name = this.files![0].name.match(/([^/]+)\./)![1];
@@ -285,6 +285,7 @@ export default class GoogleStorageModalComp extends Vue {
 
 <style lang="scss">
 .google-storage-modal-comp {
+  pointer-events: auto;
   .modal {
     & + &__fiexd {
 

@@ -269,6 +269,7 @@ export default class MolleEditerComp extends Vue {
   left: 0;
   width: 100%;
   pointer-events: none;
+  z-index: $zindex-heaven;
 
   //@include mediaquery-not-sm {
   //  display: flex;

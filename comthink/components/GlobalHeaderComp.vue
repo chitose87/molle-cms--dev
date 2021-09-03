@@ -32,7 +32,7 @@ export default class GlobalHeaderComp extends Vue {
   $pcH: 4.5rem;
   $spH: 4rem;
 
-  z-index: 99;
+  z-index: $zindex-on;
   position: fixed;
   top: 0;
   left: 0;

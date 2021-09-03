@@ -2,7 +2,7 @@ const SITE_DIR = process.argv[3];
 require('dotenv').config();
 
 const molle = require("./molle.json");
-molle.version = "0.7";
+molle.version = "0.8";
 molle.isMolleCms = process.env.IS_MOLLE_CMS == "true";
 molle.apiKey = process.env.apiKey;
 molle.authDomain = process.env.authDomain;
@@ -34,10 +34,12 @@ const modules = [
 const plugins = [
   './molle/nuxt-config/plugin.ts'
 ]
+const scriptObj = [];
 if (molle.isMolleCms) {
   css.push('molle-cms/css/molle.scss')
   modules.push('bootstrap-vue/nuxt');
   plugins.push('./molle/nuxt-config/pluginSpa.ts');
+  scriptObj.push({src: "https://cdnjs.cloudflare.com/ajax/libs/jimp/0.16.1/jimp.js"});
 } else {
   plugins.push('./molle/nuxt-config/pluginStatic.ts');
 }
@@ -65,14 +67,13 @@ export default {
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
-      {rel:"preconnect",href:"https://fonts.googleapis.com"},
       {rel: 'preconnect', href: 'https://fonts.gstatic.com',crossOrigin:true},
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Alex+Brush&family=Audiowide&family=Libre+Barcode+39+Text&family=Noto+Sans+JP:wght@300;400;500;700&family=Righteous&family=Vibur&family=Yesteryear&display=swap'
       },
     ],
-    script: []
+    script: scriptObj,
   },
   env: molle,
 
