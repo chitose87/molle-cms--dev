@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+.card-page
   //GlobalHeaderComp
   MolleEditerComp
   main
@@ -31,9 +31,23 @@ export default class Index extends Vue {
 </script>
 
 <style lang="scss">
+@font-face {
+  font-family: 'MyFont';
+  src: url(/font/Kaisotai-Next-UP-B.woff2);
+}
+
+body {
+}
 .hoge {
   @include mediaquery-sm{
   margin: 0;
+  }
+}
+.card-page{
+  background-color: black;
+  .hoge{
+    font-family: MyFont;
+
   }
 }
 </style>

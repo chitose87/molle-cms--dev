@@ -2,12 +2,12 @@
 .label-card(
   :id="itemData.tagId",
 )
-  .label-card__bg
+  //.label-card__bg
     .label-card__bg__upper
     .label-card__bg__lower
-  ModuleLoader.label-card__img(:node="itemData.value.img" :key="itemData.value.img.id")
+  //ModuleLoader.label-card__img(:node="itemData.value.img" :key="itemData.value.img.id")
   ModuleLoader.label-card__title(:node="itemData.value.headline" :key="itemData.value.headline.id")
-  ModuleLoader.label-card__lead(:node="itemData.value.text" :key="itemData.value.text.id")
+  //ModuleLoader.label-card__lead(:node="itemData.value.text" :key="itemData.value.text.id")
 
 </template>
 
@@ -28,78 +28,85 @@ export default class LabelCard extends Module {
   //font-family: 'Alex Brush', cursive;
   //font-family: 'Audiowide', cursive;
   //font-family: 'Libre Barcode 39 Text', cursive;
-  font-family: 'Righteous', cursive;
+  //font-family: 'Righteous', cursive;
   //font-family: 'Vibur', cursive;
   //font-family: 'Yesteryear', cursive;
   position: relative;
   overflow: hidden;
-  color: #000000;
-  background-color: #fff;
+  color: #fff;
+  //background-color: #fff;
+  //border: 2px solid #fff;
+  padding: 1rem;
+
+  //background-image: url(/img/bg.svg);
+  //background-size: 70px 70px;
+  //background-repeat: repeat;
 
   $r: 28vw;
   $b: 10px;
   $p: calc((#{$r/2} + #{$b}) * -1);
   @include mediaquery-not-sm {
-    width: 80%;
+    width: 60%;
     height: 80vw;
   }
   @include mediaquery-sm {
-    height: 140vw;
+    height: 160vw;
   }
 
-  &__bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: $b solid $color-black;
-
-    &:before {
-      content: "";
-      position: absolute;
-      top: $r/8;
-      left: $r/8;
-      width: calc(100% - #{$r/4});
-      height: calc(100% - #{$r/4});
-      border: 2px solid $color-black;
-      z-index: $zindex-on;
-    }
-
-    &__upper, &__lower {
-      &:before, &:after {
-        content: "";
-        display: block;
-        position: absolute;
-        width: $r;
-        height: $r;
-        background: $color-white;
-        border: $b solid $color-black;
-        transform: rotate(45deg);
-        //border-radius: $r/2;
-      }
-
-      &:before {
-        left: $p;
-      }
-
-      &:after {
-        right: $p;
-      }
-    }
-
-    &__upper {
-      &:before, &:after {
-        top: $p;
-      }
-    }
-
-    &__lower {
-      &:before, &:after {
-        bottom: $p;
-      }
-    }
-  }
+  //&__bg {
+  //  position: absolute;
+  //  top: 0;
+  //  left: 0;
+  //  width: 100%;
+  //  height: 100%;
+  //  pointer-events: none;
+  //
+  //  &:before {
+  //    content: "";
+  //    position: absolute;
+  //    top: $r/2;
+  //    left: $r/2;
+  //    width: calc(100% - #{$r/1});
+  //    height: calc(100% - #{$r/1});
+  //    border: 6px solid $color-white;
+  //    border-left: 0;
+  //    border-right: 0;
+  //    //z-index: $zindex-on;
+  //  }
+  //
+  //  &__upper, &__lower {
+  //    &:before, &:after {
+  //      //content: "";
+  //      display: block;
+  //      position: absolute;
+  //      //width: $r;
+  //      //height: $r;
+  //      background: $color-black;
+  //      //border: $b solid $color-black;
+  //      //transform: rotate(45deg);
+  //      //border-radius: $r/2;
+  //      //z-index: $zindex-on;
+  //    }
+  //  }
+  //
+  //  &__upper {
+  //    &:before {
+  //      width: 100%;
+  //      height: 50vw;
+  //    }
+  //
+  //    &:after {
+  //      width: 100%;
+  //      height: 50vw;
+  //    }
+  //  }
+  //
+  //  //&__lower {
+  //  //  &:before, &:after {
+  //  //    bottom: $p;
+  //  //  }
+  //  //}
+  //}
 
   &__img {
     max-width: 60%;
@@ -113,22 +120,32 @@ export default class LabelCard extends Module {
   }
 
   &__title {
-    font-size: 18vw;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    font-size: 90vw;
+    white-space: nowrap;
     position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    align-items: center;
+    margin: 0;
+    line-height: 0;
+    letter-spacing: 36px;
+    transform: scaleY(0.65) translateY(5%);
 
-    &:after {
-      content: "";
-      display: block;
-      width: 16vw;
-      border-top: 10px solid #000;
-      position: relative;
-      //top: -3vw;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+    //&:after {
+    //  content: "";
+    //  display: block;
+    //  width: 16vw;
+    //  //border-top: 10px solid #000;
+    //  position: relative;
+    //  //top: -3vw;
+    //  left: 50%;
+    //  transform: translate(-50%, -50%);
+    //}
   }
 
   &__lead {
