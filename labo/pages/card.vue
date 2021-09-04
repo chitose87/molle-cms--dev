@@ -44,10 +44,9 @@ body {
   }
 }
 .card-page{
-  background-color: black;
+  //background-color: black;
   .hoge{
     font-family: MyFont;
-
   }
 }
 </style>
