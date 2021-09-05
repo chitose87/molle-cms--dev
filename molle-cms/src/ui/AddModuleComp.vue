@@ -6,7 +6,7 @@
 
     form.form-group.form-check-inline(@submit.prevent v-if="itemData.moduleId" @submit="pushModule()")
       select.form-control.form-control-sm(v-model="pushModuleSelected")
-        option(v-for="item in moduleList", :value="item.ref.name", v-html="item.ref.name")
+        option(v-for="item in moduleList", :value="item.ref.CLASS_NAME", v-html="item.ref.CLASS_NAME")
       button.btn.btn-sm.btn-info(type="submit") +
 
     //.text-center(v-if="beforeNode||afterNode")
@@ -44,19 +44,28 @@ export default class AddModuleComp extends Vue {
 
         // @ts-ignore
         let moduleOpt = this.$molleModules[this.itemData.moduleId];
-        let response: any[] = [];
+        let response: any[];
         // todo
-        // if (moduleOpt.white) {
-        //   response = moduleOpt.white.name;
-        // } else if (moduleOpt.black) {
-        //   response = Object.keys(this.$molleModules).filter(
-        //     (name: string) => moduleOpt.black.name!.indexOf(name) == -1,
-        //   );
-        // }else{
-        response = this.$molleModuleList;
-        // }
+        if (moduleOpt.white) {
+          response=[];
+          for (let i in moduleOpt.white) {
+            response.push(this.$molleModules[moduleOpt.white[i].CLASS_NAME]);
+          }
+        } else if (moduleOpt.black) {
+          response = this.$molleModuleList.filter((item: any) => {
+            for (let i in moduleOpt.black) {
+              // @ts-ignore
+              if (item.ref.CLASS_NAME == moduleOpt.black[i].CLASS_NAME) {
+                return false;
+              }
+            }
+            return true;
+          });
+        } else {
+          response = this.$molleModuleList;
+        }
         if (!this.pushModuleSelected) {
-          this.pushModuleSelected = response[0].ref.name;
+          this.pushModuleSelected = response[0].ref.CLASS_NAME;
         }
         this.$set(this, "moduleList", response);
       });

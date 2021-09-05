@@ -39,6 +39,7 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
   components: {StyleComp},
 })
 export default class TableProfile extends Profile {
+  static readonly CLASS_NAME = "TableProfile";
   //style setting
   stylePermission = {
     border: false,

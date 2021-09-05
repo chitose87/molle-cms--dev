@@ -27,6 +27,7 @@ import Headline from "~/molle/module/primitive/Headline.vue";
   components: {StyleComp},
 })
 export default class SlideShowProfile extends Profile {
+  static readonly CLASS_NAME = "SlideShowProfile";
   //style setting
   stylePermission = {
     container: false,

@@ -24,6 +24,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class SocialShare extends Module {
+  static readonly CLASS_NAME = "SocialShare";
   shareFb() {
     window.open(
       "http://www.facebook.com/sharer.php?u=" +

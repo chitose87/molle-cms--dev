@@ -34,6 +34,7 @@ import Headline from "~/molle/module/primitive/Headline.vue";
   components: {TextAreaQuill, StyleComp}
 })
 export default class ParagraphProfile extends Profile {
+  static readonly CLASS_NAME = "ParagraphProfile";
   //style setting
   stylePermission = {
     border: false,

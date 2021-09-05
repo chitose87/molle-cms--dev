@@ -52,6 +52,7 @@ import {IItemData, INodeObject} from "~/molle-cms/src/interface";
   components: {},
 })
 export default class RandomCards extends Module {
+  static readonly CLASS_NAME = "RandomCards";
 
   isMolleCms = process.env.isMolleCms;
   param = {

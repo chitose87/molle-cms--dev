@@ -20,6 +20,7 @@ import RandomCardBox from "~/molle/module/custom/RandomCardBox.vue";
   components: {TextAreaQuill, StyleComp},
 })
 export default class RandomCardsProfile extends Profile {
+  static readonly CLASS_NAME = "RandomCardsProfile";
 
   //style setting
   stylePermission = {

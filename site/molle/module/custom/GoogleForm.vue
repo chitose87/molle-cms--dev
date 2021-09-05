@@ -88,6 +88,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class GoogleForm extends Module {
+  static readonly CLASS_NAME = "GoogleForm";
   arg: any = {};
   status: string = "yet";
 

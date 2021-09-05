@@ -24,6 +24,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Modal extends Module {
+  static readonly CLASS_NAME = "Modal";
   isShow = false;
 }
 </script>

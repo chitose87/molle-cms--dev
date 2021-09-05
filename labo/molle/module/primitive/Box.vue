@@ -25,6 +25,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Box extends Module {
+  static readonly CLASS_NAME = "Box";
 }
 </script>
 

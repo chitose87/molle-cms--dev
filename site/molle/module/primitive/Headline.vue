@@ -20,6 +20,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Headline extends Module {
+  static readonly CLASS_NAME = "Headline";
   @Prop() static__value?: string;
 }
 </script>

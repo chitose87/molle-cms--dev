@@ -22,6 +22,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Table extends Module {
+  static readonly CLASS_NAME = "Table";
   _data: any[][] = [];
 
   @Watch("itemData.value", {immediate: true})

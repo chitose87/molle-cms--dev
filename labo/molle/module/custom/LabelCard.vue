@@ -19,6 +19,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class LabelCard extends Module {
+  static readonly CLASS_NAME = "LabelCard";
   //Unique Methods
 }
 </script>

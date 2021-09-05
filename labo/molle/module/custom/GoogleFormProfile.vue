@@ -34,6 +34,7 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
   components: {StyleComp}
 })
 export default class GoogleFormProfile extends Profile {
+  static readonly CLASS_NAME = "GoogleFormProfile";
   //style setting
   stylePermission = {
     // container: false,

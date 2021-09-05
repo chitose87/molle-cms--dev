@@ -32,6 +32,7 @@
     components: {StyleComp}
   })
   export default class SocialShareProfile extends Profile {
+  static readonly CLASS_NAME = "SocialShareProfile";
     //style setting
     stylePermission = {
       // border: false,

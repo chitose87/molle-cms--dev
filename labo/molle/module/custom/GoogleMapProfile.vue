@@ -43,6 +43,7 @@
     components: {StyleComp}
   })
   export default class GoogleMapProfile extends Profile {
+  static readonly CLASS_NAME = "GoogleMapProfile";
     //style setting
     stylePermission = {
       // container: false,

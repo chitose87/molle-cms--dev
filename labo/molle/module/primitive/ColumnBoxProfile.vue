@@ -42,6 +42,7 @@
     components: {StyleComp}
   })
   export default class ColumnBoxProfile extends Profile {
+  static readonly CLASS_NAME = "ColumnBoxProfile";
     //style setting
     stylePermission = {
       // container: false,

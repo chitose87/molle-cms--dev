@@ -35,6 +35,7 @@ import IsviewBox from "~/molle/module/primitive/IsviewBox.vue";
   components: {StyleComp},
 })
 export default class LinkBoxProfile extends Profile {
+  static readonly CLASS_NAME = "LinkBoxProfile";
   //style setting
   stylePermission = {};
 

@@ -40,6 +40,7 @@
     components: {TextAreaQuill, StyleComp}
   })
   export default class HeadlineProfile extends Profile {
+  static readonly CLASS_NAME = "HeadlineProfile";
     //style setting
     stylePermission = {
       border: false,

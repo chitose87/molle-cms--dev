@@ -23,7 +23,7 @@
     .card-body.p-3
       component(
         v-if="$molleModules[itemData.moduleId].profile"
-        :is="$molleModules[itemData.moduleId].profile.name"
+        :is="$molleModules[itemData.moduleId].profile.CLASS_NAME"
         :itemData="itemData"
         :itemId="itemId"
         @change="update"

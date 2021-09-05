@@ -16,6 +16,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Paragraph extends Module {
+  static readonly CLASS_NAME = "Paragraph";
 }
 </script>
 

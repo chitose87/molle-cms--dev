@@ -26,6 +26,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class RandomCardBox extends Module {
+  static readonly CLASS_NAME = "RandomCardBox";
 }
 </script>
 

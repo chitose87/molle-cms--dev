@@ -33,6 +33,7 @@ import Feature from "~/molle/module/custom/Feature.vue";
   components: {TextAreaQuill, StyleComp},
 })
 export default class FeatureBoxProfile extends Profile {
+  static readonly CLASS_NAME = "FeatureBoxProfile";
   //style setting
   stylePermission = {
     container: false,

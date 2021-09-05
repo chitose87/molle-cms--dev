@@ -19,6 +19,7 @@ declare const google: any;
   components: {},
 })
 export default class GoogleMap extends Module {
+  static readonly CLASS_NAME = "GoogleMap";
   static pluginStatus: string = "none";
   center = {
     lat: 0,

@@ -65,6 +65,7 @@ import Box from "~/molle/module/primitive/Box.vue";
   components: {StyleComp}
 })
 export default class ColumnProfile extends Profile {
+  static readonly CLASS_NAME = "ColumnProfile";
   //style setting
   stylePermission = {
     // container: false,

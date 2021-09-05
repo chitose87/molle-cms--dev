@@ -23,6 +23,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Feature extends Module {
+  static readonly CLASS_NAME = "Feature";
 }
 </script>
 

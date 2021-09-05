@@ -21,6 +21,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Picture extends Module {
+  static readonly CLASS_NAME = "Picture";
   breakPoint = process.env.breakPoint;
   //Unique Methods
 }

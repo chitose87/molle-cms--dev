@@ -32,6 +32,7 @@
     components: {StyleComp}
   })
   export default class GalleryProfile extends Profile {
+  static readonly CLASS_NAME = "GalleryProfile";
     //style setting
     stylePermission = {
       container: false,

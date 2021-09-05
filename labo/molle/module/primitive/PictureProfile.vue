@@ -42,6 +42,7 @@ import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
   components: {InputUrlByGS, GoogleStorage, StyleComp}
 })
 export default class PictureProfile extends Profile {
+  static readonly CLASS_NAME = "PictureProfile";
   //style setting
   stylePermission = {
     border: false,

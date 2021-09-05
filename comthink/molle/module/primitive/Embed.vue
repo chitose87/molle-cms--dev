@@ -15,6 +15,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Embed extends Module {
+  static readonly CLASS_NAME = "Embed";
 }
 </script>
 

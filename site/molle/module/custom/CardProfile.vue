@@ -20,6 +20,7 @@ import Paragraph from "~/molle/module/primitive/Paragraph.vue";
   components: {StyleComp},
 })
 export default class CardProfile extends Profile {
+  static readonly CLASS_NAME = "CardProfile";
   //style setting
   stylePermission = {
     // border: false,

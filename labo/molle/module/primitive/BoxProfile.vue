@@ -27,6 +27,7 @@ import BackgroundBox from "./BackgroundBox.vue";
   components: {StyleComp},
 })
 export default class BoxProfile extends Profile {
+  static readonly CLASS_NAME = "BoxProfile";
   //style setting
   stylePermission = {
     container: false,

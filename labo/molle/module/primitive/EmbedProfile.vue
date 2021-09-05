@@ -26,6 +26,7 @@ import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
   components: {TextAreaQuill, StyleComp},
 })
 export default class EmbedProfile extends Profile {
+  static readonly CLASS_NAME = "EmbedProfile";
   //style setting
   stylePermission = {
     // border: false,

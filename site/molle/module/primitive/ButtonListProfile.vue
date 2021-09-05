@@ -19,6 +19,7 @@ import Button from "~/molle/module/primitive/Button.vue";
   components: {StyleComp},
 })
 export default class ButtonListProfile extends Profile {
+  static readonly CLASS_NAME = "ButtonListProfile";
   //style setting
   stylePermission = {
     // container: false,

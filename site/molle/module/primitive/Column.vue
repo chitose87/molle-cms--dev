@@ -26,6 +26,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Column extends Module {
+  static readonly CLASS_NAME = "Column";
   //Unique Methods
   getClass() {
     let obj = super.getClass(this.itemData);

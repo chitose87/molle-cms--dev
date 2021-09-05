@@ -18,6 +18,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Card extends Module {
+  static readonly CLASS_NAME = "Card";
   //Unique Methods
 }
 </script>

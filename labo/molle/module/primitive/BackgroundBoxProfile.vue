@@ -57,6 +57,7 @@ import Box from "~/molle/module/primitive/Box.vue";
   components: {StyleComp},
 })
 export default class BackgroundBoxProfile extends Profile {
+  static readonly CLASS_NAME = "BackgroundBoxProfile";
   //style setting
   stylePermission = {
     container: false,

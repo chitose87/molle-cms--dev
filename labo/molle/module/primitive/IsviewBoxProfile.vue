@@ -21,6 +21,7 @@ import LinkBox from "~/molle/module/primitive/LinkBox.vue";
   components: {StyleComp},
 })
 export default class IsviewBoxProfile extends Profile {
+  static readonly CLASS_NAME = "IsviewBoxProfile";
   //style setting
   stylePermission = {
     theme: {default: "", select: ["", "-slide", "-fade"]},

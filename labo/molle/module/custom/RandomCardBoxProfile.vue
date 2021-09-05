@@ -36,6 +36,7 @@ import RandomCards from "~/molle/module/custom/RandomCards.vue";
   components: {StyleComp},
 })
 export default class RandomCardBoxProfile extends Profile {
+  static readonly CLASS_NAME = "RandomCardBoxProfile";
   //style setting
   stylePermission = {
     margin: "",

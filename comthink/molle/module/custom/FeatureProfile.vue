@@ -21,6 +21,7 @@ import Picture from "~/molle/module/primitive/Picture.vue";
   components: {StyleComp},
 })
 export default class FeatureProfile extends Profile {
+  static readonly CLASS_NAME = "FeatureProfile";
   //style setting
   stylePermission = {
     margin: "",

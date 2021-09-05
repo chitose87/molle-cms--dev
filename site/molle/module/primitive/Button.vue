@@ -17,6 +17,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Button extends Module {
+  static readonly CLASS_NAME = "Button";
   @Prop() static__value?: string;
   //@Prop() static__option?: {href: "", target: ""};
 }

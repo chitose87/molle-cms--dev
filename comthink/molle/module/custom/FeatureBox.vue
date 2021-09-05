@@ -28,6 +28,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class FeatureBox extends Module {
+  static readonly CLASS_NAME = "FeatureBox";
 }
 </script>
 

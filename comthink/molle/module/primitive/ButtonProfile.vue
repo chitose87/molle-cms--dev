@@ -37,6 +37,7 @@
     components: {StyleComp}
   })
   export default class ButtonProfile extends Profile {
+  static readonly CLASS_NAME = "ButtonProfile";
     //style setting
     stylePermission = {
       // border: false,

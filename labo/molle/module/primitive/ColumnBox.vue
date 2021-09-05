@@ -20,6 +20,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class ColumnBox extends Module {
+  static readonly CLASS_NAME = "ColumnBox";
   getClass() {
     let obj = super.getClass(this.itemData);
     if (this.itemData.option.col) {

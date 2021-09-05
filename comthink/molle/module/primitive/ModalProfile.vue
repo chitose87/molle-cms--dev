@@ -17,6 +17,7 @@
     components: {StyleComp}
   })
   export default class ModalProfile extends Profile {
+  static readonly CLASS_NAME = "ModalProfile";
     //style setting
     stylePermission = {
       container: false,

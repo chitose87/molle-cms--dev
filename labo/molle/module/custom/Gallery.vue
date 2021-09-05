@@ -31,6 +31,7 @@ import {Module} from "~/molle-cms/src/module/Module";
   components: {},
 })
 export default class Gallery extends Module {
+  static readonly CLASS_NAME = "Gallery";
   //@Prop({default: "Gallery"}) static__moduleId!: string;
 
   current = 0;

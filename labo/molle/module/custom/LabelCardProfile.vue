@@ -18,6 +18,7 @@ import {Profile} from "~/molle-cms/src/module/Profile";
   components: {StyleComp},
 })
 export default class LabelCardProfile extends Profile {
+  static readonly CLASS_NAME = "LabelCardProfile";
   //style setting
   stylePermission = {
     // border: false,
