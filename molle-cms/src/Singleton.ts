@@ -57,6 +57,17 @@ export class Singleton {
       callBack();
     }
   }
+
+  private static _users?: any;
+
+  static getUsers(cb: any) {
+    if (this._users) return cb(this._users);
+    firebase.firestore().doc("_settings/users")
+      .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+        let data = snap.data();
+        cb(data);
+      });
+  }
 }
 
 export const StyleAlign = {

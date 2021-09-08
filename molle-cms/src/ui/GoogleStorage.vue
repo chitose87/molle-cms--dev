@@ -4,14 +4,14 @@
   a.btn.btn-info.btn-sm.btn-block.mb-2(
     @click="()=>$root.$emit('google-storage-view')"
   )
-    span Explorer
+    span {{$words.export}}
   a.btn.btn-info.btn-sm.btn-block(
     @click="()=>$root.$emit('google-storage-upload',(url)=>{uploaded=url})"
   )
-    span Upload
+    span {{$words.upload}}
 
   div(v-if="uploaded")
-    label Complete
+    label {{$words.complete}}
       input.form-control.form-control-sm(:value="uploaded")
 
 </template>

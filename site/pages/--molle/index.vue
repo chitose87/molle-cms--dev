@@ -107,29 +107,11 @@
                     @click="addPage"
                   ) Add
 
-        section.mt-1r.mb-6r
-          h2.p-3.mt-0.mb-4.text-white.bg-success
-            b-icon.mr-2(icon="tools")
-            | MOLLE DEVELOP
-          h4.mb-2 ADDED/追加された機能
-          ul
-            li 自動デプロイ機能 new!
-            li 未使用モジュールの一括削除
-            li 管理画面のデザイン変更
+        section#site.mt-1r.mb-6r
+          SiteSettingsComp
 
-          h4.mb-2 READY/追加可能機能
-          ul
-            li テキストエディタ
-
-          h4.mb-2 TODO
-          ul
-            li 変更ログ・アンドゥ
-            li モジュール入れ替え(loop注意)
-            li 継承・拡張
-            li itemData内に使用されているmodule-idを管理
-            li データ連携モジュール
-            li カスタムセット登録
-            li firebaseに上げた画像をdeploy時にhostingサーバーに移動させるOption
+        section#project.mt-1r.mb-6r
+          ProjectSettingsComp
 
 </template>
 
@@ -140,9 +122,11 @@ import {Singleton} from "~/molle-cms/src/Singleton";
 import {IItemData, IPageData} from "~/molle-cms/src/interface";
 import MolleToolbar from "~/molle-cms/src/ui/MolleToolbar.vue";
 import IndexPageListView from "~/molle-cms/src/ui/IndexPageListView.vue";
+import ProjectSettingsComp from "~/molle-cms/src/ui/ProjectSettingsComp.vue";
+import SiteSettingsComp from "~/molle-cms/src/ui/SiteSettingsComp.vue";
 
 @Component({
-  components: {IndexPageListView, MolleToolbar},
+  components: {SiteSettingsComp, ProjectSettingsComp, IndexPageListView, MolleToolbar},
 })
 export default class MolleTopPage extends Vue {
   version = process.env.version;
@@ -162,7 +146,6 @@ export default class MolleTopPage extends Vue {
 
   pages: {[key: string]: IPageData} = {};
   news: {[key: string]: IPageData} = {};
-  systemData = {deployQue: false, deployStatus: "undefinde"};
 
   isLogin = false;
 
@@ -175,19 +158,7 @@ export default class MolleTopPage extends Vue {
   created() {
     Singleton.firebaseInit((user: any) => {
       if (!user) return;
-      this.isLogin = true;
-      Singleton.systemDocRef.onSnapshot(
-        (snap: firebase.firestore.DocumentSnapshot) => {
-          if (!snap.exists) {
-            Singleton.systemDocRef.set({
-              deployQue: false,
-              deployStatus: "undefinde",
-            });
-            return;
-          }
-          this.$set(this, "systemData", snap.data());
-        },
-      );
+      this.$set(this,"isLogin",true);
 
       Singleton.pagesRef.onSnapshot(
         (snap: firebase.firestore.QuerySnapshot) => {
