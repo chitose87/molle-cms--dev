@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   TextAreaQuill(
-    :label="'Text:'"
+    :label="[$words.text]+':'"
     v-model="itemData.value"
     @change="()=>$emit('change')"
   )

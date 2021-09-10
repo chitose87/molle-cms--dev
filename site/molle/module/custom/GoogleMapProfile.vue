@@ -1,27 +1,27 @@
 <template lang="pug">
   div
     label
-      span.mr-1 lat:
+      span.mr-1 {{$words.lat}}:
       input.form-control.form-control-sm(
         type="nubmer"
         v-model="itemData.value.lat"
         @change="()=>$emit('change')"
       )
     label
-      span.mr-1 lng:
+      span.mr-1 {{$words.lng}}:
       input.form-control.form-control-sm(
         type="nubmer"
         v-model="itemData.value.lng"
         @change="()=>$emit('change')"
       )
     label
-      span.mr-1 marker title:
+      span.mr-1 {{$words.marker}} title:
       input.form-control.form-control-sm(
         v-model="itemData.option.title"
         @change="()=>$emit('change')"
       )
     label
-      span.mr-1 marker text:
+      span.mr-1 {{$words.marker}} text:
       input.form-control.form-control-sm(
         v-model="itemData.option.text"
         @change="()=>$emit('change')"

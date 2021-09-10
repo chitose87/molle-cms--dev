@@ -7,7 +7,7 @@ div
       @change="()=>$emit('change')"
     )
   label
-    span.mr-1 基本カラム幅:
+    span.mr-1 基本{{$words.col}}:
     .form-inline
       input.form-control.form-control-sm(
         v-model="itemData.option.col"
@@ -18,7 +18,7 @@ div
       )
       span /12
   label
-    span.mr-1 基本カラム幅-SP:
+    span.mr-1 基本{{$words.col}}-{{$words.sp}}:
     .form-inline
       input.form-control.form-control-sm(
         v-model="itemData.option.colSm"

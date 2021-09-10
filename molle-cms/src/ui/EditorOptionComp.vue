@@ -1,7 +1,7 @@
 <template lang="pug">
   .editor-option-comp
     .card.bg-light
-      .card-header.pt-1.pb-1.pl-3.pr-3(@click="flag=!flag") Editor設定
+      .card-header.pt-1.pb-1.pl-3.pr-3(@click="flag=!flag") Editor{{$words.settings}}
         b-icon(:icon="flag?'chevron-up':'chevron-down'")
       .card-body.p-3(v-if="flag")
         label.form-inline

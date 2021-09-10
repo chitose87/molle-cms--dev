@@ -2,8 +2,8 @@
 .mt-2.mb-3
   label {{label}}
   button.btn.btn-link(@click="changeMode(!isSource)")
-    span(v-if="!isSource") > Source
-    span(v-else) > Editer
+    span(v-if="!isSource") > {{$words.source}}
+    span(v-else) > {{$words.editer}}
 
   .bg-white(v-show="!isSource")
     .quill-editor(ref="quillEditor")

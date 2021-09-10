@@ -7,16 +7,16 @@ div
   )
 
   InputUrlByGS(
-    :label="'src:'"
+    :label="[$words.src]+':'"
     v-model="itemData.value"
     @change="()=>$emit('change')"
   )
   InputUrlByGS(
-    :label="'sp:'"
+    :label="[$words.src]+' '+[$words.sp]+':'"
     v-model="itemData.option.sp"
     @change="()=>$emit('change')"
   )
-  label alt:
+  label {{$words.alt}}:
     input.form-control.form-control-sm(
       type="text"
       v-model="itemData.option.alt"
@@ -39,7 +39,7 @@ import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
 import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
 
 @Component({
-  components: {InputUrlByGS, GoogleStorage, StyleComp}
+  components: {InputUrlByGS, GoogleStorage, StyleComp},
 })
 export default class PictureProfile extends Profile {
   static readonly CLASS_NAME = "PictureProfile";
@@ -61,7 +61,7 @@ export default class PictureProfile extends Profile {
       },
     },
     icon: "image",
-  }
+  };
 }
 </script>
 

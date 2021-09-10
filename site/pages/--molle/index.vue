@@ -15,11 +15,11 @@
           li
             a.btn-link(href="#readme")
               b-icon.mr-2(icon="book")
-              | Readme
+              | {{$words.readme}}
           li
             a.btn-link(href="#news")
               b-icon.mr-2(icon="newspaper")
-              | News Data
+              | {{$words.news}} Data
           //li
             a.btn-link(href="#case")
               b-icon.mr-2(icon="newspaper")
@@ -27,7 +27,7 @@
           li
             a.btn-link(href="#universal")
               b-icon.mr-2(icon="file-earmark")
-              | Universal pages
+              | {{$words.universal}} {{$words.pages}}
 
         MolleToolbar(v-model="isLogin")
 
@@ -41,7 +41,7 @@
         section#news.mt-1r.mb-6r
           h2.p-3.mt-0.mb-4.bg-info.text-white
             b-icon.mr-2(icon="newspaper")
-            | News Data
+            | {{$words.news}} Data
           .row
             .col
               IndexPageListView(:pages="news")
@@ -52,7 +52,7 @@
                 .card-header
                   h3.mt-0
                     b-icon(icon="file-earmark-plus")
-                    | Add Page
+                    | {{$words.add}} {{$words.page}}
                 .card-body
                   p
                     label.mr-2
@@ -79,13 +79,13 @@
                     type="button",
                     :disabled="addNewsObj.date === '' || addNewsObj.title === ''",
                     @click="addNews"
-                  ) Add
+                  ) {{$words.add}}
 
         // Universal pages
         section#universal.mt-1r.mb-6r
           h2.p-3.mt-0.mb-4.bg-info.text-white
             b-icon.mr-2(icon="file-earmark")
-            | Universal pages
+            | {{$words.universal}} {{$words.page}}
           .row
             .col
               IndexPageListView(:pages="pages")
@@ -95,9 +95,9 @@
                 .card-header
                   h3.mt-0
                     b-icon(icon="file-earmark-plus")
-                    | Add Page
+                    | {{$words.add}} {{$words.page}}
                 .card-body
-                  label Path *
+                  label {{$words.path}} *
                     input.form-control(type="text", v-model="added.path")
                   label Box id (Option)
                     input.form-control(type="text", v-model="added.itemId")
@@ -105,7 +105,7 @@
                     type="button",
                     :disabled="added.path === ''",
                     @click="addPage"
-                  ) Add
+                  ) {{$words.add}}
 
         section#site.mt-1r.mb-6r
           SiteSettingsComp

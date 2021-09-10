@@ -6,7 +6,7 @@ div
     @change="() => $emit('change')"
   )
   label.form-inline
-    span.mr-1 CSV:
+    span.mr-1 {{$words.csv}}:
     textarea.form-control.form-control-sm(
       v-model="itemData.value",
       placehholder="csv only",

@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   label
-    span.mr-1 URL:
+    span.mr-1 {{$words.url}}:
     input.form-control.form-control-sm(
       v-model="itemData.value.url"
       @change="()=>$emit('change')"

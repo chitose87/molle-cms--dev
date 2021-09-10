@@ -4,7 +4,7 @@
   a.btn.btn-info.btn-sm.btn-block.mb-2(
     @click="()=>$root.$emit('google-storage-view')"
   )
-    span {{$words.export}}
+    span {{$words.explorer}}
   a.btn.btn-info.btn-sm.btn-block(
     @click="()=>$root.$emit('google-storage-upload',(url)=>{uploaded=url})"
   )

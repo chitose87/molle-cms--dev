@@ -17,7 +17,7 @@
         b(v-html="node.id")
       span(v-else-if="itemData.option.tag=='section'")
         b-icon.ml-n1.mr-1(icon="bookmark-check-fill")
-        b {{itemData.name||"Section"}}
+        b {{itemData.name||$words.section}}
       span(v-else-if="itemData.moduleId=='Headline'")
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b H

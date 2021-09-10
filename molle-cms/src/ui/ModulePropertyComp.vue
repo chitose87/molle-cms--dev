@@ -38,27 +38,27 @@
             type="text"
             v-model="itemData.name"
             @change="update"
-            placeholder="Name")
+            :placeholder="$words.name")
 
       //ID
-      label.mr-2 id
+      label.mr-2 {{$words.id}}
         .u_auto-input
           span.u_auto-input__static.form-control.form-control-sm(v-html="itemData.tagId || 'id'")
           input.u_auto-input__input.form-control.form-control-sm(
             type="text"
             v-model="itemData.tagId"
             @change="update"
-            placeholder="id")
+            :placeholder="$words.id")
 
       //クラス
-      label.mr-2 class
+      label.mr-2 {{$words.class}}
         .u_auto-input
           span.u_auto-input__static.form-control.form-control-sm(v-html="itemData.tagClass || 'class'")
           input.u_auto-input__input.form-control.form-control-sm(
             type="text"
             v-model="itemData.tagClass"
             @change="update"
-            placeholder="class")
+            :placeholder="$words.class")
       hr
 
       LogPropertyComp(:itemId="itemId")

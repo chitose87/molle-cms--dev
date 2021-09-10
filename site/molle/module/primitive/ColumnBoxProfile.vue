@@ -7,7 +7,7 @@
     )
 
     label
-      span.mr-1 カラム幅:
+      span.mr-1 {{$words.col}}:
       .form-inline
         input.form-control.form-control-sm(
           v-model="itemData.option.col"
@@ -17,7 +17,7 @@
         )
         span /12
     label
-      span.mr-1 カラム幅-SP:
+      span.mr-1 {{$words.col}}-{{$words.sp}}:
       .form-inline
         input.form-control.form-control-sm(
           v-model="itemData.option.colSm"

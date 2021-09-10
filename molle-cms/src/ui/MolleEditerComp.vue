@@ -3,8 +3,8 @@
   button.molle-editer__toggle.btn.btn-info(
     @click="editerToggle"
   )
-    span(v-if="$route.query.edit") Preview
-    span(v-else) Edit
+    span(v-if="$route.query.edit") {{$words.preview}}
+    span(v-else) {{$words.edit}}
 
   .molle-editer__body(v-show="$route.query.edit && $route.query.hidden !== 'true'")
     style(v-if="$route.query.edit")

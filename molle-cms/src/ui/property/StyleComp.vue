@@ -1,12 +1,12 @@
 <template lang="pug">
 .style-comp
   label.form-inline.mr-3(v-if="permission.theme!==undefined")
-    span.mr-1 Theme:
+    span.mr-1 {{$words.theme}}:
     select.form-control.form-control-sm(v-model="itemData.class.theme" @change="()=>$emit('change')")
       option(v-for="theme in permission.theme.select" :val="theme" v-html="theme")
 
   label.form-inline.mr-3(v-if="permission.color!==undefined")
-    span.mr-1 Color:
+    span.mr-1 {{$words.color}}:
     select.form-control.form-control-sm(v-model="itemData.class.color" @change="()=>$emit('change')")
       option(v-for="color in permission.color.select" :val="color" v-html="color")
 
@@ -14,19 +14,19 @@
     //section
     span.mr-3(v-if="permission.container!==undefined")
       label
-        span.mr-1 section:
+        span.mr-1 {{$words.section}}:
         input.form-control.form-control-sm(v-model="itemData.class.section" type="checkbox" @change="()=>$emit('change')")
 
     //container
     span.mr-3(v-if="permission.container!==undefined")
       label
-        span.mr-1 container:
+        span.mr-1 {{$words.container}}:
         input.form-control.form-control-sm(v-model="itemData.class.container" type="checkbox" @change="()=>$emit('change')")
 
     //container-fluid
     span.mr-3(v-if="permission.container!==undefined")
       label
-        span.mr-1 container-fluid:
+        span.mr-1 {{$words.container}}-{{$words.fluid}}:
         input.form-control.form-control-sm(v-model="itemData.class['container-fluid']" type="checkbox" @change="()=>$emit('change')")
 
     //Border

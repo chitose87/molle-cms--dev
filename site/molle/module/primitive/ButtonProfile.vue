@@ -6,7 +6,7 @@
       @change="()=>$emit('change')"
     )
     label.form-inline
-      span.mr-1 URL:
+      span.mr-1 {{$words.url}}:
       input.form-control.form-control-sm(
         v-model="itemData.option.href"
         @change="()=>$emit('change')"

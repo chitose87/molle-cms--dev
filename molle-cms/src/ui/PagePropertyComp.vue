@@ -5,21 +5,21 @@
       b-icon(:icon="flag?'chevron-up':'chevron-down'")
     .card-body.p-3(v-if="flag")
       label.w-100
-        span Title (meta):
+        span {{$words.title}} ({{$words.meta}}):
         textarea.form-control.form-control-sm(
           v-model="pageData.title",
           :placeholder="pageData.displayTitle",
           @change="update"
         )
       label.w-100
-        span Title (表示用):
+        span {{$words.title}} (表示用):
         textarea.form-control.form-control-sm(
           v-model="pageData.displayTitle",
           :placeholder="pageData.title",
           @change="update"
         )
       label.w-100
-        span Description (meta):
+        span {{$words.description}} ({{$words.meta}}):
         textarea.form-control.form-control-sm(
           v-model="pageData.description",
           @change="update"
@@ -34,7 +34,7 @@
         )
 
       InputUrlByGS(
-        :label="'OGP画像:'"
+        :label="[$words.ogp]+'画像:'"
         v-model="pageData.ogpImg"
         @change="update"
       )
@@ -73,9 +73,9 @@
 
       .mb-2
         button.btn.btn-info(type="button" @click="onExport")
-          span Export
+          span {{$words.export}}
         button.btn.btn-warning(type="submit" @click="importModal=true")
-          span Import
+          span {{$words.import}}
         .modal(v-if="importModal" :aria-expanded="importModal")
           .modal__fiexd
             .modal__close(@click="importModal=!importModal")
@@ -87,7 +87,7 @@
                   accept="application/json",
                 )
                 button.btn.btn-info(type="submit")
-                  span Import
+                  span {{$words.import}}
 
 </template>
 

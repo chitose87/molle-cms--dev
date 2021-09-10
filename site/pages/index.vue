@@ -7,12 +7,12 @@
 
     section
       .container
-        h3 News
+        h3 {{$words.news}}
         //NewsList(:max="3")
 
         .text-center
           Button.-primary(
-            :static__value="'more'"
+            :static__value="$words.more"
             :static__option="{href: '/news', traget: '_self'}"
           )
 

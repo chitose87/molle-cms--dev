@@ -8,13 +8,13 @@ div
     )
       option(v-for="item in ['', 'section']" :value="item" v-html="item")
 
-  label Background:
+  label {{$words.bg}}:
     input.form-control.form-control-sm(
       type="text"
       v-model="itemData.option.bg"
       @change="(e)=>validation(e.target.value,itemData.option,'bg')"
     )
-  label Background sp:
+  label {{$words.bg}} {{$words.sp}}:
     input.form-control.form-control-sm(
       type="text"
       v-model="itemData.option.bgSp"
@@ -27,14 +27,14 @@ div
     a.btn.btn-info.btn-sm.btn-block.mb-2(
       @click="()=>$root.$emit('google-storage-view')"
     )
-      span Explorer
+      span {{$words.explorer}}
     a.btn.btn-info.btn-sm.btn-block(
       @click="()=>$root.$emit('google-storage-upload',(url)=>{uploaded=url})"
     )
-      span Upload
+      span {{$words.upload}}
 
     div(v-if="uploaded")
-      label Complete
+      label {{$words.complete}}
         input.form-control.form-control-sm(:value="uploaded")
 
   StyleComp(

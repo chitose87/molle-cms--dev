@@ -18,7 +18,7 @@ Vue.prototype.$words = {
   lng: {jp: "経度", en: "lng"},
   marker: {jp: "マーカー", en: "marker"},
   complete: {jp: "完了", en: "Complete"},
-  explorer: {jp: "Explorer", en: "Explorer"},
+  explorer: {jp: "エクスプローラー", en: "Explorer"},
   upload: {jp: "アップロード", en: "Upload"},
   sub: {jp: "サブ", en: "sub"},
   text: {jp: "テキスト", en: "Text"},
@@ -41,7 +41,6 @@ Vue.prototype.$words = {
   display: {jp: "表示用", en: "Display"},
   itemId: {jp: "アイテムID", en: "itemId"},
   ogp: {jp: "OGP", en: "OGP"},
-  preview: {jp: "プレビューページのパス", en: "Preview"},
   alt: {jp: "代替テキスト", en: "alt"},
   src: {jp: "画像URL", en: "src"},
   center: {jp: "中央寄せ", en: "center"},
@@ -58,6 +57,9 @@ Vue.prototype.$words = {
   section: {jp: "セクション", en: "section"},
   meta: {jp: "メタ", en: "Meta"},
   save: {jp: "保存", en: "Save"},
+  pages: {jp: "ページ", en: "pages"},
+  edit: {jp: "編集", en: "Edit"},
+  preview: {jp: "プレビュー", en: "Preview"},
 };
 
 for (let id in Vue.prototype.$words) {

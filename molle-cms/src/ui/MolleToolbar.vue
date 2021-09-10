@@ -3,12 +3,12 @@
   div(v-if="!localValue")
     // 未ログイン
     form.form-group(@submit.prevent, @submit="onLogin")
-      label mail:
+      label {{$words.mail}}:
         input.form-control.form-control-sm(type="email" name="email" v-model="user.email")
-      label password:
+      label {{$words.password}}:
         input.form-control.form-control-sm(type="password" name="password")
       button.btn.btn-info(type="submit")
-        span Login
+        span {{$words.login}}
       button.btn.btn-link.btn-sm(@click="sendPasswordResetEmail")
         b-icon(icon="envelope")
         span パスワード再設定
@@ -59,10 +59,10 @@
     hr
     .mb-2
       button.btn.btn-info(type="button" @click="onExport")
-        span Export
+        span {{$words.export}}
     .mb-2
       button.btn.btn-warning(type="submit" @click="importModal=true")
-        span Import
+        span {{$words.import}}
       .modal(v-if="importModal" :aria-expanded="importModal")
         .modal__fiexd
           .modal__close(@click="importModal=!importModal")
@@ -75,14 +75,14 @@
                 multiple
               )
               button.btn.btn-info(type="submit")
-                span Import
+                span {{$words.import}}
     hr
     .mb-2
       button.btn.btn-danger(@click="cleanup")
-        span Data Clean
+        span {{$words.dataClean}}
     .mb-2
       button.btn.btn-info(type="button" @click="onLogout")
-        span Logout
+        span {{$words.logout}}
 
 </template>
 

@@ -26,7 +26,7 @@ ul.list-group
     button.btn.btn-danger.btn-sm(
       type="button",
       @click="deletePage(key)"
-    ) Delete
+    ) {{$words.delete}}
 
 </template>
 
