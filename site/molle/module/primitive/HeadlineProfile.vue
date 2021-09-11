@@ -1,13 +1,13 @@
 <template lang="pug">
   div
     TextAreaQuill(
-      :label="[$words.text]+':'"
+      :label="$words.text+':'"
       v-model="itemData.value"
       @change="()=>$emit('change')"
     )
 
     TextAreaQuill(
-      :label="[$words.sub]+[$words.text]+':'"
+      :label="$words.sub+$words.text+':'"
       v-model="itemData.option.text"
       @change="()=>$emit('change')"
     )

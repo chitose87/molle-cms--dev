@@ -9,7 +9,7 @@ div
       option(v-for="item in ['', 'section']" :value="item" v-html="item")
 
   TextAreaQuill(
-    :label="[$words.title]+':'"
+    :label="$words.title+':'"
     v-model="itemData.option.title"
     @change="()=>$emit('change')"
   )

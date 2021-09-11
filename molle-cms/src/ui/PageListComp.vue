@@ -6,7 +6,7 @@
     .card-body.p-0.pb-3(v-if="expand.all")
       div
         button.btn.btn-sm.btn-link.btn-block.text-left(@click="expand.news=!expand.news")
-          span {{$words.news}} 一覧
+          span {{$words.news}} {{$words.list}}
           b-icon(:icon="expand.news?'chevron-up':'chevron-down'")
 
         .item-list-item-comp.list-group-item.p-0.pl-2.pb-3.border-right-0(v-if="expand.news")
@@ -22,7 +22,7 @@
 
       div
         button.btn.btn-sm.btn-link.btn-block.text-left(@click="expand.universal=!expand.universal")
-          span {{$words.universal}} 一覧
+          span {{$words.universal}} {{$words.list}}
           b-icon(:icon="expand.universal?'chevron-up':'chevron-down'")
         .item-list-item-comp.list-group-item.p-0.pl-2.pb-3.border-right-0(v-if="expand.universal")
           // pages

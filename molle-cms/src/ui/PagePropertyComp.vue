@@ -12,7 +12,7 @@
           @change="update"
         )
       label.w-100
-        span {{$words.title}} (表示用):
+        span {{$words.title}} ({{$words.display}}):
         textarea.form-control.form-control-sm(
           v-model="pageData.displayTitle",
           :placeholder="pageData.title",
@@ -34,7 +34,7 @@
         )
 
       InputUrlByGS(
-        :label="[$words.ogp]+'画像:'"
+        :label="$words.ogp+$words.image+':'"
         v-model="pageData.ogpImg"
         @change="update"
       )

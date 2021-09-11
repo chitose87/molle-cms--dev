@@ -5,7 +5,6 @@ Vue.prototype.$lang = "jp";
 Vue.prototype.$words = {
   add: {jp: "追加", en: "Add"},
   delete: {jp: "削除", en: "Delete"},
-  page: {jp: "ページ", en: "Page"},
   path: {jp: "Path", en: "Path"},
   readme: {jp: "備考", en: "Readme"},
   universal: {jp: "汎用", en: "Universal"},
@@ -25,7 +24,7 @@ Vue.prototype.$words = {
   more: {jp: "もっと見る", en: "more"},
   news: {jp: "ニュース", en: "News"},
   root: {jp: "基底アイテムデータ", en: "Root Item"},
-  Page: {jp: "ページ", en: "Page"},
+  page: {jp: "ページ", en: "Page"},
   structure: {jp: "構造", en: "Structure"},
   class: {jp: "クラス", en: "class"},
   id: {jp: "ID", en: "ID"},
@@ -57,9 +56,10 @@ Vue.prototype.$words = {
   section: {jp: "セクション", en: "section"},
   meta: {jp: "メタ", en: "Meta"},
   save: {jp: "保存", en: "Save"},
-  pages: {jp: "ページ", en: "pages"},
   edit: {jp: "編集", en: "Edit"},
   preview: {jp: "プレビュー", en: "Preview"},
+  list: {jp: "一覧", en: "List"},
+  image: {jp: "画像", en: "Image"},
 };
 
 for (let id in Vue.prototype.$words) {

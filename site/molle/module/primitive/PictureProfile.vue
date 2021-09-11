@@ -7,12 +7,12 @@ div
   )
 
   InputUrlByGS(
-    :label="[$words.src]+':'"
+    :label="$words.src+':'"
     v-model="itemData.value"
     @change="()=>$emit('change')"
   )
   InputUrlByGS(
-    :label="[$words.src]+' '+[$words.sp]+':'"
+    :label="$words.src+' '+$words.sp+':'"
     v-model="itemData.option.sp"
     @change="()=>$emit('change')"
   )
