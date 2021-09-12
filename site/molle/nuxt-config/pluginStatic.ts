@@ -13,16 +13,16 @@ import Picture from "~/molle-cms/src/module/primitive/Picture.vue"
 import Button from "~/molle-cms/src/module/primitive/Button.vue"
 import Column from "~/molle-cms/src/module/primitive/Column.vue"
 import ColumnBox from "~/molle-cms/src/module/primitive/ColumnBox.vue"
-import Gallery from "~/molle/module/custom/Gallery.vue"
-import GoogleForm from "~/molle/module/custom/GoogleForm.vue"
-import SocialShare from "~/molle/module/custom/SocialShare.vue"
-import Modal from "~/molle-cms/src/module/primitive/Modal.vue"
-import Card from "~/molle/module/custom/Card.vue"
-import GoogleMap from "~/molle/module/custom/GoogleMap.vue"
 import Embed from "~/molle-cms/src/module/primitive/Embed.vue"
 import LinkBox from "~/molle-cms/src/module/primitive/LinkBox.vue"
 import IsviewBox from "~/molle-cms/src/module/primitive/IsviewBox.vue"
 import ButtonList from "~/molle-cms/src/module/primitive/ButtonList.vue"
+import Modal from "~/molle-cms/src/module/primitive/Modal.vue"
+import Gallery from "~/molle/module/custom/Gallery.vue"
+import GoogleForm from "~/molle/module/custom/GoogleForm.vue"
+import SocialShare from "~/molle/module/custom/SocialShare.vue"
+import Card from "~/molle/module/custom/Card.vue"
+import GoogleMap from "~/molle/module/custom/GoogleMap.vue"
 import Table from "~/molle-cms/src/module/primitive/Table.vue"
 /* > */
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
@@ -37,16 +37,16 @@ Vue.component("Picture", Picture);
 Vue.component("Button", Button);
 Vue.component("Column", Column);
 Vue.component("ColumnBox", ColumnBox);
-Vue.component("Gallery", Gallery);
-Vue.component("GoogleForm", GoogleForm);
-Vue.component("SocialShare", SocialShare);
-Vue.component("Modal", Modal);
-Vue.component("Card", Card);
-Vue.component("GoogleMap", GoogleMap);
 Vue.component("Embed", Embed);
 Vue.component("LinkBox", LinkBox);
 Vue.component("IsviewBox", IsviewBox);
 Vue.component("ButtonList", ButtonList);
+Vue.component("Modal", Modal);
+Vue.component("Gallery", Gallery);
+Vue.component("GoogleForm", GoogleForm);
+Vue.component("SocialShare", SocialShare);
+Vue.component("Card", Card);
+Vue.component("GoogleMap", GoogleMap);
 Vue.component("Table", Table);
 /* > */
 
