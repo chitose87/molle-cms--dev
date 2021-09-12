@@ -48,7 +48,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -67,7 +67,7 @@ import Box from "~/molle/module/primitive/Box.vue";
 export default class ColumnProfile extends Profile {
   static readonly CLASS_NAME = "ColumnProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     // container: false,
     // border: false,
     align: StyleAlign.None,

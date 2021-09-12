@@ -20,7 +20,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -38,7 +38,7 @@ import RandomCards from "~/molle/module/custom/RandomCards.vue";
 export default class RandomCardBoxProfile extends Profile {
   static readonly CLASS_NAME = "RandomCardBoxProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     margin: "",
     padding: "",
     // theme: {default: "", select: ["", "-quote"]},

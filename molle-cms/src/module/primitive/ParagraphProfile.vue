@@ -16,7 +16,7 @@ div
 
   StyleComp(
     :itemData="itemData"
-    :permission="stylePermission"
+
     @change="()=>$emit('change')"
   )
 
@@ -36,7 +36,7 @@ import Headline from "./Headline.vue";
 export default class ParagraphProfile extends Profile {
   static readonly CLASS_NAME = "ParagraphProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     border: false,
     align: StyleAlign.None,
     margin: "",

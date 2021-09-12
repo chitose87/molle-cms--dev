@@ -11,7 +11,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -29,7 +29,7 @@ import BackgroundBox from "./BackgroundBox.vue";
 export default class BoxProfile extends Profile {
   static readonly CLASS_NAME = "BoxProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     container: false,
     "container-fluid": false,
     section: false,

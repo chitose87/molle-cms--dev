@@ -9,7 +9,7 @@ div
 
   StyleComp(
     :itemData="itemData"
-    :permission="stylePermission"
+
     @change="()=>$emit('change')"
   )
 
@@ -28,7 +28,7 @@ import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 export default class EmbedProfile extends Profile {
   static readonly CLASS_NAME = "EmbedProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     // border: false,
     // align: StyleAlign.None,
     // margin: "",

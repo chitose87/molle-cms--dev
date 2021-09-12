@@ -17,7 +17,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -34,7 +34,7 @@ import Picture from "~/molle-cms/src/module/primitive/Picture.vue";
 export default class GalleryProfile extends Profile {
   static readonly CLASS_NAME = "GalleryProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     container: false,
     border: false,
     margin: "",

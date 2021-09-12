@@ -3,7 +3,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -22,7 +22,7 @@ import Paragraph from "~/molle/module/primitive/Paragraph.vue";
 export default class CardProfile extends Profile {
   static readonly CLASS_NAME = "CardProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     // border: false,
     // align: StyleAlign.None,
     // margin: "",

@@ -17,7 +17,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -35,7 +35,7 @@ import Feature from "~/molle/module/custom/Feature.vue";
 export default class FeatureBoxProfile extends Profile {
   static readonly CLASS_NAME = "FeatureBoxProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     container: false,
     "container-fluid": false,
     section: false,

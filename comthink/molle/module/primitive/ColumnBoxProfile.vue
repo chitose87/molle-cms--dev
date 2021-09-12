@@ -3,7 +3,6 @@
     StyleComp(
       :itemData="itemData"
       @change="()=>$emit('change')"
-      :permission="stylePermission"
     )
 
     label
@@ -44,7 +43,7 @@
   export default class ColumnBoxProfile extends Profile {
   static readonly CLASS_NAME = "ColumnBoxProfile";
     //style setting
-    stylePermission = {
+    static readonly stylePermission = {
       // container: false,
       // border: false,
       // margin: "",

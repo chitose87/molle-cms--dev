@@ -3,7 +3,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
   InputUrlByGS(
@@ -44,7 +44,7 @@ import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
 export default class PictureProfile extends Profile {
   static readonly CLASS_NAME = "PictureProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     border: false,
     align: StyleAlign.None,
     // margin: "",

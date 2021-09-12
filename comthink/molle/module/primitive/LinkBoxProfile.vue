@@ -3,7 +3,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
   label.form-inline
     span.mr-1 URL:
@@ -37,7 +37,7 @@ import IsviewBox from "~/molle/module/primitive/IsviewBox.vue";
 export default class LinkBoxProfile extends Profile {
   static readonly CLASS_NAME = "LinkBoxProfile";
   //style setting
-  stylePermission = {};
+  static readonly stylePermission = {};
 
   static settings = {
     type: "children",

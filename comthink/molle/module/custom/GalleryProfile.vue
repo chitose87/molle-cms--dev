@@ -17,7 +17,6 @@
     StyleComp(
       :itemData="itemData"
       @change="()=>$emit('change')"
-      :permission="stylePermission"
     )
 
 </template>
@@ -34,7 +33,7 @@
   export default class GalleryProfile extends Profile {
   static readonly CLASS_NAME = "GalleryProfile";
     //style setting
-    stylePermission = {
+    static readonly stylePermission = {
       container: false,
       border: false,
       margin: "",

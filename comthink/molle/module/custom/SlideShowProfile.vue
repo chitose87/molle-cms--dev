@@ -11,7 +11,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -29,7 +29,7 @@ import Headline from "~/molle/module/primitive/Headline.vue";
 export default class SlideShowProfile extends Profile {
   static readonly CLASS_NAME = "SlideShowProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     container: false,
     "container-fluid": false,
     section: false,

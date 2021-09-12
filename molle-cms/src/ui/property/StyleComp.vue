@@ -84,9 +84,14 @@ export default class StyleComp extends Vue {
   styleAlign = StyleAlign;
 
   @Prop() itemData!: IItemData;
-  @Prop() permission!: any;
+  permission: any = {};
 
   created() {
+  }
+
+  mounted() {
+    //@ts-ignore
+    this.permission = this.$parent.constructor.stylePermission;
   }
 }
 </script>
