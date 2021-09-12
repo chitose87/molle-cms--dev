@@ -43,7 +43,7 @@ Vue.prototype.$words = {
   alt: {jp: "代替テキスト", en: "alt"},
   src: {jp: "画像URL", en: "src"},
   center: {jp: "中央寄せ", en: "center"},
-  color: {jp: "色", en: "Color"},
+  color: {jp: "カラー", en: "Color"},
   container: {jp: "container", en: "container"},
   fluid: {jp: "fluid", en: "fluid"},
   left: {jp: "左寄せ", en: "left"},

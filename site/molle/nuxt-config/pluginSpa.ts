@@ -1,4 +1,7 @@
 import firebase from "firebase";
+
+import DevModuleGuide from "~/molle-cms/src/module/custom/DevModuleGuide.vue";
+import DevModuleGuideProfile from "~/molle-cms/src/module/custom/DevModuleGuideProfile.vue";
 /* <imports */
 import Box from "~/molle-cms/src/module/primitive/Box.vue";
 import BoxProfile from "~/molle-cms/src/module/primitive/BoxProfile.vue";
@@ -137,6 +140,9 @@ let _molleModuleList: any[] = [];
 }, {
   ref: Card,
   profile: CardProfile,
+},{
+  ref: DevModuleGuide,
+  profile: DevModuleGuideProfile,
 },
 ].forEach((attr: {ref: any; profile?: any;}) => {
   let v: any = {

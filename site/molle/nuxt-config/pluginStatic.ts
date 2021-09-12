@@ -52,4 +52,5 @@ Vue.component("Table", Table);
 
 Vue.component("MolleEditerComp", Blank);
 Vue.component("AddModuleComp", Blank);
+Vue.component("DevModuleGuide", Blank);
 Vue.component("ModuleLoader", ModuleLoader);
