@@ -12,10 +12,10 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
-import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
-import Box from "~/molle/module/primitive/Box.vue";
-import BackgroundBox from "~/molle/module/primitive/BackgroundBox.vue";
-import LinkBox from "~/molle/module/primitive/LinkBox.vue";
+import ColumnBox from "./ColumnBox.vue";
+import Box from "./Box.vue";
+import BackgroundBox from "./BackgroundBox.vue";
+import LinkBox from "./LinkBox.vue";
 
 @Component({
   components: {StyleComp},

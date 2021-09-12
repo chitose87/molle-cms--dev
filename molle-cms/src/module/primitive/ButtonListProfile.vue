@@ -13,7 +13,7 @@ import {Component} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
-import Button from "~/molle/module/primitive/Button.vue";
+import Button from "./Button.vue";
 
 @Component({
   components: {StyleComp},

@@ -13,8 +13,8 @@ import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
-import Picture from "~/molle/module/primitive/Picture.vue";
-import Paragraph from "~/molle/module/primitive/Paragraph.vue";
+import Picture from "~/molle-cms/src/module/primitive/Picture.vue";
+import Paragraph from "~/molle-cms/src/module/primitive/Paragraph.vue";
 
 @Component({
   components: {StyleComp},
