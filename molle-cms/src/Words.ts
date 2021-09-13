@@ -5,7 +5,8 @@ Vue.prototype.$lang = "jp";
 Vue.prototype.$words = {
   add: {jp: "追加", en: "Add"},
   delete: {jp: "削除", en: "Delete"},
-  path: {jp: "Path", en: "Path"},
+
+  path: {jp: "パス", en: "Path"},
   readme: {jp: "備考", en: "Readme"},
   universal: {jp: "汎用", en: "Universal"},
   bg: {jp: "背景画像", en: "Background"},
@@ -17,7 +18,7 @@ Vue.prototype.$words = {
   lng: {jp: "経度", en: "lng"},
   marker: {jp: "マーカー", en: "marker"},
   complete: {jp: "完了", en: "Complete"},
-  explorer: {jp: "エクスプローラー", en: "Explorer"},
+  explorer: {jp: "一覧", en: "Explorer"},
   upload: {jp: "アップロード", en: "Upload"},
   sub: {jp: "サブ", en: "sub"},
   text: {jp: "テキスト", en: "Text"},
@@ -36,18 +37,19 @@ Vue.prototype.$words = {
   logout: {jp: "ログアウト", en: "Logout"},
   mail: {jp: "メールアドレス", en: "mail"},
   password: {jp: "パスワード", en: "password"},
-  description: {jp: "説明文", en: "Description"},
+  description: {jp: "説明", en: "Description"},
   display: {jp: "表示用", en: "Display"},
   itemId: {jp: "アイテムID", en: "itemId"},
   ogp: {jp: "OGP", en: "OGP"},
+
   alt: {jp: "代替テキスト", en: "alt"},
   src: {jp: "画像URL", en: "src"},
-  center: {jp: "中央寄せ", en: "center"},
+  center: {jp: "中央", en: "center"},
   color: {jp: "カラー", en: "Color"},
   container: {jp: "container", en: "container"},
   fluid: {jp: "fluid", en: "fluid"},
-  left: {jp: "左寄せ", en: "left"},
-  right: {jp: "右寄せ", en: "right"},
+  left: {jp: "左", en: "left"},
+  right: {jp: "右", en: "right"},
   theme: {jp: "テーマ", en: "Theme"},
   csv: {jp: "CSV", en: "CSV"},
   editer: {jp: "Editer", en: "Editer"},
@@ -56,13 +58,25 @@ Vue.prototype.$words = {
   section: {jp: "セクション", en: "section"},
   meta: {jp: "メタ", en: "Meta"},
   save: {jp: "保存", en: "Save"},
+
   edit: {jp: "編集", en: "Edit"},
   preview: {jp: "プレビュー", en: "Preview"},
   list: {jp: "一覧", en: "List"},
   image: {jp: "画像", en: "Image"},
+  border: {jp: "枠線", en: "Border"},
+  align: {jp: "行揃", en: "Align"},
+  auto: {jp: "自動", en: "Auto"},
+  default: {jp: "初期値", en: "Default"},
+  false: {jp: "×", en: "FALSE"},
+  true: {jp: "〇", en: "TRUE"},
+
+  TF: {jp: "", en: ""},
 };
 
 for (let id in Vue.prototype.$words) {
   //@ts-ignore
   Vue.prototype.$words[id] = Vue.prototype.$words[id][Vue.prototype.$lang];
 }
+Vue.prototype.$words.TF = (flag: Boolean) => {
+  return flag ? Vue.prototype.$words.true : Vue.prototype.$words.false;
+};

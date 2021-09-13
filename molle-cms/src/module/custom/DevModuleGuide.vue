@@ -10,13 +10,50 @@
   .column
     .column__item.col-3
       .dev-module-guide__left
-        div(
+        .dev-module-guide__permission(
           v-if="itemData.option.module"
-          v-for="moduleObj in [$molleModules[itemData.option.module]]"
+          v-for="permission in [$molleModules[itemData.option.module].profile.stylePermission]"
         )
-          p(v-html="moduleObj.ref.CLASS_NAME")
-          p(v-html="moduleObj.profile.CLASS_NAME")
+          dl(v-if="permission.theme!==undefined")
+            dt {{$words.theme}}
+            dd
+              span(v-for="theme in permission.theme.select" v-html="theme")
 
+          dl(v-if="permission.color!==undefined")
+            dt {{$words.color}}
+            dd
+              span(v-for="color in permission.color.select" v-html="color")
+
+          //section
+          dl(v-if="permission.section!==undefined")
+            dt {{$words.section}}
+            dd
+              span {{$words.default}}({{$words.TF(permission.section)}})
+
+          //container
+          dl(v-if="permission.container!==undefined")
+            dt {{$words.container}}
+            dd
+              span {{$words.default}}({{$words.TF(permission.container)}})
+
+          //container-fluid
+          dl(v-if="permission['container-fluid']!==undefined")
+            dt {{$words.container}}-{{$words.fluid}}
+            dd
+              span {{$words.default}}({{$words.TF(permission["container-fluid"])}})
+
+          //Border
+          dl(v-if="permission.border!==undefined")
+            dt {{$words.border}}
+            dd
+              span {{$words.default}}({{$words.TF(permission.border)}})
+
+          //TextHorizontal
+          dl(v-if="permission.align!==undefined")
+            dt {{$words.align}}
+            dd
+              span(v-for="item in styleAlign" :value="item.value" v-html="$words[item.label]")
+        hr
         p(v-html="itemData.option.memo")
     .column__item.col
       .container
@@ -54,13 +91,31 @@ export default class DevModuleGuide extends Module {
   border: 1px solid $color-border;
   padding: 1rem;
 
-  &__left{
+  &__left {
     border-right: 1px solid $color-border;
   }
 
   &__headline {
     margin-top: 0;
     border-bottom: 1px solid $color-border;
+  }
+
+  &__permission {
+    dl {
+      dt {
+        display: inline-block;
+
+        &:after {
+          content: ":";
+          margin-left: 0.5em;
+          margin-right: 0.5em;
+        }
+      }
+
+      dd {
+        display: inline-block;
+      }
+    }
   }
 }
 </style>
