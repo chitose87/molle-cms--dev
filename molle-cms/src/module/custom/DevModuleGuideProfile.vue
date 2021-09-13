@@ -1,9 +1,14 @@
 <template lang="pug">
 div
+  TextAreaQuill(
+    :label="'memo:'"
+    v-model="itemData.option.memo"
+    @change="()=>$emit('change')"
+  )
+
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-
   )
 
 </template>
@@ -13,9 +18,10 @@ import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import DevModuleGuide from "./DevModuleGuide.vue";
+import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {TextAreaQuill, StyleComp},
 })
 export default class DevModuleGuideProfile extends Profile {
   static readonly CLASS_NAME = "DevModuleGuideProfile";
