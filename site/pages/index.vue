@@ -12,7 +12,7 @@
 
         .text-center
           Button.-primary(
-            :static__value="more"
+            :static__value="'more'"
             :static__option="{href: '/news', traget: '_self'}"
           )
 
