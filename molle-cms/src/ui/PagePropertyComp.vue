@@ -188,6 +188,7 @@ export default class PagePropertyComp extends Vue {
   onImport(e: Event) {
     let target = <HTMLFormElement>e.target;
     let files: FileList = target.files.files;
+    let count: number = 0;
 
     if (files.length == 0) {
       alert("ファイルが選択されていません。");
@@ -212,11 +213,14 @@ export default class PagePropertyComp extends Vue {
 
         //items import
         let loopReplaceUpload = (node: INodeObject) => {
-          let _newId = Singleton.itemsRef.doc().id;
+          let _newId: any = Singleton.itemsRef.doc().id;
+          count++;
+          if (count == 1) {
+            _newId = this.pageData.itemId;
+          }
           let item = <IItemData>data.items[node.id];
           if (item.type == "group" || item.type == "children") {
             for (let i in item.value) {
-              // console.log(item.value[i])
               item.value[i].id = loopReplaceUpload(item.value[i]);
             }
           }
