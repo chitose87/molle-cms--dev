@@ -69,6 +69,7 @@ Vue.prototype.$words = {
   default: {jp: "初期値", en: "Default"},
   false: {jp: "×", en: "FALSE"},
   true: {jp: "〇", en: "TRUE"},
+  module:{jp:'module',en:'module'},
 
   TF: {jp: "", en: ""},
 };

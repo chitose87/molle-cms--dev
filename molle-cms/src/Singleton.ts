@@ -71,7 +71,7 @@ export class Singleton {
 }
 
 export const StyleAlign = {
-  None: {value: "", label: ""},
+  None: {value: "", label: "auto"},
   Left: {value: "text-left", label: "left"},
   Center: {value: "text-center", label: "center"},
   Right: {value: "text-right", label: "right"},

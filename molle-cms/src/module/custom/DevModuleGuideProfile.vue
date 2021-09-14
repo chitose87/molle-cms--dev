@@ -1,5 +1,19 @@
 <template lang="pug">
 div
+  label.form-inline
+    span.mr-1 {{$words.module}}:
+    select.form-control.form-control-sm(
+      v-model="itemData.option.module"
+      @change="()=>$emit('change')"
+    )
+      option(v-for="item in $molleModuleList" :value="item.ref.CLASS_NAME" v-html="item.ref.CLASS_NAME")
+
+  TextAreaQuill(
+    :label="$words.description+':'"
+    v-model="itemData.option.description"
+    @change="()=>$emit('change')"
+  )
+
   TextAreaQuill(
     :label="'memo:'"
     v-model="itemData.option.memo"
