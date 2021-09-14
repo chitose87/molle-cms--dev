@@ -1,15 +1,13 @@
 <template lang="pug">
 div
-  label.w-100
-    span HTML:
-    textarea.form-control.form-control-sm(
-      v-model="itemData.value"
-      @change="()=>$emit('change')"
-    )
+  TextAreaQuill(
+    :label="'memo:'"
+    v-model="itemData.option.memo"
+    @change="()=>$emit('change')"
+  )
 
   StyleComp(
     :itemData="itemData"
-
     @change="()=>$emit('change')"
   )
 
@@ -19,26 +17,24 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
-import {StyleAlign} from "~/molle-cms/src/Singleton";
+import DevModuleGuide from "./DevModuleGuide.vue";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 
 @Component({
   components: {TextAreaQuill, StyleComp},
 })
-export default class EmbedProfile extends Profile {
-  static readonly CLASS_NAME = "EmbedProfile";
+export default class DevModuleGuideProfile extends Profile {
+  static readonly CLASS_NAME = "DevModuleGuideProfile";
   //style setting
   static readonly stylePermission = {
-    // border: false,
-    // align: StyleAlign.None,
-    // margin: "",
-    // padding: "",
-    // theme: {default: "", select: ["", "-caption"]},
-    // color: {default: "", select: ["", "dark"]},
+    margin: "",
+    padding: "",
   };
+
   static settings = {
-    type: "text",
-    icon: "text-paragraph",
+    type: "children",
+    black: [DevModuleGuide],
+    icon: "plus-square",
   };
 }
 </script>

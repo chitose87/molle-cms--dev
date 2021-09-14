@@ -3,16 +3,16 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
   InputUrlByGS(
-    :label="[$words.src]+':'"
+    :label="$words.src+':'"
     v-model="itemData.value"
     @change="()=>$emit('change')"
   )
   InputUrlByGS(
-    :label="[$words.src]+' '+[$words.sp]+':'"
+    :label="$words.src+' '+$words.sp+':'"
     v-model="itemData.option.sp"
     @change="()=>$emit('change')"
   )
@@ -44,7 +44,7 @@ import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
 export default class PictureProfile extends Profile {
   static readonly CLASS_NAME = "PictureProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     border: false,
     align: StyleAlign.None,
     // margin: "",

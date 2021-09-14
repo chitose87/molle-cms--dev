@@ -5,7 +5,7 @@ import {IItemData, INodeObject} from "../interface";
 export class Profile extends Vue {
   @Prop() itemData!: IItemData;
   @Prop() itemId!: string;
-  stylePermission?: any;
+  // stylePermission?: any;
 
   /**
    *

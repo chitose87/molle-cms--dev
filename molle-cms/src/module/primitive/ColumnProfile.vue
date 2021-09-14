@@ -7,7 +7,7 @@ div
       @change="()=>$emit('change')"
     )
   label
-    span.mr-1 基本カラム幅:
+    span.mr-1 基本{{$words.col}}:
     .form-inline
       input.form-control.form-control-sm(
         v-model="itemData.option.col"
@@ -18,7 +18,7 @@ div
       )
       span /12
   label
-    span.mr-1 基本カラム幅-SP:
+    span.mr-1 基本{{$words.col}}-{{$words.sp}}:
     .form-inline
       input.form-control.form-control-sm(
         v-model="itemData.option.colSm"
@@ -48,7 +48,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -58,8 +58,8 @@ import {Component} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
-import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
-import Box from "~/molle/module/primitive/Box.vue";
+import ColumnBox from "./ColumnBox.vue";
+import Box from "./Box.vue";
 
 @Component({
   components: {StyleComp}
@@ -67,7 +67,7 @@ import Box from "~/molle/module/primitive/Box.vue";
 export default class ColumnProfile extends Profile {
   static readonly CLASS_NAME = "ColumnProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     // container: false,
     // border: false,
     align: StyleAlign.None,

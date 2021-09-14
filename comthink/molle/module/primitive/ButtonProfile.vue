@@ -2,7 +2,7 @@
   div
     StyleComp(
       :itemData="itemData"
-      :permission="stylePermission"
+
       @change="()=>$emit('change')"
     )
     label.form-inline
@@ -39,7 +39,7 @@
   export default class ButtonProfile extends Profile {
   static readonly CLASS_NAME = "ButtonProfile";
     //style setting
-    stylePermission = {
+    static readonly stylePermission = {
       // border: false,
       // align: StyleAlign.None,
       // margin: "",

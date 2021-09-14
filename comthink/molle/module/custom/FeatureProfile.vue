@@ -3,7 +3,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -23,7 +23,7 @@ import Picture from "~/molle/module/primitive/Picture.vue";
 export default class FeatureProfile extends Profile {
   static readonly CLASS_NAME = "FeatureProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     margin: "",
     padding: "",
   };

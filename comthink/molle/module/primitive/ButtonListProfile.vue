@@ -3,7 +3,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -21,7 +21,7 @@ import Button from "~/molle/module/primitive/Button.vue";
 export default class ButtonListProfile extends Profile {
   static readonly CLASS_NAME = "ButtonListProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     // container: false,
     // border: false,
     align: StyleAlign.None,

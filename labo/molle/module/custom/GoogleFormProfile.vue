@@ -20,7 +20,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -36,7 +36,7 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 export default class GoogleFormProfile extends Profile {
   static readonly CLASS_NAME = "GoogleFormProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     // container: false,
     // border: false,
     // margin: "",

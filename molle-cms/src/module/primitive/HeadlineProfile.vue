@@ -1,22 +1,27 @@
 <template lang="pug">
 div
   TextAreaQuill(
-    :label="'Text:'"
+    :label="$words.text+':'"
     v-model="itemData.value"
     @change="()=>$emit('change')"
   )
 
+  TextAreaQuill(
+    :label="$words.sub+$words.text+':'"
+    v-model="itemData.option.text"
+    @change="()=>$emit('change')"
+  )
+
   label.form-inline
-    span.mr-1 タグ:
+    span.mr-1 見出しレベル:
     select.form-control.form-control-sm(
-      v-model="itemData.option.tag"
+      v-model="itemData.option.lv"
       @change="()=>$emit('change')"
     )
-      option(v-for="item in ['', 'span']" :value="item" v-html="item")
+      option(v-for='item in ["h1", "h2", "h3", "h4", "h5", "h6"]' :value="item" v-html="item")
 
   StyleComp(
     :itemData="itemData"
-
     @change="()=>$emit('change')"
   )
 
@@ -24,31 +29,36 @@ div
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
-import Headline from "~/molle/module/primitive/Headline.vue";
+import Paragraph from "./Paragraph.vue";
 
 @Component({
-  components: {TextAreaQuill, StyleComp}
+  components: {TextAreaQuill, StyleComp},
 })
-export default class ParagraphProfile extends Profile {
-  static readonly CLASS_NAME = "ParagraphProfile";
+export default class HeadlineProfile extends Profile {
+  static readonly CLASS_NAME = "HeadlineProfile";
   //style setting
   static readonly stylePermission = {
     border: false,
     align: StyleAlign.None,
     margin: "",
     // padding: "",
-    theme: {default: "", select: ["", "-caption"]},
-    // color: {default: "", select: ["", "dark"]},
+    theme: {default: "", select: ["", "decorate"]},
+    color: {default: "", select: ["", "text-white"]},
   };
   static settings = {
     type: "text",
-    convert: [Headline],
-    icon: "text-paragraph",
-  }
+    opt: {
+      option: {
+        lv: "h3",
+      },
+    },
+    convert: [Paragraph],
+    icon: "card-heading",
+  };
 }
 </script>
 

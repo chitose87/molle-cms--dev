@@ -23,7 +23,6 @@
     StyleComp(
       :itemData="itemData"
       @change="()=>$emit('change')"
-      :permission="stylePermission"
     )
 
 </template>
@@ -42,7 +41,7 @@
   export default class HeadlineProfile extends Profile {
   static readonly CLASS_NAME = "HeadlineProfile";
     //style setting
-    stylePermission = {
+    static readonly stylePermission = {
       border: false,
       align: StyleAlign.None,
       margin: "",

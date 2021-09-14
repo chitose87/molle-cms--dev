@@ -21,6 +21,7 @@ import {Module} from "~/molle-cms/src/module/Module";
 })
 export default class ColumnBox extends Module {
   static readonly CLASS_NAME = "ColumnBox";
+
   getClass() {
     let obj = super.getClass(this.itemData);
     if (this.itemData.option.col) {
@@ -72,5 +73,21 @@ export default class ColumnBox extends Module {
 
 <style lang="scss">
 .column__item {
+  &.col {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+  }
+
+  @for $i from 1 through 12 {
+    &.col-#{$i} {
+      @include col($i);
+    }
+    @include mediaquery-sm {
+      &.col-sm-#{$i} {
+        @include col($i);
+      }
+    }
+  }
 }
 </style>

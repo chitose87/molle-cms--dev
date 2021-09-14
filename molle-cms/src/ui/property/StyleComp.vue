@@ -12,7 +12,7 @@
 
   .form-inline
     //section
-    span.mr-3(v-if="permission.container!==undefined")
+    span.mr-3(v-if="permission.section!==undefined")
       label
         span.mr-1 {{$words.section}}:
         input.form-control.form-control-sm(v-model="itemData.class.section" type="checkbox" @change="()=>$emit('change')")
@@ -24,7 +24,7 @@
         input.form-control.form-control-sm(v-model="itemData.class.container" type="checkbox" @change="()=>$emit('change')")
 
     //container-fluid
-    span.mr-3(v-if="permission.container!==undefined")
+    span.mr-3(v-if="permission['container-fluid']!==undefined")
       label
         span.mr-1 {{$words.container}}-{{$words.fluid}}:
         input.form-control.form-control-sm(v-model="itemData.class['container-fluid']" type="checkbox" @change="()=>$emit('change')")
@@ -32,15 +32,15 @@
     //Border
     span.mr-3(v-if="permission.border!==undefined")
       label
-        span.mr-1 枠線:
+        span.mr-1 {{$words.border}}:
         input.form-control.form-control-sm(v-model="itemData.class.border" type="checkbox" @change="()=>$emit('change')")
 
     //TextHorizontal
     span.mr-3(v-if="permission.align!==undefined")
       label
-        span.mr-1 行揃え:
+        span.mr-1 {{$words.align}}:
         select.form-control.form-control-sm(v-model="itemData.class.align" @change="()=>$emit('change')")
-          option(v-for="item in styleAlign" :value="item.value" v-html="item.label")
+          option(v-for="item in styleAlign" :value="item.value" v-html="$words[item.label]")
 
   //span.mr-3
     label Free Area
@@ -84,9 +84,14 @@ export default class StyleComp extends Vue {
   styleAlign = StyleAlign;
 
   @Prop() itemData!: IItemData;
-  @Prop() permission!: any;
+  permission: any = {};
 
   created() {
+  }
+
+  mounted() {
+    //@ts-ignore
+    this.permission = this.$parent.constructor.stylePermission;
   }
 }
 </script>

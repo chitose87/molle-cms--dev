@@ -3,7 +3,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -23,7 +23,7 @@ export default class RandomCardsProfile extends Profile {
   static readonly CLASS_NAME = "RandomCardsProfile";
 
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     // container: false,
     // border: false,
     // align: StyleAlign.None,

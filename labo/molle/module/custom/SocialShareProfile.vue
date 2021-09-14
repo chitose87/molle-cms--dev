@@ -3,7 +3,6 @@
     StyleComp(
       :itemData="itemData"
       @change="()=>$emit('change')"
-      :permission="stylePermission"
     )
     label.form-inline
       span.mr-1 Don't Facebook:
@@ -34,7 +33,7 @@
   export default class SocialShareProfile extends Profile {
   static readonly CLASS_NAME = "SocialShareProfile";
     //style setting
-    stylePermission = {
+    static readonly stylePermission = {
       // border: false,
       align: StyleAlign.None,
       margin: "",

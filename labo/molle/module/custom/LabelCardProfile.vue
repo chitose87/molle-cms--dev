@@ -3,7 +3,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -20,7 +20,7 @@ import {Profile} from "~/molle-cms/src/module/Profile";
 export default class LabelCardProfile extends Profile {
   static readonly CLASS_NAME = "LabelCardProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     // border: false,
     // align: StyleAlign.None,
     // margin: "",

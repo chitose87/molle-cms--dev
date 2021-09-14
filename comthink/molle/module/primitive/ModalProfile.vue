@@ -3,7 +3,6 @@
     StyleComp(
       :itemData="itemData"
       @change="()=>$emit('change')"
-      :permission="stylePermission"
     )
 
 </template>
@@ -19,7 +18,7 @@
   export default class ModalProfile extends Profile {
   static readonly CLASS_NAME = "ModalProfile";
     //style setting
-    stylePermission = {
+    static readonly stylePermission = {
       container: false,
       border: false,
       margin: "",

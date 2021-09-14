@@ -2,11 +2,11 @@
 div
   StyleComp(
     :itemData="itemData",
-    :permission="stylePermission",
+    ,
     @change="() => $emit('change')"
   )
   label.form-inline
-    span.mr-1 CSV:
+    span.mr-1 {{$words.csv}}:
     textarea.form-control.form-control-sm(
       v-model="itemData.value",
       placehholder="csv only",
@@ -41,7 +41,7 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
 export default class TableProfile extends Profile {
   static readonly CLASS_NAME = "TableProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     border: false,
     align: StyleAlign.None,
     margin: "",

@@ -40,7 +40,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 
@@ -50,8 +50,8 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
-import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
-import Box from "~/molle/module/primitive/Box.vue";
+import ColumnBox from "./ColumnBox.vue";
+import Box from "./Box.vue";
 
 @Component({
   components: {StyleComp},
@@ -59,7 +59,7 @@ import Box from "~/molle/module/primitive/Box.vue";
 export default class BackgroundBoxProfile extends Profile {
   static readonly CLASS_NAME = "BackgroundBoxProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     container: false,
     "container-fluid": false,
     section: false,

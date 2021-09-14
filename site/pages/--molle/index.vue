@@ -27,7 +27,7 @@
           li
             a.btn-link(href="#universal")
               b-icon.mr-2(icon="file-earmark")
-              | {{$words.universal}} {{$words.pages}}
+              | {{$words.universal}} {{$words.page}}
 
         MolleToolbar(v-model="isLogin")
 

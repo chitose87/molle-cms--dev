@@ -3,7 +3,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -13,7 +13,7 @@ import {Component} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
-import Button from "~/molle/module/primitive/Button.vue";
+import Button from "./Button.vue";
 
 @Component({
   components: {StyleComp},
@@ -21,7 +21,7 @@ import Button from "~/molle/module/primitive/Button.vue";
 export default class ButtonListProfile extends Profile {
   static readonly CLASS_NAME = "ButtonListProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     // container: false,
     // border: false,
     align: StyleAlign.None,

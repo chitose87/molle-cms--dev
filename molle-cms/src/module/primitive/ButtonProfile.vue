@@ -2,16 +2,21 @@
 div
   StyleComp(
     :itemData="itemData"
+
     @change="()=>$emit('change')"
-    :permission="stylePermission"
   )
   label.form-inline
-    span.mr-1 URL:
+    span.mr-1 {{$words.url}}:
     input.form-control.form-control-sm(
       v-model="itemData.option.href"
       @change="()=>$emit('change')"
     )
-
+  label.form-inline
+    span.mr-1 ラベル:
+    input.form-control.form-control-sm(
+      v-model="itemData.value"
+      @change="()=>$emit('change')"
+    )
   label.form-inline
     span.mr-1 ターゲット:
     select.form-control.form-control-sm(
@@ -26,24 +31,31 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
-import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
-import Box from "~/molle/module/primitive/Box.vue";
-import BackgroundBox from "~/molle/module/primitive/BackgroundBox.vue";
-import IsviewBox from "~/molle/module/primitive/IsviewBox.vue";
+import {StyleAlign} from "~/molle-cms/src/Singleton";
 
 @Component({
   components: {StyleComp},
 })
-export default class LinkBoxProfile extends Profile {
-  static readonly CLASS_NAME = "LinkBoxProfile";
+export default class ButtonProfile extends Profile {
+  static readonly CLASS_NAME = "ButtonProfile";
   //style setting
-  stylePermission = {};
-
+  static readonly stylePermission = {
+    // border: false,
+    // align: StyleAlign.None,
+    // margin: "",
+    // padding: "",
+    theme: {default: "", select: ["", "-sm", "-lg"]},
+    color: {default: "", select: ["", "-primary", "-secondary", "-link"]},
+  };
   static settings = {
-    type: "children",
-    black: [ColumnBox],
-    convert: [Box, BackgroundBox, IsviewBox],
-    icon: "plus-square",
+    type: "button",
+    opt: {
+      option: {
+        href: "https://placehold.jp/",
+        target: "",
+      },
+    },
+    icon: "hand-index",
   };
 }
 </script>

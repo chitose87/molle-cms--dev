@@ -12,7 +12,7 @@
           @change="update"
         )
       label.w-100
-        span {{$words.title}} (表示用):
+        span {{$words.title}} ({{$words.display}}):
         textarea.form-control.form-control-sm(
           v-model="pageData.displayTitle",
           :placeholder="pageData.title",
@@ -34,7 +34,7 @@
         )
 
       InputUrlByGS(
-        :label="[$words.ogp]+'画像:'"
+        :label="$words.ogp+$words.image+':'"
         v-model="pageData.ogpImg"
         @change="update"
       )
@@ -188,6 +188,7 @@ export default class PagePropertyComp extends Vue {
   onImport(e: Event) {
     let target = <HTMLFormElement>e.target;
     let files: FileList = target.files.files;
+    let count: number = 0;
 
     if (files.length == 0) {
       alert("ファイルが選択されていません。");
@@ -212,11 +213,14 @@ export default class PagePropertyComp extends Vue {
 
         //items import
         let loopReplaceUpload = (node: INodeObject) => {
-          let _newId = Singleton.itemsRef.doc().id;
+          let _newId: any = Singleton.itemsRef.doc().id;
+          count++;
+          if (count == 1) {
+            _newId = this.pageData.itemId;
+          }
           let item = <IItemData>data.items[node.id];
           if (item.type == "group" || item.type == "children") {
             for (let i in item.value) {
-              // console.log(item.value[i])
               item.value[i].id = loopReplaceUpload(item.value[i]);
             }
           }

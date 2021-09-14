@@ -3,11 +3,10 @@
     StyleComp(
       :itemData="itemData"
       @change="()=>$emit('change')"
-      :permission="stylePermission"
     )
 
     label
-      span.mr-1 カラム幅:
+      span.mr-1 {{$words.col}}:
       .form-inline
         input.form-control.form-control-sm(
           v-model="itemData.option.col"
@@ -17,7 +16,7 @@
         )
         span /12
     label
-      span.mr-1 カラム幅-SP:
+      span.mr-1 {{$words.col}}-{{$words.sp}}:
       .form-inline
         input.form-control.form-control-sm(
           v-model="itemData.option.colSm"
@@ -35,8 +34,8 @@
   import {Component} from "nuxt-property-decorator";
   import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
   import {Profile} from "~/molle-cms/src/module/Profile";
-  import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
-  import Box from "~/molle/module/primitive/Box.vue";
+  import ColumnBox from "./ColumnBox.vue";
+  import Box from "./Box.vue";
 
   @Component({
     components: {StyleComp}
@@ -44,7 +43,7 @@
   export default class ColumnBoxProfile extends Profile {
   static readonly CLASS_NAME = "ColumnBoxProfile";
     //style setting
-    stylePermission = {
+    static readonly stylePermission = {
       // container: false,
       // border: false,
       // margin: "",

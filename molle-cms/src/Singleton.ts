@@ -1,5 +1,4 @@
 import firebase from "firebase";
-import {Vue} from "nuxt-property-decorator";
 
 export class Singleton {
   static prefix = `${process.env.molleProjectID}/${process.env.molleBrunch}`;
@@ -73,8 +72,8 @@ export class Singleton {
 
 export const StyleAlign = {
   None: {value: "", label: ""},
-  Left: {value: "text-left", label: Vue.prototype.$words.left},
-  Center: {value: "text-center", label: Vue.prototype.$words.center},
-  Right: {value: "text-right", label: Vue.prototype.$words.right},
+  Left: {value: "text-left", label: "left"},
+  Center: {value: "text-center", label: "center"},
+  Right: {value: "text-right", label: "right"},
 } as const;
 type StyleAlign = typeof StyleAlign[keyof typeof StyleAlign];

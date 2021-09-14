@@ -3,7 +3,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-    :permission="stylePermission"
+
   )
 
 </template>
@@ -23,7 +23,7 @@ import LinkBox from "~/molle/module/primitive/LinkBox.vue";
 export default class IsviewBoxProfile extends Profile {
   static readonly CLASS_NAME = "IsviewBoxProfile";
   //style setting
-  stylePermission = {
+  static readonly stylePermission = {
     theme: {default: "", select: ["", "-slide", "-fade"]},
   };
 
