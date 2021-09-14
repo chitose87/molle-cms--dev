@@ -18,6 +18,20 @@
           v-if="itemData.option.module"
           v-for="permission in [$molleModules[itemData.option.module].profile.stylePermission]"
         )
+          dl(v-for="(item,key) in permission.custom")
+            dt {{item.label}}
+            dd(v-if="item.select")
+              span.dev-module-guide__permission__option(
+                v-for="ele in item.select"
+                :data-default="ele==item.default"
+              )
+                span {{ele || "\" \""}}
+            dd(v-else)
+              span.dev-module-guide__permission__option(
+                v-html="item.value"
+              )
+
+          //
           dl(v-if="permission.theme!==undefined")
             dt {{$words.theme}}
             dd

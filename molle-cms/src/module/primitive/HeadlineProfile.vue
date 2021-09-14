@@ -1,24 +1,24 @@
 <template lang="pug">
 div
   TextAreaQuill(
-    :label="$words.text+':'"
+    :label="getCustom().text.label+':'"
     v-model="itemData.value"
     @change="()=>$emit('change')"
   )
 
   TextAreaQuill(
-    :label="$words.sub+$words.text+':'"
+    :label="getCustom().subText.label+':'"
     v-model="itemData.option.text"
     @change="()=>$emit('change')"
   )
 
   label.form-inline
-    span.mr-1 見出しレベル:
+    span.mr-1 {{getCustom().lv.label}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.lv"
       @change="()=>$emit('change')"
     )
-      option(v-for='item in ["h1", "h2", "h3", "h4", "h5", "h6"]' :value="item" v-html="item")
+      option(v-for='item in getCustom().lv.select' :value="item" v-html="item")
 
   StyleComp(
     :itemData="itemData"
@@ -45,6 +45,7 @@ export default class HeadlineProfile extends Profile {
     en: Headline.CLASS_NAME,
     jp: "見出し",
   };
+
   //style setting
   static readonly stylePermission = {
     border: false,
@@ -53,12 +54,20 @@ export default class HeadlineProfile extends Profile {
     // padding: "",
     theme: {default: "", select: ["", "decorate"]},
     color: {default: "", select: ["", "text-white"]},
+
+    //
+    custom: {
+      text: {label: "タイトル", value: "テキスト"},
+      subText: {label: "サブタイトル", value: "テキスト"},
+      lv: {label: "見出しレベル", default: "h3", select: ["h1", "h2", "h3", "h4", "h5", "h6"]},
+    },
   };
+
   static settings = {
     type: "text",
     opt: {
       option: {
-        lv: "h3",
+        lv: HeadlineProfile.stylePermission.custom.lv.default,
       },
     },
     convert: [Paragraph],
