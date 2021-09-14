@@ -3,7 +3,6 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-
   )
 
 </template>
@@ -15,12 +14,17 @@ import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import Picture from "~/molle-cms/src/module/primitive/Picture.vue";
 import Paragraph from "~/molle-cms/src/module/primitive/Paragraph.vue";
+import Card from "./Card.vue";
 
 @Component({
   components: {StyleComp},
 })
 export default class CardProfile extends Profile {
   static readonly CLASS_NAME = "CardProfile";
+  static readonly LANGS = {
+    en:  Card.CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     // border: false,

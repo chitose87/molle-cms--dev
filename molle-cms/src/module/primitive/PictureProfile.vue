@@ -37,12 +37,17 @@ import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
 import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
+import Picture from "./Picture.vue";
 
 @Component({
   components: {InputUrlByGS, GoogleStorage, StyleComp},
 })
 export default class PictureProfile extends Profile {
   static readonly CLASS_NAME = "PictureProfile";
+  static readonly LANGS = {
+    en:  Picture.CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     border: false,

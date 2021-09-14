@@ -52,12 +52,17 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
 import Box from "./Box.vue";
+import BackgroundBox from "./BackgroundBox.vue";
 
 @Component({
   components: {StyleComp},
 })
 export default class BackgroundBoxProfile extends Profile {
   static readonly CLASS_NAME = "BackgroundBoxProfile";
+  static readonly LANGS = {
+    en:  BackgroundBox.CLASS_NAME,
+    jp: "背景ボックス",
+  };
   //style setting
   static readonly stylePermission = {
     container: false,

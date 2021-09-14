@@ -20,6 +20,10 @@ import Button from "./Button.vue";
 })
 export default class ButtonListProfile extends Profile {
   static readonly CLASS_NAME = "ButtonListProfile";
+  static readonly LANGS = {
+    en: Button.CLASS_NAME,
+    jp: "ボタン",
+  };
   //style setting
   static readonly stylePermission = {
     // container: false,

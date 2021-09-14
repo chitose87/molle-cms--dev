@@ -29,16 +29,16 @@ import ButtonList from "~/molle-cms/src/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle-cms/src/module/primitive/ButtonListProfile.vue";
 import Modal from "~/molle-cms/src/module/primitive/Modal.vue";
 import ModalProfile from "~/molle-cms/src/module/primitive/ModalProfile.vue";
-import Gallery from "~/molle/module/custom/Gallery.vue";
-import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
-import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
-import GoogleFormProfile from "~/molle/module/custom/GoogleFormProfile.vue";
-import SocialShare from "~/molle/module/custom/SocialShare.vue";
-import SocialShareProfile from "~/molle/module/custom/SocialShareProfile.vue";
-import Card from "~/molle/module/custom/Card.vue";
-import CardProfile from "~/molle/module/custom/CardProfile.vue";
-import GoogleMap from "~/molle/module/custom/GoogleMap.vue";
-import GoogleMapProfile from "~/molle/module/custom/GoogleMapProfile.vue";
+import Gallery from "~/molle-cms/src/module/custom/Gallery.vue";
+import GalleryProfile from "~/molle-cms/src/module/custom/GalleryProfile.vue";
+import GoogleForm from "~/molle-cms/src/module/custom/GoogleForm.vue";
+import GoogleFormProfile from "~/molle-cms/src/module/custom/GoogleFormProfile.vue";
+import SocialShare from "~/molle-cms/src/module/custom/SocialShare.vue";
+import SocialShareProfile from "~/molle-cms/src/module/custom/SocialShareProfile.vue";
+import Card from "~/molle-cms/src/module/custom/Card.vue";
+import CardProfile from "~/molle-cms/src/module/custom/CardProfile.vue";
+import GoogleMap from "~/molle-cms/src/module/custom/GoogleMap.vue";
+import GoogleMapProfile from "~/molle-cms/src/module/custom/GoogleMapProfile.vue";
 import Table from "~/molle-cms/src/module/primitive/Table.vue";
 import TableProfile from "~/molle-cms/src/module/primitive/TableProfile.vue";
 /* > */
@@ -140,7 +140,7 @@ let _molleModuleList: any[] = [];
 }, {
   ref: Card,
   profile: CardProfile,
-},{
+}, {
   ref: DevModuleGuide,
   profile: DevModuleGuideProfile,
 },

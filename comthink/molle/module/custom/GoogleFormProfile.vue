@@ -35,6 +35,10 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 })
 export default class GoogleFormProfile extends Profile {
   static readonly CLASS_NAME = "GoogleFormProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     // container: false,

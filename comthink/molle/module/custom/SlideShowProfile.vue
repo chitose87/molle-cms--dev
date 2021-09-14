@@ -28,6 +28,10 @@ import Headline from "~/molle/module/primitive/Headline.vue";
 })
 export default class SlideShowProfile extends Profile {
   static readonly CLASS_NAME = "SlideShowProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     container: false,

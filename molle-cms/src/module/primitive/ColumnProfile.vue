@@ -60,12 +60,17 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import ColumnBox from "./ColumnBox.vue";
 import Box from "./Box.vue";
+import Column from "./Column.vue";
 
 @Component({
   components: {StyleComp}
 })
 export default class ColumnProfile extends Profile {
   static readonly CLASS_NAME = "ColumnProfile";
+  static readonly LANGS = {
+    en:  Column.CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     // container: false,

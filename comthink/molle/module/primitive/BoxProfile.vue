@@ -28,6 +28,10 @@ import BackgroundBox from "./BackgroundBox.vue";
 })
 export default class BoxProfile extends Profile {
   static readonly CLASS_NAME = "BoxProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     container: false,

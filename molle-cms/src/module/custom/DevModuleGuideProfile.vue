@@ -39,6 +39,10 @@ import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 })
 export default class DevModuleGuideProfile extends Profile {
   static readonly CLASS_NAME = "DevModuleGuideProfile";
+  static readonly LANGS = {
+    en: DevModuleGuide.CLASS_NAME,
+    jp: "モジュールガイド",
+  };
   //style setting
   static readonly stylePermission = {
     margin: "",

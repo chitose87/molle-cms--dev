@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   label
-    span.mr-1 URL:
+    span.mr-1 {{$words.url}}:
     input.form-control.form-control-sm(
       v-model="itemData.value.url"
       @change="()=>$emit('change')"
@@ -29,12 +29,17 @@ div
 import {Component} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import GoogleForm from "./GoogleForm.vue";
 
 @Component({
   components: {StyleComp}
 })
 export default class GoogleFormProfile extends Profile {
   static readonly CLASS_NAME = "GoogleFormProfile";
+  static readonly LANGS = {
+    en:  GoogleForm.CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     // container: false,

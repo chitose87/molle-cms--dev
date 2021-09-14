@@ -30,12 +30,17 @@ import ColumnBox from "./ColumnBox.vue";
 import Box from "./Box.vue";
 import BackgroundBox from "./BackgroundBox.vue";
 import IsviewBox from "./IsviewBox.vue";
+import LinkBox from "./LinkBox.vue";
 
 @Component({
   components: {StyleComp},
 })
 export default class LinkBoxProfile extends Profile {
   static readonly CLASS_NAME = "LinkBoxProfile";
+  static readonly LANGS = {
+    en:  LinkBox.CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {};
 

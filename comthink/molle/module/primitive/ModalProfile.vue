@@ -17,7 +17,11 @@
   })
   export default class ModalProfile extends Profile {
   static readonly CLASS_NAME = "ModalProfile";
-    //style setting
+    static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
+  //style setting
     static readonly stylePermission = {
       container: false,
       border: false,

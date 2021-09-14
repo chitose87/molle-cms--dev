@@ -37,6 +37,10 @@ import RandomCards from "~/molle/module/custom/RandomCards.vue";
 })
 export default class RandomCardBoxProfile extends Profile {
   static readonly CLASS_NAME = "RandomCardBoxProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     margin: "",

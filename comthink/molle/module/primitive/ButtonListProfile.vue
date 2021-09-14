@@ -20,6 +20,10 @@ import Button from "~/molle/module/primitive/Button.vue";
 })
 export default class ButtonListProfile extends Profile {
   static readonly CLASS_NAME = "ButtonListProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     // container: false,

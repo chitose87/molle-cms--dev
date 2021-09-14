@@ -22,6 +22,10 @@ import Picture from "~/molle/module/primitive/Picture.vue";
 })
 export default class FeatureProfile extends Profile {
   static readonly CLASS_NAME = "FeatureProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     margin: "",

@@ -40,6 +40,10 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
 })
 export default class TableProfile extends Profile {
   static readonly CLASS_NAME = "TableProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     border: false,

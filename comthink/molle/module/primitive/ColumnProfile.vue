@@ -66,6 +66,10 @@ import Box from "~/molle/module/primitive/Box.vue";
 })
 export default class ColumnProfile extends Profile {
   static readonly CLASS_NAME = "ColumnProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     // container: false,

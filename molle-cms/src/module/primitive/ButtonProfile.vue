@@ -32,12 +32,17 @@ import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
+import Button from "./Button.vue";
 
 @Component({
   components: {StyleComp},
 })
 export default class ButtonProfile extends Profile {
   static readonly CLASS_NAME = "ButtonProfile";
+  static readonly LANGS = {
+    en:  Button.CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     // border: false,

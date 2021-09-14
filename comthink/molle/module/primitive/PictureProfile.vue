@@ -43,6 +43,10 @@ import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
 })
 export default class PictureProfile extends Profile {
   static readonly CLASS_NAME = "PictureProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     border: false,

@@ -40,7 +40,11 @@
   })
   export default class HeadlineProfile extends Profile {
   static readonly CLASS_NAME = "HeadlineProfile";
-    //style setting
+    static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
+  //style setting
     static readonly stylePermission = {
       border: false,
       align: StyleAlign.None,

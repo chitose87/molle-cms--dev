@@ -1,4 +1,7 @@
 import firebase from "firebase";
+
+import DevModuleGuide from "~/molle-cms/src/module/custom/DevModuleGuide.vue";
+import DevModuleGuideProfile from "~/molle-cms/src/module/custom/DevModuleGuideProfile.vue";
 /* <imports */
 import Box from "~/molle-cms/src/module/primitive/Box.vue";
 import BoxProfile from "~/molle-cms/src/module/primitive/BoxProfile.vue";
@@ -26,22 +29,22 @@ import ButtonList from "~/molle-cms/src/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle-cms/src/module/primitive/ButtonListProfile.vue";
 import Modal from "~/molle-cms/src/module/primitive/Modal.vue";
 import ModalProfile from "~/molle-cms/src/module/primitive/ModalProfile.vue";
-import Gallery from "~/molle/module/custom/Gallery.vue";
-import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
-import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
-import GoogleFormProfile from "~/molle/module/custom/GoogleFormProfile.vue";
-import SocialShare from "~/molle/module/custom/SocialShare.vue";
-import SocialShareProfile from "~/molle/module/custom/SocialShareProfile.vue";
-import Card from "~/molle/module/custom/Card.vue";
-import CardProfile from "~/molle/module/custom/CardProfile.vue";
-import GoogleMap from "~/molle/module/custom/GoogleMap.vue";
-import GoogleMapProfile from "~/molle/module/custom/GoogleMapProfile.vue";
 import RandomCards from "~/molle/module/custom/RandomCards.vue";
 import RandomCardsProfile from "~/molle/module/custom/RandomCardsProfile.vue";
 import RandomCardBox from "~/molle/module/custom/RandomCardBox.vue";
 import RandomCardBoxProfile from "~/molle/module/custom/RandomCardBoxProfile.vue";
 import LabelCard from "~/molle/module/custom/LabelCard.vue";
 import LabelCardProfile from "~/molle/module/custom/LabelCardProfile.vue";
+import Gallery from "~/molle-cms/src/module/custom/Gallery.vue";
+import GalleryProfile from "~/molle-cms/src/module/custom/GalleryProfile.vue";
+import GoogleForm from "~/molle-cms/src/module/custom/GoogleForm.vue";
+import GoogleFormProfile from "~/molle-cms/src/module/custom/GoogleFormProfile.vue";
+import SocialShare from "~/molle-cms/src/module/custom/SocialShare.vue";
+import SocialShareProfile from "~/molle-cms/src/module/custom/SocialShareProfile.vue";
+import Card from "~/molle-cms/src/module/custom/Card.vue";
+import CardProfile from "~/molle-cms/src/module/custom/CardProfile.vue";
+import GoogleMap from "~/molle-cms/src/module/custom/GoogleMap.vue";
+import GoogleMapProfile from "~/molle-cms/src/module/custom/GoogleMapProfile.vue";
 import Table from "~/molle-cms/src/module/primitive/Table.vue";
 import TableProfile from "~/molle-cms/src/module/primitive/TableProfile.vue";
 /* > */
@@ -152,6 +155,8 @@ let _molleModuleList: any[] = [];
 }, {
   ref: LabelCard,
   profile: LabelCardProfile,
+  ref: DevModuleGuide,
+  profile: DevModuleGuideProfile,
 },
 ].forEach((attr: {ref: any; profile?: any;}) => {
   let v: any = {

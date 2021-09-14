@@ -42,7 +42,11 @@
   })
   export default class ColumnBoxProfile extends Profile {
   static readonly CLASS_NAME = "ColumnBoxProfile";
-    //style setting
+    static readonly LANGS = {
+    en:  ColumnBox.CLASS_NAME,
+    jp: "",
+  };
+  //style setting
     static readonly stylePermission = {
       // container: false,
       // border: false,

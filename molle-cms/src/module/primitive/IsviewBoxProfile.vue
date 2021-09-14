@@ -16,12 +16,17 @@ import ColumnBox from "./ColumnBox.vue";
 import Box from "./Box.vue";
 import BackgroundBox from "./BackgroundBox.vue";
 import LinkBox from "./LinkBox.vue";
+import IsviewBox from "./IsviewBox.vue";
 
 @Component({
   components: {StyleComp},
 })
 export default class IsviewBoxProfile extends Profile {
   static readonly CLASS_NAME = "IsviewBoxProfile";
+  static readonly LANGS = {
+    en:  IsviewBox.CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     theme: {default: "", select: ["", "-slide", "-fade"]},

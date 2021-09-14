@@ -34,12 +34,17 @@ import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
+import Table from "./Table.vue";
 
 @Component({
   components: {StyleComp},
 })
 export default class TableProfile extends Profile {
   static readonly CLASS_NAME = "TableProfile";
+  static readonly LANGS = {
+    en:  Table.CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     border: false,

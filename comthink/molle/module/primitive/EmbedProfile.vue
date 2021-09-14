@@ -27,6 +27,10 @@ import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 })
 export default class EmbedProfile extends Profile {
   static readonly CLASS_NAME = "EmbedProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     // border: false,

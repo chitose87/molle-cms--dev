@@ -22,6 +22,10 @@ import LinkBox from "~/molle/module/primitive/LinkBox.vue";
 })
 export default class IsviewBoxProfile extends Profile {
   static readonly CLASS_NAME = "IsviewBoxProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     theme: {default: "", select: ["", "-slide", "-fade"]},

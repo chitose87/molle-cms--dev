@@ -32,7 +32,11 @@
   })
   export default class GalleryProfile extends Profile {
   static readonly CLASS_NAME = "GalleryProfile";
-    //style setting
+    static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
+  //style setting
     static readonly stylePermission = {
       container: false,
       border: false,

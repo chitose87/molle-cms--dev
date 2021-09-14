@@ -37,13 +37,18 @@
   import {Component} from "nuxt-property-decorator";
   import {Profile} from "~/molle-cms/src/module/Profile";
   import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+  import GoogleMap from "./GoogleMap.vue";
 
   @Component({
     components: {StyleComp}
   })
   export default class GoogleMapProfile extends Profile {
   static readonly CLASS_NAME = "GoogleMapProfile";
-    //style setting
+    static readonly LANGS = {
+    en:  GoogleMap.CLASS_NAME,
+    jp: "",
+  };
+  //style setting
     static readonly stylePermission = {
       // container: false,
       // border: false,

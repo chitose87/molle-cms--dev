@@ -27,12 +27,17 @@ import {Component} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import Picture from "~/molle-cms/src/module/primitive/Picture.vue";
+import Gallery from "./Gallery.vue";
 
 @Component({
   components: {StyleComp},
 })
 export default class GalleryProfile extends Profile {
   static readonly CLASS_NAME = "GalleryProfile";
+  static readonly LANGS = {
+    en:  Gallery.CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     container: false,

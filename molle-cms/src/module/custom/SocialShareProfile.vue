@@ -26,13 +26,18 @@
   import {Profile} from "~/molle-cms/src/module/Profile";
   import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
   import {StyleAlign} from "~/molle-cms/src/Singleton";
+  import SocialShare from "./SocialShare.vue";
 
   @Component({
     components: {StyleComp}
   })
   export default class SocialShareProfile extends Profile {
   static readonly CLASS_NAME = "SocialShareProfile";
-    //style setting
+    static readonly LANGS = {
+    en:  SocialShare.CLASS_NAME,
+    jp: "",
+  };
+  //style setting
     static readonly stylePermission = {
       // border: false,
       align: StyleAlign.None,

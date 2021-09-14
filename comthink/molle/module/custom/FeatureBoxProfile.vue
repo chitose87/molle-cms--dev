@@ -34,6 +34,10 @@ import Feature from "~/molle/module/custom/Feature.vue";
 })
 export default class FeatureBoxProfile extends Profile {
   static readonly CLASS_NAME = "FeatureBoxProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     container: false,

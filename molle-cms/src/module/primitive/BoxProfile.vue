@@ -21,12 +21,17 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
 import BackgroundBox from "./BackgroundBox.vue";
+import Box from "./Box.vue";
 
 @Component({
   components: {StyleComp},
 })
 export default class BoxProfile extends Profile {
   static readonly CLASS_NAME = "BoxProfile";
+  static readonly LANGS = {
+    en:  Box.CLASS_NAME,
+    jp: "ボックス",
+  };
   //style setting
   static readonly stylePermission = {
     container: false,

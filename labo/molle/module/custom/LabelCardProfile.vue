@@ -19,6 +19,10 @@ import {Profile} from "~/molle-cms/src/module/Profile";
 })
 export default class LabelCardProfile extends Profile {
   static readonly CLASS_NAME = "LabelCardProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     // border: false,

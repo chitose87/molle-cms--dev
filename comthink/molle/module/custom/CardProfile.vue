@@ -21,6 +21,10 @@ import Paragraph from "~/molle/module/primitive/Paragraph.vue";
 })
 export default class CardProfile extends Profile {
   static readonly CLASS_NAME = "CardProfile";
+  static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
   //style setting
   static readonly stylePermission = {
     // border: false,

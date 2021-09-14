@@ -43,7 +43,11 @@
   })
   export default class GoogleMapProfile extends Profile {
   static readonly CLASS_NAME = "GoogleMapProfile";
-    //style setting
+    static readonly LANGS = {
+    en:  .CLASS_NAME,
+    jp: "",
+  };
+  //style setting
     static readonly stylePermission = {
       // container: false,
       // border: false,
