@@ -1,7 +1,7 @@
 <template lang="pug">
 .page-property-comp
   .card.bg-light
-    .card-header.pt-1.pb-1.pl-3.pr-3(@click="flag=!flag") ページ設定
+    .card-header.pt-1.pb-1.pl-3.pr-3(@click="flag=!flag") {{$words.page}} {{$words.settings}}
       b-icon(:icon="flag?'chevron-up':'chevron-down'")
     .card-body.p-3(v-if="flag")
       label.w-100
@@ -26,7 +26,7 @@
         )
 
       label.w-100
-        span 日付(表示用):
+        span {{$words.date}}({{$words.display}}):
         input.form-control.form-control-sm(
           type="date",
           v-model="pageData.date",
@@ -40,7 +40,7 @@
       )
 
       InputUrlByGS(
-        :label="'サムネイル:'"
+        :label="$words.thumbnail+':'"
         v-model="pageData.thumb"
         @change="update"
       )
@@ -55,10 +55,10 @@
           type="checkbox",
           @change="update"
         )
-        span :書き出さない
+        span :{{$words.donotExport}}
 
       div(v-if="pageData.noExport")
-        span redirect:
+        span {{$words.redirect}}:
         NuxtLink.mr-2(
           :to="{path: '/'+(pageData.redirect || ''), query: {edit: 'true'}}"
         )

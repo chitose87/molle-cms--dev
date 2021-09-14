@@ -1,6 +1,6 @@
 <template lang="pug">
 .log-property-comp
-  button.btn.btn-sm.btn-secondary(@click="init") ログ
+  button.btn.btn-sm.btn-secondary(@click="init") {{$words.log}}
   div(v-if="logDataList")
     //span.mt-2(@click="isShow=!isShow") ログ
     ul
@@ -18,7 +18,7 @@ import firebase from "firebase";
 import LogDataComp from "~/molle-cms/src/ui/LogDataComp.vue";
 
 @Component({
-  components: {LogDataComp}
+  components: {LogDataComp},
 })
 export default class LogPropertyComp extends Vue {
   // itemId: string = "";
@@ -36,14 +36,14 @@ export default class LogPropertyComp extends Vue {
 
   init() {
     // console.log("★★LogPropertyComp通過★★", this.history)
-    console.log(this.itemId)
+    console.log(this.itemId);
     Singleton.logsRef.doc(this.itemId)
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
         if (!snap.exists) return;
-        console.log(snap.data())
+        console.log(snap.data());
         this.$set(this, "logDataList", snap.data() || []);
-      })
+      });
   }
 
 }

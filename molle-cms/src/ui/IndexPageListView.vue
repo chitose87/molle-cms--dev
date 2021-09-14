@@ -21,7 +21,7 @@ ul.list-group
         type="checkbox",
         @change="updatePage(key,item)"
       )
-      span :書き出さない
+      span :{{$words.donotExport}}
 
     button.btn.btn-danger.btn-sm(
       type="button",
