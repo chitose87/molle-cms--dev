@@ -60,9 +60,4 @@ export class Profile extends Vue {
       this.$emit("change");
     }
   }
-
-  getCustom() {
-    //@ts-ignore
-    return this.constructor.stylePermission.custom;
-  }
 }
