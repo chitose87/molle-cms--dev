@@ -19,7 +19,7 @@
           li
             a.btn-link(href="#news")
               b-icon.mr-2(icon="newspaper")
-              | {{$words.news}} Data
+              | {{$words.news}} {{$words.data}}
           //li
             a.btn-link(href="#case")
               b-icon.mr-2(icon="newspaper")
@@ -41,7 +41,7 @@
         section#news.mt-1r.mb-6r
           h2.p-3.mt-0.mb-4.bg-info.text-white
             b-icon.mr-2(icon="newspaper")
-            | {{$words.news}} Data
+            | {{$words.news}} {{$words.data}}
           .row
             .col
               IndexPageListView(:pages="news")
@@ -56,15 +56,16 @@
                 .card-body
                   p
                     label.mr-2
-                      span 日付
+                      span {{$words.date}}
                       input.form-control(type="date", v-model="addNewsObj.date")
                     label.mr-2
-                      span タグ
+                      span {{$words.tag}}
                       select.form-control(v-model="addNewsObj.option.tag")
-                        option(value="活動報告") 活動報告
-                        option(value="お知らせ") お知らせ
+                        option(value="活動報告") {{$words.report}}
+                        option(value="お知らせ") {{$words.information}}
                     label.mr-2
-                      span ディレクトリ名 (Option 変更不可)
+                      span(v-if="$lang=='jp'") {{$words.directory}} ({{$words.option}} {{$words.change}}{{$words.cannot}})
+                      span(v-if="$lang=='en'") {{$words.directory}} ({{$words.option}} {{$words.cannot}} {{$words.change}})
                       input.form-control(
                         type="text",
                         v-model="addNewsObj.id",
@@ -72,7 +73,7 @@
                       )
                   p
                     label.w-100.mr-2
-                      span タイトル
+                      span {{$words.title}}
                       input.form-control(type="text", v-model="addNewsObj.title")
 
                   button.btn.btn-primary.btn-block(
@@ -99,7 +100,7 @@
                 .card-body
                   label {{$words.path}} *
                     input.form-control(type="text", v-model="added.path")
-                  label Box id (Option)
+                  label {{$words.box}} {{$words.id}} ({{$words.option}})
                     input.form-control(type="text", v-model="added.itemId")
                   button.btn.btn-primary.btn-block(
                     type="button",

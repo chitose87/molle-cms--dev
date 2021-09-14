@@ -4,10 +4,12 @@
     button.btn.btn-sm.btn-outline-secondary(v-html="'timestamp' + '　' + logData.timestamp" @click="isShow=!isShow")
     .p-2(v-if="isShow")
       p.mb-0
-        | uid　
+        | {{$words.uid}}
+        <br>
         span.log-list-data-uid(v-html="logData.uid")
       p.mb-0(v-if="logDataUpdate")
-        | update　
+        | {{$words.updated}}
+        <br>
         span.log-list-data-update(v-html="logDataUpdate")
 </template>
 
@@ -18,7 +20,7 @@ import {Singleton} from "~/molle-cms/src/Singleton";
 import firebase from "firebase";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class LogDataComp extends Vue {
   itemId: string = "";
@@ -29,10 +31,10 @@ export default class LogDataComp extends Vue {
   logDataUpdate: string = "";
   isShow = false;
 
-  @Watch('logData', {immediate: true})
+  @Watch("logData", {immediate: true})
   onChangeLogsData() {
     if (typeof this.logData.timestamp === "object") {
-      this.logData.timestamp = this.logData.timestamp.toDate().toLocaleString({timeZone: 'Asia/Tokyo'});
+      this.logData.timestamp = this.logData.timestamp.toDate().toLocaleString({timeZone: "Asia/Tokyo"});
     }
     if (this.logData.update) {
       this.logDataUpdate = JSON.stringify(this.logData.update);

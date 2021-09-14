@@ -11,13 +11,13 @@
         span {{$words.login}}
       button.btn.btn-link.btn-sm(@click="sendPasswordResetEmail")
         b-icon(icon="envelope")
-        span パスワード再設定
+        span {{$words.password}} {{$words.resetting}}
 
   div(v-else)
     //ログイン済み
     .mb-2
       button.btn.btn-primary(type="button", @click="checkCI")
-        span 公開設定
+        span {{$words.release}} {{$words.settings}}
 
       .modal(v-if="deployModal" :aria-expanded="deployModal")
         .modal__fiexd
@@ -25,7 +25,7 @@
           .modal__body
 
             button.btn.btn-warning(type="button", @click="deployQue")
-              span() 即時実行
+              span() {{$words.immediate}} {{$words.execution}}
             p.caption
               | 5~10分程度かかります。
               br
@@ -35,26 +35,26 @@
             .form-inline
               input.form-control.mr-2(type="date" v-model="schedule.date" @change="scheduleUpdate")
               label.btn.btn-outline-primary
-                span.mr-2 予約
+                span.mr-2 {{$words.reserve}}
                 input(type="checkbox" v-model="schedule.active" @change="scheduleUpdate")
             p.caption *指定日の朝9時頃に実行されます。
 
             hr
-            h4 Github Actions Statu.
+            h4 {{$words.github}} {{$words.actions}} {{$words.status}}.
             div(v-if="currentCIFlow.reading")
-              p 確認中…
+              p {{$words.checking}}…
             div(v-else)
               p
-                span タスク名：
+                span {{$words.task}}：
                 span(v-html="currentCIFlow.name")
               p
-                span ステータス：
+                span {{$words.status}}：
                 span(v-html="currentCIFlow.status")
               p
-                span 状態：
+                span {{$words.conclusion}}：
                 span(v-html="currentCIFlow.conclusion")
               p
-                span 日時：
+                span {{$words.date}}：
                 span(v-html="currentCIFlow.created_at")
     hr
     .mb-2
