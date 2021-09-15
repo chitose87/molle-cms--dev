@@ -4,18 +4,18 @@
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
 )
-  ModuleLoader(v-for="node in itemData.value", :key="node.id", :node="node")
+  .row
+    ModuleLoader(
+      v-for="node in itemData.value", :key="node.id", :node="node"
+      :data-column-col="itemData.option.col"
+      :data-column-colSm="itemData.option.colSm"
+    )
 
-  //AddModuleComp.col-12(
-  //  :itemData="itemData",
-  //
-  //
-  //)
-  AddModuleComp.col-12(
-    :label="`Column`",
-    :parentNode="loader.node"
-    :style="{width: '100%'}"
-  )
+    AddModuleComp.col-12(
+      :label="`Column`",
+      :parentNode="loader.node"
+      :style="{width: '100%'}"
+    )
 </template>
 
 <script lang="ts">
@@ -28,25 +28,6 @@ import {Module} from "~/molle-cms/src/module/Module";
 export default class Column extends Module {
   static readonly CLASS_NAME = "Column";
   //Unique Methods
-  getClass() {
-    let obj = super.getClass(this.itemData);
-
-    if (this.itemData.option.col) {
-      if (this.itemData.option.col == -1) {
-        obj["column-col"] = true;
-      } else {
-        obj["column-col-" + this.itemData.option.col] = true;
-      }
-    }
-    if (this.itemData.option.colSm) {
-      if (this.itemData.option.colSm == -1) {
-        obj["column-col-sm"] = true;
-      } else {
-        obj["column-col-sm-" + this.itemData.option.colSm] = true;
-      }
-    }
-    return obj;
-  }
 
   // getStyle() {
   //   let obj = super.getStyle(this.itemData);
@@ -70,55 +51,45 @@ export default class Column extends Module {
 
 <style lang="scss">
 .column {
-  display: flex;
-  flex-wrap: wrap;
   @include mediaquery-not-sm {
-    margin-top: -2rem;
-    margin-right: -1rem;
-    margin-left: -1rem;
-    margin-bottom: 1rem;
+    //  margin-top: -2rem;
+    //  margin-right: -1rem;
+    //  margin-left: -1rem;
+    //  margin-bottom: 1rem;
   }
   @include mediaquery-sm {
-    margin-top: -1.5rem;
-    margin-right: -0.75rem;
-    margin-left: -0.75rem;
-    margin-bottom: 0.75rem;
+    //  margin-top: -1.5rem;
+    //  margin-right: -0.75rem;
+    //  margin-left: -0.75rem;
+    //  margin-bottom: 0.75rem;
   }
 
-  > * {
-    @include mediaquery-not-sm {
-      padding-top: 2rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-    @include mediaquery-sm {
-      padding-top: 1.5rem;
-      padding-left: 0.75rem;
-      padding-right: 0.75rem;
-    }
+  & > .row > * {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
-  @for $i from 1 through 12 {
-    &-col-#{$i} > * {
-      @include col($i);
-    }
-    @include mediaquery-sm {
-      &-col-sm-#{$i} > * {
-        @include col($i);
-      }
-    }
-  }
-
-  &.text-left {
+  &.text-left > .row {
     justify-content: flex-start;
   }
 
-  &.text-center {
+  &.text-center > .row {
     justify-content: center;
   }
 
-  &.text-right {
+  &.text-right > .row {
     justify-content: flex-end;
+  }
+}
+
+@for $i from 1 through 12 {
+  [data-column-col="#{$i}"] {
+    @include col($i);
+  }
+  @include mediaquery-sm {
+    [data-column-colSm="#{$i}"] {
+      @include col($i);
+    }
   }
 }
 </style>

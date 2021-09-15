@@ -1,5 +1,5 @@
 <template lang="pug">
-.module.box.column__item(
+.box.column__item(
   :id="itemData.tagId",
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
@@ -73,21 +73,5 @@ export default class ColumnBox extends Module {
 
 <style lang="scss">
 .column__item {
-  &.col {
-    flex-basis: 0;
-    flex-grow: 1;
-    max-width: 100%;
-  }
-
-  @for $i from 1 through 12 {
-    &.col-#{$i} {
-      @include col($i);
-    }
-    @include mediaquery-sm {
-      &.col-sm-#{$i} {
-        @include col($i);
-      }
-    }
-  }
 }
 </style>
