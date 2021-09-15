@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   label.form-inline
-    span.mr-1 タグ:
+    span.mr-1 {{$words.tag}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.tag"
       @change="()=>$emit('change')"
@@ -28,6 +28,7 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 import Feature from "~/molle/module/custom/Feature.vue";
+import FeatureBox from "./FeatureBox.vue";
 
 @Component({
   components: {TextAreaQuill, StyleComp},
@@ -35,8 +36,8 @@ import Feature from "~/molle/module/custom/Feature.vue";
 export default class FeatureBoxProfile extends Profile {
   static readonly CLASS_NAME = "FeatureBoxProfile";
   static readonly LANGS = {
-    en:  .CLASS_NAME,
-    jp: "",
+    en:  FeatureBox.CLASS_NAME,
+    jp: "説明ボックス",
   };
   //style setting
   static readonly stylePermission = {

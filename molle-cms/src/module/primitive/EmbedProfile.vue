@@ -30,7 +30,7 @@ export default class EmbedProfile extends Profile {
   static readonly CLASS_NAME = "EmbedProfile";
   static readonly LANGS = {
     en:  Embed.CLASS_NAME,
-    jp: "",
+    jp: "埋め込み",
   };
   //style setting
   static readonly stylePermission = {

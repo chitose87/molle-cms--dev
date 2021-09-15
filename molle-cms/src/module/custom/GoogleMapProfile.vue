@@ -15,13 +15,13 @@
         @change="()=>$emit('change')"
       )
     label
-      span.mr-1 {{$words.marker}} title:
+      span.mr-1 {{$words.marker}} {{$words.title}}:
       input.form-control.form-control-sm(
         v-model="itemData.option.title"
         @change="()=>$emit('change')"
       )
     label
-      span.mr-1 {{$words.marker}} text:
+      span.mr-1 {{$words.marker}} {{$words.text}}:
       input.form-control.form-control-sm(
         v-model="itemData.option.text"
         @change="()=>$emit('change')"
@@ -46,7 +46,7 @@
   static readonly CLASS_NAME = "GoogleMapProfile";
     static readonly LANGS = {
     en:  GoogleMap.CLASS_NAME,
-    jp: "",
+    jp: "GoogleMap",
   };
   //style setting
     static readonly stylePermission = {

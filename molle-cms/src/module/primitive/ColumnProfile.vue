@@ -7,7 +7,7 @@ div
       @change="()=>$emit('change')"
     )
   label
-    span.mr-1 基本{{$words.col}}:
+    span.mr-1 {{$words.basic}}{{$words.col}}:
     .form-inline
       input.form-control.form-control-sm(
         v-model="itemData.option.col"
@@ -18,7 +18,7 @@ div
       )
       span /12
   label
-    span.mr-1 基本{{$words.col}}-{{$words.sp}}:
+    span.mr-1 {{$words.basic}}{{$words.col}}-{{$words.sp}}:
     .form-inline
       input.form-control.form-control-sm(
         v-model="itemData.option.colSm"
@@ -29,7 +29,7 @@ div
       )
       span /12
   //p.caption *-1=auto
-  p.caption *0=未設定
+  p.caption *0={{$words.notSet}}
 
   //SpaceOptionComp(
   //  :label="'横の隙間'",
@@ -69,7 +69,7 @@ export default class ColumnProfile extends Profile {
   static readonly CLASS_NAME = "ColumnProfile";
   static readonly LANGS = {
     en:  Column.CLASS_NAME,
-    jp: "",
+    jp: "カラム",
   };
   //style setting
   static readonly stylePermission = {

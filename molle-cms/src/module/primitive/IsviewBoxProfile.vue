@@ -25,7 +25,7 @@ export default class IsviewBoxProfile extends Profile {
   static readonly CLASS_NAME = "IsviewBoxProfile";
   static readonly LANGS = {
     en:  IsviewBox.CLASS_NAME,
-    jp: "",
+    jp: "表示動作ボックス",
   };
   //style setting
   static readonly stylePermission = {

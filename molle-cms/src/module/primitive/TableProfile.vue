@@ -14,14 +14,14 @@ div
     )
 
   label.form-inline
-    span.mr-1 行見出し:
+    span.mr-1 {{$words.row}}{{$words.headline}}:
     input.form-control.form-control-sm(
       v-model="itemData.option.lineHeading",
       type="checkbox",
       @change="() => $emit('change')"
     )
   label.form-inline
-    span.mr-1 列見出し:
+    span.mr-1 {{$words.column}}{{$words.headline}}:
     input.form-control.form-control-sm(
       v-model="itemData.option.columnHeading",
       type="checkbox",
@@ -43,7 +43,7 @@ export default class TableProfile extends Profile {
   static readonly CLASS_NAME = "TableProfile";
   static readonly LANGS = {
     en:  Table.CLASS_NAME,
-    jp: "",
+    jp: "表",
   };
   //style setting
   static readonly stylePermission = {

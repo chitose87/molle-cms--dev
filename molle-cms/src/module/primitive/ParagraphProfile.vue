@@ -7,7 +7,7 @@ div
   )
 
   label.form-inline
-    span.mr-1 タグ:
+    span.mr-1 {{$words.tag}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.tag"
       @change="()=>$emit('change')"
@@ -38,7 +38,7 @@ export default class ParagraphProfile extends Profile {
   static readonly CLASS_NAME = "ParagraphProfile";
   static readonly LANGS = {
     en:  Paragraph.CLASS_NAME,
-    jp: "",
+    jp: "文節",
   };
   //style setting
   static readonly stylePermission = {

@@ -1,6 +1,6 @@
 import {Vue} from "nuxt-property-decorator";
 
-Vue.prototype.$lang = "jp";
+Vue.prototype.$lang = "en";
 
 Vue.prototype.$words = {
   add: {jp: "追加", en: "Add"},
@@ -121,6 +121,19 @@ Vue.prototype.$words = {
   log: {jp: "ログ", en: "Log"},
   label: {jp: "ラベル", en: "Label"},
   target: {jp: "ターゲット", en: "Target"},
+  basic: {jp: "基本", en: "Basic"},
+  notSet: {jp: "未設定", en: "not set"},
+  headline: {jp: "見出し", en: "Headline"},
+  level: {jp: "レベル", en: "Level"},
+  row: {jp: "行", en: "Row"},
+  column: {jp: "列", en: "Column"},
+  memo: {jp: "メモ", en: "memo"},
+  update: {jp: "更新", en: "update"},
+  request: {jp: "リクエスト", en: "request"},
+  response: {jp: "レスポンス", en: "response"},
+  error: {jp: "エラー", en: "error"},
+  analysis: {jp: "解析", en: "analysis"},
+  donot: {jp: "否", en: "Don't"},
 
   TF: {jp: "", en: ""},
 };
