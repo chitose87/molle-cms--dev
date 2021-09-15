@@ -46,7 +46,7 @@ export default class PictureProfile extends Profile {
   static readonly CLASS_NAME = "PictureProfile";
   static readonly LANGS = {
     en:  Picture.CLASS_NAME,
-    jp: "",
+    jp: "画像",
   };
   //style setting
   static readonly stylePermission = {

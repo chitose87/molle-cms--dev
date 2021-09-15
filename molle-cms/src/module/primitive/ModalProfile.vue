@@ -20,7 +20,7 @@
   static readonly CLASS_NAME = "ModalProfile";
     static readonly LANGS = {
     en:  Modal.CLASS_NAME,
-    jp: "",
+    jp: "モーダル",
   };
   //style setting
     static readonly stylePermission = {

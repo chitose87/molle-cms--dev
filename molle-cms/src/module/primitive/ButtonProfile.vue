@@ -2,7 +2,6 @@
 div
   StyleComp(
     :itemData="itemData"
-
     @change="()=>$emit('change')"
   )
   label.form-inline
@@ -12,13 +11,13 @@ div
       @change="()=>$emit('change')"
     )
   label.form-inline
-    span.mr-1 ラベル:
+    span.mr-1 {{$words.label}}:
     input.form-control.form-control-sm(
       v-model="itemData.value"
       @change="()=>$emit('change')"
     )
   label.form-inline
-    span.mr-1 ターゲット:
+    span.mr-1 {{$words.target}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.target"
       @change="()=>$emit('change')"
@@ -41,7 +40,7 @@ export default class ButtonProfile extends Profile {
   static readonly CLASS_NAME = "ButtonProfile";
   static readonly LANGS = {
     en:  Button.CLASS_NAME,
-    jp: "",
+    jp: "ボタン",
   };
   //style setting
   static readonly stylePermission = {

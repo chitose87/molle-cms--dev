@@ -26,7 +26,7 @@
         )
         span /12
     p.caption *-1=auto
-    p.caption *0=未設定
+    p.caption *0={{$words.notSet}}
 
 </template>
 
@@ -44,7 +44,7 @@
   static readonly CLASS_NAME = "ColumnBoxProfile";
     static readonly LANGS = {
     en:  ColumnBox.CLASS_NAME,
-    jp: "",
+    jp: "カラムボックス",
   };
   //style setting
     static readonly stylePermission = {

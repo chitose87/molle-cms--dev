@@ -155,6 +155,7 @@ let _molleModuleList: any[] = [];
 }, {
   ref: Feature,
   profile: FeatureProfile,
+}, {
   ref: DevModuleGuide,
   profile: DevModuleGuideProfile,
 },

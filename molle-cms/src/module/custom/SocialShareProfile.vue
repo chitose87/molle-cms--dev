@@ -5,14 +5,14 @@
       @change="()=>$emit('change')"
     )
     label.form-inline
-      span.mr-1 Don't Facebook:
+      span.mr-1 {{$words.donot}} Facebook:
       input.form-control.form-control-sm(
         v-model="itemData.option.noFacebook",
         type="checkbox",
         @change="() => $emit('change')"
       )
     label.form-inline
-      span.mr-1 Don't Twitter:
+      span.mr-1 {{$words.donot}} Twitter:
       input.form-control.form-control-sm(
         v-model="itemData.option.noTwitter",
         type="checkbox",
@@ -35,7 +35,7 @@
   static readonly CLASS_NAME = "SocialShareProfile";
     static readonly LANGS = {
     en:  SocialShare.CLASS_NAME,
-    jp: "",
+    jp: "SNS共有",
   };
   //style setting
     static readonly stylePermission = {

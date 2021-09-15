@@ -23,7 +23,7 @@
           .card-header.pt-1.pb-1.pl-3.pr-3.text-right
             a(href="/--molle/")
               b-icon(icon="house-door")
-              span Molle TOP
+              span {{$words.molleTop}}
 
         PageListComp
 
@@ -33,7 +33,7 @@
         )
 
         .card.bg-light
-          .card-header.pt-1.pb-1.pl-3.pr-3 構造/Structure
+          .card-header.pt-1.pb-1.pl-3.pr-3 {{$words.structure}}
           ItemListViewComp(
             v-if="vobj.pageData"
             :itemId="vobj.pageData.itemId"

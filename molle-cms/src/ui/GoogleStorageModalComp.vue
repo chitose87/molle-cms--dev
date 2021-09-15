@@ -15,12 +15,12 @@
                 @change="onImport"
               )
               button.btn.btn-primary.ml-auto(@click="upload" :disabled="!source")
-                span アップロード
+                span {{$words.upload}}
             p.caption.text-right *未加工でアップされます
 
           .col-6
             .form-inline
-              label プロファイル
+              label {{$words.profile}}
                 select.form-control.form-control-sm(v-model="profiles.current" @change="cahngeProfile")
                   option(v-for="(profile,i) in profiles.option" :value="i") {{profile.label}}
 
@@ -28,23 +28,23 @@
               tbody
                 tr
                   th
-                  th Source
-                  th Result
+                  th {{$words.source}}
+                  th {{$words.result}}
                 tr
-                  th file
+                  th {{$words.file}}
                   td {{files[0].name}}
                   td
                     span.form-inline
                       input.form-control.form-control-sm(type="text" v-model="option.name")
                       span .{{option.mime}}
                 tr
-                  th MIME
+                  th {{$words.mime}}
                   td {{jimpImg._originalMime}}
                   td
                     select.form-control.form-control-sm(v-model="option.mime")
                       option(v-for="(value,key) in mime.option" :value="key") {{key}}
                 tr(v-if="option.mime == 'jpg'")
-                  th Quality
+                  th {{$words.quality}}
                   td
                   td
                     input.form-control.form-control-sm(
@@ -63,7 +63,7 @@
                 //        :placeholder="1.0"
                 //        @change="onJimp")
                 tr
-                  th Width
+                  th {{$words.width}}
                   td {{jimpImg.bitmap.width}}px
                   td
                     span.form-inline
@@ -72,9 +72,9 @@
                         v-model="option.width"
                         :placeholder="profiles.option[profiles.current].width"
                         @change="onJimp")
-                      span px or "auto"
+                      span px or "{{$words.auto}}"
                 tr
-                  th Height
+                  th {{$words.height}}
                   td {{jimpImg.bitmap.height}}px
                   td
                     span.form-inline
@@ -83,20 +83,20 @@
                         v-model="option.height"
                         :placeholder="profiles.option[profiles.current].height"
                         @change="onJimp")
-                      span px or "auto"
+                      span px or "{{$words.auto}}"
 
             .form-inline
-              span 中心点：
-              label 横
+              span {{$words.centerPoint}}：
+              label {{$words.horizontal}}
                 select.form-control.form-control-sm(v-model="hAlign.current" @change="onJimp")
-                  option(v-for="(value,key) in hAlign.option" :value="key") {{key}}
-              label 縦
+                  option(v-for="(value,key) in hAlign.option" :value="key") {{$words[key]}}
+              label {{$words.vertical}}
                 select.form-control.form-control-sm(v-model="vAlign.current" @change="onJimp")
-                  option(v-for="(value,key) in vAlign.option" :value="key") {{key}}
+                  option(v-for="(value,key) in vAlign.option" :value="key") {{$words[key]}}
 
             p.text-right
               button.btn.btn-primary(@click="save" :disabled="!src")
-                span 書き出し&アップロード
+                span {{$words.export}} & {{$words.upload}}
 
 </template>
 

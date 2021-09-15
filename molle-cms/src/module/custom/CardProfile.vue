@@ -23,7 +23,7 @@ export default class CardProfile extends Profile {
   static readonly CLASS_NAME = "CardProfile";
   static readonly LANGS = {
     en:  Card.CLASS_NAME,
-    jp: "",
+    jp: "カード",
   };
   //style setting
   static readonly stylePermission = {

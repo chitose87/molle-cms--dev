@@ -12,10 +12,11 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
-import Headline from "~/molle/module/primitive/Headline.vue";
-import Paragraph from "~/molle/module/primitive/Paragraph.vue";
-import Button from "~/molle/module/primitive/Button.vue";
-import Picture from "~/molle/module/primitive/Picture.vue";
+import Headline from "~/molle-cms/src/module/primitive/Headline.vue";
+import Paragraph from "~/molle-cms/src/module/primitive/Paragraph.vue";
+import Button from "~/molle-cms/src/module/primitive/Button.vue";
+import Picture from "~/molle-cms/src/module/primitive/Picture.vue";
+import Feature from "./Feature.vue";
 
 @Component({
   components: {StyleComp},
@@ -23,8 +24,8 @@ import Picture from "~/molle/module/primitive/Picture.vue";
 export default class FeatureProfile extends Profile {
   static readonly CLASS_NAME = "FeatureProfile";
   static readonly LANGS = {
-    en:  .CLASS_NAME,
-    jp: "",
+    en:  Feature.CLASS_NAME,
+    jp: "説明",
   };
   //style setting
   static readonly stylePermission = {

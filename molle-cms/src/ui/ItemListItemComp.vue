@@ -58,7 +58,7 @@
     .item-list-item-comp.list-group-item.list-group-item-action.pr-0.border-right-0(
       v-if="!itemData.value || itemData.value.length == 0"
     )
-      span.color-gray-200 -empty-
+      span.color-gray-200 -{{$words.empty}}-
 
   //Group
   .list-group.pl-2.pb-2(

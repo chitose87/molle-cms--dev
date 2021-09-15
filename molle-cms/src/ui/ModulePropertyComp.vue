@@ -2,7 +2,7 @@
 .module-property-comp(v-if="$route.query.focus")
   .card.bg-light(v-if="flag")
     .card-header.pt-1.pb-1.pl-3.pr-3
-      span {{itemData.moduleId}} プロパティ
+      span {{itemData.moduleId}} {{$words.property}}
       // todo
       //button.btn.btn-sm.btn-outline-secondary(
       //  v-if="$molleModules[itemData.moduleId].convert"
@@ -69,7 +69,7 @@
           type="checkbox",
           @change="update"
         )
-        span :書き出さない
+        span :{{$words.donotExport}}
 
       p.mb-0.text-right
         span.small.text-nowrap ID : {{$route.query.focus}}

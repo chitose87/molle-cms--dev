@@ -28,7 +28,7 @@ div
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
@@ -48,9 +48,9 @@ export default class HeadlineProfile extends Profile {
 
   // custom
   static readonly custom = {
-    text: {label: "タイトル", value: "テキスト"},
-    subText: {label: "サブタイトル", value: "テキスト"},
-    lv: {label: "見出しレベル", default: "h3", select: ["h1", "h2", "h3", "h4", "h5", "h6"]},
+    text: {label: Vue.prototype.$words.title, value: Vue.prototype.$words.text},
+    subText: {label: Vue.prototype.$words.sub + Vue.prototype.$words.title, value: Vue.prototype.$words.text},
+    lv: {label: Vue.prototype.$words.headline + Vue.prototype.$words.level, default: "h3", select: ["h1", "h2", "h3", "h4", "h5", "h6"]},
   };
 
   //style setting

@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   label.form-inline
-    span.mr-1 タグ:
+    span.mr-1 {{$words.tag}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.tag"
       @change="()=>$emit('change')"

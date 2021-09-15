@@ -1,7 +1,7 @@
 <template lang="pug">
 .page-list-comp
   .card.bg-light
-    .card-header.pt-1.pb-1.pl-3.pr-3(@click="expand.all=!expand.all") ページ一覧
+    .card-header.pt-1.pb-1.pl-3.pr-3(@click="expand.all=!expand.all") {{$words.page}} {{$words.list}}
       b-icon(:icon="expand.all?'chevron-up':'chevron-down'")
     .card-body.p-0.pb-3(v-if="expand.all")
       div

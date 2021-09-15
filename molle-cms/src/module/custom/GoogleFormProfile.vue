@@ -11,7 +11,7 @@ div
   button.btn.btn-primary(
     type="button"
     @click="update"
-    :disabled="status!='更新'"
+    :disabled="status!=$words.update"
   )
     span {{status}}
 
@@ -26,7 +26,7 @@ div
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import GoogleForm from "./GoogleForm.vue";
@@ -38,7 +38,7 @@ export default class GoogleFormProfile extends Profile {
   static readonly CLASS_NAME = "GoogleFormProfile";
   static readonly LANGS = {
     en:  GoogleForm.CLASS_NAME,
-    jp: "",
+    jp: "GoogleForm",
   };
   //style setting
   static readonly stylePermission = {
@@ -54,7 +54,7 @@ export default class GoogleFormProfile extends Profile {
     icon: "ui-radios",
   }
 
-  status = "更新"
+  status = Vue.prototype.$words.update
 
   update() {
     console.log("GoogleFormProfile:update")
@@ -64,16 +64,16 @@ export default class GoogleFormProfile extends Profile {
       action: "",
       id: ""
     };
-    this.status = "リクエスト";
+    this.status = Vue.prototype.$words.request;
     // fetch(`http://localhost:5000/sw-id-lab/us-central1/getHtml?url=${encodeURIComponent(this.itemData.value.url)}`)
     fetch(`${process.env.functions}/getHtml?url=${encodeURIComponent(this.itemData.value.url)}`)
       .then((res: any) => {
-        this.status = "レスポンス";
+        this.status = Vue.prototype.$words.response;
         return (res.json());
       })
       .then((html: string) => {
         // console.log(html)
-        this.status = "解析";
+        this.status = Vue.prototype.$words.analysis;
         let dom = document.createElement("div");
         dom.innerHTML = html;
         let $form = dom.querySelector(".freebirdFormviewerViewCenteredContent form");
@@ -104,11 +104,11 @@ export default class GoogleFormProfile extends Profile {
           console.log(update)
           this.$set(this.itemData, "value", update);
           this.$emit("change");
-          this.status = "更新";
+          this.status = Vue.prototype.$words.update;
         } catch (e) {
-          this.status = "エラー";
+          this.status = Vue.prototype.$words.error;
           setTimeout(() => {
-            this.status = "更新";
+            this.status = Vue.prototype.$words.update;
           }, 1000);
           console.log(e)
         }

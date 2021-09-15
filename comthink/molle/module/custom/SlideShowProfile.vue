@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   label.form-inline
-    span.mr-1 タグ:
+    span.mr-1 {{$words.tag}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.tag"
       @change="()=>$emit('change')"
@@ -20,8 +20,9 @@ div
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
-import Picture from "~/molle/module/primitive/Picture.vue";
-import Headline from "~/molle/module/primitive/Headline.vue";
+import Picture from "~/molle-cms/src/module/primitive/Picture.vue";
+import Headline from "~/molle-cms/src/module/primitive/Headline.vue";
+import SlideShow from "./SlideShow.vue";
 
 @Component({
   components: {StyleComp},
@@ -29,8 +30,8 @@ import Headline from "~/molle/module/primitive/Headline.vue";
 export default class SlideShowProfile extends Profile {
   static readonly CLASS_NAME = "SlideShowProfile";
   static readonly LANGS = {
-    en:  .CLASS_NAME,
-    jp: "",
+    en:  SlideShow.CLASS_NAME,
+    jp: "スライドショー",
   };
   //style setting
   static readonly stylePermission = {

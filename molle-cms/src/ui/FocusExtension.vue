@@ -6,7 +6,7 @@
   .focus-extension__before(v-show="isBefore")
     button.btn.btn-sm.btn-outline-info#addBefore
       b-icon(icon="plus")
-      span Before
+      span {{$words.before}}
 
     b-popover(
       :target="'addBefore'"
@@ -32,7 +32,7 @@
   .focus-extension__after(v-show="isAfter")
     button.btn.btn-sm.btn-outline-info#addAfter
       b-icon(icon="plus")
-      span After
+      span {{$words.after}}
 
     b-popover(
       :target="'addAfter'"

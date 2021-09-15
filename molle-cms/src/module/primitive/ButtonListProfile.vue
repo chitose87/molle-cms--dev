@@ -22,7 +22,7 @@ export default class ButtonListProfile extends Profile {
   static readonly CLASS_NAME = "ButtonListProfile";
   static readonly LANGS = {
     en: Button.CLASS_NAME,
-    jp: "ボタン",
+    jp: "ボタンリスト",
   };
   //style setting
   static readonly stylePermission = {

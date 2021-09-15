@@ -15,7 +15,7 @@ div
   )
 
   TextAreaQuill(
-    :label="'memo:'"
+    :label="$words.memo+':'"
     v-model="itemData.option.memo"
     @change="()=>$emit('change')"
   )

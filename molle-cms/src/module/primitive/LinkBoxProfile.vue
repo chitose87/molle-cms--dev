@@ -13,7 +13,7 @@ div
     )
 
   label.form-inline
-    span.mr-1 ターゲット:
+    span.mr-1 {{$words.target}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.target"
       @change="()=>$emit('change')"
@@ -39,7 +39,7 @@ export default class LinkBoxProfile extends Profile {
   static readonly CLASS_NAME = "LinkBoxProfile";
   static readonly LANGS = {
     en:  LinkBox.CLASS_NAME,
-    jp: "",
+    jp: "リンクボックス",
   };
   //style setting
   static readonly stylePermission = {};
