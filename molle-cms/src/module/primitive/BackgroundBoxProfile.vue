@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   label.form-inline
-    span.mr-1 タグ:
+    span.mr-1 {{$words.tag}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.tag"
       @change="()=>$emit('change')"
@@ -23,7 +23,7 @@ div
 
   //Google Storage
   .google-storage.border.p-2.mt-3
-    label Google Storage
+    label {{$words.google}} {{$words.storage}}
     a.btn.btn-info.btn-sm.btn-block.mb-2(
       @click="()=>$root.$emit('google-storage-view')"
     )

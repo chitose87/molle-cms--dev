@@ -23,7 +23,7 @@
           .card-header.pt-1.pb-1.pl-3.pr-3.text-right
             a(href="/--molle/")
               b-icon(icon="house-door")
-              span {{$words.molle}} {{$words.top}}
+              span {{$words.molleTop}}
 
         PageListComp
 

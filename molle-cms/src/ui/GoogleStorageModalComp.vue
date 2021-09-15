@@ -87,7 +87,7 @@
 
             .form-inline
               span {{$words.centerPoint}}：
-              label {{$words.side}}
+              label {{$words.horizontal}}
                 select.form-control.form-control-sm(v-model="hAlign.current" @change="onJimp")
                   option(v-for="(value,key) in hAlign.option" :value="key") {{$words[key]}}
               label {{$words.vertical}}
@@ -96,7 +96,7 @@
 
             p.text-right
               button.btn.btn-primary(@click="save" :disabled="!src")
-                span {{$words.writeOut}} & {{$words.upload}}
+                span {{$words.export}} & {{$words.upload}}
 
 </template>
 

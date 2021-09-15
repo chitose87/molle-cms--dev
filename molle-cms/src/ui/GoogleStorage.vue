@@ -1,6 +1,6 @@
 <template lang="pug">
 .google-storage.border.p-2.mt-3
-  label {{$words.google}} {{$words.storage}}
+  label Google Storage
   a.btn.btn-info.btn-sm.btn-block.mb-2(
     @click="()=>$root.$emit('google-storage-view')"
   )

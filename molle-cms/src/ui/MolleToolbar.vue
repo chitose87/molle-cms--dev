@@ -40,7 +40,7 @@
             p.caption *指定日の朝9時頃に実行されます。
 
             hr
-            h4 {{$words.github}} {{$words.actions}} {{$words.status}}.
+            h4 Github {{$words.actions}} {{$words.status}}.
             div(v-if="currentCIFlow.reading")
               p {{$words.checking}}…
             div(v-else)

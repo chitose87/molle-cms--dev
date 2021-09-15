@@ -74,7 +74,7 @@
       p.mb-0.text-right
         span.small.text-nowrap ID : {{$route.query.focus}}
         a.ml-2.text-nowrap(:href="firestoreUrl+itemId" target="firestore")
-          span >{{$words.firestore}}
+          span >firestore
           b-icon.ml-2(icon="window")
 
 </template>
