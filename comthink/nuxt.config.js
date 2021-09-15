@@ -29,7 +29,7 @@ const css = [
 const modules = [
   "@nuxtjs/dotenv",
   "@nuxtjs/style-resources",
-  "../molle-cms/generateHooks",
+  "./molle-cms/generateHooks",
 ];
 const plugins = [
   "./molle/nuxt-config/plugin.ts",
@@ -38,7 +38,10 @@ const scriptObj = [];
 if (molle.isMolleCms) {
   css.push("molle-cms/css/molle.scss");
   modules.push("bootstrap-vue/nuxt");
-  plugins.push("./molle/nuxt-config/pluginSpa.ts");
+  plugins.push(
+    "./molle-cms/src/Words.ts",
+    "./molle/nuxt-config/pluginSpa.ts"
+  );
   scriptObj.push({src: "https://cdnjs.cloudflare.com/ajax/libs/jimp/0.16.1/jimp.js"});
 } else {
   plugins.push("./molle/nuxt-config/pluginStatic.ts");
