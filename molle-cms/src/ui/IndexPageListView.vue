@@ -4,8 +4,8 @@ ul.list-group
     v-for="(item, key) in pages"
   )
 
-    NuxtLink.mr-2(
-      :to="{path: '/'+item.path, query: {edit: 'true'}}"
+    a.mr-2(
+      :href="'/'+item.path+'?edit=true'"
     )
       span(v-html="item.path")
       b-icon(icon="chevron-right")
@@ -36,7 +36,7 @@ import {IPageData} from "../interface";
 import {Singleton} from "../Singleton";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class IndexPageListView extends Vue {
   @Prop() pages!: {[key: string]: IPageData};
@@ -46,9 +46,11 @@ export default class IndexPageListView extends Vue {
 
   mounted() {
   }
+
   updatePage(id: string, item: IPageData) {
     Singleton.pagesRef.doc(id).update(item);
   }
+
   deletePage(id: string) {
     Singleton.pagesRef.doc(id).delete();
   }

@@ -40,7 +40,7 @@
 
     button.btn.btn-primary.btn-block(
       type="button",
-      :disabled="dataObj.date === '' || dataObj.title === ''",
+      :disabled="dataObj.date === '' && dataObj.id === ''",
       @click="add"
     ) {{$words.add}}
 
@@ -85,6 +85,7 @@ export default class IndexPageAddView extends Vue {
       title: this.dataObj.title,
       date: this.dataObj.date,
     });
+    window.open("/" + this.prefix + (this.dataObj.id || this.dataObj.date) + "?edit=true", "_blank");
   }
 }
 </script>
