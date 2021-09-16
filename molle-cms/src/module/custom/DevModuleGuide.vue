@@ -132,6 +132,7 @@ export default class DevModuleGuide extends Module {
 .dev-module-guide {
   border: 1px solid $color-border;
   padding: 1rem;
+  margin-bottom: 3rem;
 
   &__left {
   }

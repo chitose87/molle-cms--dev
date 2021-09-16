@@ -29,7 +29,8 @@
   //    span Delete
   //    b-icon(icon="x")
 
-  .focus-extension__after(v-show="isAfter")
+  .focus-extension__after
+    //(v-show="isAfter")
     button.btn.btn-sm.btn-outline-info#addAfter
       b-icon(icon="plus")
       span {{$words.after}}

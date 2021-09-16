@@ -53,6 +53,13 @@ export default class DevModuleGuideProfile extends Profile {
     type: "children",
     black: [DevModuleGuide],
     icon: "plus-square",
+    opt: {
+      option: {
+        module: "Box",
+        description: "description",
+        memo: "memo",
+      },
+    },
   };
 }
 </script>
