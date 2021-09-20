@@ -155,6 +155,7 @@ let _molleModuleList: any[] = [];
 }, {
   ref: LabelCard,
   profile: LabelCardProfile,
+},{
   ref: DevModuleGuide,
   profile: DevModuleGuideProfile,
 },

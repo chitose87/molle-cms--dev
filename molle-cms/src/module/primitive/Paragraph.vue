@@ -1,5 +1,5 @@
 <template lang="pug">
-p.module.paragraph(
+component.module.paragraph(
   :id="itemData.tagId",
   :is="itemData.option.tag || 'p'",
   :class="getClass(itemData)",

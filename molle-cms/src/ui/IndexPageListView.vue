@@ -3,7 +3,6 @@ ul.list-group
   li.list-group-item.list-group-item-action.d-flex.justify-content-between(
     v-for="(item, key) in pages"
   )
-
     a.mr-2(
       :href="'/'+item.path+'?edit=true'"
     )

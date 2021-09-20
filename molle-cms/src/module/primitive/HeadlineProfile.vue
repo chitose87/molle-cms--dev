@@ -1,24 +1,24 @@
 <template lang="pug">
 div
   TextAreaQuill(
-    :label="constructor.custom.text.label+':'"
+    :label="custom.text.label+':'"
     v-model="itemData.value"
     @change="()=>$emit('change')"
   )
 
   TextAreaQuill(
-    :label="constructor.custom.subText.label+':'"
+    :label="custom.subText.label+':'"
     v-model="itemData.option.text"
     @change="()=>$emit('change')"
   )
 
   label.form-inline
-    span.mr-1 {{constructor.custom.lv.label}}:
+    span.mr-1 {{custom.lv.label}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.lv"
       @change="()=>$emit('change')"
     )
-      option(v-for='item in constructor.custom.lv.select' :value="item" v-html="item")
+      option(v-for='item in custom.lv.select' :value="item" v-html="item")
 
   StyleComp(
     :itemData="itemData"
@@ -49,8 +49,12 @@ export default class HeadlineProfile extends Profile {
   // custom
   static readonly custom = {
     text: {label: Vue.prototype.$words.title, value: Vue.prototype.$words.text},
-    subText: {label: Vue.prototype.$words.sub + Vue.prototype.$words.title, value: Vue.prototype.$words.text},
-    lv: {label: Vue.prototype.$words.headline + Vue.prototype.$words.level, default: "h3", select: ["h1", "h2", "h3", "h4", "h5", "h6"]},
+    subText: {label: Vue.prototype.$words.sub, value: Vue.prototype.$words.text},
+    lv: {
+      label: Vue.prototype.$words.level,
+      default: "h3",
+      select: ["h1", "h2", "h3", "h4", "h5", "h6"],
+    },
   };
 
   //style setting

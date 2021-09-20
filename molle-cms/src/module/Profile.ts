@@ -3,6 +3,11 @@ import {Prop, Vue, Watch} from "nuxt-property-decorator";
 import {IItemData, INodeObject} from "../interface";
 
 export class Profile extends Vue {
+  get custom(): any {
+    //@ts-ignore
+    return this.constructor.custom;
+  }
+
   @Prop() itemData!: IItemData;
   @Prop() itemId!: string;
   // stylePermission?: any;
