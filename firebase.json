@@ -30,7 +30,7 @@
       "rewrites": [
         {
           "source": "**",
-          "function": "site_rewrites"
+          "function": "sandbox_rewrites"
         }
       ]
     },

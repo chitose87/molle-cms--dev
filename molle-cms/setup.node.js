@@ -82,7 +82,7 @@ for (let siteId in molleConfig.sites) {
       "rewrites": [
         {
           "source": "**",
-          "function": `${siteId}_rewrites`,
+          "function": `${molleJson.molleProjectID}_rewrites`,
         },
       ],
     });
