@@ -184,7 +184,7 @@ export default class GoogleStorageModalComp extends Vue {
           process.env.projectId
         }/storage/${
           process.env.storageBucket
-        }/files~2F${
+        }/files/~2F${
           process.env.molleProjectID
         }`,
         "google-storage-view",

@@ -73,7 +73,7 @@
 
       p.mb-0.text-right
         span.small.text-nowrap ID : {{$route.query.focus}}
-        a.ml-2.text-nowrap(:href="firestoreUrl+itemId" target="firestore")
+        a.ml-2.text-nowrap(:href="firestoreUrl+itemId.replace(/%2F/g,'%252F')" target="firestore")
           span >firestore
           b-icon.ml-2(icon="window")
 
@@ -101,7 +101,7 @@ export default class ModulePropertyComp extends Vue {
   firestoreUrl = `https://console.firebase.google.com/project/${
     process.env.projectId
   }/firestore/data/${
-    [process.env.molleProjectID, process.env.molleBrunch, "items", ""].join("~2F")
+    ["", process.env.molleProjectID, process.env.molleBrunch, "items", ""].join("~2F")
   }`;
 
   @Watch("$route.query.focus", {immediate: true})
