@@ -161,7 +161,7 @@ let _molleModuleList: any[] = [];
 },
 ].forEach((attr: {ref: any; profile?: any;}) => {
   let v: any = {
-    moduleId: attr.ref.name,
+    moduleId: attr.ref.CLASS_NAME,
     type: attr.profile.settings.type,
     tagId: "",
     tagClass: "",
@@ -195,7 +195,7 @@ let _molleModuleList: any[] = [];
       v[key] = attr.profile.settings.opt[key];
     }
   }
-  _molleModules[attr.ref.name] = {
+  _molleModules[attr.ref.CLASS_NAME] = {
     ref: attr.ref,
     profile: attr.profile,
     black: attr.profile.settings.black,
@@ -204,11 +204,11 @@ let _molleModuleList: any[] = [];
     icon: attr.profile.settings.icon,
     def: v,
   };
-  _molleModuleList.push(_molleModules[attr.ref.name]);
+  _molleModuleList.push(_molleModules[attr.ref.CLASS_NAME]);
 
-  Vue.component(attr.ref.name, attr.ref);
+  Vue.component(attr.ref.CLASS_NAME, attr.ref);
   if (attr.profile) {
-    Vue.component(attr.profile.name, attr.profile);
+    Vue.component(attr.profile.CLASS_NAME, attr.profile);
   }
 });
 
