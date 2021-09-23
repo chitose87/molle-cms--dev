@@ -85,7 +85,7 @@ Vue.prototype.$words = {
   ui: {jp: "UI", en: "UI"},
   site: {jp: "サイト", en: "Site"},
   project: {jp: "プロジェクト", en: "Project"},
-  molleTop: {jp: "Molle TOP", en: "Molle TOP"},
+
   property: {jp: "プロパティ", en: "Property"},
   resetting: {jp: "再設定", en: "Resetting"},
   release: {jp: "公開", en: "Release"},

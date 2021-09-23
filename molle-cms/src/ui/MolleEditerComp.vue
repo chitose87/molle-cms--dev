@@ -4,7 +4,7 @@
     @click="editerToggle"
   )
     span(v-if="$route.query.edit") {{$words.preview}}
-    span(v-else) Molle TOP
+    span(v-else) {{$words.edit}}
 
   .molle-editer__body(v-show="$route.query.edit && $route.query.hidden !== 'true'")
     style(v-if="$route.query.edit")
@@ -23,7 +23,7 @@
           .card-header.pt-1.pb-1.pl-3.pr-3.text-right
             a(href="/--molle/")
               b-icon(icon="house-door")
-              span {{$words.molleTop}}
+              span Molle TOP
 
         PageListComp
 
