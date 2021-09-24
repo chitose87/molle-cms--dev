@@ -7,7 +7,7 @@ div
       @change="()=>$emit('change')"
     )
   label
-    span.mr-1 {{$words.basic}}{{$words.col}}:
+    span.mr-1 {{custom.column.label}}:
     .form-inline
       input.form-control.form-control-sm(
         v-model="itemData.option.col"
@@ -18,7 +18,7 @@ div
       )
       span /12
   label
-    span.mr-1 {{$words.basic}}{{$words.col}}-{{$words.sp}}:
+    span.mr-1 {{custom.columnSp.label}}:
     .form-inline
       input.form-control.form-control-sm(
         v-model="itemData.option.colSm"
@@ -54,7 +54,7 @@ div
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
@@ -63,13 +63,24 @@ import Box from "./Box.vue";
 import Column from "./Column.vue";
 
 @Component({
-  components: {StyleComp}
+  components: {StyleComp},
 })
 export default class ColumnProfile extends Profile {
   static readonly CLASS_NAME = "ColumnProfile";
   static readonly LANGS = {
-    en:  Column.CLASS_NAME,
+    en: Column.CLASS_NAME,
     jp: "カラム",
+  };
+  // custom
+  static readonly custom = {
+    column: {
+      label: Vue.prototype.$words.basic + Vue.prototype.$words.col,
+      value: "子要素の幅を一律指定",
+    },
+    columnSp: {
+      label: Vue.prototype.$words.basic + Vue.prototype.$words.col + "-" + Vue.prototype.$words.sp,
+      value: Vue.prototype.$words.sp + "表示時の幅指定",
+    },
   };
   //style setting
   static readonly stylePermission = {
@@ -85,7 +96,7 @@ export default class ColumnProfile extends Profile {
     type: "children",
     white: [ColumnBox, Box],
     icon: "layout-three-columns",
-  }
+  };
 }
 </script>
 

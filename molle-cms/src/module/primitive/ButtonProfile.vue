@@ -5,29 +5,29 @@ div
     @change="()=>$emit('change')"
   )
   label.form-inline
-    span.mr-1 {{$words.url}}:
+    span.mr-1 {{custom.url.label}}:
     input.form-control.form-control-sm(
       v-model="itemData.option.href"
       @change="()=>$emit('change')"
     )
   label.form-inline
-    span.mr-1 {{$words.label}}:
+    span.mr-1 {{custom.label.label}}:
     input.form-control.form-control-sm(
       v-model="itemData.value"
       @change="()=>$emit('change')"
     )
   label.form-inline
-    span.mr-1 {{$words.target}}:
+    span.mr-1 {{custom.target.label}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.target"
       @change="()=>$emit('change')"
     )
-      option(v-for='item in ["", "_self", "_blank"]' :value="item" v-html="item")
+      option(v-for="item in custom.target.select" :value="item" v-html="item")
 
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
@@ -39,8 +39,18 @@ import Button from "./Button.vue";
 export default class ButtonProfile extends Profile {
   static readonly CLASS_NAME = "ButtonProfile";
   static readonly LANGS = {
-    en:  Button.CLASS_NAME,
+    en: Button.CLASS_NAME,
     jp: "ボタン",
+  };
+  // custom
+  static readonly custom = {
+    url: {label: Vue.prototype.$words.url, value: Vue.prototype.$words.link},
+    label: {label: Vue.prototype.$words.label, value: Vue.prototype.$words.text},
+    target: {
+      label: Vue.prototype.$words.target,
+      default: "",
+      select: ["", "_self", "_blank"],
+    },
   };
   //style setting
   static readonly stylePermission = {

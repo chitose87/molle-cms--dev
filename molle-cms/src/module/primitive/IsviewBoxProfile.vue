@@ -24,7 +24,7 @@ import IsviewBox from "./IsviewBox.vue";
 export default class IsviewBoxProfile extends Profile {
   static readonly CLASS_NAME = "IsviewBoxProfile";
   static readonly LANGS = {
-    en:  IsviewBox.CLASS_NAME,
+    en: IsviewBox.CLASS_NAME,
     jp: "表示動作ボックス",
   };
   //style setting

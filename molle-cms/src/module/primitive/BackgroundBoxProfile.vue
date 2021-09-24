@@ -1,20 +1,20 @@
 <template lang="pug">
 div
   label.form-inline
-    span.mr-1 {{$words.tag}}:
+    span.mr-1 {{custom.tag.label}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.tag"
       @change="()=>$emit('change')"
     )
-      option(v-for="item in ['', 'section']" :value="item" v-html="item")
+      option(v-for="item in custom.tag.select" :value="item" v-html="item")
 
-  label {{$words.bg}}:
+  label {{custom.bg.label}}:
     input.form-control.form-control-sm(
       type="text"
       v-model="itemData.option.bg"
       @change="(e)=>validation(e.target.value,itemData.option,'bg')"
     )
-  label {{$words.bg}} {{$words.sp}}:
+  label {{custom.bgSp.label}}:
     input.form-control.form-control-sm(
       type="text"
       v-model="itemData.option.bgSp"
@@ -27,14 +27,14 @@ div
     a.btn.btn-info.btn-sm.btn-block.mb-2(
       @click="()=>$root.$emit('google-storage-view')"
     )
-      span {{$words.explorer}}
+      span {{custom.explorer.label}}
     a.btn.btn-info.btn-sm.btn-block(
       @click="()=>$root.$emit('google-storage-upload',(url)=>{uploaded=url})"
     )
-      span {{$words.upload}}
+      span {{custom.upload.label}}
 
     div(v-if="uploaded")
-      label {{$words.complete}}
+      label {{custom.complete.label}}
         input.form-control.form-control-sm(:value="uploaded")
 
   StyleComp(
@@ -47,7 +47,7 @@ div
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
@@ -60,8 +60,27 @@ import BackgroundBox from "./BackgroundBox.vue";
 export default class BackgroundBoxProfile extends Profile {
   static readonly CLASS_NAME = "BackgroundBoxProfile";
   static readonly LANGS = {
-    en:  BackgroundBox.CLASS_NAME,
+    en: BackgroundBox.CLASS_NAME,
     jp: "背景ボックス",
+  };
+  // custom
+  static readonly custom = {
+    bg: {label: Vue.prototype.$words.bg, value: Vue.prototype.$words.url},
+    bgSp: {
+      label: Vue.prototype.$words.bg + "-" + Vue.prototype.$words.sp,
+      value: Vue.prototype.$words.url,
+    },
+    tag: {
+      label: Vue.prototype.$words.tag,
+      default: "",
+      select: ["", "section"],
+    },
+    explorer: {label: Vue.prototype.$words.explorer, value: "Google Storageへのリンク"},
+    upload: {label: Vue.prototype.$words.upload, value: "Google Storageにファイルをアップロード"},
+    complete: {
+      label: Vue.prototype.$words.complete,
+      value: "ファイルの" + Vue.prototype.$words.upload + "先URL",
+    },
   };
   //style setting
   static readonly stylePermission = {

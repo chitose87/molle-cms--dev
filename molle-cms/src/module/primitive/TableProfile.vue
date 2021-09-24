@@ -2,11 +2,12 @@
 div
   StyleComp(
     :itemData="itemData",
-    ,
+  ,
     @change="() => $emit('change')"
   )
+
   label.form-inline
-    span.mr-1 {{$words.csv}}:
+    span.mr-1 {{custom.csv.label}}:
     textarea.form-control.form-control-sm(
       v-model="itemData.value",
       placehholder="csv only",
@@ -14,14 +15,15 @@ div
     )
 
   label.form-inline
-    span.mr-1 {{$words.row}}{{$words.headline}}:
+    span.mr-1 {{custom.row.label}}:
     input.form-control.form-control-sm(
       v-model="itemData.option.lineHeading",
       type="checkbox",
       @change="() => $emit('change')"
     )
+
   label.form-inline
-    span.mr-1 {{$words.column}}{{$words.headline}}:
+    span.mr-1 {{custom.column.label}}:
     input.form-control.form-control-sm(
       v-model="itemData.option.columnHeading",
       type="checkbox",
@@ -30,7 +32,7 @@ div
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
@@ -42,8 +44,22 @@ import Table from "./Table.vue";
 export default class TableProfile extends Profile {
   static readonly CLASS_NAME = "TableProfile";
   static readonly LANGS = {
-    en:  Table.CLASS_NAME,
+    en: Table.CLASS_NAME,
     jp: "表",
+  };
+  // custom
+  static readonly custom = {
+    csv: {label: Vue.prototype.$words.csv, value: "表の内容をCSV形式で入力"},
+    row: {
+      label: Vue.prototype.$words.row + Vue.prototype.$words.headline,
+      default: Vue.prototype.$words.false,
+      select: [Vue.prototype.$words.true, Vue.prototype.$words.false],
+    },
+    column: {
+      label: Vue.prototype.$words.column + Vue.prototype.$words.headline,
+      default: Vue.prototype.$words.true,
+      select: [Vue.prototype.$words.true, Vue.prototype.$words.false],
+    },
   };
   //style setting
   static readonly stylePermission = {
@@ -61,7 +77,7 @@ export default class TableProfile extends Profile {
       option: {columnHeading: true},
     },
     icon: "table",
-  }
+  };
 }
 </script>
 

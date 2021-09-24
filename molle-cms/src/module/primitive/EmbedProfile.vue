@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   label.w-100
-    span HTML:
+    span {{custom.html.label}}:
     textarea.form-control.form-control-sm(
       v-model="itemData.value"
       @change="()=>$emit('change')"
@@ -16,7 +16,7 @@ div
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
@@ -29,8 +29,12 @@ import Embed from "./Embed.vue";
 export default class EmbedProfile extends Profile {
   static readonly CLASS_NAME = "EmbedProfile";
   static readonly LANGS = {
-    en:  Embed.CLASS_NAME,
+    en: Embed.CLASS_NAME,
     jp: "埋め込み",
+  };
+  // custom
+  static readonly custom = {
+    html: {label: "HTML", value: "HTMLを直接入力"},
   };
   //style setting
   static readonly stylePermission = {
