@@ -1,6 +1,6 @@
 import {Vue} from "nuxt-property-decorator";
 
-Vue.prototype.$lang = "en";
+Vue.prototype.$lang = "jp";
 
 Vue.prototype.$words = {
   add: {jp: "追加", en: "Add"},
@@ -136,6 +136,7 @@ Vue.prototype.$words = {
   donot: {jp: "否", en: "Don't"},
   link: {jp: "リンク先", en: "Link"},
   check: {jp: "チェック", en: "Check"},
+  coordinate: {jp: "座標", en: "Coordinate"},
 
   TF: {jp: "", en: ""},
 };
