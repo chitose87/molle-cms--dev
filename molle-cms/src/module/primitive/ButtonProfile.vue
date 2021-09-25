@@ -44,7 +44,7 @@ export default class ButtonProfile extends Profile {
   };
   // custom
   static readonly custom = {
-    url: {label: Vue.prototype.$words.url, value: Vue.prototype.$words.link},
+    url: {label: Vue.prototype.$words.url, value: Vue.prototype.$words.url},
     label: {label: Vue.prototype.$words.label, value: Vue.prototype.$words.text},
     target: {
       label: Vue.prototype.$words.target,

@@ -35,7 +35,7 @@ export default class SocialShareProfile extends Profile {
   static readonly CLASS_NAME = "SocialShareProfile";
   static readonly LANGS = {
     en: SocialShare.CLASS_NAME,
-    jp: "SNS共有",
+    jp: "SNSシェア",
   };
   // custom
   static readonly custom = {

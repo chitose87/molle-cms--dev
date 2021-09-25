@@ -34,7 +34,7 @@ export default class EmbedProfile extends Profile {
   };
   // custom
   static readonly custom = {
-    html: {label: "HTML", value: "HTMLを直接入力"},
+    html: {label: "HTML", value: "HTML"},
   };
   //style setting
   static readonly stylePermission = {

@@ -75,11 +75,11 @@ export default class ColumnProfile extends Profile {
   static readonly custom = {
     column: {
       label: Vue.prototype.$words.basic + Vue.prototype.$words.col,
-      value: "子要素の幅を一律指定",
+      value: Vue.prototype.$words.number,
     },
     columnSp: {
       label: Vue.prototype.$words.basic + Vue.prototype.$words.col + "-" + Vue.prototype.$words.sp,
-      value: Vue.prototype.$words.sp + "表示時の幅指定",
+      value: Vue.prototype.$words.number,
     },
   };
   //style setting

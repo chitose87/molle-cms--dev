@@ -22,6 +22,10 @@ export default class ModalProfile extends Profile {
     en: Modal.CLASS_NAME,
     jp: "モーダル",
   };
+
+  // custom
+  static readonly custom = {};
+
   //style setting
   static readonly stylePermission = {
     container: false,

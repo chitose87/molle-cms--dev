@@ -4,7 +4,7 @@
   :class="{_current:$route.query.focus === node.id}"
   :data-item-id="node.id"
 )
-  .d-flex.justify-content-between
+  .d-flex
     button.btn.btn-sm.btn-link.btn-block.text-left(
       :class="{active: $route.query.focus === node.id}",
       :title="node.id",
@@ -26,6 +26,10 @@
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b Btn
         span :{{itemData.value}}
+      span(v-else-if="itemData.moduleId=='DevModuleGuide'")
+        b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
+        b-icon.mr-1(:icon="$molleModules[itemData.option.module].icon")
+        span(v-html="itemData.option.module")
       span(v-else)
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b(v-html="itemData.moduleId")
@@ -110,7 +114,7 @@ export default class ItemListItemComp extends Vue {
     this.unsubscribe = Singleton.itemsRef
       .doc(this.node.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-        console.log(!snap.exists)
+        console.log(!snap.exists);
         if (!snap.exists) {
           let update = this.$molleModules[this.node!.fixedModuleId || "Box"].def;
           Utils.updateItem(this.node.id, update, true);
@@ -177,19 +181,18 @@ export default class ItemListItemComp extends Vue {
    *
    */
   onClick() {
-    this.$router.replace({query: {...this.$route.query, focus: this.node.id}}).catch(err => {
-    });
-
-    this.expanded = !this.expanded;
+    if (this.$route.query.focus == this.node.id) {
+      this.expanded = !this.expanded;
+    }
+    this.$router
+      .replace({query: {...this.$route.query, focus: this.node.id}})
+      .catch(err => {
+      });
   }
 
   beforeDestroy() {
     if (this.unsubscribe) this.unsubscribe();
   }
-
-  // hoge(e: any) {
-  //   console.log(e.item);
-  // }
 }
 </script>
 

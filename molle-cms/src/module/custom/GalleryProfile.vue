@@ -38,6 +38,10 @@ export default class GalleryProfile extends Profile {
     en:  Gallery.CLASS_NAME,
     jp: "ギャラリー",
   };
+
+  // custom
+  static readonly custom = {};
+
   //style setting
   static readonly stylePermission = {
     container: false,

@@ -42,7 +42,7 @@ export default class GoogleFormProfile extends Profile {
   };
   // custom
   static readonly custom = {
-    url: {label: Vue.prototype.$words.url, value: "GoogleFormの" + Vue.prototype.$words.url},
+    url: {label: Vue.prototype.$words.url, value: Vue.prototype.$words.url},
   };
   //style setting
   static readonly stylePermission = {

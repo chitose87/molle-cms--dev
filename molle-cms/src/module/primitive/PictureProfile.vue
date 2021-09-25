@@ -3,7 +3,6 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-
   )
 
   InputUrlByGS(
@@ -11,11 +10,13 @@ div
     v-model="itemData.value"
     @change="()=>$emit('change')"
   )
+
   InputUrlByGS(
     :label="custom.srcSp.label+':'"
     v-model="itemData.option.sp"
     @change="()=>$emit('change')"
   )
+
   label {{custom.alt.label}}:
     input.form-control.form-control-sm(
       type="text"
@@ -48,15 +49,14 @@ export default class PictureProfile extends Profile {
     en: Picture.CLASS_NAME,
     jp: "画像",
   };
+
   // custom
   static readonly custom = {
     src: {label: Vue.prototype.$words.src, value: Vue.prototype.$words.url},
     srcSp: {label: Vue.prototype.$words.src + "-" + Vue.prototype.$words.sp, value: Vue.prototype.$words.url},
     alt: {label: Vue.prototype.$words.alt, value: Vue.prototype.$words.text},
-    explorer: {label: Vue.prototype.$words.explorer, value: "Google Storageへのリンク"},
-    upload: {label: Vue.prototype.$words.upload, value: "Google Storageにファイルをアップロード"},
-    complete: {label: Vue.prototype.$words.complete, value: "ファイルの" + Vue.prototype.$words.upload + "先URL"},
   };
+
   //style setting
   static readonly stylePermission = {
     border: false,
@@ -66,6 +66,7 @@ export default class PictureProfile extends Profile {
     theme: {default: "", select: ["", "-sm", "-lg"]},
     // color: {default: "", select: ["", "dark"]},
   };
+
   static settings = {
     type: "picture",
     opt: {

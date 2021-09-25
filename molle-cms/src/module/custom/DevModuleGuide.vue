@@ -121,9 +121,7 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
 export default class DevModuleGuide extends Module {
   static readonly CLASS_NAME = "DevModuleGuide";
   styleAlign = StyleAlign;
-
   mounted() {
-
   }
 }
 </script>

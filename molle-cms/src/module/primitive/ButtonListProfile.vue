@@ -3,13 +3,12 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-
   )
 
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
@@ -23,6 +22,9 @@ export default class ButtonListProfile extends Profile {
   static readonly LANGS = {
     en: Button.CLASS_NAME,
     jp: "ボタンリスト",
+  };
+  static readonly custom = {
+    // src: {label: Vue.prototype.$words.src, value: Vue.prototype.$words.url},
   };
   //style setting
   static readonly stylePermission = {

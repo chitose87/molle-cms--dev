@@ -8,34 +8,18 @@ div
     )
       option(v-for="item in custom.tag.select" :value="item" v-html="item")
 
-  label {{custom.bg.label}}:
-    input.form-control.form-control-sm(
-      type="text"
-      v-model="itemData.option.bg"
-      @change="(e)=>validation(e.target.value,itemData.option,'bg')"
-    )
-  label {{custom.bgSp.label}}:
-    input.form-control.form-control-sm(
-      type="text"
-      v-model="itemData.option.bgSp"
-      @change="(e)=>validation(e.target.value,itemData.option,'bgSp')"
-    )
+  InputUrlByGS(
+    :label="custom.bg.label+':'"
+    v-model="itemData.option.bg"
+    @change="()=>$emit('change')"
+  )
+  InputUrlByGS(
+    :label="custom.bgSp.label+':'"
+    v-model="itemData.option.bgSp"
+    @change="()=>$emit('change')"
+  )
 
-  //Google Storage
-  .google-storage.border.p-2.mt-3
-    label Google Storage
-    a.btn.btn-info.btn-sm.btn-block.mb-2(
-      @click="()=>$root.$emit('google-storage-view')"
-    )
-      span {{custom.explorer.label}}
-    a.btn.btn-info.btn-sm.btn-block(
-      @click="()=>$root.$emit('google-storage-upload',(url)=>{uploaded=url})"
-    )
-      span {{custom.upload.label}}
-
-    div(v-if="uploaded")
-      label {{custom.complete.label}}
-        input.form-control.form-control-sm(:value="uploaded")
+  GoogleStorage
 
   StyleComp(
     :itemData="itemData"
@@ -53,9 +37,11 @@ import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
 import Box from "./Box.vue";
 import BackgroundBox from "./BackgroundBox.vue";
+import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
+import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {StyleComp,GoogleStorage,InputUrlByGS},
 })
 export default class BackgroundBoxProfile extends Profile {
   static readonly CLASS_NAME = "BackgroundBoxProfile";
@@ -74,12 +60,6 @@ export default class BackgroundBoxProfile extends Profile {
       label: Vue.prototype.$words.tag,
       default: "",
       select: ["", "section"],
-    },
-    explorer: {label: Vue.prototype.$words.explorer, value: "Google Storageへのリンク"},
-    upload: {label: Vue.prototype.$words.upload, value: "Google Storageにファイルをアップロード"},
-    complete: {
-      label: Vue.prototype.$words.complete,
-      value: "ファイルの" + Vue.prototype.$words.upload + "先URL",
     },
   };
   //style setting
@@ -102,15 +82,6 @@ export default class BackgroundBoxProfile extends Profile {
   };
 
   uploaded = "";
-
-  validation(str: string, obj: any, name: string) {
-    if (/firebasestorage.googleapis.com/.test(str)) {
-      str = str.match(".+/(.+?)([\?#;].*)?$")![1];
-      str = `https://storage.googleapis.com/${process.env.storageBucket}/${decodeURIComponent(str)}`;
-      this.$set(obj, name, str);
-    }
-    this.$emit("change");
-  }
 }
 </script>
 

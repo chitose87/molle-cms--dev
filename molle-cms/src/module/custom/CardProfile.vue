@@ -22,9 +22,13 @@ import Card from "./Card.vue";
 export default class CardProfile extends Profile {
   static readonly CLASS_NAME = "CardProfile";
   static readonly LANGS = {
-    en:  Card.CLASS_NAME,
+    en: Card.CLASS_NAME,
     jp: "カード",
   };
+
+  // custom
+  static readonly custom = {};
+
   //style setting
   static readonly stylePermission = {
     // border: false,

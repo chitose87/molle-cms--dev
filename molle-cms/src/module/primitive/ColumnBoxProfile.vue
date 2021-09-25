@@ -48,10 +48,10 @@ export default class ColumnBoxProfile extends Profile {
   };
   // custom
   static readonly custom = {
-    column: {label: Vue.prototype.$words.col, value: "要素の幅を個別指定"},
+    column: {label: Vue.prototype.$words.col, value: Vue.prototype.$words.number},
     columnSp: {
       label: Vue.prototype.$words.col + "-" + Vue.prototype.$words.sp,
-      value: Vue.prototype.$words.sp + "表示時の幅指定",
+      value: Vue.prototype.$words.number,
     },
   };
   //style setting

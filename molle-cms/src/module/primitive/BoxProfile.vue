@@ -6,7 +6,7 @@ div
       v-model="itemData.option.tag"
       @change="()=>$emit('change')"
     )
-      option(v-for="item in ['', 'section']" :value="item" v-html="item")
+      option(v-for="item in custom.tag.select" :value="item" v-html="item")
 
   StyleComp(
     :itemData="itemData"

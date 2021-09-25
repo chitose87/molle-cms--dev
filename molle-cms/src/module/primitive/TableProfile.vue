@@ -49,7 +49,7 @@ export default class TableProfile extends Profile {
   };
   // custom
   static readonly custom = {
-    csv: {label: Vue.prototype.$words.csv, value: "表の内容をCSV形式で入力"},
+    csv: {label: Vue.prototype.$words.csv, value: Vue.prototype.$words.csv},
     row: {
       label: Vue.prototype.$words.row + Vue.prototype.$words.headline,
       default: Vue.prototype.$words.false,

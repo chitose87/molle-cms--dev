@@ -43,7 +43,7 @@ export default class LinkBoxProfile extends Profile {
   };
   // custom
   static readonly custom = {
-    url: {label: Vue.prototype.$words.url, value: Vue.prototype.$words.link},
+    url: {label: Vue.prototype.$words.url, value: Vue.prototype.$words.url},
     target: {
       label: Vue.prototype.$words.target,
       default: "",
