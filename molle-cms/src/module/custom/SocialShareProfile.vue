@@ -7,14 +7,14 @@ div
   label.form-inline
     span.mr-1 {{custom.facebook.label}}:
     input.form-control.form-control-sm(
-      v-model="itemData.option.noFacebook",
+      v-model="itemData.option.facebook",
       type="checkbox",
       @change="() => $emit('change')"
     )
   label.form-inline
     span.mr-1 {{custom.twitter.label}}:
     input.form-control.form-control-sm(
-      v-model="itemData.option.noTwitter",
+      v-model="itemData.option.twitter",
       type="checkbox",
       @change="() => $emit('change')"
     )
@@ -40,13 +40,13 @@ export default class SocialShareProfile extends Profile {
   // custom
   static readonly custom = {
     facebook: {
-      label: Vue.prototype.$words.donot + " Facebook",
-      default: Vue.prototype.$words.false,
+      label: "Facebook",
+      default: Vue.prototype.$words.true,
       select: [Vue.prototype.$words.true, Vue.prototype.$words.false],
     },
     twitter: {
-      label: Vue.prototype.$words.donot + " Twitter",
-      default: Vue.prototype.$words.false,
+      label: "Twitter",
+      default: Vue.prototype.$words.true,
       select: [Vue.prototype.$words.true, Vue.prototype.$words.false],
     },
   };
@@ -61,6 +61,12 @@ export default class SocialShareProfile extends Profile {
   };
   static settings = {
     type: "any",
+    opt: {
+      option: {
+        facebook: true,
+        twitter: true,
+      },
+    },
     icon: "share",
   };
 }
