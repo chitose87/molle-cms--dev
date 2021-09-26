@@ -182,7 +182,7 @@ export default class MolleEditerComp extends Vue {
    */
   @Watch("$route.query.focus", {immediate: true})
   onChangeFocusModuleNode(newer: any, older?: any) {
-    // console.log(newer);
+    console.log("onChangeFocusModuleNode", newer);
     if (!newer) return;
     let h = window.innerHeight;
     try {
@@ -195,11 +195,11 @@ export default class MolleEditerComp extends Vue {
         leftPanel.scrollTo({top: v, behavior: "smooth"});
       }
     } catch (e) {
+      console.log(e);
     }
 
     try {
-      let mainPanel = <Vue>this.$refs.main;
-      let current = <HTMLElement>mainPanel.$el.querySelector(`[data-item-id="${newer}"]`);
+      let current = <HTMLElement>this.$el.nextElementSibling!.querySelector(`[data-item-id="${newer}"]`);
       let v = current.getBoundingClientRect().top;
       if (v < h * 0.1 || v > h * 0.9) {
         v -= h * 0.2;
@@ -207,6 +207,7 @@ export default class MolleEditerComp extends Vue {
         window.scrollTo({top: v, behavior: "smooth"});
       }
     } catch (e) {
+      console.log(e);
     }
   }
 
@@ -359,7 +360,8 @@ export default class MolleEditerComp extends Vue {
       width: 100% !important;
     }
   }
-  @include mediaquery-sm{
+
+  @include mediaquery-sm {
     display: none !important;
   }
 }

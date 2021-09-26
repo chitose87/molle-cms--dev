@@ -5,12 +5,12 @@
   :style="getStyle(itemData)"
 )
   button.social-share__item.social-share--facebook(
-    v-if="!itemData.option.noFacebook",
+    v-if="itemData.option.facebook",
     @click="shareFb",
     aria-label="Facebookシェア"
   )
   button.social-share__item.social-share--twitter(
-    v-if="!itemData.option.noTwitter",
+    v-if="itemData.option.twitter",
     @click="shareTw",
     aria-label="Teitterシェア"
   )
@@ -25,20 +25,22 @@ import {Module} from "~/molle-cms/src/module/Module";
 })
 export default class SocialShare extends Module {
   static readonly CLASS_NAME = "SocialShare";
+
   shareFb() {
     window.open(
       "http://www.facebook.com/sharer.php?u=" +
-        encodeURIComponent(location.href),
+      encodeURIComponent(location.href),
       "sharewindow",
       "width=550, height=450, personalbar=0, toolbar=0, scrollbars=1, resizable=!",
     );
   }
+
   shareTw() {
     window.open(
       "http://twitter.com/share?text=" +
-        encodeURIComponent(document.title) +
-        "&url=" +
-        encodeURIComponent(location.href),
+      encodeURIComponent(document.title) +
+      "&url=" +
+      encodeURIComponent(location.href),
       "sharewindow",
       "width=550, height=450, personalbar=0, toolbar=0, scrollbars=1, resizable=!",
     );
@@ -52,6 +54,7 @@ export default class SocialShare extends Module {
   margin-right: -0.5rem;
   margin-top: 1rem;
   margin-bottom: 1.5rem;
+
   &__item {
     background: transparent;
     border: 0;
@@ -65,6 +68,7 @@ export default class SocialShare extends Module {
       display: inline-block;
       transition: all $tick ease-out;
     }
+
     &:hover {
       &::before {
         transform: scale(1.1);
@@ -75,12 +79,15 @@ export default class SocialShare extends Module {
 
   &--facebook {
     color: #1877f2;
+
     &::before {
       @include icon-facebook;
     }
   }
+
   &--twitter {
     color: #1da1f2;
+
     &::before {
       @include icon-twitter;
     }

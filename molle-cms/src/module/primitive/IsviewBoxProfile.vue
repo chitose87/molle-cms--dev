@@ -3,7 +3,6 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-
   )
 
 </template>
@@ -24,9 +23,13 @@ import IsviewBox from "./IsviewBox.vue";
 export default class IsviewBoxProfile extends Profile {
   static readonly CLASS_NAME = "IsviewBoxProfile";
   static readonly LANGS = {
-    en:  IsviewBox.CLASS_NAME,
-    jp: "表示動作ボックス",
+    en: IsviewBox.CLASS_NAME,
+    jp: "アニメーションボックス",
   };
+
+  // custom
+  static readonly custom = {};
+
   //style setting
   static readonly stylePermission = {
     theme: {default: "", select: ["", "-slide", "-fade"]},

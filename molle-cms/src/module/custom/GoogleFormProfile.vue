@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   label
-    span.mr-1 {{$words.url}}:
+    span.mr-1 {{custom.url.label}}:
     input.form-control.form-control-sm(
       v-model="itemData.value.url"
       @change="()=>$emit('change')"
@@ -39,6 +39,10 @@ export default class GoogleFormProfile extends Profile {
   static readonly LANGS = {
     en:  GoogleForm.CLASS_NAME,
     jp: "GoogleForm",
+  };
+  // custom
+  static readonly custom = {
+    url: {label: Vue.prototype.$words.url, value: Vue.prototype.$words.url},
   };
   //style setting
   static readonly stylePermission = {

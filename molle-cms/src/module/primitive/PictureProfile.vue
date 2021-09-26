@@ -3,20 +3,21 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-
   )
 
   InputUrlByGS(
-    :label="$words.src+':'"
+    :label="custom.src.label+':'"
     v-model="itemData.value"
     @change="()=>$emit('change')"
   )
+
   InputUrlByGS(
-    :label="$words.src+' '+$words.sp+':'"
+    :label="custom.srcSp.label+':'"
     v-model="itemData.option.sp"
     @change="()=>$emit('change')"
   )
-  label {{$words.alt}}:
+
+  label {{custom.alt.label}}:
     input.form-control.form-control-sm(
       type="text"
       v-model="itemData.option.alt"
@@ -31,7 +32,7 @@ div
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
@@ -45,9 +46,17 @@ import Picture from "./Picture.vue";
 export default class PictureProfile extends Profile {
   static readonly CLASS_NAME = "PictureProfile";
   static readonly LANGS = {
-    en:  Picture.CLASS_NAME,
+    en: Picture.CLASS_NAME,
     jp: "画像",
   };
+
+  // custom
+  static readonly custom = {
+    src: {label: Vue.prototype.$words.src, value: Vue.prototype.$words.url},
+    srcSp: {label: Vue.prototype.$words.src + "-" + Vue.prototype.$words.sp, value: Vue.prototype.$words.url},
+    alt: {label: Vue.prototype.$words.alt, value: Vue.prototype.$words.text},
+  };
+
   //style setting
   static readonly stylePermission = {
     border: false,
@@ -57,6 +66,7 @@ export default class PictureProfile extends Profile {
     theme: {default: "", select: ["", "-sm", "-lg"]},
     // color: {default: "", select: ["", "dark"]},
   };
+
   static settings = {
     type: "picture",
     opt: {

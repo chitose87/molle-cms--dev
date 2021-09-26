@@ -52,7 +52,7 @@ export default class DevModuleGuideProfile extends Profile {
   static settings = {
     type: "children",
     black: [DevModuleGuide],
-    icon: "plus-square",
+    icon: "archive-fill",
     opt: {
       option: {
         module: "Box",

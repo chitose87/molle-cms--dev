@@ -1,12 +1,12 @@
 <template lang="pug">
 div
   label.form-inline
-    span.mr-1 {{$words.tag}}:
+    span.mr-1 {{custom.tag.label}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.tag"
       @change="()=>$emit('change')"
     )
-      option(v-for="item in ['', 'section']" :value="item" v-html="item")
+      option(v-for="item in custom.tag.select" :value="item" v-html="item")
 
   StyleComp(
     :itemData="itemData"
@@ -16,7 +16,7 @@ div
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
@@ -29,8 +29,16 @@ import Box from "./Box.vue";
 export default class BoxProfile extends Profile {
   static readonly CLASS_NAME = "BoxProfile";
   static readonly LANGS = {
-    en:  Box.CLASS_NAME,
+    en: Box.CLASS_NAME,
     jp: "ボックス",
+  };
+  // custom
+  static readonly custom = {
+    tag: {
+      label: Vue.prototype.$words.tag,
+      default: "",
+      select: ["", "section"],
+    },
   };
   //style setting
   static readonly stylePermission = {

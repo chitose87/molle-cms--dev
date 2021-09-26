@@ -1,41 +1,25 @@
 <template lang="pug">
 div
   label.form-inline
-    span.mr-1 {{$words.tag}}:
+    span.mr-1 {{custom.tag.label}}:
     select.form-control.form-control-sm(
       v-model="itemData.option.tag"
       @change="()=>$emit('change')"
     )
-      option(v-for="item in ['', 'section']" :value="item" v-html="item")
+      option(v-for="item in custom.tag.select" :value="item" v-html="item")
 
-  label {{$words.bg}}:
-    input.form-control.form-control-sm(
-      type="text"
-      v-model="itemData.option.bg"
-      @change="(e)=>validation(e.target.value,itemData.option,'bg')"
-    )
-  label {{$words.bg}} {{$words.sp}}:
-    input.form-control.form-control-sm(
-      type="text"
-      v-model="itemData.option.bgSp"
-      @change="(e)=>validation(e.target.value,itemData.option,'bgSp')"
-    )
+  InputUrlByGS(
+    :label="custom.bg.label+':'"
+    v-model="itemData.option.bg"
+    @change="()=>$emit('change')"
+  )
+  InputUrlByGS(
+    :label="custom.bgSp.label+':'"
+    v-model="itemData.option.bgSp"
+    @change="()=>$emit('change')"
+  )
 
-  //Google Storage
-  .google-storage.border.p-2.mt-3
-    label Google Storage
-    a.btn.btn-info.btn-sm.btn-block.mb-2(
-      @click="()=>$root.$emit('google-storage-view')"
-    )
-      span {{$words.explorer}}
-    a.btn.btn-info.btn-sm.btn-block(
-      @click="()=>$root.$emit('google-storage-upload',(url)=>{uploaded=url})"
-    )
-      span {{$words.upload}}
-
-    div(v-if="uploaded")
-      label {{$words.complete}}
-        input.form-control.form-control-sm(:value="uploaded")
+  GoogleStorage
 
   StyleComp(
     :itemData="itemData"
@@ -47,21 +31,36 @@ div
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
 import Box from "./Box.vue";
 import BackgroundBox from "./BackgroundBox.vue";
+import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
+import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {StyleComp,GoogleStorage,InputUrlByGS},
 })
 export default class BackgroundBoxProfile extends Profile {
   static readonly CLASS_NAME = "BackgroundBoxProfile";
   static readonly LANGS = {
-    en:  BackgroundBox.CLASS_NAME,
+    en: BackgroundBox.CLASS_NAME,
     jp: "背景ボックス",
+  };
+  // custom
+  static readonly custom = {
+    bg: {label: Vue.prototype.$words.bg, value: Vue.prototype.$words.url},
+    bgSp: {
+      label: Vue.prototype.$words.bg + "-" + Vue.prototype.$words.sp,
+      value: Vue.prototype.$words.url,
+    },
+    tag: {
+      label: Vue.prototype.$words.tag,
+      default: "",
+      select: ["", "section"],
+    },
   };
   //style setting
   static readonly stylePermission = {
@@ -83,15 +82,6 @@ export default class BackgroundBoxProfile extends Profile {
   };
 
   uploaded = "";
-
-  validation(str: string, obj: any, name: string) {
-    if (/firebasestorage.googleapis.com/.test(str)) {
-      str = str.match(".+/(.+?)([\?#;].*)?$")![1];
-      str = `https://storage.googleapis.com/${process.env.storageBucket}/${decodeURIComponent(str)}`;
-      this.$set(obj, name, str);
-    }
-    this.$emit("change");
-  }
 }
 </script>
 

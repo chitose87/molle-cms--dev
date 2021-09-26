@@ -7,8 +7,11 @@
   .dev-module-guide__headline
     h3
       span(v-html="itemData.option.module")
-      | /
-      span(v-html="$molleModules[itemData.option.module].profile.LANGS[$lang]")
+      span(
+        v-for="jp in [$molleModules[itemData.option.module].profile.LANGS[$lang]]"
+        v-if="itemData.option.module!=jp"
+      )
+        | / {{jp}}
     p(v-if="itemData.option.description" v-html="itemData.option.description")
 
   .row
@@ -123,7 +126,6 @@ export default class DevModuleGuide extends Module {
   styleAlign = StyleAlign;
 
   mounted() {
-
   }
 }
 </script>
@@ -148,6 +150,7 @@ export default class DevModuleGuide extends Module {
       margin-top: 0;
       margin-bottom: 0.5rem;
       border-bottom: 1px solid $color-border;
+      font-weight: bolder;
     }
 
     p {
