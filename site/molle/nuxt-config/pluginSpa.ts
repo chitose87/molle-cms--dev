@@ -29,6 +29,12 @@ import ButtonList from "~/molle-cms/src/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle-cms/src/module/primitive/ButtonListProfile.vue";
 import Modal from "~/molle-cms/src/module/primitive/Modal.vue";
 import ModalProfile from "~/molle-cms/src/module/primitive/ModalProfile.vue";
+import ListBox from "~/molle-cms/src/module/primitive/ListBox.vue";
+import ListBoxProfile from "~/molle-cms/src/module/primitive/ListBoxProfile.vue";
+import List from "~/molle-cms/src/module/primitive/List.vue";
+import ListProfile from "~/molle-cms/src/module/primitive/ListProfile.vue";
+import ListItemBox from "~/molle-cms/src/module/primitive/ListItemBox.vue";
+import ListItemBoxProfile from "~/molle-cms/src/module/primitive/ListItemBoxProfile.vue";
 import Gallery from "~/molle-cms/src/module/custom/Gallery.vue";
 import GalleryProfile from "~/molle-cms/src/module/custom/GalleryProfile.vue";
 import GoogleForm from "~/molle-cms/src/module/custom/GoogleForm.vue";
@@ -143,6 +149,15 @@ let _molleModuleList: any[] = [];
 }, {
   ref: DevModuleGuide,
   profile: DevModuleGuideProfile,
+}, {
+  ref: ListBox,
+  profile: ListBoxProfile,
+}, {
+  ref: List,
+  profile: ListProfile,
+}, {
+  ref: ListItemBox,
+  profile: ListItemBoxProfile,
 },
 ].forEach((attr: {ref: any; profile?: any;}) => {
   let v: any = {

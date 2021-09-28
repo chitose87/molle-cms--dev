@@ -19,20 +19,17 @@ div
 import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
-import ColumnBox from "./ColumnBox.vue";
-import BackgroundBox from "./BackgroundBox.vue";
-import Box from "./Box.vue";
-import List from "./List.vue"
-import ListItemBox from "./ListItemBox.vue";
+import List from "./List.vue";
+import ListBox from "./ListBox.vue";
 
 @Component({
   components: {StyleComp},
 })
-export default class BoxProfile extends Profile {
-  static readonly CLASS_NAME = "BoxProfile";
+export default class ListBoxProfile extends Profile {
+  static readonly CLASS_NAME = "ListBoxProfile";
   static readonly LANGS = {
-    en: Box.CLASS_NAME,
-    jp: "ボックス",
+    en: ListBox.CLASS_NAME,
+    jp: "リストボックス",
   };
   // custom
   static readonly custom = {
@@ -50,14 +47,12 @@ export default class BoxProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "-quote"]},
-    color: {default: "", select: ["", "-dark", "-gray", "-gray-box"]},
+    theme: {default: "-number", select: ["-number", "-circle", "-triangle", "-square"]},
   };
 
   static settings = {
     type: "children",
-    black: [ColumnBox,List,ListItemBox],
-    convert: [ColumnBox, BackgroundBox],
+    white: [List],
     icon: "plus-square",
   };
 }
