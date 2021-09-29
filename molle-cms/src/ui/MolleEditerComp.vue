@@ -140,16 +140,20 @@ export default class MolleEditerComp extends Vue {
     }, 100);
 
     let listener = (e: any) => {
-      if (e.type == "click") console.log(e.target);
+      // if (e.type == "click") console.log(e.target);
       for (let i = 0; i < e.path.length; i++) {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoaderCms) {
           let loader: ModuleLoaderCms = v;
           let q = {...this.$route.query};
-          if (e.type == "mouseover") {
-            q.hover = loader.$props.node.id;
-          } else if (e.type == "click") {
-            q.focus = loader.$props.node.id;
+          switch (e.type) {
+            case "mouseover":
+              q.hover = loader.$props.node.id;
+              break;
+            case "click":
+              q.focus = loader.$props.node.id;
+              e.preventDefault();
+              break;
           }
           this.$router.replace({query: q}).catch(err => {
           });
