@@ -1,5 +1,5 @@
 <template lang="pug">
-.module.list-item-box(
+.list-item-box(
   :id="itemData.tagId",
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
@@ -31,17 +31,22 @@ export default class ListItemBox extends Module {
 <style lang="scss">
 
 .list-item-box {
+  margin-top: 0;
+  margin-bottom: 1rem;
+
   > .list-item-box {
     padding-left: 1.5rem;
-    padding-bottom: 1rem;
     //default(=auto)
     > *:first-child:before {
       position: absolute;
       transform: translateX(-100%);
       margin-left: -0.5rem;
     }
-  }
 
+    &:last-child {
+      margin-bottom: 1.5rem;
+    }
+  }
 
   // disc
   &.-disc {
