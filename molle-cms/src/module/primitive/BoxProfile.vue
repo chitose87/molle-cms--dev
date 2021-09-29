@@ -8,6 +8,11 @@ div
     )
       option(v-for="item in custom.tag.select" :value="item" v-html="item")
 
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 説明、説明、説明、説明、説明、説明、説明、説明、説明
+
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
