@@ -84,6 +84,7 @@ export default class IndexPageAddView extends Vue {
       itemId: this.dataObj.itemId || pageId,
       title: this.dataObj.title,
       date: this.dataObj.date,
+      noExport: this.prefix == "_no-export/",
     });
     window.open("/" + this.prefix + (this.dataObj.id || this.dataObj.date) + "?edit=true", "_blank");
   }

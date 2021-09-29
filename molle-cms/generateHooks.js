@@ -2,13 +2,13 @@ const SITE_DIR = process.argv[3];
 
 const molle = require(`../${SITE_DIR}/molle.json`);
 const allData = require(`../${SITE_DIR}/molle/nuxt-config/firestore-snap.json`);
-var fs = require('fs');
+var fs = require("fs");
 
 let genDir = "";
 let dir = "";
 
-module.exports = function () {
-  this.nuxt.hook('generate:before', async (generator, generateOptions) => {
+module.exports = function() {
+  this.nuxt.hook("generate:before", async (generator, generateOptions) => {
     console.log("generate:before", process.env.isMolleCms);
     if (process.env.IS_MOLLE_CMS == "true") return;
 
@@ -19,9 +19,8 @@ module.exports = function () {
     dir = generateOptions.staticAssets.dir;
     for (let id in allData.pages) {
       let data = allData.pages[id];
-      // if (data.noExport) return;
       if (data.path.indexOf("news/") == 0) {
-        newsPage.push(data)
+        newsPage.push(data);
       }
     }
     for (let id in allData.items) {
@@ -34,8 +33,8 @@ module.exports = function () {
     });
     for (let i = 0; i < newsPage.length / 10; i++) {
       fs.writeFileSync(
-          `${SITE_DIR}/${dir}/news/news-page-${i + 1}.json`,
-          JSON.stringify(newsPage.slice(i * 10, i * 10 + 10))
+        `${SITE_DIR}/${dir}/news/news-page-${i + 1}.json`,
+        JSON.stringify(newsPage.slice(i * 10, i * 10 + 10)),
       );
     }
   });
@@ -43,13 +42,13 @@ module.exports = function () {
   /**
    * routesを編集
    */
-  this.nuxt.hook('generate:extendRoutes', async (routes) => {
-    console.log("generate:extendRoutes", process.env.IS_MOLLE_CMS == "true")
+  this.nuxt.hook("generate:extendRoutes", async (routes) => {
+    console.log("generate:extendRoutes", process.env.IS_MOLLE_CMS == "true");
     if (process.env.IS_MOLLE_CMS != "true") {
       const routesToGenerate = routes.filter(route => {
-        return !route.route.match('/--molle')
-      })
-      routes.splice(0, routes.length, ...routesToGenerate)
+        return !route.route.match("/--molle");
+      });
+      routes.splice(0, routes.length, ...routesToGenerate);
     }
     // routes.forEach((route) => {
     //   route.payload = {
@@ -68,18 +67,18 @@ module.exports = function () {
           pageData: data,
           // pages: allData.pages,
           // items: allData.items,
-        }
-      })
+        },
+      });
     }
   });
-  this.nuxt.hook('generate:route', async (route, setPayload) => {
+  this.nuxt.hook("generate:route", async (route, setPayload) => {
     // console.log('----generate:route', route, setPayload);
     /**
      * ページ生成前のフック。動的ペイロードに便利です。#7422 を参照してください。Nuxt v2.13 以上で利用可能
      */
   });
-  this.nuxt.hook('generate:page', async (attr) => {
-    console.log('----generate:page', attr.route, attr.path);
+  this.nuxt.hook("generate:page", async (attr) => {
+    console.log("----generate:page", attr.route, attr.path);
     /**
      * ユーザーが生成後のパスと HTML を更新するときのフック
      * stateとpayloadを削除
@@ -93,10 +92,10 @@ module.exports = function () {
       //     .replace(/(<div id="__nuxt">)([\s\S]*?)(<script>window.__NUXT__)/, `<div id="__nuxt"></div><script>window.__NUXT__`);
     }
   });
-  this.nuxt.hook('generate:routeCreated', async generator => {
-    console.log('pageのファイル作成が終わったよ')
+  this.nuxt.hook("generate:routeCreated", async generator => {
+    console.log("pageのファイル作成が終わったよ");
   });
-  this.nuxt.hook('generate:done', async generator => {
+  this.nuxt.hook("generate:done", async generator => {
     if (process.env.IS_MOLLE_CMS == "true") {
     } else {
       // console.time("a")
