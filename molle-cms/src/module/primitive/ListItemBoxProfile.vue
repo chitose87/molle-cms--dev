@@ -1,13 +1,5 @@
 <template lang="pug">
 div
-  label.form-inline
-    span.mr-1 {{custom.tag.label}}:
-    select.form-control.form-control-sm(
-      v-model="itemData.option.tag"
-      @change="()=>$emit('change')"
-    )
-      option(v-for="item in custom.tag.select" :value="item" v-html="item")
-
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
@@ -33,21 +25,16 @@ export default class ListItemBoxProfile extends Profile {
   };
   // custom
   static readonly custom = {
-    tag: {
-      label: Vue.prototype.$words.tag,
-      default: "",
-      select: ["", "section"],
-    },
   };
   //style setting
   static readonly stylePermission = {
-    container: false,
-    "container-fluid": false,
-    section: false,
-    border: false,
+    // container: false,
+    // "container-fluid": false,
+    // section: false,
+    // border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "-number", "-circle", "-triangle", "-square"]},
+    theme: {default: "", select: ["", "-none", "-number", "-disc"]},
   };
 
   static settings = {
