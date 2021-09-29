@@ -34,7 +34,7 @@ export default class ListItemBoxProfile extends Profile {
     // border: false,
     margin: "",
     padding: "",
-    theme: {default: "", select: ["", "-none", "-number", "-disc"]},
+    theme: {default: "-disc", select: ["-none", "-number", "-disc"]},
   };
 
   static settings = {

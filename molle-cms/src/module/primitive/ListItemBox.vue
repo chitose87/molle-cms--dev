@@ -36,8 +36,9 @@ export default class ListItemBox extends Module {
 
   > .list-item-box {
     padding-left: 1.5rem;
-    //default(=auto)
+    //default(=disc)
     > *:first-child:before {
+      content: "●";
       position: absolute;
       transform: translateX(-100%);
       margin-left: -0.5rem;
@@ -45,13 +46,6 @@ export default class ListItemBox extends Module {
 
     &:last-child {
       margin-bottom: 1.5rem;
-    }
-  }
-
-  // disc
-  &.-disc {
-    > .list-item-box > *:first-child:before {
-      content: "●";
     }
   }
 
