@@ -29,6 +29,8 @@ import ButtonList from "~/molle-cms/src/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle-cms/src/module/primitive/ButtonListProfile.vue";
 import Modal from "~/molle-cms/src/module/primitive/Modal.vue";
 import ModalProfile from "~/molle-cms/src/module/primitive/ModalProfile.vue";
+import List from "~/molle-cms/src/module/primitive/List.vue";
+import ListProfile from "~/molle-cms/src/module/primitive/ListProfile.vue";
 import ListItemBox from "~/molle-cms/src/module/primitive/ListItemBox.vue";
 import ListItemBoxProfile from "~/molle-cms/src/module/primitive/ListItemBoxProfile.vue";
 import Gallery from "~/molle-cms/src/module/custom/Gallery.vue";
@@ -145,6 +147,9 @@ let _molleModuleList: any[] = [];
 }, {
   ref: DevModuleGuide,
   profile: DevModuleGuideProfile,
+}, {
+  ref: List,
+  profile: ListProfile,
 }, {
   ref: ListItemBox,
   profile: ListItemBoxProfile,
