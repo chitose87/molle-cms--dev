@@ -20,7 +20,6 @@ import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
-import ListBox from "./ListBox.vue";
 import ListItemBox from "./ListItemBox.vue";
 
 @Component({
@@ -48,11 +47,12 @@ export default class ListItemBoxProfile extends Profile {
     border: false,
     margin: "",
     padding: "",
+    theme: {default: "", select: ["", "-number", "-circle", "-triangle", "-square"]},
   };
 
   static settings = {
     type: "children",
-    black: [ColumnBox,ListBox],
+    black: [ColumnBox],
     icon: "plus-square",
   };
 }

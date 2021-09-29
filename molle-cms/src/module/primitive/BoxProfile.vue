@@ -22,8 +22,6 @@ import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
 import BackgroundBox from "./BackgroundBox.vue";
 import Box from "./Box.vue";
-import List from "./List.vue"
-import ListItemBox from "./ListItemBox.vue";
 
 @Component({
   components: {StyleComp},
@@ -56,7 +54,7 @@ export default class BoxProfile extends Profile {
 
   static settings = {
     type: "children",
-    black: [ColumnBox,List,ListItemBox],
+    black: [ColumnBox],
     convert: [ColumnBox, BackgroundBox],
     icon: "plus-square",
   };

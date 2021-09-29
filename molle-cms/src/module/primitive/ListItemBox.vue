@@ -5,12 +5,11 @@ component.module.list-item-box(
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
 )
-  ul
-    li(v-for="node in itemData.value")
-      ModuleLoader(
-        :key="node.id",
-        :node="node"
-      )
+  ModuleLoader(
+    v-for="node in itemData.value",
+    :key="node.id",
+    :node="node"
+  )
 
   AddModuleComp(
     :label="`ListItemBox`"
@@ -31,17 +30,21 @@ export default class ListItemBox extends Module {
 </script>
 
 <style lang="scss">
-.list-item-box {
-  position: relative;
+.list-item-box:first-of-type {
+  counter-reset: item-number;
 }
 
 .list-item-box {
-  > ul > li:first-child > * {
+  position: relative;
+  padding: 0 2rem 0 2rem;
+}
+
+.list-item-box {
+  > *:first-child {
     position: relative;
 
     &:before {
       counter-increment: item-number;
-      //content: counters(item-number, ".") " ";
       content: counter(item-number) ".";
       position: absolute;
       font-size: 1rem;
@@ -49,6 +52,47 @@ export default class ListItemBox extends Module {
       left: -2rem;
       top: 50%;
       margin-top: -0.5rem;
+    }
+  }
+
+  &.-circle > *:first-child {
+    &:before {
+      content: "";
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: #000000;
+      border-radius: 50%;
+      position: absolute;
+      left: -2rem;
+      top: 50%;
+      margin-top: -0.25rem;
+    }
+  }
+
+  &.-triangle > *:first-child {
+    &:before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-width: 0.5rem;
+      border-style: solid;
+      border-color: transparent transparent transparent #000000;
+      position: absolute;
+      left: -2rem;
+      top: 50%;
+    }
+  }
+
+  &.-square > *:first-child {
+    &:before {
+      content: "";
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: #000000;
+      position: absolute;
+      left: -2rem;
+      top: 50%;
+      margin-top: -0.25rem;
     }
   }
 }
@@ -65,7 +109,7 @@ export default class ListItemBox extends Module {
 
 .-circle {
   .list-item-box {
-    > ul > li:first-child > * {
+    > *:first-child {
       position: relative;
 
       &:before {
@@ -85,7 +129,7 @@ export default class ListItemBox extends Module {
 
 .-triangle {
   .list-item-box {
-    > ul > li:first-child > * {
+    > *:first-child {
       position: relative;
 
       &:before {
@@ -105,7 +149,7 @@ export default class ListItemBox extends Module {
 
 .-square {
   .list-item-box {
-    > ul > li:first-child > * {
+    > *:first-child {
       position: relative;
 
       &:before {
@@ -121,5 +165,4 @@ export default class ListItemBox extends Module {
     }
   }
 }
-
 </style>
