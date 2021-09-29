@@ -35,132 +35,162 @@ export default class ListItemBox extends Module {
 }
 
 .list-item-box {
-  position: relative;
   padding: 0 2rem 0 2rem;
-}
 
-.list-item-box {
+  //default(=number)
   > *:first-child {
     position: relative;
 
     &:before {
-      counter-increment: item-number;
-      content: counter(item-number) ".";
       position: absolute;
+      top: 50%;
+      left: -2rem;
+      counter-increment: item-number;
       font-size: 1rem;
       line-height: 1;
-      left: -2rem;
-      top: 50%;
+      content: counter(item-number) ".";
       margin-top: -0.5rem;
+      width: auto;
+      height: auto;
+      background: none;
+      border: none;
+    }
+  }
+
+  //theme
+  &.-number > *:first-child {
+    &:before {
+      counter-increment: item-number;
+      font-size: 1rem;
+      line-height: 1;
+      content: counter(item-number) ".";
+      margin-top: -0.5rem;
+      width: auto;
+      height: auto;
+      background: none;
+      border: none;
     }
   }
 
   &.-circle > *:first-child {
     &:before {
       content: "";
+      margin-top: -0.25rem;
       width: 0.5rem;
       height: 0.5rem;
       background-color: #000000;
       border-radius: 50%;
-      position: absolute;
-      left: -2rem;
-      top: 50%;
-      margin-top: -0.25rem;
+      border: none;
     }
   }
 
   &.-triangle > *:first-child {
     &:before {
       content: "";
+      margin-top: -0.5rem;
       width: 0;
       height: 0;
+      background: none;
+      border-radius: 0;
       border-width: 0.5rem;
       border-style: solid;
       border-color: transparent transparent transparent #000000;
-      position: absolute;
-      left: -2rem;
-      top: 50%;
     }
   }
 
   &.-square > *:first-child {
     &:before {
       content: "";
+      margin-top: -0.25rem;
       width: 0.5rem;
       height: 0.5rem;
       background-color: #000000;
-      position: absolute;
-      left: -2rem;
-      top: 50%;
-      margin-top: -0.25rem;
+      border-radius: 0;
+      border: none;
     }
   }
 }
 
-.-number {
-  .list-item-box {
-    > ul > li:first-child > * {
-      &:before {
-        //default
+//子要素にthemeを反映
+.list-item-box:first-of-type {
+  &.-number {
+    .list-item-box {
+      > *:first-child {
+        position: relative;
+
+        &:before {
+          counter-increment: item-number;
+          font-size: 1rem;
+          line-height: 1;
+          content: counter(item-number) ".";
+          margin-top: -0.5rem;
+          width: auto;
+          height: auto;
+          background: none;
+          border: none;
+        }
       }
     }
   }
 }
 
-.-circle {
-  .list-item-box {
-    > *:first-child {
-      position: relative;
+.list-item-box:first-of-type {
+  &.-circle {
+    .list-item-box {
+      > *:first-child {
+        position: relative;
 
-      &:before {
-        content: "";
-        width: 0.5rem;
-        height: 0.5rem;
-        background-color: #000000;
-        border-radius: 50%;
-        position: absolute;
-        left: -2rem;
-        top: 50%;
-        margin-top: -0.25rem;
+        &:before {
+          content: "";
+          margin-top: -0.25rem;
+          width: 0.5rem;
+          height: 0.5rem;
+          background-color: #000000;
+          border-radius: 50%;
+          border: none;
+        }
       }
     }
   }
 }
 
-.-triangle {
-  .list-item-box {
-    > *:first-child {
-      position: relative;
+.list-item-box:first-of-type {
+  &.-triangle {
+    .list-item-box {
+      > *:first-child {
+        position: relative;
 
-      &:before {
-        content: "";
-        width: 0;
-        height: 0;
-        border-width: 0.5rem;
-        border-style: solid;
-        border-color: transparent transparent transparent #000000;
-        position: absolute;
-        left: -2rem;
-        top: 50%;
+        &:before {
+          content: "";
+          margin-top: -0.5rem;
+          width: 0;
+          height: 0;
+          background: none;
+          border-radius: 0;
+          border-width: 0.5rem;
+          border-style: solid;
+          border-color: transparent transparent transparent #000000;
+        }
       }
     }
   }
 }
 
-.-square {
-  .list-item-box {
-    > *:first-child {
-      position: relative;
+.list-item-box:first-of-type {
+  &.-square {
+    .list-item-box {
+      > *:first-child {
+        position: relative;
 
-      &:before {
-        content: "";
-        width: 0.5rem;
-        height: 0.5rem;
-        background-color: #000000;
-        position: absolute;
-        left: -2rem;
-        top: 50%;
-        margin-top: -0.25rem;
+        &:before {
+          content: "";
+          margin-top: -0.25rem;
+          width: 0.5rem;
+          height: 0.5rem;
+          background-color: #000000;
+          border-radius: 0;
+          border: none;
+        }
       }
     }
   }
