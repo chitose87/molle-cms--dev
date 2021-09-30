@@ -7,8 +7,7 @@
   .row
     ModuleLoader(
       v-for="node in itemData.value", :key="node.id", :node="node"
-      :data-column-col="itemData.option.col"
-      :data-column-colSm="itemData.option.colSm"
+      :class="getChildClass()"
     )
 
     AddModuleComp.col-12(
@@ -27,7 +26,15 @@ import {Module} from "~/molle-cms/src/module/Module";
 })
 export default class Column extends Module {
   static readonly CLASS_NAME = "Column";
+
   //Unique Methods
+
+  getChildClass() {
+    let obj: any = {};
+    if (this.itemData.option.col > 0) obj["col-" + this.itemData.option.col] = true;
+    if (this.itemData.option.colSm > 0) obj["col-sm-" + this.itemData.option.colSm] = true;
+    return obj;
+  }
 
   // getStyle() {
   //   let obj = super.getStyle(this.itemData);
@@ -79,17 +86,6 @@ export default class Column extends Module {
 
   &.text-right > .row {
     justify-content: flex-end;
-  }
-}
-
-@for $i from 1 through 12 {
-  [data-column-col="#{$i}"] {
-    @include col($i);
-  }
-  @include mediaquery-sm {
-    [data-column-colSm="#{$i}"] {
-      @include col($i);
-    }
   }
 }
 </style>
