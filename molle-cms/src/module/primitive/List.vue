@@ -58,38 +58,8 @@ export default class List extends Module {
 
       > *:first-child:before {
         counter-increment: a;
-        //content: counter(a) ".";
         content: counters(a,"-") ".";
       }
-
-      //2nd
-      //> .list {
-      //  &:first-of-type {
-      //    counter-reset: b;
-      //  }
-      //
-      //  > *:first-child:before {
-      //    counter-increment: b;
-      //    content: counter(a) "-" counter(b) ".";
-      //  }
-      //
-      //  //3rd
-      //  > .list {
-      //    &:first-of-type {
-      //      counter-reset: c;
-      //    }
-      //
-      //    > *:first-child:before {
-      //      counter-increment: c;
-      //      content: counter(a) "-" counter(b) "-" counter(c) ".";
-      //    }
-      //
-      //    // 4th-
-      //    > .list > *:first-child:before {
-      //      content: "●";
-      //    }
-      //  }
-      //}
     }
   }
 
