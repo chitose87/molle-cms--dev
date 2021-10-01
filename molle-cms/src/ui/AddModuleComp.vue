@@ -1,5 +1,5 @@
 <template lang="pug">
-.add-module-comp.bootstrap(v-if="$route.query.edit && $route.query.hidden !== 'true'")
+.add-module-comp.bootstrap(v-if="$route.query.edit && ($route.query.focus==parentNode.id || checkView())")
   .mt-3.text-right
     span.text-info(v-if="label" v-html="label")
       b-icon.ml-1.mr-1(icon="box-arrow-in-left")
@@ -37,6 +37,15 @@ export default class AddModuleComp extends Vue {
   maxHistory: number = 100;
   private unsubscribe!: () => void;
 
+  checkView() {
+    for (let i in this.itemData.value) {
+      if (this.$route.query.focus == this.itemData.value[i].id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   mounted() {
     Singleton.itemsRef.doc(this.parentNode.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
@@ -47,7 +56,7 @@ export default class AddModuleComp extends Vue {
         let response: any[];
         // todo
         if (moduleOpt.white) {
-          response=[];
+          response = [];
           for (let i in moduleOpt.white) {
             response.push(this.$molleModules[moduleOpt.white[i].CLASS_NAME]);
           }
