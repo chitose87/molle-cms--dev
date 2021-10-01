@@ -55,7 +55,7 @@ export default class CopyModuleComp extends Vue {
           this.loopFinishCount++;
           end();
         }
-      })
+      });
   }
 
   pushCopy() {
@@ -114,7 +114,7 @@ export default class CopyModuleComp extends Vue {
               this.parentUpdate(node);
             });
         }
-      })
+      });
   }
 
   parentUpdate(node: any) {
@@ -129,20 +129,23 @@ export default class CopyModuleComp extends Vue {
               itemDataParent.value.splice(i, 0, node);
               return true;
             }
-          })
+          });
         } else if (this.afterNode) {
           itemDataParent.value.some((_node: INodeObject, i: number) => {
             if (this.afterNode!.id == _node.id) {
               itemDataParent.value.splice(i + 1, 0, node);
               return true;
             }
-          })
+          });
         } else {
           itemDataParent.value.push(node);
         }
         let update = {value: itemDataParent.value};
         Utils.updateItem(this.parentNode.id, update)
-      })
+          .then(() => {
+            this.$router.push({query: {...this.$route.query, focus: node.id}});
+          });
+      });
   }
 
 
