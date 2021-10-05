@@ -71,30 +71,19 @@ export default class Box extends Module {
   // color
   &.-gray {
     background-color: $color-gray-600;
-    @include mediaquery-not-sm {
-      padding-top: $gutter*2;
-      padding-bottom: $gutter*2;
-    }
-    @include mediaquery-sm {
-      padding-top: 3rem;
-      padding-bottom: 3rem;
-    }
-  }
-
-  &.-gray-box {
-    border: 6px solid $color-border-light;
-    padding: 1.5rem;
-    background-color: $color-white;
-    @include mediaquery-sm {
-      padding: 1rem;
-    }
+    padding: $gutter/2;
   }
 
   &.-dark {
     background-color: $color-black;
     color: $color-text-white;
-    padding-top: $gutter*2;
-    padding-bottom: $gutter*2;
+    padding: $gutter/2;
+  }
+
+  &.-gray-box {
+    border: 6px solid $color-border-light;
+    background-color: $color-white;
+    padding: $gutter/2;
   }
 }
 </style>

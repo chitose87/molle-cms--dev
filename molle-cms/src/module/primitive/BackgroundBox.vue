@@ -58,6 +58,7 @@ export default class BackgroundBox extends Module {
   }
 
   &__body {
+    padding: $gutter/2;
   }
 
   //thema
@@ -67,6 +68,7 @@ export default class BackgroundBox extends Module {
     background-color: $color-black;
     color: $color-text-white;
     text-shadow: $shadow-text-black;
+
     > .background-box__body {
     }
   }

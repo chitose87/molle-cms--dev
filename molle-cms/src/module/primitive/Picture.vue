@@ -29,36 +29,53 @@ export default class Picture extends Module {
 
 <style lang="scss">
 .picture {
+  @include mediaquery-not-sm {
+    width: 80%;
+  }
+  @include mediaquery-sm {
+    width: 100%;
+  }
+
   img {
+    width: 100%;
     height: auto;
-    @include mediaquery-not-sm {
-      width: 80%;
-    }
-    @include mediaquery-sm {
-      width: 100%;
-    }
+  }
+
+  &.border {
+    padding: 0;
+  }
+
+  &.text-left {
+    margin-right: auto;
+    margin-left: 0;
+  }
+
+  &.text-center {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  &.text-right {
+    margin-right: 0;
+    margin-left: auto;
   }
 
   // theme
   &.-sm {
-    img {
-      @include mediaquery-not-sm {
-        width: 50%;
-      }
-      @include mediaquery-sm {
-        width: 80%;
-      }
+    @include mediaquery-not-sm {
+      width: 50%;
+    }
+    @include mediaquery-sm {
+      width: 80%;
     }
   }
 
   &.-lg {
-    img {
-      @include mediaquery-not-sm {
-        width: 100%;
-      }
-      @include mediaquery-sm {
-        width: 100%;
-      }
+    @include mediaquery-not-sm {
+      width: 100%;
+    }
+    @include mediaquery-sm {
+      width: 100%;
     }
   }
 }

@@ -3,7 +3,7 @@ a.module.link-box(
   :id="itemData.tagId",
   :class="getClass(itemData)",
   :style="getStyle(itemData)",
-  :href="$route.query.edit ? 'javascript:void(0)' : itemData.option.href"
+  :href="itemData.option.href"
   :target="itemData.option.target"
 )
   ModuleLoader(

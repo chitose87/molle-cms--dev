@@ -7,7 +7,7 @@
     form.form-group.form-check-inline(@submit.prevent v-if="itemData.moduleId" @submit="pushModule()")
       select.form-control.form-control-sm(v-model="pushModuleSelected")
         option(v-for="item in moduleList", :value="item.ref.CLASS_NAME", v-html="item.ref.CLASS_NAME")
-      button.btn.btn-sm.btn-info(type="submit") +
+      button.btn.btn-sm.btn-info(type="button" @click="pushModule()") +
 
     //.text-center(v-if="beforeNode||afterNode")
       button.btn.btn-secondary(@click="addClone")
