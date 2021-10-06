@@ -4,18 +4,13 @@ div
     :itemData="itemData"
     @change="()=>$emit('change')"
   )
-
-  InputUrlByGS(
-    :label="custom.src.label+':'"
-    v-model="itemData.value"
-    @change="()=>$emit('change')"
-  )
-
-  InputUrlByGS(
-    :label="custom.srcSp.label+':'"
-    v-model="itemData.option.sp"
-    @change="()=>$emit('change')"
-  )
+  label.form-inline
+    span.mr-1 {{custom.scale.label}}:
+    select.form-control.form-control-sm(
+      v-model="itemData.option.scale"
+      @change="()=>$emit('change')"
+    )
+      option(v-for='item in custom.scale.select' :value="item" v-html="item")
 
   label {{custom.alt.label}}:
     input.form-control.form-control-sm(
@@ -24,7 +19,32 @@ div
       @change="()=>$emit('change')"
     )
 
+  //
+  InputUrlByGS(
+    :label="custom.src.label+':'"
+    v-model="itemData.value"
+    @change="()=>$emit('change')"
+  )
+  ImageChecker(
+    :target="itemData.value"
+    v-model="itemData.option.size"
+    @change="()=>$emit('change')"
+  )
+
+  //sp用
+  InputUrlByGS(
+    :label="custom.srcSp.label+':'"
+    v-model="itemData.option.sp"
+    @change="()=>$emit('change')"
+  )
+  ImageChecker(
+    :target="itemData.option.sp"
+    v-model="itemData.option.spSize"
+    @change="()=>$emit('change')"
+  )
+
   GoogleStorage
+
 
   //a.btn.btn-secondary.btn-sm(href="https://console.firebase.google.com/project/" + process.env.projectId + "/storage/" + process.env.storageBucket + "/files~2Fimages?hl=ja" target="_blank")
     span Storage
@@ -38,10 +58,11 @@ import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
 import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
+import ImageChecker from "~/molle-cms/src/ui/property/ImageChecker.vue";
 import Picture from "./Picture.vue";
 
 @Component({
-  components: {InputUrlByGS, GoogleStorage, StyleComp},
+  components: {ImageChecker, InputUrlByGS, GoogleStorage, StyleComp},
 })
 export default class PictureProfile extends Profile {
   static readonly CLASS_NAME = "PictureProfile";
@@ -55,6 +76,11 @@ export default class PictureProfile extends Profile {
     src: {label: Vue.prototype.$words.src, value: Vue.prototype.$words.url},
     srcSp: {label: Vue.prototype.$words.src + "-" + Vue.prototype.$words.sp, value: Vue.prototype.$words.url},
     alt: {label: Vue.prototype.$words.alt, value: Vue.prototype.$words.text},
+    scale: {
+      label: "倍率",
+      default: "",
+      select: ["", 2, 3],
+    },
   };
 
   //style setting
@@ -63,7 +89,7 @@ export default class PictureProfile extends Profile {
     align: StyleAlign.None,
     // margin: "",
     // padding: "",
-    theme: {default: "", select: ["", "-sm", "-lg"]},
+    theme: {default: "", select: ["", "-sm", "-lg", "-non-scale"]},
     // color: {default: "", select: ["", "dark"]},
   };
 

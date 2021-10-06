@@ -15,18 +15,19 @@ import {Component, Emit, Prop, Vue} from "nuxt-property-decorator";
 import {OptionComp} from "./OptionComp";
 
 @Component({
-  components: {}
+  components: {},
 })
 /**
  */
 export default class InputUrlByGS extends OptionComp {
+
   validation(str: string) {
     if (/firebasestorage.googleapis.com/.test(str)) {
       str = str.match(".+/(.+?)([\?#;].*)?$")![1];
-      str = `https://storage.googleapis.com/${process.env.storageBucket}/${decodeURIComponent(str)}`
+      str = `https://storage.googleapis.com/${process.env.storageBucket}/${decodeURIComponent(str)}`;
       this.$set(this, "localValue", str);
     }
-    this.$emit('change')
+    this.$emit("change");
   }
 }
 </script>

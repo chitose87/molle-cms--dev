@@ -1,6 +1,6 @@
 <template lang="pug">
 .focus-extension.bootstrap(
-  v-show="$route.query.focus"
+  v-show="active"
   :style="style"
   :data-is-row="sibling.isRow")
   .focus-extension__before(v-show="isBefore")
@@ -71,6 +71,7 @@ import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
 export default class FocusExtension extends Vue {
   itemId: string = "";
   private observer: any;
+  active = false;
 
   loader = <ModuleLoaderCms>{};
   style: any = {};
@@ -88,15 +89,20 @@ export default class FocusExtension extends Vue {
   changeFocus(newer: string) {
     let loader = ModuleLoaderCms.modules[newer];
     if (loader) {
+      this.$set(this, "active", true);
       this.itemId = this.$route.query.focus + "";
       this.$set(this, "loader", loader);
 
       //子要素を差し込めない要素確認
-      this.isBefore = this.isAfter = !(!loader.fromModule.itemData || loader.fromModule.itemData.type == "group");
-      if (this.isAfter &&
-        loader.fromModule.itemData.value[loader.fromModule.itemData.value.length - 1].id == this.itemId) {
-        this.isAfter = false;
-      }
+      // this.isBefore = this.isAfter=true;
+      this.isBefore = this.isAfter = loader.fromModule.itemData.type != "group";
+      // if (this.isAfter &&
+      //   loader.fromModule.itemData.value[loader.fromModule.itemData.value.length - 1].id == this.itemId) {
+      //   this.isAfter = false;
+      // }
+    } else {
+      this.$set(this, "active", false);
+      console.log(loader, newer);
     }
   }
 

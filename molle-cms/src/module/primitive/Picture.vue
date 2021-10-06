@@ -8,9 +8,15 @@
     source(
       :media="`(max-width:${breakPoint - 1}px)`"
       :srcset="itemData.option.sp",
+      :width="itemData.option.spSize?itemData.option.spSize.w/(itemData.option.scale||1)+'px':'auto'"
+      :height="itemData.option.spSize?itemData.option.spSize.h/(itemData.option.scale||1)+'px':'auto'"
       :alt="itemData.option.alt"
     )
-    img(:src="itemData.value", :alt="itemData.option.alt")
+    img(
+      :src="itemData.value",
+      :width="itemData.option.size?itemData.option.size.w/(itemData.option.scale||1)+'px':'auto'"
+      :height="itemData.option.size?itemData.option.size.h/(itemData.option.scale||1)+'px':'auto'"
+      :alt="itemData.option.alt")
 </template>
 
 <script lang="ts">
@@ -29,16 +35,18 @@ export default class Picture extends Module {
 
 <style lang="scss">
 .picture {
-  @include mediaquery-not-sm {
-    width: 80%;
-  }
-  @include mediaquery-sm {
-    width: 100%;
-  }
+  &:not([class*="-non-scale"]) {
+    @include mediaquery-not-sm {
+      width: 80%;
+    }
+    @include mediaquery-sm {
+      width: 100%;
+    }
 
-  img {
-    width: 100%;
-    height: auto;
+    img {
+      width: 100%;
+      height: auto;
+    }
   }
 
   &.border {
@@ -76,6 +84,13 @@ export default class Picture extends Module {
     }
     @include mediaquery-sm {
       width: 100%;
+    }
+  }
+
+  &.-non-scale {
+    width: auto;
+
+    img {
     }
   }
 }
