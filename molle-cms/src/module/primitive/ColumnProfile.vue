@@ -28,6 +28,7 @@ div
         aria-autocomplete="false"
       )
       span /12
+  MolleGuide(:propertyItem="'baseColumn'")
   //p.caption *-1=auto
   p.caption *0={{$words.notSet}}
 
@@ -61,9 +62,10 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
 import ColumnBox from "./ColumnBox.vue";
 import Box from "./Box.vue";
 import Column from "./Column.vue";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {StyleComp, MolleGuide},
 })
 export default class ColumnProfile extends Profile {
   static readonly CLASS_NAME = "ColumnProfile";

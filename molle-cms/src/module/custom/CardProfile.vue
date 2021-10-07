@@ -1,5 +1,6 @@
 <template lang="pug">
 div
+  MolleGuide(:propertyItem="'card'")
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
@@ -15,9 +16,10 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
 import Picture from "~/molle-cms/src/module/primitive/Picture.vue";
 import Paragraph from "~/molle-cms/src/module/primitive/Paragraph.vue";
 import Card from "./Card.vue";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {StyleComp, MolleGuide},
 })
 export default class CardProfile extends Profile {
   static readonly CLASS_NAME = "CardProfile";

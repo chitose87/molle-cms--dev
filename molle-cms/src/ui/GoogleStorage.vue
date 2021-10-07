@@ -1,6 +1,8 @@
 <template lang="pug">
 .google-storage.border.p-2.mt-3
   label Google Storage
+  MolleGuide(:propertyItem="'gs'")
+
   a.btn.btn-info.btn-sm.btn-block.mb-2(
     @click="()=>$root.$emit('google-storage-view')"
   )
@@ -19,9 +21,11 @@
 <script lang="ts">
 import {Component, Vue, Watch} from "nuxt-property-decorator";
 import firebase from "firebase";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
+
 
 @Component({
-  components: {},
+  components: {MolleGuide},
 })
 export default class GoogleStorage extends Vue {
   uploaded = "";

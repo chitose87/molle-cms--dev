@@ -2,6 +2,7 @@
 div
   label
     span.mr-1 {{custom.lat.label}}:
+    MolleGuide(:propertyItem="'gmLat'")
     input.form-control.form-control-sm(
       type="nubmer"
       v-model="itemData.value.lat"
@@ -16,12 +17,14 @@ div
     )
   label
     span.mr-1 {{custom.markerTitle.label}}:
+    MolleGuide(:propertyItem="'gmTitle'")
     input.form-control.form-control-sm(
       v-model="itemData.option.title"
       @change="()=>$emit('change')"
     )
   label
     span.mr-1 {{custom.markerText.label}}:
+    MolleGuide(:propertyItem="'gmText'")
     input.form-control.form-control-sm(
       v-model="itemData.option.text"
       @change="()=>$emit('change')"
@@ -38,9 +41,10 @@ import {Component, Vue} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import GoogleMap from "./GoogleMap.vue";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {StyleComp, MolleGuide},
 })
 export default class GoogleMapProfile extends Profile {
   static readonly CLASS_NAME = "GoogleMapProfile";

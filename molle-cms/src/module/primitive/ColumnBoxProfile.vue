@@ -25,6 +25,7 @@ div
         min="-1" max="12" step="1"
       )
       span /12
+  MolleGuide(:propertyItem="'Column'")
   p.caption *-1=auto
   p.caption *0={{$words.notSet}}
 
@@ -35,10 +36,11 @@ import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
-import Box from "./Box.vue";
+import Box from "./Box.vue"
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {StyleComp, MolleGuide},
 })
 export default class ColumnBoxProfile extends Profile {
   static readonly CLASS_NAME = "ColumnBoxProfile";

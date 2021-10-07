@@ -7,6 +7,7 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for="item in custom.tag.select" :value="item" v-html="item")
+    MolleGuide(:propertyItem="'tag'")
 
   InputUrlByGS(
     :label="custom.bg.label+':'"
@@ -39,9 +40,10 @@ import Box from "./Box.vue";
 import BackgroundBox from "./BackgroundBox.vue";
 import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
 import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp,GoogleStorage,InputUrlByGS},
+  components: {StyleComp, GoogleStorage, InputUrlByGS, MolleGuide},
 })
 export default class BackgroundBoxProfile extends Profile {
   static readonly CLASS_NAME = "BackgroundBoxProfile";

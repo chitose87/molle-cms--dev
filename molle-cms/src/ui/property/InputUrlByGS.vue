@@ -1,6 +1,8 @@
 <template lang="pug">
 label.w-100
   span {{label}}
+  MolleGuide(:propertyItem="'bg'")
+
   input.form-control.form-control-sm(
     type="url"
     v-model="localValue"
@@ -13,9 +15,10 @@ label.w-100
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from "nuxt-property-decorator";
 import {OptionComp} from "./OptionComp";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {},
+  components: {MolleGuide},
 })
 /**
  */

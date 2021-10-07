@@ -2,6 +2,9 @@
 div
   label.w-100
     span {{custom.html.label}}:
+
+    MolleGuide(:propertyItem="'html'")
+
     textarea.form-control.form-control-sm(
       v-model="itemData.value"
       @change="()=>$emit('change')"
@@ -22,9 +25,10 @@ import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 import Embed from "./Embed.vue";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {TextAreaQuill, StyleComp},
+  components: {TextAreaQuill, StyleComp, MolleGuide},
 })
 export default class EmbedProfile extends Profile {
   static readonly CLASS_NAME = "EmbedProfile";

@@ -10,6 +10,8 @@ div
       v-model="itemData.option.href"
       @change="()=>$emit('change')"
     )
+    MolleGuide(:propertyItem="'url'")
+
   label.form-inline
     span.mr-1 {{custom.label.label}}:
     input.form-control.form-control-sm(
@@ -23,6 +25,7 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for="item in custom.target.select" :value="item" v-html="item")
+    MolleGuide(:propertyItem="'target'")
 
 </template>
 
@@ -32,9 +35,10 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import Button from "./Button.vue";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {StyleComp, MolleGuide},
 })
 export default class ButtonProfile extends Profile {
   static readonly CLASS_NAME = "ButtonProfile";

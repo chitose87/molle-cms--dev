@@ -11,6 +11,7 @@ div
       v-model="itemData.option.href"
       @change="()=>$emit('change')"
     )
+    MolleGuide(:propertyItem="'url'")
 
   label.form-inline
     span.mr-1 {{custom.target.label}}:
@@ -19,6 +20,7 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for="item in custom.target.select" :value="item" v-html="item")
+    MolleGuide(:propertyItem="'target'")
 
 </template>
 
@@ -31,9 +33,10 @@ import Box from "./Box.vue";
 import BackgroundBox from "./BackgroundBox.vue";
 import IsviewBox from "./IsviewBox.vue";
 import LinkBox from "./LinkBox.vue";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {StyleComp, MolleGuide},
 })
 export default class LinkBoxProfile extends Profile {
   static readonly CLASS_NAME = "LinkBoxProfile";

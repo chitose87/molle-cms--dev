@@ -19,6 +19,7 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for='item in custom.lv.select' :value="item" v-html="item")
+    MolleGuide(:propertyItem="'lv'")
 
   StyleComp(
     :itemData="itemData"
@@ -35,9 +36,10 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 import Paragraph from "./Paragraph.vue";
 import Headline from "./Headline.vue";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {TextAreaQuill, StyleComp},
+  components: {TextAreaQuill, StyleComp, MolleGuide},
 })
 export default class HeadlineProfile extends Profile {
   static readonly CLASS_NAME = "HeadlineProfile";

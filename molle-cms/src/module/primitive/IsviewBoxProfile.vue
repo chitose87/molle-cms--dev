@@ -4,6 +4,7 @@ div
     :itemData="itemData"
     @change="()=>$emit('change')"
   )
+  MolleGuide(:propertyItem="'isViewTheme'")
 
 </template>
 
@@ -16,9 +17,10 @@ import Box from "./Box.vue";
 import BackgroundBox from "./BackgroundBox.vue";
 import LinkBox from "./LinkBox.vue";
 import IsviewBox from "./IsviewBox.vue";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {StyleComp, MolleGuide},
 })
 export default class IsviewBoxProfile extends Profile {
   static readonly CLASS_NAME = "IsviewBoxProfile";

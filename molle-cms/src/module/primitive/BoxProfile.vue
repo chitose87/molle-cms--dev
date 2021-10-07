@@ -7,11 +7,7 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for="item in custom.tag.select" :value="item" v-html="item")
-
-    details.molle-guide
-      summary
-      .molle-guide__body.caption
-        p 説明、説明、説明、説明、説明、説明、説明、説明、説明
+    MolleGuide(:propertyItem="'tag'")
 
   StyleComp(
     :itemData="itemData"
@@ -27,9 +23,10 @@ import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
 import BackgroundBox from "./BackgroundBox.vue";
 import Box from "./Box.vue";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {StyleComp, MolleGuide},
 })
 export default class BoxProfile extends Profile {
   static readonly CLASS_NAME = "BoxProfile";

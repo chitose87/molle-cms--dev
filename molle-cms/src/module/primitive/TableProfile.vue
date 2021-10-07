@@ -8,6 +8,7 @@ div
 
   label.form-inline
     span.mr-1 {{custom.csv.label}}:
+    MolleGuide(:propertyItem="'csv'")
     textarea.form-control.form-control-sm(
       v-model="itemData.value",
       placehholder="csv only",
@@ -37,9 +38,10 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import Table from "./Table.vue";
+import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp},
+  components: {StyleComp, MolleGuide},
 })
 export default class TableProfile extends Profile {
   static readonly CLASS_NAME = "TableProfile";
