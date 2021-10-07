@@ -7,7 +7,10 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for="item in custom.tag.select" :value="item" v-html="item")
-    MolleGuide(:propertyItem="'tag'")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 任意のhtmlタグをつける時に指定します。
 
   InputUrlByGS(
     :label="custom.bg.label+':'"
@@ -40,10 +43,9 @@ import Box from "./Box.vue";
 import BackgroundBox from "./BackgroundBox.vue";
 import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
 import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp, GoogleStorage, InputUrlByGS, MolleGuide},
+  components: {StyleComp, GoogleStorage, InputUrlByGS},
 })
 export default class BackgroundBoxProfile extends Profile {
   static readonly CLASS_NAME = "BackgroundBoxProfile";

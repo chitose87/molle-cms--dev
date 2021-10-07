@@ -2,7 +2,10 @@
 div
   label
     span.mr-1 {{custom.lat.label}}:
-    MolleGuide(:propertyItem="'gmLat'")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p {{$words.lat}}と{{$words.lng}}を入力すると、その地点のGoogleMapが表示されます。
     input.form-control.form-control-sm(
       type="nubmer"
       v-model="itemData.value.lat"
@@ -17,14 +20,20 @@ div
     )
   label
     span.mr-1 {{custom.markerTitle.label}}:
-    MolleGuide(:propertyItem="'gmTitle'")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 入力すると{{$words.marker}}に{{$words.title}}がつきます。
     input.form-control.form-control-sm(
       v-model="itemData.option.title"
       @change="()=>$emit('change')"
     )
   label
     span.mr-1 {{custom.markerText.label}}:
-    MolleGuide(:propertyItem="'gmText'")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 入力すると{{$words.marker}}に{{$words.text}}がつきます。
     input.form-control.form-control-sm(
       v-model="itemData.option.text"
       @change="()=>$emit('change')"
@@ -41,10 +50,9 @@ import {Component, Vue} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import GoogleMap from "./GoogleMap.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp, MolleGuide},
+  components: {StyleComp},
 })
 export default class GoogleMapProfile extends Profile {
   static readonly CLASS_NAME = "GoogleMapProfile";

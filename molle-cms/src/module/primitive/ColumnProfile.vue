@@ -28,7 +28,10 @@ div
         aria-autocomplete="false"
       )
       span /12
-  MolleGuide(:propertyItem="'baseColumn'")
+  details.molle-guide
+    summary
+    .molle-guide__body.caption
+      p 横幅を12分割した時の割合で子要素のカラム幅(column)を指定します。
   //p.caption *-1=auto
   p.caption *0={{$words.notSet}}
 
@@ -62,10 +65,9 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
 import ColumnBox from "./ColumnBox.vue";
 import Box from "./Box.vue";
 import Column from "./Column.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp, MolleGuide},
+  components: {StyleComp},
 })
 export default class ColumnProfile extends Profile {
   static readonly CLASS_NAME = "ColumnProfile";

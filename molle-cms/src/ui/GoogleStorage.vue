@@ -1,7 +1,13 @@
 <template lang="pug">
 .google-storage.border.p-2.mt-3
   label Google Storage
-  MolleGuide(:propertyItem="'gs'")
+  details.molle-guide
+    summary
+    .molle-guide__body.caption
+      p 一覧ボタンはGoogleStorageへのリンクです。リンク先でGoogleStorageに保存されているファイルが確認できます。
+      p アップロードボタンからGoogleStorageへのファイルアップロードができます。<br>
+        | 使用例：アップロードボタンから画像ファイルをアップロードすると、「{{$words.complete}}」欄が表示されます。
+        | 「{{$words.complete}}」欄に保存先URLが表示されるので、そのURLを画像URLの入力欄に入力します。
 
   a.btn.btn-info.btn-sm.btn-block.mb-2(
     @click="()=>$root.$emit('google-storage-view')"
@@ -21,11 +27,10 @@
 <script lang="ts">
 import {Component, Vue, Watch} from "nuxt-property-decorator";
 import firebase from "firebase";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 
 @Component({
-  components: {MolleGuide},
+  components: {},
 })
 export default class GoogleStorage extends Vue {
   uploaded = "";

@@ -13,7 +13,10 @@ div
       option(v-for='item in custom.scale.select' :value="item" v-html="item")
 
   label {{custom.alt.label}}:
-    MolleGuide(:propertyItem="'alt'")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 画像が表示できない時に、画像の代わりに表示されるテキストを指定します。
     input.form-control.form-control-sm(
       type="text"
       v-model="itemData.option.alt"
@@ -61,10 +64,9 @@ import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
 import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
 import ImageChecker from "~/molle-cms/src/ui/property/ImageChecker.vue";
 import Picture from "./Picture.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {ImageChecker, InputUrlByGS, GoogleStorage, StyleComp, MolleGuide},
+  components: {ImageChecker, InputUrlByGS, GoogleStorage, StyleComp},
 })
 export default class PictureProfile extends Profile {
   static readonly CLASS_NAME = "PictureProfile";

@@ -1,7 +1,10 @@
 <template lang="pug">
 label.w-100
   span {{label}}
-  MolleGuide(:propertyItem="'bg'")
+  details.molle-guide
+    summary
+    .molle-guide__body.caption
+      p 使用する画像が保存されているURLを入力します。
 
   input.form-control.form-control-sm(
     type="url"
@@ -15,10 +18,9 @@ label.w-100
 <script lang="ts">
 import {Component, Emit, Prop, Vue} from "nuxt-property-decorator";
 import {OptionComp} from "./OptionComp";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {MolleGuide},
+  components: {},
 })
 /**
  */

@@ -1,6 +1,10 @@
 <template lang="pug">
 div
-  MolleGuide(:propertyItem="'card'")
+  details.molle-guide
+    summary
+    .molle-guide__body.caption
+      p PictureモジュールとParagraphモジュール２つをグループ化したモジュールです。
+
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
@@ -16,10 +20,9 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
 import Picture from "~/molle-cms/src/module/primitive/Picture.vue";
 import Paragraph from "~/molle-cms/src/module/primitive/Paragraph.vue";
 import Card from "./Card.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp, MolleGuide},
+  components: {StyleComp},
 })
 export default class CardProfile extends Profile {
   static readonly CLASS_NAME = "CardProfile";

@@ -25,7 +25,10 @@ div
         min="-1" max="12" step="1"
       )
       span /12
-  MolleGuide(:propertyItem="'Column'")
+  details.molle-guide
+    summary
+    .molle-guide__body.caption
+      p 横幅を12分割した時の割合で当該要素のカラム幅(column)を指定します。
   p.caption *-1=auto
   p.caption *0={{$words.notSet}}
 
@@ -37,10 +40,9 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
 import Box from "./Box.vue"
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp, MolleGuide},
+  components: {StyleComp},
 })
 export default class ColumnBoxProfile extends Profile {
   static readonly CLASS_NAME = "ColumnBoxProfile";

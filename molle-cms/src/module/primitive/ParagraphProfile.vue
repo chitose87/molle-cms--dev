@@ -13,12 +13,13 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for="item in custom.tag.select" :value="item" v-html="item")
-    MolleGuide(:propertyItem="'tag'")
-
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 任意のhtmlタグをつける時に指定します。
 
   StyleComp(
     :itemData="itemData"
-
     @change="()=>$emit('change')"
   )
 
@@ -32,10 +33,9 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 import Headline from "./Headline.vue";
 import Paragraph from "./Paragraph.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {TextAreaQuill, StyleComp, MolleGuide},
+  components: {TextAreaQuill, StyleComp},
 })
 export default class ParagraphProfile extends Profile {
   static readonly CLASS_NAME = "ParagraphProfile";

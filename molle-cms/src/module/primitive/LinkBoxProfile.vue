@@ -7,11 +7,14 @@ div
   )
   label.form-inline
     span.mr-1 {{custom.url.label}}:
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p リンク先URLを入力します。
     input.form-control.form-control-sm(
       v-model="itemData.option.href"
       @change="()=>$emit('change')"
     )
-    MolleGuide(:propertyItem="'url'")
 
   label.form-inline
     span.mr-1 {{custom.target.label}}:
@@ -20,7 +23,12 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for="item in custom.target.select" :value="item" v-html="item")
-    MolleGuide(:propertyItem="'target'")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p リンクの表示先ウィンドウの指定方法です。
+          | 例えば、_blankを選択した場合、新しいウィンドウまたはタブを開いてリンク先を表示します。
+          | （新しいウィンドウになるか、新しいタブになるかは、使用しているブラウザに依存して変わります。）
 
 </template>
 
@@ -33,10 +41,9 @@ import Box from "./Box.vue";
 import BackgroundBox from "./BackgroundBox.vue";
 import IsviewBox from "./IsviewBox.vue";
 import LinkBox from "./LinkBox.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp, MolleGuide},
+  components: {StyleComp},
 })
 export default class LinkBoxProfile extends Profile {
   static readonly CLASS_NAME = "LinkBoxProfile";

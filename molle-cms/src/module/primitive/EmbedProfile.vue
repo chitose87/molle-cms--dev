@@ -3,7 +3,10 @@ div
   label.w-100
     span {{custom.html.label}}:
 
-    MolleGuide(:propertyItem="'html'")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p htmlコードを直書きします。（例えばYouTube動画の埋め込みなどに利用できます。）
 
     textarea.form-control.form-control-sm(
       v-model="itemData.value"
@@ -25,10 +28,9 @@ import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 import Embed from "./Embed.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {TextAreaQuill, StyleComp, MolleGuide},
+  components: {TextAreaQuill, StyleComp},
 })
 export default class EmbedProfile extends Profile {
   static readonly CLASS_NAME = "EmbedProfile";

@@ -4,7 +4,10 @@ div
     :itemData="itemData"
     @change="()=>$emit('change')"
   )
-  MolleGuide(:propertyItem="'isViewTheme'")
+  details.molle-guide
+    summary
+    .molle-guide__body.caption
+      p 適用するアニメーションを{{$words.theme}}から選択します。
 
 </template>
 
@@ -17,10 +20,9 @@ import Box from "./Box.vue";
 import BackgroundBox from "./BackgroundBox.vue";
 import LinkBox from "./LinkBox.vue";
 import IsviewBox from "./IsviewBox.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp, MolleGuide},
+  components: {StyleComp},
 })
 export default class IsviewBoxProfile extends Profile {
   static readonly CLASS_NAME = "IsviewBoxProfile";

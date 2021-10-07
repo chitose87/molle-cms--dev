@@ -19,7 +19,10 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for='item in custom.lv.select' :value="item" v-html="item")
-    MolleGuide(:propertyItem="'lv'")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 見出しのレベルです。h1(大)～h6(小)の6段階あります。
 
   StyleComp(
     :itemData="itemData"
@@ -36,10 +39,9 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 import Paragraph from "./Paragraph.vue";
 import Headline from "./Headline.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {TextAreaQuill, StyleComp, MolleGuide},
+  components: {TextAreaQuill, StyleComp},
 })
 export default class HeadlineProfile extends Profile {
   static readonly CLASS_NAME = "HeadlineProfile";

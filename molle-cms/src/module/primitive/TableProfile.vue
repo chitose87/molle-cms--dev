@@ -8,7 +8,12 @@ div
 
   label.form-inline
     span.mr-1 {{custom.csv.label}}:
-    MolleGuide(:propertyItem="'csv'")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 表の内容をCSV形式で入力します。
+        p 表のセル内で改行する時は、改行箇所に"&lt;br&gt;"と書いてください。
+          | （例：aaaaa&lt;br&gt;bbbbb）
     textarea.form-control.form-control-sm(
       v-model="itemData.value",
       placehholder="csv only",
@@ -38,10 +43,9 @@ import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import Table from "./Table.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp, MolleGuide},
+  components: {StyleComp},
 })
 export default class TableProfile extends Profile {
   static readonly CLASS_NAME = "TableProfile";

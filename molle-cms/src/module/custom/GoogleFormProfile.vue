@@ -2,7 +2,10 @@
 div
   label
     span.mr-1 {{custom.url.label}}:
-    MolleGuide(:propertyItem="'gfUrl'")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p GoogleFromのプレビューページのURLを入力します。
     input.form-control.form-control-sm(
       v-model="itemData.value.url"
       @change="()=>$emit('change')"
@@ -31,10 +34,9 @@ import {Component, Vue} from "nuxt-property-decorator";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import GoogleForm from "./GoogleForm.vue";
-import MolleGuide from "~/molle-cms/src/ui/property/MolleGuide.vue";
 
 @Component({
-  components: {StyleComp, MolleGuide}
+  components: {StyleComp}
 })
 export default class GoogleFormProfile extends Profile {
   static readonly CLASS_NAME = "GoogleFormProfile";
