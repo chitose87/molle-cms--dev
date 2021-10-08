@@ -17,18 +17,10 @@ div
         | 最上位のListには{{$words.marker}}がつきません。<br>
         | {{$words.theme}}を”-none”にすると、直下のListの{{$words.marker}}がなくなります。
 
-  .list-checker.form-control
-    div.list(:class="itemData.class.theme")
-      p.paragraph(v-html="'Lorem ipsum...'")
-      div.list
-        p.paragraph(v-html="'Lorem ipsum...'")
-        div.list
-          p.paragraph(v-html="'Lorem ipsum...'")
-
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
