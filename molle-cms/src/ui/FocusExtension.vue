@@ -95,7 +95,7 @@ export default class FocusExtension extends Vue {
 
       //子要素を差し込めない要素確認
       // this.isBefore = this.isAfter=true;
-      this.isBefore = this.isAfter = loader.fromModule.itemData.type != "group";
+      this.isBefore = this.isAfter = loader.fromModule.itemData && loader.fromModule.itemData.type != "group";
       // if (this.isAfter &&
       //   loader.fromModule.itemData.value[loader.fromModule.itemData.value.length - 1].id == this.itemId) {
       //   this.isAfter = false;
@@ -108,10 +108,11 @@ export default class FocusExtension extends Vue {
 
   private enterFrame() {
     try {
-      let el = <HTMLElement>this.loader.toModule.$el;
+      let el = <HTMLElement>this.loader.$children[0].$el;
       // console.log(el);
       let rect = el.getBoundingClientRect();
       // console.log(pageYOffset,rect.top)
+      this.$set(this, "active", true);
       this.$set(this, "style", {
         "top": 0 + rect.top + "px",
         "left": 0 + rect.left + "px",
@@ -119,9 +120,7 @@ export default class FocusExtension extends Vue {
         "height": rect.height + "px",
       });
     } catch (e) {
-      this.$set(this, "style", {
-        "display": "none",
-      });
+      this.$set(this, "active", false);
     }
 
     requestAnimationFrame(() => {

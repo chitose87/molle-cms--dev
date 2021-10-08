@@ -1,11 +1,5 @@
 <template lang="pug">
 div
-  //label.form-inline
-    span.mr-1 基本カラムサイズ:
-    input.form-control.form-control-sm(
-      v-model="itemData.option.flexBasis"
-      @change="()=>$emit('change')"
-    )
   label
     span.mr-1 {{custom.column.label}}:
     .form-inline
@@ -17,6 +11,7 @@ div
         aria-autocomplete="false"
       )
       span /12
+
   label
     span.mr-1 {{custom.columnSp.label}}:
     .form-inline
@@ -28,11 +23,12 @@ div
         aria-autocomplete="false"
       )
       span /12
+
   details.molle-guide
     summary
     .molle-guide__body.caption
       p 横幅を12分割した時の割合で子要素のカラム幅(column)を指定します。
-  //p.caption *-1=auto
+
   p.caption *0={{$words.notSet}}
 
   //SpaceOptionComp(
@@ -98,6 +94,12 @@ export default class ColumnProfile extends Profile {
   };
   static settings = {
     type: "children",
+    opt: {
+      option: {
+        col: 4,
+        colSm: 6,
+      },
+    },
     white: [ColumnBox, Box],
     icon: "layout-three-columns",
   };

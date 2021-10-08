@@ -3,7 +3,6 @@ component(
   :is="itemData.moduleId",
   :itemData="itemData",
   :data-item-id="node.id",
-  :ref="node.id",
   :style="check()"
 )
 </template>
@@ -27,10 +26,6 @@ export default class ModuleLoaderCms extends Vue {
   //SPA,DEV
   get fromModule(): Module {
     return <Module>this.$parent;
-  }
-
-  get toModule(): Module {
-    return <Module>this.$refs[this.node.id];
   }
 
   itemData = <IItemData>{moduleId: "div"};
