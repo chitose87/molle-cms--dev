@@ -2,6 +2,10 @@
 div
   label
     span.mr-1 {{custom.url.label}}:
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p GoogleFromのプレビューページのURLを入力します。
     input.form-control.form-control-sm(
       v-model="itemData.value.url"
       @change="()=>$emit('change')"

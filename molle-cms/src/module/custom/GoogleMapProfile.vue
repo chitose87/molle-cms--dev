@@ -2,6 +2,10 @@
 div
   label
     span.mr-1 {{custom.lat.label}}:
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p {{$words.lat}}と{{$words.lng}}を入力すると、その地点のGoogleMapが表示されます。
     input.form-control.form-control-sm(
       type="nubmer"
       v-model="itemData.value.lat"
@@ -16,12 +20,20 @@ div
     )
   label
     span.mr-1 {{custom.markerTitle.label}}:
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 入力すると{{$words.marker}}に{{$words.title}}がつきます。
     input.form-control.form-control-sm(
       v-model="itemData.option.title"
       @change="()=>$emit('change')"
     )
   label
     span.mr-1 {{custom.markerText.label}}:
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 入力すると{{$words.marker}}に{{$words.text}}がつきます。
     input.form-control.form-control-sm(
       v-model="itemData.option.text"
       @change="()=>$emit('change')"

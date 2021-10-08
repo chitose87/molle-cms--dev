@@ -8,6 +8,12 @@ div
 
   label.form-inline
     span.mr-1 {{custom.csv.label}}:
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 表の内容をCSV形式で入力します。
+        p 表のセル内で改行する時は、改行箇所に"&lt;br&gt;"と書いてください。
+          | （例：aaaaa&lt;br&gt;bbbbb）
     textarea.form-control.form-control-sm(
       v-model="itemData.value",
       placehholder="csv only",

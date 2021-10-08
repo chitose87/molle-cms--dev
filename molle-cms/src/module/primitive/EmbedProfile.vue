@@ -2,6 +2,12 @@
 div
   label.w-100
     span {{custom.html.label}}:
+
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p htmlコードを直書きします。（例えばYouTube動画の埋め込みなどに利用できます。）
+
     textarea.form-control.form-control-sm(
       v-model="itemData.value"
       @change="()=>$emit('change')"

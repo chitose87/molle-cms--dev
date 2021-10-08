@@ -1,5 +1,10 @@
 <template lang="pug">
 div
+  details.molle-guide
+    summary
+    .molle-guide__body.caption
+      p PictureモジュールとParagraphモジュール２つをグループ化したモジュールです。
+
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"

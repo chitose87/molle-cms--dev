@@ -4,6 +4,10 @@ div
     :itemData="itemData"
     @change="()=>$emit('change')"
   )
+  details.molle-guide
+    summary
+    .molle-guide__body.caption
+      p 適用するアニメーションを{{$words.theme}}から選択します。
 
 </template>
 

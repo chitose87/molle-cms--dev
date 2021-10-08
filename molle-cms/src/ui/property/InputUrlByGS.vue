@@ -1,6 +1,11 @@
 <template lang="pug">
 label.w-100
   span {{label}}
+  details.molle-guide
+    summary
+    .molle-guide__body.caption
+      p 使用する画像が保存されているURLを入力します。
+
   input.form-control.form-control-sm(
     type="url"
     v-model="localValue"

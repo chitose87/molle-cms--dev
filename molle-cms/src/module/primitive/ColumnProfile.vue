@@ -28,6 +28,10 @@ div
         aria-autocomplete="false"
       )
       span /12
+  details.molle-guide
+    summary
+    .molle-guide__body.caption
+      p 横幅を12分割した時の割合で子要素のカラム幅(column)を指定します。
   //p.caption *-1=auto
   p.caption *0={{$words.notSet}}
 

@@ -13,10 +13,13 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for="item in custom.tag.select" :value="item" v-html="item")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 任意のhtmlタグをつける時に指定します。
 
   StyleComp(
     :itemData="itemData"
-
     @change="()=>$emit('change')"
   )
 

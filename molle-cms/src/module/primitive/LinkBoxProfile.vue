@@ -7,6 +7,10 @@ div
   )
   label.form-inline
     span.mr-1 {{custom.url.label}}:
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p リンク先URLを入力します。
     input.form-control.form-control-sm(
       v-model="itemData.option.href"
       @change="()=>$emit('change')"
@@ -19,6 +23,12 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for="item in custom.target.select" :value="item" v-html="item")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p リンクの表示先ウィンドウの指定方法です。
+          | 例えば、_blankを選択した場合、新しいウィンドウまたはタブを開いてリンク先を表示します。
+          | （新しいウィンドウになるか、新しいタブになるかは、使用しているブラウザに依存して変わります。）
 
 </template>
 

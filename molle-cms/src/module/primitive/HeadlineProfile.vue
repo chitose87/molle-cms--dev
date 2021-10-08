@@ -19,6 +19,10 @@ div
       @change="()=>$emit('change')"
     )
       option(v-for='item in custom.lv.select' :value="item" v-html="item")
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 見出しのレベルです。h1(大)～h6(小)の6段階あります。
 
   StyleComp(
     :itemData="itemData"

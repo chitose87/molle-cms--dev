@@ -13,6 +13,10 @@ div
       option(v-for='item in custom.scale.select' :value="item" v-html="item")
 
   label {{custom.alt.label}}:
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 画像が表示できない時に、画像の代わりに表示されるテキストを指定します。
     input.form-control.form-control-sm(
       type="text"
       v-model="itemData.option.alt"
