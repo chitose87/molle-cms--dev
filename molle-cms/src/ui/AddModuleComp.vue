@@ -92,33 +92,31 @@ export default class AddModuleComp extends Vue {
     let data: IItemData = this.$molleModules[this.pushModuleSelected].def;
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};
 
-    Utils.updateItem(node.id, data, true)
-      .then(() => {
-        if (this.beforeNode) {
-          this.itemData.value.some((_node: INodeObject, i: number) => {
-            if (this.beforeNode!.id == _node.id) {
-              this.itemData.value.splice(i, 0, node);
-              return true;
-            }
-          });
-        } else if (this.afterNode) {
-          this.itemData.value.some((_node: INodeObject, i: number) => {
-            if (this.afterNode!.id == _node.id) {
-              this.itemData.value.splice(i + 1, 0, node);
-              return true;
-            }
-          });
-        } else {
-          this.itemData.value.push(node);
-        }
-        // firebase
-        let update = {value: this.itemData.value};
-        Utils.updateItem(this.parentNode.id, update)
-          .then(() => {
-            this.$router.push({query: {...this.$route.query, focus: node.id}});
-          });
-      });
+    Utils.updateItem(node.id, data, true);
 
+    //parent
+    if (this.beforeNode) {
+      this.itemData.value.some((_node: INodeObject, i: number) => {
+        if (this.beforeNode!.id == _node.id) {
+          this.itemData.value.splice(i, 0, node);
+          return true;
+        }
+      });
+    } else if (this.afterNode) {
+      this.itemData.value.some((_node: INodeObject, i: number) => {
+        if (this.afterNode!.id == _node.id) {
+          this.itemData.value.splice(i + 1, 0, node);
+          return true;
+        }
+      });
+    } else {
+      this.itemData.value.push(node);
+    }
+
+    Utils.updateItem(this.parentNode.id, {value: this.itemData.value})
+      .then(() => {
+        this.$router.push({query: {...this.$route.query, focus: node.id}});
+      });
   }
 
   addClone() {

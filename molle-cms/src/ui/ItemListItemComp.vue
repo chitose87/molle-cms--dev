@@ -116,8 +116,10 @@ export default class ItemListItemComp extends Vue {
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         console.log(!snap.exists);
         if (!snap.exists) {
-          let update = this.$molleModules[this.node!.fixedModuleId || "Box"].def;
-          Utils.updateItem(this.node.id, update, true);
+          if (this.node.fixedModuleId) {
+            let update = this.$molleModules[this.node.fixedModuleId].def;
+            Utils.updateItem(this.node.id, update, true);
+          }
           return;
         }
         let itemData = <IItemData>snap.data();
