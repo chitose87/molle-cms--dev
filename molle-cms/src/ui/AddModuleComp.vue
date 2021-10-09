@@ -1,5 +1,5 @@
 <template lang="pug">
-.add-module-comp.bootstrap(v-if="$route.query.edit && ($route.query.focus==parentNode.id || checkView())")
+.add-module-comp.bootstrap(v-if="$route.query.edit && checkView()")
   .mt-3.text-right
     span.text-info(v-if="label" v-html="label")
       b-icon.ml-1.mr-1(icon="box-arrow-in-left")
@@ -38,6 +38,12 @@ export default class AddModuleComp extends Vue {
   private unsubscribe!: () => void;
 
   checkView() {
+    if (
+      (this.$route.query.focus == this.parentNode.id) ||
+      (!this.itemData.value || !this.itemData.value.length)) {
+      return true;
+    }
+
     for (let i in this.itemData.value) {
       if (this.$route.query.focus == this.itemData.value[i].id) {
         return true;
