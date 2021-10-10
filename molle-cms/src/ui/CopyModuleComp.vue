@@ -1,5 +1,5 @@
 <template lang="pug">
-.copy-module-comp.bootstrap(v-if="true && this.$route.query.hidden !== 'true'")
+.copy-module-comp.bootstrap
   button.btn.btn-sm.btn-outline-info(type="button", @click="pushCopy") {{$words.copy}}
 
 </template>

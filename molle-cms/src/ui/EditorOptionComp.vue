@@ -1,37 +1,26 @@
 <template lang="pug">
-  .editor-option-comp
-    .card.bg-light
-      .card-header.pt-1.pb-1.pl-3.pr-3(@click="flag=!flag") {{$words.editer}} {{$words.settings}}
-        b-icon(:icon="flag?'chevron-up':'chevron-down'")
-      .card-body.p-3(v-if="flag")
-        label.form-inline
-          span {{$words.ui}} {{$words.hide}}:
-          input.form-control.form-control-sm(type="checkbox" v-model="hiddedUi")
+.editor-option-comp
+  .card.bg-light
+    .card-body.p-3(v-if="flag")
 
 </template>
 
 <script lang="ts">
-  import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
+import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
 
-  @Component({
-    components: {}
-  })
-  export default class EditorOptionComp extends Vue {
-    flag = false;
-    hiddedUi = false;
+@Component({
+  components: {},
+})
+export default class EditorOptionComp extends Vue {
+  flag = false;
 
-    mounted() {
-    }
-
-    @Watch("hiddedUi")
-    onChangeHiddedUi() {
-      //@ts-ignore
-      this.$router.push({query: {...this.$route.query, hidden: this.hiddedUi}});
-    }
+  mounted() {
   }
+
+}
 </script>
 
 <style lang="scss">
-  .page-property-comp {
-  }
+.page-property-comp {
+}
 </style>

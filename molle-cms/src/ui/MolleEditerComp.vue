@@ -6,7 +6,7 @@
     span(v-if="$route.query.edit") {{$words.preview}}
     span(v-else) {{$words.edit}}
 
-  .molle-editer__body(v-show="$route.query.edit && $route.query.hidden !== 'true'")
+  .molle-editer__body(v-show="$route.query.edit")
     style(v-if="$route.query.edit")
       | .molle-editer{
       |   height: calc(100% - {{panelOption.top}}px);
