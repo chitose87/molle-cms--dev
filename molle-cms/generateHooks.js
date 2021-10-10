@@ -7,7 +7,7 @@ var fs = require("fs");
 let genDir = "";
 let dir = "";
 
-module.exports = function() {
+module.exports = function () {
   this.nuxt.hook("generate:before", async (generator, generateOptions) => {
     console.log("generate:before", process.env.isMolleCms);
     if (process.env.IS_MOLLE_CMS == "true") return;
@@ -49,26 +49,18 @@ module.exports = function() {
         return !route.route.match("/--molle");
       });
       routes.splice(0, routes.length, ...routesToGenerate);
-    }
-    // routes.forEach((route) => {
-    //   route.payload = {
-    // id: snap.id,
-    // pages: allData.pages,
-    // items: allData.items,
-    // }
-    // });
-    for (let id in allData.pages) {
-      let data = allData.pages[id];
 
-      routes.push({
-        route: `/${data.path}`
-        , payload: {
-          id: id,
-          pageData: data,
-          // pages: allData.pages,
-          // items: allData.items,
-        },
-      });
+      for (let id in allData.pages) {
+        let data = allData.pages[id];
+
+        routes.push({
+          route: `/${data.path}`,
+          payload: {
+            id: id,
+            pageData: data,
+          },
+        });
+      }
     }
   });
   this.nuxt.hook("generate:route", async (route, setPayload) => {
