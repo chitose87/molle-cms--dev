@@ -1,5 +1,5 @@
 $rem: 16px;
-$gutter: 24px;
+//$gutter: 24px;
 $size-container: ($rem * 4.5 * 12) + ($gutter * 11) + ($gutter * 2);
 
 $size-col: (
@@ -23,6 +23,12 @@ $size-col: (
   flex-shrink: 0;
   flex-basis: map-get($size-col, $v);
   max-width: map-get($size-col, $v);
+  //@include mediaquery-not-sm {
+  //  padding: 0.75rem;
+  //}
+  //@include mediaquery-sm {
+  //  padding: 0.25rem 0.5rem;
+  //}
 }
 
 $spacer: 1rem !default;
