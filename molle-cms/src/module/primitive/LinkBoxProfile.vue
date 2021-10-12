@@ -37,6 +37,8 @@ import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
+import Button from "./Button.vue";
+import ButtonList from "./ButtonList.vue";
 import Box from "./Box.vue";
 import BackgroundBox from "./BackgroundBox.vue";
 import IsviewBox from "./IsviewBox.vue";
@@ -65,7 +67,12 @@ export default class LinkBoxProfile extends Profile {
 
   static settings = {
     type: "children",
-    black: [ColumnBox],
+    opt: {
+      value: [
+        {id: "{uid}", fixedModuleId: "Paragraph"},
+      ],
+    },
+    black: [ColumnBox, Button, ButtonList],
     convert: [Box, BackgroundBox, IsviewBox],
     icon: "plus-square",
   };

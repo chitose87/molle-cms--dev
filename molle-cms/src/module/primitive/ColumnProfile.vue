@@ -31,24 +31,9 @@ div
 
   p.caption *0={{$words.notSet}}
 
-  //SpaceOptionComp(
-  //  :label="'横の隙間'",
-  //  :data="itemData.option || {}"
-  //  :dataKey="'gutter-h'"
-  //  :negative="false"
-  //  @change="(v)=>onUpdate('option',v)"
-  //)
-  //SpaceOptionComp(
-  //  :label="'縦の隙間'",
-  //  :data="itemData.option || {}"
-  //  :dataKey="'gutter-v'"
-  //  :negative="false"
-  //  @change="(v)=>onUpdate('option',v)"
-  //)
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-
   )
 
 </template>
@@ -95,6 +80,9 @@ export default class ColumnProfile extends Profile {
   static settings = {
     type: "children",
     opt: {
+      value: [
+        {id: "{uid}", fixedModuleId: "ColumnBox"},
+      ],
       option: {
         col: 4,
         colSm: 6,

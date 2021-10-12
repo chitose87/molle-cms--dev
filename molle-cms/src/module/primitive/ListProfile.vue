@@ -50,6 +50,11 @@ export default class ListProfile extends Profile {
 
   static settings = {
     type: "children",
+    opt: {
+      value: [
+        {id: "{uid}", fixedModuleId: "Paragraph"},
+      ],
+    },
     black: [ColumnBox],
     icon: "plus-square",
   };

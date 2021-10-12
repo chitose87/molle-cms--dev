@@ -39,6 +39,11 @@ export default class ButtonListProfile extends Profile {
 
   static settings = {
     type: "children",
+    opt: {
+      value: [
+        {id: "{uid}", fixedModuleId: "Button"},
+      ],
+    },
     white: [Button],
     icon: "layout-three-columns",
   };

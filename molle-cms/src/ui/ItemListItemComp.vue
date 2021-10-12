@@ -117,8 +117,10 @@ export default class ItemListItemComp extends Vue {
         console.log(!snap.exists);
         if (!snap.exists) {
           if (this.node.fixedModuleId) {
-            let update = this.$molleModules[this.node.fixedModuleId].def;
-            Utils.updateItem(this.node.id, update, true);
+            Utils.updateItem(
+              this.node.id,
+              Utils.createItemData(this.node.fixedModuleId),
+              true);
           }
           return;
         }

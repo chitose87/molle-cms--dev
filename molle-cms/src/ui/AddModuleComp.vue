@@ -89,7 +89,7 @@ export default class AddModuleComp extends Vue {
   pushModule() {
     console.log("pushModule", this.pushModuleSelected);
     if (!this.pushModuleSelected) return;
-    let data: IItemData = this.$molleModules[this.pushModuleSelected].def;
+    let data: IItemData = Utils.createItemData(this.pushModuleSelected);
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};
 
     Utils.updateItem(node.id, data, true);

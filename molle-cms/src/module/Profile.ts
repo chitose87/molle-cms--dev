@@ -46,18 +46,6 @@ export class Profile extends Vue {
           after!.value = [];
         }
         break;
-      case "group":
-        try {
-          for (let name in after!.value) {
-            if (!after!.value[name].id) {
-              after!.value[name].id = this.itemId + "_" + name;
-              flag = true;
-            }
-          }
-        } catch (e) {
-          console.log(this.itemId, e);
-        }
-        break;
       default:
         break;
     }

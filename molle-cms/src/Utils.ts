@@ -1,8 +1,27 @@
-import {ILogsData, IPageData} from "./interface";
+import {Vue} from "nuxt-property-decorator";
+import {IItemData, ILogsData, IPageData} from "./interface";
 import {Singleton} from "./Singleton";
 import firebase from "firebase";
 
 export class Utils {
+
+  static createItemData(itemId: string) {
+    let data: IItemData = Vue.prototype.$molleModules[itemId].def;
+
+    switch (data.type) {
+      case "children":
+      case "group":
+        // デフォルト子要素作成
+        for (let i in data.value) {
+          let node = data.value[i];
+          if (node.id == "{uid}") {
+            node.id = Singleton.itemsRef.doc().id;
+          }
+        }
+        break;
+    }
+    return data;
+  }
 
   /**
    *

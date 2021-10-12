@@ -37,6 +37,11 @@ export default class ModalProfile extends Profile {
   };
   static settings = {
     type: "children",
+    opt: {
+      value: [
+        {id: "{uid}", fixedModuleId: "Paragraph"},
+      ],
+    },
     icon: "pip",
   };
 }

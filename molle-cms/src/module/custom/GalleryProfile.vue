@@ -53,6 +53,11 @@ export default class GalleryProfile extends Profile {
   };
   static settings = {
     type: "children",
+    opt: {
+      value: [
+        {id: "{uid}", fixedModuleId: "Picture"},
+      ],
+    },
     white: [Picture],
     icon: "three-dots",
   };

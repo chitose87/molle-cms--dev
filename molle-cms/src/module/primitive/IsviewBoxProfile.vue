@@ -41,6 +41,11 @@ export default class IsviewBoxProfile extends Profile {
 
   static settings = {
     type: "children",
+    opt: {
+      value: [
+        {id: "{uid}", fixedModuleId: "Paragraph"},
+      ],
+    },
     black: [ColumnBox],
     convert: [Box, BackgroundBox, LinkBox],
     icon: "plus-square",

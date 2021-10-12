@@ -39,7 +39,7 @@ import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {Profile} from "~/molle-cms/src/module/Profile";
 import ColumnBox from "./ColumnBox.vue";
-import Box from "./Box.vue"
+import Box from "./Box.vue";
 
 @Component({
   components: {StyleComp},
@@ -69,6 +69,11 @@ export default class ColumnBoxProfile extends Profile {
   };
   static settings = {
     type: "children",
+    opt: {
+      value: [
+        {id: "{uid}", fixedModuleId: "Paragraph"},
+      ],
+    },
     black: [ColumnBox],
     convert: [Box],
     icon: "plus-square",

@@ -58,6 +58,11 @@ export default class BoxProfile extends Profile {
 
   static settings = {
     type: "children",
+    opt: {
+      value: [
+        {id: "{uid}", fixedModuleId: "Paragraph"},
+      ],
+    },
     black: [ColumnBox],
     convert: [ColumnBox, BackgroundBox],
     icon: "plus-square",
