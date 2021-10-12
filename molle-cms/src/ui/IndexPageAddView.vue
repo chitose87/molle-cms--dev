@@ -50,6 +50,7 @@
 import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
 import {IPageData} from "../interface";
 import {Singleton} from "../Singleton";
+import {Utils} from "../Utils";
 
 @Component({
   components: {},
@@ -79,13 +80,15 @@ export default class IndexPageAddView extends Vue {
   add() {
     let path = this.prefix + (this.dataObj.id || this.dataObj.date);
     let pageId = encodeURIComponent(path);
+    let itemId = this.dataObj.itemId || pageId;
     Singleton.pagesRef.doc(pageId).set({
       path: path,
-      itemId: this.dataObj.itemId || pageId,
+      itemId: itemId,
       title: this.dataObj.title,
       date: this.dataObj.date,
       noExport: this.prefix == "_no-export/",
     });
+    Utils.updateItem(itemId, this.$molleModules.Box.def, true);
     window.open("/" + this.prefix + (this.dataObj.id || this.dataObj.date) + "?edit=true", "_blank");
   }
 }
