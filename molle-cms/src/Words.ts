@@ -131,7 +131,9 @@ Vue.prototype.$words = {
   analysis: {jp: "解析", en: "analysis"},
   donot: {jp: "否", en: "Do not"},
   link: {jp: "リンク", en: "Link"},
-  number:{jp:'数字',en:'Number'},
+  number: {jp: '数字', en: 'Number'},
+  main: {jp: 'メイン', en: 'Main'},
+  visual: {jp: 'ビジュアル', en: 'Visual'},
 
   TF: {jp: "", en: ""},
 };

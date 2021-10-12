@@ -45,6 +45,26 @@
         @change="update"
       )
 
+      hr
+      //ページトップのテーマ
+      div
+        label.form-inline
+          span.mr-1 {{$words.theme}}:
+          select.form-control.form-control-sm(v-model="pageData.theme" @change="update")
+            option(v-for="i in ['', 'primary', 'primary-invert', 'secondary', 'secondary-invert', 'minimum']" :val="i" v-html="i")
+
+        InputUrlByGS(
+          :label="$words.main+$words.visual+':'"
+          v-model="pageData.mainVisual"
+          @change="update"
+        )
+
+        InputUrlByGS(
+          :label="$words.main+$words.visual+$words.sp+':'"
+          v-model="pageData.mainVisualSp"
+          @change="update"
+        )
+
       GoogleStorage
 
       hr
