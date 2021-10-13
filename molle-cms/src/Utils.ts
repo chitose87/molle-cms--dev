@@ -6,18 +6,20 @@ import firebase from "firebase";
 export class Utils {
 
   static createItemData(itemId: string) {
-    let data: IItemData = Vue.prototype.$molleModules[itemId].def;
+    let data: IItemData = Object.assign({}, Vue.prototype.$molleModules[itemId].def);
 
     switch (data.type) {
       case "children":
       case "group":
+        let value = JSON.parse(JSON.stringify(data.value));
         // デフォルト子要素作成
-        for (let i in data.value) {
-          let node = data.value[i];
+        for (let i in value) {
+          let node = value[i];
           if (node.id == "{uid}") {
             node.id = Singleton.itemsRef.doc().id;
           }
         }
+        data.value = value;
         break;
     }
     return data;
