@@ -10,7 +10,7 @@ div
     details.molle-guide
       summary
       .molle-guide__body.caption
-        p 任意のhtmlタグをつける時に指定します。
+        p 任意のhtmlタグをつける時に指定します。hoge
 
   StyleComp(
     :itemData="itemData"
