@@ -97,6 +97,7 @@ export default class ItemListItemComp extends Vue {
   @Prop() node!: INodeObject;
   @Prop() isRoot?: boolean;
   itemData = <IItemData>{};
+  private beforeValue: any;
   pushModuleSelected: string = "";
   private unsubscribe!: () => void;
   maxHistory: number = 100;
@@ -135,8 +136,10 @@ export default class ItemListItemComp extends Vue {
           }
         }
         this.$set(this, "itemData", itemData);
+        this.beforeValue = itemData.value;
       });
   }
+
 
   private checkLoop(p: any): any {
     if (!p) return false;
@@ -158,9 +161,19 @@ export default class ItemListItemComp extends Vue {
     }
   }
 
+  // @Watch("itemData.value", {immediate: true})
+  // private hoge(after: any, before: any) {
+  //   this.beforeValue = before;
+  // }
+
   updateChild() {
     let update = {value: this.itemData.value};
     Utils.updateItem(this.node.id, update);
+    // Utils.addHistory("updateItemData",
+    //   this.node.id,
+    //   Object.assign({}, this.itemData, {value: this.beforeValue}),
+    //   update,
+    // );
   }
 
   deleteModule() {
@@ -168,6 +181,11 @@ export default class ItemListItemComp extends Vue {
     let value: any = parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id);
     let update = {value: value};
     Utils.updateItem(parent.node.id, update);
+    Utils.addHistory("updateItemData",
+      parent.node.id,
+      parent.itemData,
+      update,
+    );
   }
 
   private groupChildSort(groupValue: any) {

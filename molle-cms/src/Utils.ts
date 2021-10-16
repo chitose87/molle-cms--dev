@@ -4,6 +4,23 @@ import {Singleton} from "./Singleton";
 import firebase from "firebase";
 
 export class Utils {
+  static get ls() {
+    if (!this._ls) {
+      this._ls = JSON.parse(localStorage.getItem("molle") || "{}");
+      if (!this._ls.history) this._ls.history = [];
+    }
+    return this._ls;
+  }
+
+  private static _ls: {
+    history: {
+      cmd: string,
+      id: string,
+      before: any,
+      data: any
+    }[],
+    currentHistory: 0
+  };
 
   static createItemData(itemId: string) {
     let data: IItemData = Object.assign({}, Vue.prototype.$molleModules[itemId].def);
@@ -62,7 +79,61 @@ export class Utils {
           }
         });
     }
+
     return promise;
+  }
+
+  static addHistory(cmd: string, id: string, before: any, update: any) {
+    let lsData = {
+      cmd: cmd,
+      id: id,
+      before: Object.assign({}, before),
+      data: Object.assign({}, update),
+    };
+
+    delete lsData.before.createTime;
+    delete lsData.before.updateTime;
+    delete lsData.data.createTime;
+    delete lsData.data.updateTime;
+
+    if (this.ls.currentHistory) {
+      this.ls.history = this.ls.history.splice(this.ls.currentHistory);
+    }
+    this.ls.history.unshift(lsData);
+    if (this.ls.history.length > 20) this.ls.history.length = 20;
+    this.ls.currentHistory = 0;
+    localStorage.setItem("molle", JSON.stringify(this.ls));
+    // console.log(this.ls)
+  }
+
+  static undoHistory() {
+    let history = this.ls.history[this.ls.currentHistory];
+    switch (history.cmd) {
+      case "updateItemData":
+        this.updateItem(
+          history.id,
+          history.before,
+          false,
+        );
+        break;
+    }
+    this.ls.currentHistory++;
+    localStorage.setItem("molle", JSON.stringify(this.ls));
+  }
+
+  static redoHistory() {
+    let history = this.ls.history[this.ls.currentHistory - 1];
+    switch (history.cmd) {
+      case "updateItemData":
+        this.updateItem(
+          history.id,
+          Object.assign({}, history.before, history.data),
+          false,
+        );
+        break;
+    }
+    this.ls.currentHistory--;
+    localStorage.setItem("molle", JSON.stringify(this.ls));
   }
 
   /**

@@ -172,6 +172,11 @@ export default class ModulePropertyComp extends Vue {
     console.log(flag, "update", this.itemId, update);
     if (flag) {
       Utils.updateItem(this.itemId, update);
+      Utils.addHistory("updateItemData",
+        this.itemId,
+        before,
+        after,
+      );
     }
   }
 

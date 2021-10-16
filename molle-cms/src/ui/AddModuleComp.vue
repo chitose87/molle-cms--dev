@@ -95,28 +95,35 @@ export default class AddModuleComp extends Vue {
     Utils.updateItem(node.id, data, true);
 
     //parent
+    let update = {value: this.itemData.value.concat()};
     if (this.beforeNode) {
-      this.itemData.value.some((_node: INodeObject, i: number) => {
+      update.value.some((_node: INodeObject, i: number) => {
         if (this.beforeNode!.id == _node.id) {
-          this.itemData.value.splice(i, 0, node);
+          update.value.splice(i, 0, node);
           return true;
         }
       });
     } else if (this.afterNode) {
-      this.itemData.value.some((_node: INodeObject, i: number) => {
+      update.value.some((_node: INodeObject, i: number) => {
         if (this.afterNode!.id == _node.id) {
-          this.itemData.value.splice(i + 1, 0, node);
+          update.value.splice(i + 1, 0, node);
           return true;
         }
       });
     } else {
-      this.itemData.value.push(node);
+      update.value.push(node);
     }
 
-    Utils.updateItem(this.parentNode.id, {value: this.itemData.value})
+    //
+    Utils.updateItem(this.parentNode.id, update)
       .then(() => {
         this.$router.push({query: {...this.$route.query, focus: node.id}});
       });
+    Utils.addHistory("updateItemData",
+      this.parentNode.id,
+      this.itemData,
+      update,
+    );
   }
 
   addClone() {
