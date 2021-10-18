@@ -84,11 +84,11 @@ import {
   Watch,
   Prop,
 } from "nuxt-property-decorator";
-import {Singleton} from "~/molle-cms/src/Singleton";
-import {IItemData, INodeObject, ILogsData} from "~/molle-cms/src/interface";
+import {Singleton} from "../Singleton";
+import {IItemData, INodeObject, ILogsData} from "../interface";
 import firebase from "firebase";
 import draggable from "vuedraggable";
-import {Utils} from "~/molle-cms/src/Utils";
+import {MoUtils} from "../MoUtils";
 
 @Component({
   components: {draggable},
@@ -118,9 +118,9 @@ export default class ItemListItemComp extends Vue {
         console.log(!snap.exists);
         if (!snap.exists) {
           if (this.node.fixedModuleId) {
-            Utils.updateItem(
+            MoUtils.updateItem(
               this.node.id,
-              Utils.createItemData(this.node.fixedModuleId),
+              MoUtils.createItemData(this.node.fixedModuleId),
               true);
           }
           return;
@@ -168,8 +168,8 @@ export default class ItemListItemComp extends Vue {
 
   updateChild() {
     let update = {value: this.itemData.value};
-    Utils.updateItem(this.node.id, update);
-    // Utils.addHistory("updateItemData",
+    MoUtils.updateItem(this.node.id, update);
+    // MoUtils.addHistory("updateItemData",
     //   this.node.id,
     //   Object.assign({}, this.itemData, {value: this.beforeValue}),
     //   update,
@@ -180,8 +180,8 @@ export default class ItemListItemComp extends Vue {
     let parent = <ItemListItemComp>this.$parent.$parent;
     let value: any = parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id);
     let update = {value: value};
-    Utils.updateItem(parent.node.id, update);
-    Utils.addHistory("updateItemData",
+    MoUtils.updateItem(parent.node.id, update);
+    MoUtils.addHistory("updateItemData",
       parent.node.id,
       parent.itemData,
       update,

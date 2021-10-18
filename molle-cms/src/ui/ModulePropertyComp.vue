@@ -3,7 +3,7 @@
   .card.bg-light(v-if="flag")
     .card-header.pt-1.pb-1.pl-3.pr-3
       span {{itemData.moduleId}} {{$words.property}}
-      
+
       button.btn.btn-sm.btn-outline-secondary(
         v-if="$molleModules[itemData.moduleId].convert"
         :id="'moduleChange'"
@@ -82,11 +82,11 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
-import {IItemData, INodeObject, ILogsData} from "~/molle-cms/src/interface";
-import {Singleton} from "~/molle-cms/src/Singleton";
+import {IItemData, INodeObject, ILogsData} from "../interface";
+import {Singleton} from "../Singleton";
 import firebase from "firebase";
-import LogPropertyComp from "~/molle-cms/src/ui/LogPropertyComp.vue";
-import {Utils} from "~/molle-cms/src/Utils";
+import LogPropertyComp from "../ui/LogPropertyComp.vue";
+import {MoUtils} from "../MoUtils";
 
 @Component({
   components: {LogPropertyComp},
@@ -171,8 +171,8 @@ export default class ModulePropertyComp extends Vue {
     });
     console.log(flag, "update", this.itemId, update);
     if (flag) {
-      Utils.updateItem(this.itemId, update);
-      Utils.addHistory("updateItemData",
+      MoUtils.updateItem(this.itemId, update);
+      MoUtils.addHistory("updateItemData",
         this.itemId,
         before,
         after,
@@ -194,7 +194,7 @@ export default class ModulePropertyComp extends Vue {
       //   case "Paragraph":
       //     break;
       // }
-      Utils.updateItem(this.itemId, {moduleId: this.changeModuleSelected});
+      MoUtils.updateItem(this.itemId, {moduleId: this.changeModuleSelected});
     }
   }
 }

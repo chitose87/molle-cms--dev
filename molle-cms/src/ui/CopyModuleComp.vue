@@ -7,9 +7,9 @@
 <script lang="ts">
 import {Component, Vue, Prop} from "nuxt-property-decorator";
 import firebase from "firebase";
-import {Singleton} from "~/molle-cms/src/Singleton";
-import {IItemData, ILogsData, INodeObject} from "~/molle-cms/src/interface";
-import {Utils} from "~/molle-cms/src/Utils";
+import {Singleton} from "../Singleton";
+import {IItemData, ILogsData, INodeObject} from "../interface";
+import {MoUtils} from "../MoUtils";
 
 @Component({
   components: {},
@@ -93,7 +93,7 @@ export default class CopyModuleComp extends Vue {
                     }
                   }
                   _itemData.createTime = this.updateTime;
-                  Utils.updateItem(_itemId, _itemData, true)
+                  MoUtils.updateItem(_itemId, _itemData, true)
                     .then(() => {
                       this.createFinishCount++;
                       if (this.totalCount < this.createFinishCount) {
@@ -109,7 +109,7 @@ export default class CopyModuleComp extends Vue {
           }
         } else {
           itemData.createTime = this.updateTime;
-          Utils.updateItem(node.id, itemData, true)
+          MoUtils.updateItem(node.id, itemData, true)
             .then(() => {
               this.parentUpdate(node);
             });
@@ -141,7 +141,7 @@ export default class CopyModuleComp extends Vue {
           itemDataParent.value.push(node);
         }
         let update = {value: itemDataParent.value};
-        Utils.updateItem(this.parentNode.id, update)
+        MoUtils.updateItem(this.parentNode.id, update)
           .then(() => {
             this.$router.push({query: {...this.$route.query, focus: node.id}});
           });

@@ -94,9 +94,9 @@ import {
   Prop, Emit,
 } from "nuxt-property-decorator";
 import firebase from "firebase";
-import {Singleton} from "~/molle-cms/src/Singleton";
-import {IItemData, ILogsData, IPageData} from "~/molle-cms/src/interface";
-import {Utils} from "~/molle-cms/src/Utils";
+import {Singleton} from "../Singleton";
+import {IItemData, ILogsData, IPageData} from "../interface";
+import {MoUtils} from "../MoUtils";
 
 @Component({
   components: {},
@@ -275,7 +275,7 @@ export default class MolleToolbar extends Vue {
     Promise.all(promiseList)
       .then(() => {
         console.log(batchQue.length);
-        Utils.updateBatch(batchQue).then(() => {
+        MoUtils.updateBatch(batchQue).then(() => {
           alert("complete");
         });
       });
@@ -368,7 +368,7 @@ export default class MolleToolbar extends Vue {
       });
       console.log(batchQue.length);
       if (batchQue.length) {
-        Utils.updateBatch(batchQue).then(() => {
+        MoUtils.updateBatch(batchQue).then(() => {
           alert("完了しました。結果はconsoleを確認してください");
         });
       } else {

@@ -17,10 +17,10 @@
 
 <script lang="ts">
 import {Component, Vue, Prop} from "nuxt-property-decorator";
-import {Singleton} from "../Singleton";
 import firebase from "firebase";
 import {IItemData, INodeObject, ILogsData} from "../interface";
-import {Utils} from "../Utils";
+import {Singleton} from "../Singleton";
+import {MoUtils} from "../MoUtils";
 
 @Component({
   components: {},
@@ -89,10 +89,10 @@ export default class AddModuleComp extends Vue {
   pushModule() {
     console.log("pushModule", this.pushModuleSelected);
     if (!this.pushModuleSelected) return;
-    let data: IItemData = Utils.createItemData(this.pushModuleSelected);
+    let data: IItemData = MoUtils.createItemData(this.pushModuleSelected);
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};
 
-    Utils.updateItem(node.id, data, true);
+    MoUtils.updateItem(node.id, data, true);
 
     //parent
     let update = {value: this.itemData.value.concat()};
@@ -115,11 +115,11 @@ export default class AddModuleComp extends Vue {
     }
 
     //
-    Utils.updateItem(this.parentNode.id, update)
+    MoUtils.updateItem(this.parentNode.id, update)
       .then(() => {
         this.$router.push({query: {...this.$route.query, focus: node.id}});
       });
-    Utils.addHistory("updateItemData",
+    MoUtils.addHistory("updateItemData",
       this.parentNode.id,
       this.itemData,
       update,

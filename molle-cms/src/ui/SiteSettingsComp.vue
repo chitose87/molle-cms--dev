@@ -10,9 +10,9 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
-import {Singleton} from "~/molle-cms/src/Singleton";
+import {Singleton} from "../Singleton";
 import firebase from "firebase";
-import {Utils} from "~/molle-cms/src/Utils";
+import {MoUtils} from "../MoUtils";
 
 @Component({
   components: {},

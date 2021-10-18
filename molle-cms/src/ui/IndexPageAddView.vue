@@ -50,7 +50,7 @@
 import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
 import {IPageData} from "../interface";
 import {Singleton} from "../Singleton";
-import {Utils} from "../Utils";
+import {MoUtils} from "../MoUtils";
 
 @Component({
   components: {},
@@ -88,7 +88,7 @@ export default class IndexPageAddView extends Vue {
       date: this.dataObj.date,
       noExport: this.prefix == "_no-export/",
     });
-    Utils.updateItem(itemId, this.$molleModules.Box.def, true);
+    MoUtils.updateItem(itemId, this.$molleModules.Box.def, true);
     window.open("/" + this.prefix + (this.dataObj.id || this.dataObj.date) + "?edit=true", "_blank");
   }
 }

@@ -21,25 +21,25 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
-import {Utils} from "../Utils";
+import {MoUtils} from "../MoUtils";
 
 @Component({
   components: {},
 })
 export default class EditorOptionComp extends Vue {
   flag = false;
-  ls = Utils.ls;
+  ls = MoUtils.ls;
 
   mounted() {
 
   }
 
   undo() {
-    Utils.undoHistory();
+    MoUtils.undoHistory();
   }
 
   redo() {
-    Utils.redoHistory();
+    MoUtils.redoHistory();
   }
 
 }

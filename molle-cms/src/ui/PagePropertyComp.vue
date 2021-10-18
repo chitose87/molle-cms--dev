@@ -113,12 +113,12 @@
 
 <script lang="ts">
 import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
-import {IItemData, INodeObject, IPageData} from "~/molle-cms/src/interface";
-import {Singleton} from "~/molle-cms/src/Singleton";
-import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
-import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
+import {IItemData, INodeObject, IPageData} from "../interface";
+import {Singleton} from "../Singleton";
+import GoogleStorage from "./GoogleStorage.vue";
+import InputUrlByGS from "./property/InputUrlByGS.vue";
 import firebase from "firebase";
-import {Utils} from "~/molle-cms/src/Utils";
+import {MoUtils} from "../MoUtils";
 
 @Component({
   components: {InputUrlByGS, GoogleStorage},
@@ -278,7 +278,7 @@ export default class PagePropertyComp extends Vue {
         });
 
         // commit
-        Utils.updateBatch(batchQue).then(() => {
+        MoUtils.updateBatch(batchQue).then(() => {
           alert("complete");
         });
 
