@@ -72,6 +72,7 @@ import {Singleton} from "../Singleton";
 import firebase from "firebase";
 import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
 import PageListComp from "./PageListComp.vue";
+import {MoUtils} from "../MoUtils";
 
 @Component({
   components: {
@@ -163,6 +164,32 @@ export default class MolleEditerComp extends Vue {
     };
     this.$parent.$el.addEventListener("mouseover", listener);
     this.$parent.$el.addEventListener("click", listener);
+
+    //
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
+      var current = document.activeElement;
+      if (
+        current.tagName == "TEXTAREA" ||
+        (current.tagName == "INPUT" && current.getAttribute("type") == "text") ||
+        current.getAttribute("contenteditable") == "true") {
+        return;
+      }
+      if (event.ctrlKey || event.metaKey) {
+        //ctrl + z
+        switch (e.code) {
+          case "KeyZ":
+
+            if (e.shiftKey) {
+              console.log("redo?");
+              MoUtils.redoHistory(this);
+            } else {
+              console.log("undo?");
+              MoUtils.undoHistory(this);
+            }
+            break;
+        }
+      }
+    });
   }
 
   private enterFrame() {

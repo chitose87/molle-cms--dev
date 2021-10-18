@@ -1,4 +1,4 @@
-import {Vue} from "nuxt-property-decorator";
+import {Component, Vue, Prop} from "nuxt-property-decorator";
 import {IItemData, ILogsData, IPageData} from "./interface";
 import {Singleton} from "./Singleton";
 import firebase from "firebase";
@@ -121,10 +121,13 @@ export class MoUtils {
   }
 
   // undo
-  static undoHistory() {
+  static undoHistory(ctx: any) {
     let history = this.ls.history[this.ls.currentHistory];
+    if (!history) return;
     switch (history.cmd) {
-      case "updateItemData":
+      case "create":
+      case "update":
+      case "delete":
         this.updateItem(
           history.id,
           history.before,
@@ -132,15 +135,20 @@ export class MoUtils {
         );
         break;
     }
+
+    ctx.$router.push({query: {...ctx.$route.query, focus: history.id}});
     this.ls.currentHistory++;
     localStorage.setItem("molle", JSON.stringify(this.ls));
   }
 
   //redo
-  static redoHistory() {
+  static redoHistory(ctx: any) {
     let history = this.ls.history[this.ls.currentHistory - 1];
+    if (!history) return;
     switch (history.cmd) {
-      case "updateItemData":
+      case "create":
+      case "update":
+      case "delete":
         this.updateItem(
           history.id,
           Object.assign({}, history.before, history.data),
@@ -148,6 +156,7 @@ export class MoUtils {
         );
         break;
     }
+    ctx.$router.push({query: {...ctx.$route.query, focus: history.id}});
     this.ls.currentHistory--;
     localStorage.setItem("molle", JSON.stringify(this.ls));
   }

@@ -181,7 +181,7 @@ export default class ItemListItemComp extends Vue {
     let value: any = parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id);
     let update = {value: value};
     MoUtils.updateItem(parent.node.id, update);
-    MoUtils.addHistory("updateItemData",
+    MoUtils.addHistory("delete",
       parent.node.id,
       parent.itemData,
       update,

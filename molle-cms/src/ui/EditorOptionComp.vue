@@ -10,12 +10,18 @@
         button.btn.btn-sm.btn-outline-secondary(@click="redo" :disabled="ls.currentHistory==0")
           b-icon(icon="arrow-return-right")
 
-      span(v-html="ls.currentHistory")
+      span(v-html="ls.currentHistory" v-show="false")
       .list-group.list-group-flush
         .list-group-item.small(v-for="(item,i) in ls.history" :class="{'list-group-item-primary':i==ls.currentHistory}")
-          //p(v-html="item.cmd")
-          span.mr-2(v-html="i")
-          span(v-html="item.before.moduleId")
+          details
+            summary
+              span(v-html="item.cmd")
+            div
+              span(v-html="item.id")
+              br
+              span(v-html="item.data")
+          //span.mr-2(v-html="i")
+          //span(v-html="item.before.moduleId")
 
 </template>
 
@@ -35,11 +41,11 @@ export default class EditorOptionComp extends Vue {
   }
 
   undo() {
-    MoUtils.undoHistory();
+    MoUtils.undoHistory(this);
   }
 
   redo() {
-    MoUtils.redoHistory();
+    MoUtils.redoHistory(this);
   }
 
 }

@@ -119,7 +119,7 @@ export default class AddModuleComp extends Vue {
       .then(() => {
         this.$router.push({query: {...this.$route.query, focus: node.id}});
       });
-    MoUtils.addHistory("updateItemData",
+    MoUtils.addHistory("create",
       this.parentNode.id,
       this.itemData,
       update,
