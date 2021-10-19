@@ -231,8 +231,10 @@ export default class MolleEditerComp extends Vue {
 
     try {
       let current = <HTMLElement>this.$el.nextElementSibling!.querySelector(`[data-item-id="${newer}"]`);
-      let v = current.getBoundingClientRect().top;
-      if (v < h * 0.1 || v > h * 0.9) {
+      let top = current.getBoundingClientRect().top;
+      let bottom = current.getBoundingClientRect().bottom;
+      let v = top;
+      if (bottom < h * 0.1 || top > h * 0.9) {
         v -= h * 0.2;
         v += pageYOffset;
         window.scrollTo({top: v, behavior: "smooth"});
