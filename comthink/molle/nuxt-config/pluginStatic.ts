@@ -5,9 +5,6 @@
 
 import {Vue} from "nuxt-property-decorator";
 /* <imports */
-import SlideShow from "~/molle/module/custom/SlideShow.vue"
-import Feature from "~/molle/module/custom/Feature.vue"
-import FeatureBox from "~/molle/module/custom/FeatureBox.vue"
 import Box from "~/molle-cms/src/module/primitive/Box.vue"
 import BackgroundBox from "~/molle-cms/src/module/primitive/BackgroundBox.vue"
 import Headline from "~/molle-cms/src/module/primitive/Headline.vue"
@@ -50,9 +47,6 @@ Vue.component("GoogleForm", GoogleForm);
 Vue.component("SocialShare", SocialShare);
 Vue.component("Card", Card);
 Vue.component("GoogleMap", GoogleMap);
-Vue.component("SlideShow", SlideShow);
-Vue.component("Feature", Feature);
-Vue.component("FeatureBox", FeatureBox);
 Vue.component("Table", Table);
 /* > */
 

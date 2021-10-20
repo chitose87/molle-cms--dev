@@ -1,14 +1,10 @@
 <template lang="pug">
-.l-body.universal
+.l-body.universal(:class="pageData.theme?'theme--'+pageData.theme:''")
   GlobalHeaderComp
   MolleEditerComp
   main
     article.l-content
-      .container.text-center
-        Headline(
-          :static__value="pageData.displayTitle||pageData.title"
-          :static__option="{lv:'h2'}"
-        )
+      MainVisual(:pageData="pageData")
       ModuleLoader(v-if="pageData.itemId" :node="{id:pageData.itemId}")
 
   GlobalFooterComp
