@@ -120,7 +120,7 @@ export default class ItemListItemComp extends Vue {
           if (this.node.fixedModuleId) {
             MoUtils.updateItem(
               this.node.id,
-              MoUtils.createItemData(this.node.fixedModuleId),
+              MoUtils.createItemData(this.node.fixedModuleId, this.node.opt),
               true);
           }
           return;

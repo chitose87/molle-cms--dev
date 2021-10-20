@@ -10,9 +10,10 @@ export interface IPageData {
   date?: string;//サイト日付設定
   utc?: string;//
   noExport?: boolean;//index.htmlを出力するかどうか
+  theme?: string;//ページテーマ
+  type?: string;//区分
 
   redirect?: string;
-  option?: any;
 }
 
 export interface IItemData {
@@ -50,6 +51,7 @@ export interface INodeObject {
   // uid: string;
   fixedModuleId?: string;
   order?: number;
+  opt?: {enabled: string[]};
 }
 
 export interface IPayload {

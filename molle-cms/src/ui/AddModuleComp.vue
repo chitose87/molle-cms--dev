@@ -9,10 +9,6 @@
         option(v-for="item in moduleList", :value="item.ref.CLASS_NAME", v-html="item.ref.CLASS_NAME")
       button.btn.btn-sm.btn-info(type="button" @click="pushModule()") +
 
-    //.text-center(v-if="beforeNode||afterNode")
-      button.btn.btn-secondary(@click="addClone")
-        span Clone
-
 </template>
 
 <script lang="ts">
@@ -59,14 +55,20 @@ export default class AddModuleComp extends Vue {
 
         // @ts-ignore
         let moduleOpt = this.$molleModules[this.itemData.moduleId];
-        let response: any[];
-        // todo
-        if (moduleOpt.white) {
-          response = [];
+        let response: any[] = [];
+
+        if (this.itemData.dev && this.itemData.dev.enabled) {
+          // 限定
+          for (let i in this.itemData.dev.enabled) {
+            response.push(this.$molleModules[this.itemData.dev.enabled[i]]);
+          }
+        } else if (moduleOpt.white) {
+          // ホワイトリスト
           for (let i in moduleOpt.white) {
             response.push(this.$molleModules[moduleOpt.white[i].CLASS_NAME]);
           }
         } else if (moduleOpt.black) {
+          // ブラックリスト
           response = this.$molleModuleList.filter((item: any) => {
             for (let i in moduleOpt.black) {
               // @ts-ignore
@@ -86,7 +88,10 @@ export default class AddModuleComp extends Vue {
       });
   }
 
-  pushModule() {
+  /**
+   *
+   */
+  private pushModule() {
     console.log("pushModule", this.pushModuleSelected);
     if (!this.pushModuleSelected) return;
     let data: IItemData = MoUtils.createItemData(this.pushModuleSelected);
@@ -124,31 +129,6 @@ export default class AddModuleComp extends Vue {
       this.itemData,
       update,
     );
-  }
-
-  addClone() {
-    let ba = <INodeObject>this.beforeNode || this.afterNode;
-    Singleton.itemsRef.doc(ba.id)
-      .get()
-      .then((snap: firebase.firestore.DocumentSnapshot) => {
-        let itemData = <IItemData>snap.data();
-        let node: INodeObject = {id: Singleton.itemsRef.doc().id};
-        console.log(itemData);
-        // itemData.value.forEach
-        //todo
-
-        // this.update(node, data);
-      });
-  }
-
-  /**
-   *
-   * @param node
-   * @param data
-   * @private
-   */
-  private update(node: INodeObject, data: IItemData) {
-
   }
 
   beforeDestroy() {

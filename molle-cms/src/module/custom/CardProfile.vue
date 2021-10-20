@@ -49,7 +49,14 @@ export default class CardProfile extends Profile {
       value: {
         img: {id: "{uid}", fixedModuleId: "Picture", order: 0},
         headline: {id: "{uid}", fixedModuleId: "Paragraph", order: 10},
-        text: {id: "{uid}", fixedModuleId: "Paragraph", order: 20},
+        text: {
+          id: "{uid}",
+          fixedModuleId: "Box",
+          order: 20,
+          opt: {
+            enabled: ["Paragraph"],
+          },
+        },
       },
     },
     icon: "file-richtext",

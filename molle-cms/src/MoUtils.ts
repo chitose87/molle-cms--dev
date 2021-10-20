@@ -29,14 +29,25 @@ export class MoUtils {
    * module名から初期データでインスタンスを作成する
    * @param itemId
    */
-  static createItemData(itemId: string) {
+  static createItemData(itemId: string, opt?: {enabled: string[]}) {
     let data: IItemData = Object.assign({}, Vue.prototype.$molleModules[itemId].def);
+    if (opt) {
+      data.dev = opt;
+      // 使えるモジュールが限定されている場合
+      if (data.type == "children" && opt.enabled) {
+        data.value = [{
+          id: Singleton.itemsRef.doc().id,
+          fixedModuleId: opt.enabled[0],
+        }];
+        return data;
+      }
+    }
 
+    // デフォルト子要素作成
     switch (data.type) {
       case "children":
       case "group":
         let value = JSON.parse(JSON.stringify(data.value));
-        // デフォルト子要素作成
         for (let i in value) {
           let node = value[i];
           if (node.id == "{uid}") {

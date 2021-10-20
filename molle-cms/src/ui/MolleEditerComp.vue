@@ -167,14 +167,14 @@ export default class MolleEditerComp extends Vue {
 
     //
     document.addEventListener("keydown", (e: KeyboardEvent) => {
-      var current = document.activeElement;
+      var current = <HTMLElement>document.activeElement;
       if (
         current.tagName == "TEXTAREA" ||
         (current.tagName == "INPUT" && current.getAttribute("type") == "text") ||
         current.getAttribute("contenteditable") == "true") {
         return;
       }
-      if (event.ctrlKey || event.metaKey) {
+      if (e.ctrlKey || e.metaKey) {
         //ctrl + z
         switch (e.code) {
           case "KeyZ":

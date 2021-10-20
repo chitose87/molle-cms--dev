@@ -33,12 +33,14 @@
           @change="update"
         )
 
+      // ogp画像
       InputUrlByGS(
         :label="$words.ogp+$words.image+':'"
         v-model="pageData.ogpImg"
         @change="update"
       )
 
+      // サムネイル
       InputUrlByGS(
         :label="$words.thumbnail+':'"
         v-model="pageData.thumb"
@@ -46,7 +48,13 @@
       )
 
       hr
-      //ページトップのテーマ
+      //type
+      label.form-inline
+        span.mr-1 {{$words.type}}:
+        select.form-control.form-control-sm(v-model="pageData.type" @change="update")
+          option(v-for="i in ['', 'all']" :val="i" v-html="i")
+
+      //ページテーマ
       div
         label.form-inline
           span.mr-1 {{$words.theme}}:
@@ -69,6 +77,7 @@
 
       hr
 
+      //書き出し設定
       label.small.form-inline
         input.form-control.form-control-sm(
           v-model="pageData.noExport",
@@ -77,6 +86,7 @@
         )
         span :{{$words.donotExport}}
 
+      //リダイレクト設定
       div(v-if="pageData.noExport")
         span {{$words.redirect}}:
         NuxtLink.mr-2(
@@ -91,6 +101,7 @@
 
       hr
 
+      //export inmport
       .mb-2
         button.btn.btn-info(type="button" @click="onExport")
           span {{$words.export}}
