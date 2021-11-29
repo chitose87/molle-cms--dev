@@ -5,6 +5,7 @@ export interface IPageData {
   description?: string;//meta description
 
   displayTitle?: string;//title
+  displayTitleSub?: string;//title
   ogpImg?: string;//SNS用画像パス
 
   date?: string;//サイト日付設定
@@ -41,7 +42,11 @@ export interface IItemData {
     align?: string;
   };
 
+  tagId: string;
+  tagClass: string;
+
   dev?: any;
+  noExport: boolean;
   //   log?: any;
   // };
 }
@@ -51,14 +56,14 @@ export interface INodeObject {
   // uid: string;
   fixedModuleId?: string;
   order?: number;
-  opt?: {enabled: string[]};
+  opt?: { enabled: string[] };
 }
 
 export interface IPayload {
   id: string;
   pageData: IPageData;
-  pages: {[key: string]: IPageData};
-  items: {[key: string]: IItemData};
+  pages: { [key: string]: IPageData };
+  items: { [key: string]: IItemData };
 }
 
 export interface ILogsData {

@@ -21,7 +21,7 @@ if (!firebase.apps.length) {
 
 Vue.use(VueScrollTo, {
   duration: 600,
-  offset: 0,
+  offset: -100,
   easing: [0.25, 0.0, 0.4, 1.0]
 });
 

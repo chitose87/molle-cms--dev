@@ -24,13 +24,12 @@
           :parentNode="loader.fromModule.loader.node"
           :beforeNode="loader.node"
         )
-  //.focus-extension__tr
-  //  button.btn.btn-sm.btn-outline-danger#delete
-  //    span Delete
-  //    b-icon(icon="x")
+  .focus-extension__tr(v-show="isBefore")
+    button.btn.btn-sm.btn-outline-danger#delete(@click="deleteModule")
+      span Delete
+      b-icon(icon="x")
 
-  .focus-extension__after
-    //(v-show="isAfter")
+  .focus-extension__after(v-show="isAfter")
     button.btn.btn-sm.btn-outline-info#addAfter
       b-icon(icon="plus")
       span {{$words.after}}
@@ -64,6 +63,7 @@ import firebase from "firebase";
 import AddModuleComp from "./AddModuleComp.vue";
 import CopyModuleComp from "./CopyModuleComp.vue";
 import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
+import {MoUtils} from "../MoUtils";
 
 @Component({
   components: {AddModuleComp, CopyModuleComp},
@@ -127,6 +127,19 @@ export default class FocusExtension extends Vue {
       this.enterFrame();
     });
     // setTimeout(() => this.enterFrame(), Math.floor(1000 / 10));
+  }
+
+  deleteModule() {
+    if (!confirm(`削除します`)) return
+    let parent:any = this.loader.$parent;
+    let value: any = parent.itemData.value.filter((via: INodeObject) => via.id != this.itemId);
+    let update = {value: value};
+    MoUtils.updateItem(parent.$parent.node.id, update);
+    MoUtils.addHistory("delete",
+      parent.$parent.node.id,
+      parent.itemData,
+      update,
+    );
   }
 
   beforeDestroy() {

@@ -24,9 +24,8 @@ div
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import {Profile} from "~/molle-cms/src/module/Profile";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import Picture from "~/molle-cms/src/module/primitive/Picture.vue";
+import {Profile} from "../Profile";
+import StyleComp from "../../ui/property/StyleComp.vue";
 import Gallery from "./Gallery.vue";
 
 @Component({
@@ -58,7 +57,7 @@ export default class GalleryProfile extends Profile {
         {id: "{uid}", fixedModuleId: "Picture"},
       ],
     },
-    white: [Picture],
+    white: ["Picture"],
     icon: "three-dots",
   };
 }

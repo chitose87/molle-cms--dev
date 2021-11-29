@@ -112,6 +112,9 @@ export default class MolleEditerComp extends Vue {
 
   moduleLoaderCms = ModuleLoaderCms;
 
+  /**
+   *
+   **/
   mounted() {
     // pageData
     let id = Singleton.getPageIdByPath(this.$route);
@@ -142,10 +145,24 @@ export default class MolleEditerComp extends Vue {
 
     let listener = (e: any) => {
       // if (e.type == "click") console.log(e.target);
+      if (!this.$route.query.edit) return;
+
+      //set focus
       for (let i = 0; i < e.path.length; i++) {
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoaderCms) {
           let loader: ModuleLoaderCms = v;
+
+          // if Reference
+          try {
+            //@ts-ignore
+            if (loader.$parent.itemData.moduleId == "Reference") {
+              //@ts-ignore
+              v = loader = loader.$parent.loader;
+            }
+          } catch (e) {
+          }
+          //
           let q = {...this.$route.query};
           switch (e.type) {
             case "mouseover":
@@ -178,7 +195,6 @@ export default class MolleEditerComp extends Vue {
         //ctrl + z
         switch (e.code) {
           case "KeyZ":
-
             if (e.shiftKey) {
               console.log("redo?");
               MoUtils.redoHistory(this);
@@ -187,11 +203,45 @@ export default class MolleEditerComp extends Vue {
               MoUtils.undoHistory(this);
             }
             break;
+
+          case "KeyC":
+            if (!this.$route.query.focus) break
+            MoUtils.ls.copyItem.id = <string>this.$route.query.focus;
+            MoUtils.ls.copyItem.key = e.code;
+            MoUtils.ls.copyItem.parentId = "";
+            MoUtils.lsSave();
+            console.log(MoUtils.ls.copyItem)
+            break;
+
+          case "KeyX":
+            if (!this.$route.query.focus) break
+            MoUtils.ls.copyItem.id = "";
+            MoUtils.ls.copyItem.key = "";
+            MoUtils.ls.copyItem.parentId = "";
+            let id = <string>this.$route.query.focus;
+            try {
+              let parent: any = ModuleLoaderCms.modules[id].$parent;
+              if (parent.itemData.type == "group") {
+                alert("カットできません")
+                break;
+              }
+              MoUtils.ls.copyItem.id = id;
+              MoUtils.ls.copyItem.key = e.code;
+              MoUtils.ls.copyItem.parentId = parent.$parent.node.id;
+            } catch (e) {
+              // console.log(e)
+            }
+            MoUtils.lsSave();
+            console.log(MoUtils.ls.copyItem)
+            break;
         }
       }
     });
   }
 
+  /**
+   *
+   */
   private enterFrame() {
     try {
       // let el = <HTMLElement>document.querySelector(".molle-editer + *");

@@ -11,12 +11,12 @@ table.module.table(
         :is="(itemData.option.columnHeading && colI == 0) || (itemData.option.lineHeading && rowI == 0) ? 'th' : 'td'",
         :key="rowI + 'x' + colI"
       )
-        span(v-html="col")
+        span(v-html="$getText(col)")
 </template>
 
 <script lang="ts">
 import {Component, Vue, Watch} from "nuxt-property-decorator";
-import {Module} from "~/molle-cms/src/module/Module";
+import {Module} from "../Module";
 
 @Component({
   components: {},
@@ -40,8 +40,8 @@ export default class Table extends Module {
 <style lang="scss">
 .table {
   width: 100%;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  //margin-top: 3rem;
+  margin-bottom: 1.5rem;
   border-collapse: collapse;
   tr {
   }

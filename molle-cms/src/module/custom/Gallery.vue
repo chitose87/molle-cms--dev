@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import {Component, Prop, Watch} from "nuxt-property-decorator";
-import {Module} from "~/molle-cms/src/module/Module";
+import {Module} from "../Module";
 
 @Component({
   components: {},

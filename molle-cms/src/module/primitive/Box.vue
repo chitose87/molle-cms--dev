@@ -19,7 +19,7 @@ component.module.box(
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Module} from "~/molle-cms/src/module/Module";
+import {Module} from "../Module";
 
 @Component({
   components: {},
@@ -34,19 +34,27 @@ export default class Box extends Module {
   //margin-top: 1rem;
   //margin-bottom: 3rem;
 
-  > *:first-child {
-    margin-top: 0;
-  }
+  //> *:first-child {
+  //  margin-top: 0;
+  //}
 
-  > *:last-child {
-    margin-bottom: 0;
-  }
+  //todo
+  // line-heightの差分を上げる
+  //h2, h3, h4, h5 {
+  //  &:first-child {
+  //    margin-top: -0.2em;
+  //  }
+  //}
 
-  //thema
-  &.-quote {
-    background-color: $color-gray-100;
+  //> *:last-child {
+  //  margin-bottom: 0;
+  //}
+
+  &.t-quote {
+    background-color: $color-gray-200;
     padding: 2rem 1rem;
     position: relative;
+    margin-bottom: 2rem;
 
     &:before,
     &::after {
@@ -68,22 +76,54 @@ export default class Box extends Module {
     }
   }
 
-  // color
-  &.-gray {
-    background-color: $color-gray-600;
-    padding: $gutter/2;
+  &.t-border {
+    border: 2px solid $color-black;
+    //background-color: $color-white;
+    margin-bottom: 2rem;
   }
 
-  &.-dark {
-    background-color: $color-black;
-    color: $color-text-white;
-    padding: $gutter/2;
+  &.c-secondary {
+    background-color: $color-key2;
+    margin-bottom: 2rem;
+
+    //@at-root .container & ,.section__body & {
+    //  @include mediaquery-not-sm {
+    //    margin-left: -2rem;
+    //    margin-right: -2rem;
+    //  }
+    //
+    //  @include mediaquery-sm {
+    //    margin-left: -1rem;
+    //    margin-right: -1rem;
+    //  }
+    //}
   }
 
-  &.-gray-box {
-    border: 6px solid $color-border-light;
+  &.c-light {
     background-color: $color-white;
-    padding: $gutter/2;
+    margin-bottom: 2rem;
+  }
+
+  &.t-line {
+    border: 6px solid $color-border-light;
+    //background-color: $color-white;
+    margin-bottom: 2rem;
+  }
+
+  @include mediaquery-not-sm {
+    &[class*="t-read-size"] {
+      max-width: ($rem * 4.5 * 8) + ($gutter * 7) + ($gutter * 2);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    &.t-read-size--left {
+      margin-left: 0;
+    }
+
+    &.t-read-size--rigth {
+      margin-right: 0;
+    }
   }
 }
 </style>

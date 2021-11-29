@@ -7,11 +7,15 @@ component.module.background-box(
 )
   picture
     source(
-      media="(max-width:" + (process.env.breakPoint - 1) + "px)"
+      :media="`(max-width:${breakPoint - 1}px)`"
       :srcset="itemData.option.bgSp",
       :alt="itemData.option.alt"
     )
-    img.background-box__bg(:src="itemData.option.bg", :alt="itemData.option.alt")
+    img.background-box__bg(
+      loading="lazy"
+      :src="itemData.option.bg"
+      :alt="itemData.option.alt"
+      )
 
   .background-box__body.box
     ModuleLoader(
@@ -28,13 +32,14 @@ component.module.background-box(
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Module} from "~/molle-cms/src/module/Module";
+import {Module} from "../Module";
 
 @Component({
   components: {},
 })
 export default class BackgroundBox extends Module {
   static readonly CLASS_NAME = "BackgroundBox";
+  breakPoint = process.env.breakPoint;
 }
 </script>
 

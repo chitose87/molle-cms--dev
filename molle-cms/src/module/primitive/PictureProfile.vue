@@ -4,6 +4,16 @@ div
     :itemData="itemData"
     @change="()=>$emit('change')"
   )
+  //Border
+  label.form-inline
+    span.mr-1 {{$words.border}}:
+    input.form-control.form-control-sm(
+      v-model="itemData.class.border"
+      type="checkbox"
+      @change="()=>$emit('change')"
+    )
+
+  //
   label.form-inline
     span.mr-1 {{custom.scale.label}}:
     select.form-control.form-control-sm(
@@ -16,10 +26,21 @@ div
     details.molle-guide
       summary
       .molle-guide__body.caption
-        p 画像が表示できない時に、画像の代わりに表示されるテキストを指定します。
+        p 代替文字。何の画像かの説明テキスト
     input.form-control.form-control-sm(
       type="text"
       v-model="itemData.option.alt"
+      @change="()=>$emit('change')"
+    )
+
+  label caption:
+    //details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 代替文字。何の画像かの説明テキスト
+    input.form-control.form-control-sm(
+      type="text"
+      v-model="itemData.option.text"
       @change="()=>$emit('change')"
     )
 
@@ -49,7 +70,6 @@ div
 
   GoogleStorage
 
-
   //a.btn.btn-secondary.btn-sm(href="https://console.firebase.google.com/project/" + process.env.projectId + "/storage/" + process.env.storageBucket + "/files~2Fimages?hl=ja" target="_blank")
     span Storage
 
@@ -57,12 +77,12 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {Profile} from "~/molle-cms/src/module/Profile";
-import {StyleAlign} from "~/molle-cms/src/Singleton";
-import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
-import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
-import ImageChecker from "~/molle-cms/src/ui/property/ImageChecker.vue";
+import StyleComp from "../../ui/property/StyleComp.vue";
+import {Profile} from "../Profile";
+import {StyleAlign} from "../../Singleton";
+import GoogleStorage from "../../ui/GoogleStorage.vue";
+import InputUrlByGS from "../../ui/property/InputUrlByGS.vue";
+import ImageChecker from "../../ui/property/ImageChecker.vue";
 import Picture from "./Picture.vue";
 
 @Component({
@@ -89,12 +109,12 @@ export default class PictureProfile extends Profile {
 
   //style setting
   static readonly stylePermission = {
-    border: false,
     align: StyleAlign.None,
     // margin: "",
     // padding: "",
-    theme: {default: "", select: ["", "-sm", "-lg", "-non-scale"]},
+    theme: {default: "-lg", select: ["", "-sm", "-lg", "-non-scale", "-circle"]},
     // color: {default: "", select: ["", "dark"]},
+    space: {default: "", select: [...StyleComp.spaceSelect]},
   };
 
   static settings = {
@@ -104,6 +124,9 @@ export default class PictureProfile extends Profile {
         sp: "",
         alt: "",
       },
+      class: {
+        theme: "-lg"
+      }
     },
     icon: "image",
   };

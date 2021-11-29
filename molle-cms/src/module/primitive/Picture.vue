@@ -13,15 +13,17 @@
       :alt="itemData.option.alt"
     )
     img(
+      loading="lazy"
       :src="itemData.value",
       :width="itemData.option.size?itemData.option.size.w/(itemData.option.scale||1)+'px':'auto'"
       :height="itemData.option.size?itemData.option.size.h/(itemData.option.scale||1)+'px':'auto'"
       :alt="itemData.option.alt")
+  p.caption.picture__caption(v-if="itemData.option.text" v-html="$getText(itemData.option.text)")
 </template>
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import {Module} from "~/molle-cms/src/module/Module";
+import {Module} from "../Module";
 
 @Component({
   components: {},
@@ -35,6 +37,8 @@ export default class Picture extends Module {
 
 <style lang="scss">
 .picture {
+  margin-bottom: 1.5rem;
+
   &:not([class*="-non-scale"]) {
     @include mediaquery-not-sm {
       width: 80%;
@@ -92,6 +96,27 @@ export default class Picture extends Module {
 
     img {
     }
+  }
+
+  &.-circle {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+
+    img {
+      object-fit: cover;
+      object-position: center center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+    }
+  }
+
+  &__caption {
+    text-align: left;
   }
 }
 </style>

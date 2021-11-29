@@ -7,6 +7,14 @@
   "molleProjectID": "sandbox",
   "molleBrunch": "beta",
   "developerId": "chitose87@gmail.com",
+  "apiKey": "AIzaSyCi8-uxlUVlUKEL8HuATVYBt6O89zylqwY",
+  "authDomain": "molle-cms---dev.firebaseapp.com",
+  "databaseURL": "https://seishun-style.firebaseio.com",
+  "projectId": "molle-cms---dev",
+  "storageBucket": "molle-cms---dev.appspot.com",
+  "messagingSenderId": "965827033393",
+  "appId": "1:965827033393:web:b13a5b04b03a34ac4a981",
+  "measurementId": "G-3M15GS6HC2",
   "breakPoint": "768",
   "gutter": "16"
 }

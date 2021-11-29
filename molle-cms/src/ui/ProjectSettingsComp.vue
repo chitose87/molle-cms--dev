@@ -60,11 +60,6 @@ export default class ProjectSettingsComp extends Vue {
         .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
           console.log(snap.data());
         });
-
-      Singleton.getUsers((users: any) => {
-        this.$set(this, "users", users);
-        this.$set(this, "selfUserData", users[this.uid] || {});
-      });
     }
   }
 

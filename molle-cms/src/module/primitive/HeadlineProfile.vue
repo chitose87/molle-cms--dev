@@ -33,11 +33,10 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Profile} from "~/molle-cms/src/module/Profile";
+import {Profile} from "../Profile";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
-import Paragraph from "./Paragraph.vue";
 import Headline from "./Headline.vue";
 
 @Component({
@@ -63,11 +62,8 @@ export default class HeadlineProfile extends Profile {
 
   //style setting
   static readonly stylePermission = {
-    border: false,
     align: StyleAlign.None,
-    margin: "",
-    // padding: "",
-    theme: {default: "", select: ["", "decorate"]},
+    theme: {default: "", select: ["", "decorate", "decorate-white"]},
     color: {default: "", select: ["", "text-white"]},
   };
 
@@ -78,7 +74,7 @@ export default class HeadlineProfile extends Profile {
         lv: HeadlineProfile.custom.lv.default,
       },
     },
-    convert: [Paragraph],
+    convert: ["Paragraph"],
     icon: "card-heading",
   };
 }

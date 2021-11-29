@@ -13,6 +13,9 @@ jobs:
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       FIRESTORE_PW: ${{ secrets.FIRESTORE_PW }}
+      FTP_USER: ${{ secrets.FTP_USER }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      FTP_HOST: ${{ secrets.FTP_HOST }}
 
     steps:
       - uses: actions/checkout@v2

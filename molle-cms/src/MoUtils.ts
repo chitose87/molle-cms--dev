@@ -11,8 +11,13 @@ export class MoUtils {
     if (!this._ls) {
       this._ls = JSON.parse(localStorage.getItem("molle") || "{}");
       if (!this._ls.history) this._ls.history = [];
+      if (!this._ls.copyItem) this._ls.copyItem = {};
     }
     return this._ls;
+  }
+
+  static lsSave() {
+    localStorage.setItem("molle", JSON.stringify(this.ls));
   }
 
   private static _ls: {
@@ -22,6 +27,11 @@ export class MoUtils {
       before: any,
       data: any
     }[],
+    copyItem: {
+      id?: string,
+      key?: string,
+      parentId?: string
+    },
     currentHistory: 0
   };
 
@@ -29,7 +39,7 @@ export class MoUtils {
    * module名から初期データでインスタンスを作成する
    * @param itemId
    */
-  static createItemData(itemId: string, opt?: {enabled: string[]}) {
+  static createItemData(itemId: string, opt?: { enabled: string[] }) {
     let data: IItemData = Object.assign({}, Vue.prototype.$molleModules[itemId].def);
     if (opt) {
       data.dev = opt;
@@ -69,34 +79,32 @@ export class MoUtils {
     let promise;
     let historyItem: any = {
       timestamp: firebase.firestore.Timestamp.now(),
-      uid: firebase.auth().currentUser!.uid,
+      uid: firebase.auth().currentUser!.email,
     };
-    let logRef = Singleton.logsRef.doc(id);
 
     //
     if (isSet) {
-      let batch = firebase.firestore().batch();
-      batch.set(Singleton.itemsRef.doc(id), update);
-      batch.set(logRef, {history: [historyItem]});
-      promise = batch.commit();
+      promise = Singleton.itemsRef.doc(id).set(update);
     } else {
       promise = Singleton.itemsRef.doc(id).update({...update});
-      //log
-      logRef.get()
-        .then((snap: firebase.firestore.DocumentSnapshot) => {
-          let data = snap.data() || {};
-          let history: ILogsData[] = data.history || [];
-          historyItem.update = update;
-          history.unshift(historyItem);
-          //todo 短時間で同一idに対して変更があったものを統合
-          if (history.length > 100) history.length = 100;
-          if (snap.exists) {
-            logRef.update({history: history});
-          } else {
-            logRef.set({history: history});
-          }
-        });
     }
+    //log
+    let logRef = Singleton.logsRef.doc(id);
+    logRef.get()
+      .then((snap: firebase.firestore.DocumentSnapshot) => {
+        let data = snap.data() || {};
+        let history: ILogsData[] = data.history || [];
+        if (snap.exists) historyItem.update = update;
+        history.unshift(historyItem);
+        // console.log(history)
+        //todo 短時間で同一idに対して変更があったものを統合
+        if (history.length > 100) history.length = 100;
+        if (snap.exists) {
+          logRef.update({history: history});
+        } else {
+          logRef.set({history: history});
+        }
+      });
 
     return promise;
   }
@@ -127,7 +135,7 @@ export class MoUtils {
     this.ls.history.unshift(lsData);
     if (this.ls.history.length > 20) this.ls.history.length = 20;
     this.ls.currentHistory = 0;
-    localStorage.setItem("molle", JSON.stringify(this.ls));
+    this.lsSave();
     // console.log(this.ls)
   }
 
@@ -149,7 +157,7 @@ export class MoUtils {
 
     ctx.$router.push({query: {...ctx.$route.query, focus: history.id}});
     this.ls.currentHistory++;
-    localStorage.setItem("molle", JSON.stringify(this.ls));
+    this.lsSave();
   }
 
   //redo
@@ -169,13 +177,13 @@ export class MoUtils {
     }
     ctx.$router.push({query: {...ctx.$route.query, focus: history.id}});
     this.ls.currentHistory--;
-    localStorage.setItem("molle", JSON.stringify(this.ls));
+    this.lsSave();
   }
 
   /**
    * 複数保存処理
    */
-  static updateBatch(arr: {cmd: string, ref: any, data: any}[]) {
+  static updateBatch(arr: { cmd: string, ref: any, data: any }[]) {
     let batch = firebase.firestore().batch();
     let promiseList = [];
 

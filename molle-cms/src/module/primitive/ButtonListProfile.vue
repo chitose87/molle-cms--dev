@@ -9,10 +9,10 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Profile} from "~/molle-cms/src/module/Profile";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {StyleAlign} from "~/molle-cms/src/Singleton";
-import Button from "./Button.vue";
+import {Profile} from "../Profile";
+import StyleComp from "../../ui/property/StyleComp.vue";
+import {StyleAlign} from "../../Singleton";
+import ButtonList from "./ButtonList.vue";
 
 @Component({
   components: {StyleComp},
@@ -20,7 +20,7 @@ import Button from "./Button.vue";
 export default class ButtonListProfile extends Profile {
   static readonly CLASS_NAME = "ButtonListProfile";
   static readonly LANGS = {
-    en: Button.CLASS_NAME,
+    en: ButtonList.CLASS_NAME,
     jp: "ボタンリスト",
   };
   static readonly custom = {
@@ -31,8 +31,8 @@ export default class ButtonListProfile extends Profile {
     // container: false,
     // border: false,
     align: StyleAlign.None,
-    margin: "",
-    padding: "",
+    // margin: "",
+    // padding: "",
     // theme: {default: "", select: ["", "test"]},
     // color: {default: "", select: ["", "dark"]},
   };
@@ -44,7 +44,8 @@ export default class ButtonListProfile extends Profile {
         {id: "{uid}", fixedModuleId: "Button"},
       ],
     },
-    white: [Button],
+    convert: ["AnchorNavi"],
+    white: ["Button"],
     icon: "layout-three-columns",
   };
 }

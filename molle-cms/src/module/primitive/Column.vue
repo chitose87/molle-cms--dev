@@ -4,10 +4,9 @@
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
 )
-  .row
+  .row(:class="itemData.option.justify?'justify-content-'+itemData.option.justify:''")
     ModuleLoader(
       v-for="node in itemData.value", :key="node.id", :node="node"
-      :class="getChildClass()"
     )
 
     AddModuleComp.col-12(
@@ -19,7 +18,7 @@
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import {Module} from "~/molle-cms/src/module/Module";
+import {Module} from "../Module";
 
 @Component({
   components: {},
@@ -28,13 +27,6 @@ export default class Column extends Module {
   static readonly CLASS_NAME = "Column";
 
   //Unique Methods
-
-  getChildClass() {
-    let obj: any = {};
-    if (this.itemData.option.col > 0) obj["col-" + this.itemData.option.col] = true;
-    if (this.itemData.option.colSm > 0) obj["col-sm-" + this.itemData.option.colSm] = true;
-    return obj;
-  }
 
   // getStyle() {
   //   let obj = super.getStyle(this.itemData);
@@ -58,6 +50,7 @@ export default class Column extends Module {
 
 <style lang="scss">
 .column {
+  margin-bottom: 1.5rem;
   @include mediaquery-not-sm {
     //  margin-top: -2rem;
     //  margin-right: -1rem;
@@ -73,19 +66,12 @@ export default class Column extends Module {
 
   & > .row > * {
     margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  &.text-left > .row {
-    justify-content: flex-start;
-  }
-
-  &.text-center > .row {
-    justify-content: center;
-  }
-
-  &.text-right > .row {
-    justify-content: flex-end;
+    @include mediaquery-not-sm {
+      margin-bottom: 0;
+    }
+    @include mediaquery-sm {
+      margin-bottom: 0.5rem;
+    }
   }
 }
 </style>

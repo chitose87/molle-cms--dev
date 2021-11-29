@@ -86,7 +86,7 @@ export default class IndexPageAddView extends Vue {
       itemId: itemId,
       title: this.dataObj.title,
       date: this.dataObj.date,
-      noExport: this.prefix == "_no-export/",
+      noExport: this.prefix == "--no-export/",
     });
     MoUtils.updateItem(itemId, this.$molleModules.Box.def, true);
     window.open("/" + this.prefix + (this.dataObj.id || this.dataObj.date) + "?edit=true", "_blank");

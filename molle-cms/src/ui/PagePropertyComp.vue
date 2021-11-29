@@ -11,13 +11,19 @@
           :placeholder="pageData.displayTitle",
           @change="update"
         )
-      label.w-100
-        span {{$words.title}} ({{$words.display}}):
-        textarea.form-control.form-control-sm(
-          v-model="pageData.displayTitle",
-          :placeholder="pageData.title",
-          @change="update"
-        )
+
+      //
+      TextAreaQuill(
+        :label="$words.title + $words.display+':'"
+        v-model="pageData.displayTitle"
+        @change="update"
+      )
+      //
+      TextAreaQuill(
+        :label="$words.title + $words.display+'sub:'"
+        v-model="pageData.displayTitleSub"
+        @change="update"
+      )
       label.w-100
         span {{$words.description}} ({{$words.meta}}):
         textarea.form-control.form-control-sm(
@@ -119,7 +125,6 @@
                 )
                 button.btn.btn-info(type="submit")
                   span {{$words.import}}
-
 </template>
 
 <script lang="ts">
@@ -130,9 +135,10 @@ import GoogleStorage from "./GoogleStorage.vue";
 import InputUrlByGS from "./property/InputUrlByGS.vue";
 import firebase from "firebase";
 import {MoUtils} from "../MoUtils";
+import TextAreaQuill from "./property/TextAreaQuill.vue";
 
 @Component({
-  components: {InputUrlByGS, GoogleStorage},
+  components: {TextAreaQuill, InputUrlByGS, GoogleStorage},
 })
 export default class PagePropertyComp extends Vue {
   @Prop() pageData!: IPageData;
@@ -239,7 +245,6 @@ export default class PagePropertyComp extends Vue {
           return;
         }
 
-        let createTime = firebase.firestore.Timestamp.now();
         let batchQue: any = [];
 
         //items import
@@ -257,7 +262,7 @@ export default class PagePropertyComp extends Vue {
           }
 
           // itemSet
-          item.createTime = createTime;
+          item.createTime = firebase.firestore.FieldValue.serverTimestamp();
           batchQue.push({
             cmd: "set",
             ref: Singleton.itemsRef.doc(_newId),
@@ -270,7 +275,7 @@ export default class PagePropertyComp extends Vue {
             ref: Singleton.logsRef.doc(_newId),
             data: {
               history: [{
-                timestamp: createTime,
+                timestamp: firebase.firestore.Timestamp.now(),
                 uid: firebase.auth().currentUser!.uid,
               }],
             },

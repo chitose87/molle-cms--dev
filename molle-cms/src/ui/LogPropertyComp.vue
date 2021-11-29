@@ -2,11 +2,11 @@
 .log-property-comp
   button.btn.btn-sm.btn-secondary(@click="init") {{$words.log}}
   div(v-if="logDataList")
-    //span.mt-2(@click="isShow=!isShow") ログ
     ul
       li(v-for="logData in logDataList.history")
-        //span(v-html="logData.uid")
-        LogDataComp(:logData="logData")
+        details
+          summary(v-html="getDataStr(logData.timestamp)+'/'+logData.uid")
+          div.caption(v-html="getUpdateStr(logData.update)")
 
 </template>
 
@@ -15,23 +15,12 @@ import {Component, Vue, Watch, Prop} from "nuxt-property-decorator";
 import {IItemData, INodeObject, ILogsData} from "../interface";
 import {Singleton} from "../Singleton";
 import firebase from "firebase";
-import LogDataComp from "./LogDataComp.vue";
 
 @Component({
-  components: {LogDataComp},
+  components: {},
 })
 export default class LogPropertyComp extends Vue {
-  // itemId: string = "";
-  itemData = <IItemData>{};
-  itemDataBefore = <IItemData>{};
-  // @Prop() log!:ILogsData[];
-  // @Prop() history!: ILogsData[];
   @Prop() itemId!: string;
-
-  private unsubscribe?: () => void;
-  flag = false;
-  isShow = false;
-
   logDataList: ILogsData[] | null = null;
 
   init() {
@@ -41,19 +30,30 @@ export default class LogPropertyComp extends Vue {
       .get()
       .then((snap: firebase.firestore.DocumentSnapshot) => {
         if (!snap.exists) return;
-        console.log(snap.data());
+        // console.log(snap.data());
         this.$set(this, "logDataList", snap.data() || []);
       });
   }
 
+  getDataStr(timestamp: any) {
+    if (typeof timestamp === "object") {
+      return timestamp.toDate().toLocaleString({timeZone: "Asia/Tokyo"});
+    }
+    return "---";
+  }
+
+  getUpdateStr(data: any) {
+    if (data) {
+      return JSON.stringify(data)
+        .replace(/,/g, "<br>")
+        .replace(/:{/g, ":{<br>");
+    }
+    return "---";
+  }
 }
 </script>
 
 <style lang="scss">
 .log-property-comp {
-}
-
-.hoge {
-  z-index: $zindex-modal;
 }
 </style>

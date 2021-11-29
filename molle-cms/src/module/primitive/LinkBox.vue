@@ -20,7 +20,7 @@ a.module.link-box(
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Module} from "~/molle-cms/src/module/Module";
+import {Module} from "../Module";
 
 @Component({
   components: {},
@@ -33,5 +33,6 @@ export default class LinkBox extends Module {
 <style lang="scss">
 .link-box {
   display: block;
+  height: 100%;
 }
 </style>

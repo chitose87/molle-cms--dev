@@ -7,18 +7,23 @@ div
   details.molle-guide
     summary
     .molle-guide__body.caption
-      p 適用するアニメーションを{{$words.theme}}から選択します。
+      p 適用するアニメーションをテーマから選択します。
+
+  label.form-inline
+    span.mr-1 {{custom.once.label}}:
+      input.form-control.form-control-sm(v-model="itemData.option.once" type="checkbox" @change="()=>$emit('change')")
+
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p ---
 
 </template>
 
 <script lang="ts">
-import {Component} from "nuxt-property-decorator";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {Profile} from "~/molle-cms/src/module/Profile";
-import ColumnBox from "./ColumnBox.vue";
-import Box from "./Box.vue";
-import BackgroundBox from "./BackgroundBox.vue";
-import LinkBox from "./LinkBox.vue";
+import {Component, Vue} from "nuxt-property-decorator";
+import StyleComp from "../../ui/property/StyleComp.vue";
+import {Profile} from "../Profile";
 import IsviewBox from "./IsviewBox.vue";
 
 @Component({
@@ -32,7 +37,9 @@ export default class IsviewBoxProfile extends Profile {
   };
 
   // custom
-  static readonly custom = {};
+  static readonly custom = {
+    once: {label: "once", value: true},
+  };
 
   //style setting
   static readonly stylePermission = {
@@ -46,8 +53,8 @@ export default class IsviewBoxProfile extends Profile {
         {id: "{uid}", fixedModuleId: "Paragraph"},
       ],
     },
-    black: [ColumnBox],
-    convert: [Box, BackgroundBox, LinkBox],
+    black: ["ColumnBox"],
+    convert: ["Box", "BackgroundBox", "LinkBox"],
     icon: "plus-square",
   };
 }

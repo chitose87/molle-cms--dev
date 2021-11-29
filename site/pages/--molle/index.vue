@@ -75,7 +75,7 @@
 
             .col-4
               IndexPageAddView.position-sticky(
-                :prefix="'_no-export/'"
+                :prefix="'--no-export/'"
               )
 
         section#site.mt-1r.mb-6r
@@ -129,7 +129,7 @@ export default class MolleTopPage extends Vue {
             let pageData = <IPageData>_snap.data();
             if (pageData.path.indexOf("news/") == 0) {
               pages.news[_snap.id] = pageData;
-            } else if (pageData.path.indexOf("_no-export/") == 0) {
+            } else if (pageData.path.indexOf("--no-export/") == 0) {
               pages.noExport[_snap.id] = pageData;
             } else {
               pages.universal[_snap.id] = pageData;

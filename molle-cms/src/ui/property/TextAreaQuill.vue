@@ -67,10 +67,11 @@ export default class TextAreaQuill extends OptionComp {
     let rows: any[] = [];
     let loop = (children: any) => {
       if (children.length) {
-        children.forEach((child: any) => {
+        for (let i = 0; i < children.length; i++) {
+          let child = children[i];
           let str = child.innerHTML || child.outerHTML || child;
           rows.push(str == "<br>" ? "" : str);
-        });
+        }
       }
     };
     loop(this.$editer.children);

@@ -14,11 +14,11 @@
         title="change type" triggers="focus"
         placement="bottom"
         container="bootstrap-container"
-        @show="()=>changeModuleSelected=$molleModules[itemData.moduleId].convert[0].CLASS_NAME"
+        @show="()=>changeModuleSelected=$molleModules[itemData.moduleId].convert[0]"
       )
         form.form-group.form-check-inline(@submit.prevent @submit="moduleChange()")
           select.form-control.form-control-sm(v-model="changeModuleSelected")
-            option(v-for="key in $molleModules[itemData.moduleId].convert" :value="key.CLASS_NAME" v-html="key.CLASS_NAME")
+            option(v-for="key in $molleModules[itemData.moduleId].convert" :value="key" v-html="key")
           button.btn.btn-sm.btn-info(type="submit") +
 
     .card-body.p-3
@@ -183,6 +183,15 @@ export default class ModulePropertyComp extends Vue {
   moduleChange() {
     // console.log("moduleChangeスタート")
     if (this.changeModuleSelected) {
+      let data: IItemData = MoUtils.createItemData(this.changeModuleSelected);
+      if (data.type == "group") {
+        data.value = Object.assign(data.value, this.itemData.value);
+      } else {
+        data.value = this.itemData.value;
+      }
+      if (this.itemData.name) data.name = this.itemData.name;
+      if (this.itemData.tagId) data.tagId = this.itemData.tagId;
+      if (this.itemData.tagClass) data.tagClass = this.itemData.tagClass;
       // convert
       // switch (this.itemData.moduleId) {
       //   case "Headline":
@@ -194,7 +203,7 @@ export default class ModulePropertyComp extends Vue {
       //   case "Paragraph":
       //     break;
       // }
-      MoUtils.updateItem(this.itemId, {moduleId: this.changeModuleSelected});
+      MoUtils.updateItem(this.itemId, data);
     }
   }
 }

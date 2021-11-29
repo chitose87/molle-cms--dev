@@ -29,14 +29,19 @@
     max-width: $size-container;
   }
   @include mediaquery-sm {
-    padding-left: $gutter + 0px;
-    padding-right: $gutter + 0px;
+    padding-left: $gutter/2 + 0px;
+    padding-right: $gutter/2 + 0px;
+  }
+  .container {
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
 .container-fluid {
-  padding-left: $gutter + 0px;
-  padding-right: $gutter + 0px;
+  padding-left: $gutter/2 + 0px;
+  padding-right: $gutter/2 + 0px;
 }
 
 .container-thin {
@@ -51,20 +56,19 @@
 
 // ページ
 .l-body {
-  $pcH: 4.5rem;
-  $spH: 4rem;
+  overflow: hidden;
   @include mediaquery-not-sm {
-    padding-top: $pcH;
+    padding-top: $header-height;
   }
   @include mediaquery-sm {
-    padding-top: $spH;
+    padding-top: $header-height-sp;
   }
 }
 
 // ページのメインコンテンツエリア
 .l-content {
-  &::before,
-  &::after {
+  &::before {
+    //&::after {
     content: "";
     display: block;
   }
@@ -73,18 +77,23 @@
     &::before {
       margin-bottom: 3rem;
     }
-    &::after {
-      margin-top: 7rem;
-    }
+    //&::after {
+    //  margin-top: 4rem;
+    //}
   }
   @include mediaquery-sm {
     &::before {
-      margin-bottom: 3rem;
+      margin-bottom: 0rem;
     }
-    &::after {
-      margin-top: 5rem;
-    }
+    //&::after {
+    //  margin-t/op: 5rem;
+    //}
   }
+
+  //> .module {
+  //  margin-top: 0;
+  //  margin-bottom: 0;
+  //}
 }
 
 .to-top {
@@ -103,7 +112,7 @@
   }
 
   &::after {
-    @include icon-arrow-up-circle();
+    @include icon-up-circle();
     color: $color-gray-500;
     opacity: 0.9;
     font-size: 53px;
@@ -123,7 +132,7 @@
 
   &__top {
     &::after {
-      @include icon-arrow-right();
+      @include icon-right-open();
       color: $color-gray-700;
       padding-left: 1rem;
       padding-right: 1rem;
@@ -153,3 +162,6 @@
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
+
+//
+@import "reference-items/banner-card";

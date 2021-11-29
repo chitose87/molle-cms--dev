@@ -36,13 +36,11 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {Profile} from "~/molle-cms/src/module/Profile";
-import ColumnBox from "./ColumnBox.vue";
-import Box from "./Box.vue";
+import StyleComp from "../../ui/property/StyleComp.vue";
+import {Profile} from "../Profile";
 import BackgroundBox from "./BackgroundBox.vue";
-import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
-import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
+import GoogleStorage from "../../ui/GoogleStorage.vue";
+import InputUrlByGS from "../../ui/property/InputUrlByGS.vue";
 
 @Component({
   components: {StyleComp, GoogleStorage, InputUrlByGS},
@@ -68,13 +66,13 @@ export default class BackgroundBoxProfile extends Profile {
   };
   //style setting
   static readonly stylePermission = {
-    container: false,
-    "container-fluid": false,
-    section: false,
-    border: false,
-    margin: "",
-    padding: "",
-    theme: {default: "", select: ["", "-quote"]},
+    // container: false,
+    // "container-fluid": false,
+    // section: false,
+    // border: false,
+    // margin: "",
+    // padding: "",
+    // theme: {default: "", select: ["", "-quote"]},
     color: {default: "", select: ["", "-dark"]},
   };
 
@@ -85,8 +83,8 @@ export default class BackgroundBoxProfile extends Profile {
         {id: "{uid}", fixedModuleId: "Paragraph"},
       ],
     },
-    black: [ColumnBox],
-    convert: [Box, ColumnBox],
+    black: ["ColumnBox"],
+    convert: ["Box", "ColumnBox"],
     icon: "plus-square",
   };
 

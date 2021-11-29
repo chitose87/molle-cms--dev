@@ -6,79 +6,33 @@
   speak: none;
 }
 
-@mixin icon-down-open {
-  @include _icon;
-  content: "\e800";
-} /* '' */
-@mixin icon-left-open {
-  @include _icon;
-  content: "\e801";
-} /* '' */
-@mixin icon-right-open {
-  @include _icon;
-  content: "\e802";
-} /* '' */
-@mixin icon-up-open {
-  @include _icon;
-  content: "\e803";
-} /* '' */
-@mixin icon-down-circle {
-  @include _icon;
-  content: "\e804";
-} /* '' */
-@mixin icon-left-circle {
-  @include _icon;
-  content: "\e805";
-} /* '' */
-@mixin icon-right-circle {
-  @include _icon;
-  content: "\e806";
-} /* '' */
-@mixin icon-up-circle {
-  @include _icon;
-  content: "\e807";
-} /* '' */
-@mixin icon-popup {
-  @include _icon;
-  content: "\e808";
-} /* '' */
-@mixin icon-download-cloud {
-  @include _icon;
-  content: "\f0ed";
-} /* '' */
-@mixin icon-twitter {
-  @include _icon;
-  content: "\f309";
-} /* '' */
-@mixin icon-twitter-circled {
-  @include _icon;
-  content: "\f30a";
-} /* '' */
-@mixin icon-facebook {
-  @include _icon;
-  content: "\f30c";
-} /* '' */
-@mixin icon-facebook-circled {
-  @include _icon;
-  content: "\f30d";
-} /* '' */
+@mixin icon-right-dir{@include _icon; content: '\e800'; } /* '' */
+@mixin icon-up-dir{@include _icon; content: '\e801'; } /* '' */
+@mixin icon-left-dir{@include _icon; content: '\e802'; } /* '' */
+@mixin icon-down-dir{@include _icon; content: '\e803'; } /* '' */
+@mixin icon-down-open-big{@include _icon; content: '\e804'; } /* '' */
+@mixin icon-left-open-big{@include _icon; content: '\e805'; } /* '' */
+@mixin icon-right-open-big{@include _icon; content: '\e806'; } /* '' */
+@mixin icon-up-open-big{@include _icon; content: '\e807'; } /* '' */
+@mixin icon-popup{@include _icon; content: '\e808'; } /* '' */
+@mixin icon-down-circle{@include _icon; content: '\e809'; } /* '' */
+@mixin icon-left-circle{@include _icon; content: '\e80b'; } /* '' */
+@mixin icon-right-circle{@include _icon; content: '\e80e'; } /* '' */
+@mixin icon-dot{@include _icon; content: '\e810'; } /* '' */
+@mixin icon-up-circle{@include _icon; content: '\e811'; } /* '' */
+@mixin icon-stop{@include _icon; content: '\e812'; } /* '' */
+@mixin icon-right-open{@include _icon; content: '\e818'; } /* '' */
+@mixin icon-down-open{@include _icon; content: '\e81b'; } /* '' */
+@mixin icon-left-open{@include _icon; content: '\e81c'; } /* '' */
+@mixin icon-up-open{@include _icon; content: '\e81d'; } /* '' */
+@mixin icon-download-cloud{@include _icon; content: '\f0ed'; } /* '' */
+@mixin icon-circle{@include _icon; content: '\f111'; } /* '' */
+@mixin icon-instagram{@include _icon; content: '\f16d'; } /* '' */
+@mixin icon-twitter{@include _icon; content: '\f309'; } /* '' */
+@mixin icon-twitter-circled{@include _icon; content: '\f30a'; } /* '' */
+@mixin icon-facebook{@include _icon; content: '\f30c'; } /* '' */
+@mixin icon-facebook-circled{@include _icon; content: '\f30d'; } /* '' */
 
-@mixin icon-arrow-down-circle {
-}
-@mixin icon-arrow-down {
-}
-@mixin icon-arrow-left-circle {
-}
-@mixin icon-arrow-left {
-}
-@mixin icon-arrow-right-circle {
-}
-@mixin icon-arrow-right {
-}
-@mixin icon-arrow-up-circle {
-}
-@mixin icon-arrow-up {
-}
 @mixin icon-blank {
   @include icon-popup;
 }

@@ -3,18 +3,8 @@
   GlobalHeaderComp
   MolleEditerComp
   main
-    ModuleLoader(:node="{id:'top-content'}" :isRoot="true")
-
-    section
-      .container
-        h3 News
-        //NewsList(:max="3")
-
-        .text-center
-          Button.-primary(
-            :static__value="'more'"
-            :static__option="{href: '/news', traget: '_self'}"
-          )
+    article.l-content
+      ModuleLoader(:node="{id:'--no-export%2Ftop'}" :isRoot="true")
 
   GlobalFooterComp
 </template>

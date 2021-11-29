@@ -18,7 +18,7 @@ import {Module} from "./Module";
   components: {},
 })
 export default class ModuleLoaderCms extends Vue {
-  static modules = <{[key: string]: ModuleLoaderCms}>{};
+  static modules = <{ [key: string]: ModuleLoaderCms }>{};
 
   @Prop({default: () => ({id: 0})}) node!: INodeObject;
   @Prop({default: false}) isRoot!: boolean;
@@ -49,13 +49,24 @@ export default class ModuleLoaderCms extends Vue {
   }
 
   check() {
-    if (this.$route.query.edit != "true") {
-      return "";
-    } else if (this.$route.query.focus == this.node.id) {
-      return {outline: "2px solid red", opacity: 1};
-    } else if (this.$route.query.hover == this.node.id) {
-      return {outline: "2px solid orange"};
+    let obj: any = {}
+    if (this.itemData.noExport) {
+      obj.opacity = 0.5;
     }
+    if (this.$route.query.edit != "true") {
+      if (this.itemData.noExport ||
+        (this.itemData.type == "children" && this.itemData.value.length == 0) ||
+        (this.itemData.type == "text" && !this.itemData.value)
+      ) {
+        obj.display = "none !important";
+      }
+    } else if (this.$route.query.focus == this.node.id) {
+      obj.outline = "2px solid red";
+      obj.opacity = 1;
+    } else if (this.$route.query.hover == this.node.id) {
+      obj.outline = "2px solid reoranged";
+    }
+    return obj
   }
 
   beforeDestroy() {
@@ -65,4 +76,7 @@ export default class ModuleLoaderCms extends Vue {
 </script>
 
 <style lang="scss">
+[data-reference] {
+  pointer-events: none;
+}
 </style>

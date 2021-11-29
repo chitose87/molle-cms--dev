@@ -4,119 +4,122 @@
   :class="getClass(itemData)",
   :style="getStyle(itemData)"
 )
-  .dev-module-guide__headline
-    h3
-      span(v-html="itemData.option.module")
-      span(
-        v-for="jp in [$molleModules[itemData.option.module].profile.LANGS[$lang]]"
-        v-if="itemData.option.module!=jp"
-      )
-        | / {{jp}}
-    p(v-if="itemData.option.description" v-html="itemData.option.description")
-
-  .row
-    .col-3
-      .dev-module-guide__left
-        // custom
-        .dev-module-guide__custom(
-          v-if="itemData.option.module"
-          v-for="custom in [$molleModules[itemData.option.module].profile.custom]"
+  div(v-if="!$molleModules[itemData.option.module]")
+    p {{itemData.option.module}}
+  div(v-else)
+    .dev-module-guide__headline
+      h3
+        span(v-html="itemData.option.module")
+        span(
+          v-for="jp in [$molleModules[itemData.option.module].profile.LANGS[$lang]]"
+          v-if="itemData.option.module!=jp"
         )
-          dl(v-for="(item,key) in custom")
-            dt {{item.label}}
-            dd(v-if="item.select")
-              span.dev-module-guide__option(
-                v-for="ele in item.select"
-                :data-default="ele==item.default"
-              )
-                span {{ele || "\" \""}}
-            dd(v-else)
-              span.dev-module-guide__option(
-                v-html="item.value"
-              )
+          | / {{jp}}
+      p(v-if="itemData.option.description" v-html="itemData.option.description")
 
-        // permission
-        .dev-module-guide__permission(
-          v-if="itemData.option.module"
-          v-for="permission in [$molleModules[itemData.option.module].profile.stylePermission]"
-        )
-          dl(v-if="permission.theme!==undefined")
-            dt {{$words.theme}}
-            dd
-              span.dev-module-guide__option(
-                v-for="theme in permission.theme.select"
-                :data-default="theme==permission.theme.default"
-              )
-                span {{theme || "\" \""}}
-
-          dl(v-if="permission.color!==undefined")
-            dt {{$words.color}}
-            dd
-              span.dev-module-guide__option(
-                v-for="color in permission.color.select"
-                :data-default="color==permission.color.default"
-              )
-                span {{color || "\" \""}}
-
-          //section
-          dl(v-if="permission.section!==undefined")
-            dt {{$words.section}}
-            dd
-              span.dev-module-guide__option(:data-default="permission.section") {{$words.true}}
-              span.dev-module-guide__option(:data-default="!permission.section") {{$words.false}}
-
-          //container
-          dl(v-if="permission.container!==undefined")
-            dt {{$words.container}}
-            dd
-              span.dev-module-guide__option(:data-default="permission.container") {{$words.true}}
-              span.dev-module-guide__option(:data-default="!permission.container") {{$words.false}}
-
-          //container-fluid
-          dl(v-if="permission['container-fluid']!==undefined")
-            dt {{$words.container}}-{{$words.fluid}}
-            dd
-              span.dev-module-guide__option(:data-default="permission['container-fluid']") {{$words.true}}
-              span.dev-module-guide__option(:data-default="!permission['container-fluid']") {{$words.false}}
-
-          //Border
-          dl(v-if="permission.border!==undefined")
-            dt {{$words.border}}
-            dd
-              span.dev-module-guide__option(:data-default="permission.border") {{$words.true}}
-              span.dev-module-guide__option(:data-default="!permission.border") {{$words.false}}
-
-          //TextHorizontal
-          dl(v-if="permission.align!==undefined")
-            dt {{$words.align}}
-            dd
-              span.dev-module-guide__option(
-                v-for="item in styleAlign"
-                :data-default="item.value==''"
-              )
-                span {{$words[item.label] || "\" \""}}
-        hr
-        p(v-html="itemData.option.memo")
-    .col
-      .dev-module-guide__right
-        .container
-
-          ModuleLoader(
-            v-for="node in itemData.value",
-            :key="node.id",
-            :node="node"
+    .row
+      .col-3
+        .dev-module-guide__left
+          // custom
+          .dev-module-guide__custom(
+            v-if="itemData.option.module"
+            v-for="custom in [$molleModules[itemData.option.module].profile.custom]"
           )
+            dl(v-for="(item,key) in custom")
+              dt {{item.label}}
+              dd(v-if="item.select")
+                span.dev-module-guide__option(
+                  v-for="ele in item.select"
+                  :data-default="ele==item.default"
+                )
+                  span {{ele || "\" \""}}
+              dd(v-else)
+                span.dev-module-guide__option(
+                  v-html="item.value"
+                )
 
-          AddModuleComp(
-            :label="`DevModuleGuide`"
-            :parentNode="loader.node"
+          // permission
+          .dev-module-guide__permission(
+            v-if="itemData.option.module"
+            v-for="permission in [$molleModules[itemData.option.module].profile.stylePermission]"
           )
+            dl(v-if="permission.theme!==undefined")
+              dt {{$words.theme}}
+              dd
+                span.dev-module-guide__option(
+                  v-for="theme in permission.theme.select"
+                  :data-default="theme==permission.theme.default"
+                )
+                  span {{theme || "\" \""}}
+
+            dl(v-if="permission.color!==undefined")
+              dt {{$words.color}}
+              dd
+                span.dev-module-guide__option(
+                  v-for="color in permission.color.select"
+                  :data-default="color==permission.color.default"
+                )
+                  span {{color || "\" \""}}
+
+            //section
+            dl(v-if="permission.section!==undefined")
+              dt {{$words.section}}
+              dd
+                span.dev-module-guide__option(:data-default="permission.section") {{$words.true}}
+                span.dev-module-guide__option(:data-default="!permission.section") {{$words.false}}
+
+            //container
+            dl(v-if="permission.container!==undefined")
+              dt {{$words.container}}
+              dd
+                span.dev-module-guide__option(:data-default="permission.container") {{$words.true}}
+                span.dev-module-guide__option(:data-default="!permission.container") {{$words.false}}
+
+            //container-fluid
+            dl(v-if="permission['container-fluid']!==undefined")
+              dt {{$words.container}}-{{$words.fluid}}
+              dd
+                span.dev-module-guide__option(:data-default="permission['container-fluid']") {{$words.true}}
+                span.dev-module-guide__option(:data-default="!permission['container-fluid']") {{$words.false}}
+
+            //Border
+            dl(v-if="permission.border!==undefined")
+              dt {{$words.border}}
+              dd
+                span.dev-module-guide__option(:data-default="permission.border") {{$words.true}}
+                span.dev-module-guide__option(:data-default="!permission.border") {{$words.false}}
+
+            //TextHorizontal
+            dl(v-if="permission.align!==undefined")
+              dt {{$words.align}}
+              dd
+                span.dev-module-guide__option(
+                  v-for="item in styleAlign"
+                  :data-default="item.value==''"
+                )
+                  span {{$words[item.label] || "\" \""}}
+          hr
+          p(v-html="itemData.option.memo")
+      .col
+        .dev-module-guide__right
+          .container
+
+            ModuleLoader(
+              v-for="node in itemData.value",
+              :key="node.id",
+              :node="node"
+            )
+
+            AddModuleComp(
+              :label="`DevModuleGuide`"
+              :parentNode="loader.node"
+            )
 </template>
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Module} from "~/molle-cms/src/module/Module";
-import {StyleAlign} from "~/molle-cms/src/Singleton";
+import {Module} from "../Module";
+import {StyleAlign} from "../../Singleton";
 
 @Component({
   components: {},

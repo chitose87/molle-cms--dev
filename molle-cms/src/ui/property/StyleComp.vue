@@ -1,81 +1,73 @@
 <template lang="pug">
 .style-comp
-  label.form-inline.mr-3(v-if="permission.theme!==undefined")
+  label.form-inline(v-if="permission.theme!==undefined")
     span.mr-1 {{$words.theme}}:
     select.form-control.form-control-sm(v-model="itemData.class.theme" @change="()=>$emit('change')")
-      option(v-for="theme in permission.theme.select" :val="theme" v-html="theme")
+      option(v-for="item in permission.theme.select" :value="item" v-html="item.split(' ')[0]")
 
-  label.form-inline.mr-3(v-if="permission.color!==undefined")
+  label.form-inline(v-if="permission.color!==undefined")
     span.mr-1 {{$words.color}}:
     select.form-control.form-control-sm(v-model="itemData.class.color" @change="()=>$emit('change')")
-      option(v-for="color in permission.color.select" :val="color" v-html="color")
+      option(v-for="item in permission.color.select" :value="item" v-html="item.split(' ')[0]")
 
-  .form-inline
-    //section
-    span.mr-3(v-if="permission.section!==undefined")
+
+
+  //TextHorizontal
+  label.form-inline(v-if="permission.align!==undefined")
+    span.mr-1 {{$words.align}}:
+    select.form-control.form-control-sm(v-model="itemData.class.align" @change="()=>$emit('change')")
+      option(v-for="item in styleAlign" :value="item.value" v-html="$words[item.label]")
+
+  //space
+  label.form-inline(v-if="permission.space!==undefined")
+    span.mr-1 Space:
+    select.form-control.form-control-sm(v-model="itemData.class.space" @change="()=>$emit('change')")
+      option(v-for="item in permission.space.select" :value="item" v-html="item")
+
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p 余白
+
+  details
+    summary 削除予定
+    .form-inline
+      //section
       label
         span.mr-1 {{$words.section}}:
         input.form-control.form-control-sm(v-model="itemData.class.section" type="checkbox" @change="()=>$emit('change')")
 
-    //container
-    span.mr-3(v-if="permission.container!==undefined")
+      //container
       label
         span.mr-1 {{$words.container}}:
         input.form-control.form-control-sm(v-model="itemData.class.container" type="checkbox" @change="()=>$emit('change')")
 
-    //container-fluid
-    span.mr-3(v-if="permission['container-fluid']!==undefined")
+      //container-fluid
       label
         span.mr-1 {{$words.container}}-{{$words.fluid}}:
         input.form-control.form-control-sm(v-model="itemData.class['container-fluid']" type="checkbox" @change="()=>$emit('change')")
 
-    //Border
-    span.mr-3(v-if="permission.border!==undefined")
+      //Border
       label
         span.mr-1 {{$words.border}}:
         input.form-control.form-control-sm(v-model="itemData.class.border" type="checkbox" @change="()=>$emit('change')")
-
-    //TextHorizontal
-    span.mr-3(v-if="permission.align!==undefined")
       label
-        span.mr-1 {{$words.align}}:
-        select.form-control.form-control-sm(v-model="itemData.class.align" @change="()=>$emit('change')")
-          option(v-for="item in styleAlign" :value="item.value" v-html="$words[item.label]")
-
+        span.mr-1 padding
+        select.form-control.form-control-sm(
+          v-model="itemData.class.padding"
+          @change="()=>$emit('change')"
+        )
+          option(v-for='item in ["", "0", "sm", "md", "lg"]' :value="item" v-html="item")
   //span.mr-3
     label Free Area
       textarea(v-model="datacss")
-
-  //margin
-  //span.mr-3(v-if="permission.margin!==undefined")
-  //  label
-  //    span.mr-1 margin:
-  //    RectFormComp(
-  //      :label="'margin'"
-  //      :value="dataStyle"
-  //      @update="val=>onUpdate('style',val)"
-  //    )
-  //
-  ////padding
-  //span.mr-3(v-if="permission.padding!==undefined")
-  //  label
-  //    span.mr-1 padding:
-  //    RectFormComp(
-  //      :label="'padding'"
-  //      :value="dataStyle"
-  //      @update="val=>onUpdate('style',val)"
-  //    )
-
-      //input.form-control.form-control-sm(v-if="margin_select=='number'" v-model="margin_number" type="number" min="-5" max="5" step="0.25" @change="margin()")
-      //select.form-control.form-control-sm(v-model="margin_select" @change="margin()")
-        option(v-for="item in spaceItems" :value="item.value" v-html="item.label")
 
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from "nuxt-property-decorator";
-import {IItemData} from "../..//interface";
-import {StyleAlign} from "../..//Singleton";
+import {IItemData} from "../../interface";
+import {StyleAlign} from "../../Singleton";
 
 @Component({
   components: {},
@@ -85,6 +77,8 @@ export default class StyleComp extends Vue {
 
   @Prop() itemData!: IItemData;
   permission: any = {};
+
+  static spaceSelect = ["", "0", "sm", "md", "lg"];
 
   created() {
   }

@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import {Component, Prop, Watch} from "nuxt-property-decorator";
-import {Module} from "~/molle-cms/src/module/Module";
+import {Module} from "../Module";
 
 @Component({
   components: {},
@@ -24,18 +24,20 @@ export default class ColumnBox extends Module {
 
   getClass() {
     let obj = super.getClass(this.itemData);
-    if (this.itemData.option.col) {
-      if (this.itemData.option.col == -1) {
+    let col = this.itemData.option.col || this.$parent.$parent.$props.itemData.option.col;
+    let colSm = this.itemData.option.colSm || this.$parent.$parent.$props.itemData.option.colSm;
+    if (col) {
+      if (col == -1) {
         obj["col"] = true;
       } else {
-        obj["col-" + this.itemData.option.col] = true;
+        obj["col-" + col] = true;
       }
     }
-    if (this.itemData.option.colSm) {
-      if (this.itemData.option.colSm == -1) {
+    if (colSm) {
+      if (colSm == -1) {
         obj["col-sm"] = true;
       } else {
-        obj["col-sm-" + this.itemData.option.colSm] = true;
+        obj["col-sm-" + colSm] = true;
       }
     }
     return obj;
@@ -73,5 +75,8 @@ export default class ColumnBox extends Module {
 
 <style lang="scss">
 .column__item {
+  > *:last-child {
+    margin-bottom: 0;
+  }
 }
 </style>

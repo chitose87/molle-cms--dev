@@ -1,16 +1,17 @@
 <template lang="pug">
 .main-visual
-  Headline(
-    :static__value="pageData.displayTitle||pageData.title"
-    :static__option="{lv:'h2'}"
-  )
-  picture(v-if="pageData.theme && pageData.theme!='minimum'")
+  picture.main-visual__img(v-if="pageData.theme && pageData.theme!='minimum'")
     source(
-      media="(max-width:" + (process.env.breakPoint - 1) + "px)"
+      :media="`(max-width:${breakPoint - 1}px)`"
       :srcset="pageData.mainVisualSp"
       alt=""
     )
-    img.main-visual__bg(:src="pageData.mainVisual" alt="")
+    img(:src="pageData.mainVisual" alt="")
+  .main-visual__body
+    Headline(
+      :static__value="pageData.displayTitle||pageData.title"
+      :static__option="{lv:'h2',text:pageData.displayTitleSub}"
+    )
 
 </template>
 
@@ -23,6 +24,7 @@ import {IPageData} from "~/molle-cms/src/interface";
 })
 export default class MainVisual extends Vue {
   @Prop() pageData!: IPageData;
+  breakPoint = process.env.breakPoint;
 
   mounted() {
   }
@@ -32,57 +34,186 @@ export default class MainVisual extends Vue {
 <style lang="scss">
 .main-visual {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include mediaquery-not-sm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 7rem;
+  }
+  @include mediaquery-sm {
+    margin-bottom: 5rem;
+  }
 
   > .headline {
     margin-top: 0;
     margin-bottom: 0;
   }
 
-  &__bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
+  &__body {
+    text-align: center;
+
+    .headline {
+      span {
+        //text-align: center;
+      }
+    }
   }
+
+  &__img {
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  //&__bg {
+  //  position: absolute;
+  //  top: 0;
+  //  left: 0;
+  //  width: 100%;
+  //  height: 100%;
+  //  object-fit: cover;
+  //  z-index: -1;
+  //}
 }
 
-.theme-- {
-  &primary {
+//
+.theme {
+  &--primary {
     .main-visual {
-      height: 20rem;
+      height: 70vh;
+      display: flex;
+
+      &__img {
+        flex: 1;
+        height: 100%;
+      }
+
+      &__body {
+        background-color: $color-white;
+        //background-color: $color-blue-gray-200;
+        @include mediaquery-not-sm {
+          width: 35%;
+          min-width: 200px;
+          padding: 2rem;
+        }
+        @include mediaquery-sm {
+          max-width: 94%;
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%);
+          padding: 2rem 0.5rem;
+        }
+
+        .headline {
+          text-align: left;
+          @include mediaquery-not-sm {
+            font-size: 36px;
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+          @include mediaquery-sm {
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+        }
+      }
     }
   }
 
-  &primary-invert {
+  //&--primary-invert {
+  //  .main-visual {
+  //    height: 50vh;
+  //    color: $color-white;
+  //  }
+  //}
+
+  &--secondary {
     .main-visual {
-      height: 20rem;
-      color: $color-white;
+      height: 30vh;
+      display: flex;
+
+      &__img {
+        flex: 1;
+        height: 100%;
+      }
+
+      &__body {
+        background-color: $color-white;
+        @include mediaquery-not-sm {
+          width: 35%;
+          min-width: 200px;
+          padding: 2rem;
+        }
+        @include mediaquery-sm {
+          max-width: 94%;
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%);
+          padding: 2rem 0.5rem;
+        }
+
+        .headline {
+          text-align: left;
+          @include mediaquery-not-sm {
+            font-size: 36px;
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+          @include mediaquery-sm {
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+        }
+      }
     }
   }
 
-  &secondary {
-    .main-visual {
-      height: 8rem;
-    }
-  }
+  //&--secondary-invert {
+  //  .main-visual {
+  //    height: 30vh;
+  //    color: $color-white;
+  //  }
+  //}
 
-  &secondary-invert {
-    .main-visual {
-      height: 8rem;
-      color: $color-white;
+  &--minimum {
+    .l-content {
+      &:before {
+        display: none;
+      }
     }
-  }
 
-  &minimum {
     .main-visual {
-      height: 8rem;
-      border: 1px solid $color-gray-400;
+      background-color: $color-key2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include mediaquery-not-sm {
+        min-height: 24rem;
+      }
+      @include mediaquery-sm {
+        min-height: 12rem;
+      }
+      //border: 1px solid $color-gray-400;
+      &__body {
+        .headline {
+          @include mediaquery-not-sm {
+            font-size: 36px;
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+          @include mediaquery-sm {
+            font-size: 28px;
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+        }
+      }
     }
   }
 }

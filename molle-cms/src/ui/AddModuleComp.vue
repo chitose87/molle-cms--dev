@@ -65,14 +65,14 @@ export default class AddModuleComp extends Vue {
         } else if (moduleOpt.white) {
           // ホワイトリスト
           for (let i in moduleOpt.white) {
-            response.push(this.$molleModules[moduleOpt.white[i].CLASS_NAME]);
+            response.push(this.$molleModules[moduleOpt.white[i]]);
           }
         } else if (moduleOpt.black) {
           // ブラックリスト
           response = this.$molleModuleList.filter((item: any) => {
             for (let i in moduleOpt.black) {
               // @ts-ignore
-              if (item.ref.CLASS_NAME == moduleOpt.black[i].CLASS_NAME) {
+              if (item.ref.CLASS_NAME == moduleOpt.black[i]) {
                 return false;
               }
             }
@@ -144,9 +144,9 @@ export default class AddModuleComp extends Vue {
   }
 }
 
-[data-molle="embed"] {
-  .add-module-comp {
-    display: none;
-  }
-}
+//[data-molle="embed"] {
+//  .add-module-comp {
+//    display: none;
+//  }
+//}
 </style>

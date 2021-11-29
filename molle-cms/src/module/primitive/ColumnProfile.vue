@@ -31,6 +31,15 @@ div
 
   p.caption *0={{$words.notSet}}
 
+  // justify
+  label.form-inline
+    span.mr-1 {{custom.justify.label}}:
+    select.form-control.form-control-sm(
+      v-model="itemData.option.justify"
+      @change="()=>$emit('change')"
+    )
+      option(v-for="item in custom.justify.select" :value="item" v-html="item")
+
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
@@ -40,12 +49,10 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Profile} from "~/molle-cms/src/module/Profile";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {StyleAlign} from "~/molle-cms/src/Singleton";
-import ColumnBox from "./ColumnBox.vue";
-import Box from "./Box.vue";
+import StyleComp from "../../ui/property/StyleComp.vue";
+import {StyleAlign} from "../../Singleton";
 import Column from "./Column.vue";
+import {Profile} from "../Profile";
 
 @Component({
   components: {StyleComp},
@@ -66,14 +73,20 @@ export default class ColumnProfile extends Profile {
       label: Vue.prototype.$words.basic + Vue.prototype.$words.col + "-" + Vue.prototype.$words.sp,
       value: Vue.prototype.$words.number,
     },
+    justify: {
+      label: Vue.prototype.$words.justify,
+      default: "",
+      select: ["", "start", "center", "end", "between", "around"],
+    },
   };
   //style setting
   static readonly stylePermission = {
     // container: false,
     // border: false,
-    align: StyleAlign.None,
-    margin: "",
-    padding: "",
+    // align: StyleAlign.None,// todo tbd
+    // margin: "",
+    // padding: "",
+    space: {default: "", select: [...StyleComp.spaceSelect]},
     // theme: {default: "", select: ["", "test"]},
     // color: {default: "", select: ["", "dark"]},
   };
@@ -85,10 +98,10 @@ export default class ColumnProfile extends Profile {
       ],
       option: {
         col: 4,
-        colSm: 6,
+        colSm: 12,
       },
     },
-    white: [ColumnBox, Box],
+    white: ["ColumnBox", "Box"],
     icon: "layout-three-columns",
   };
 }

@@ -45,13 +45,27 @@ export class Module extends Vue {
     for (let key in data.class) {
       let value = data.class[key];
       switch (key) {
-        case "align":
         case "theme":
+          obj[`t-${value}`] = !!value;
+          obj[value] = true;//todo tbd
+          break;
         case "color":
+          obj[`c-${value}`] = !!value;
+          obj[value] = true;//todo tbd
+          break;
+        case "align":
           //.{value} 形式
           if (!value) break;
           obj[value] = true;
-
+          break;
+        case "space":
+          obj[`s-${value}`] = !!value;
+          break;
+        case "margin":
+          obj[`m-${value}`] = !!value;
+          break;
+        case "padding":
+          obj[`p-${value}`] = !!value;
           break;
         default:
           //.{key} 形式

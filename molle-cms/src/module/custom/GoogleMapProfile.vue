@@ -5,7 +5,7 @@ div
     details.molle-guide
       summary
       .molle-guide__body.caption
-        p {{$words.lat}}と{{$words.lng}}を入力すると、その地点のGoogleMapが表示されます。
+        p 緯度(lat)と経度(lng)を入力すると、その地点のGoogleMapが表示されます。
     input.form-control.form-control-sm(
       type="nubmer"
       v-model="itemData.value.lat"
@@ -23,7 +23,7 @@ div
     details.molle-guide
       summary
       .molle-guide__body.caption
-        p 入力すると{{$words.marker}}に{{$words.title}}がつきます。
+        p 入力するとマーカーにタイトルがつきます。
     input.form-control.form-control-sm(
       v-model="itemData.option.title"
       @change="()=>$emit('change')"
@@ -33,7 +33,7 @@ div
     details.molle-guide
       summary
       .molle-guide__body.caption
-        p 入力すると{{$words.marker}}に{{$words.text}}がつきます。
+        p 入力するとマーカーにタイトルがつきます。
     input.form-control.form-control-sm(
       v-model="itemData.option.text"
       @change="()=>$emit('change')"
@@ -47,9 +47,9 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Profile} from "~/molle-cms/src/module/Profile";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 import GoogleMap from "./GoogleMap.vue";
+import {Profile} from "../Profile";
+import StyleComp from "../../ui/property/StyleComp.vue";
 
 @Component({
   components: {StyleComp},

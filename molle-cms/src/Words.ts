@@ -134,6 +134,8 @@ Vue.prototype.$words = {
   number: {jp: '数字', en: 'Number'},
   main: {jp: 'メイン', en: 'Main'},
   visual: {jp: 'ビジュアル', en: 'Visual'},
+  block: {jp: 'ブロック', en: 'block'},
+  justify: {jp: '配置', en: 'justify'},
 
   TF: {jp: "", en: ""},
 };

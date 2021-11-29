@@ -8,7 +8,7 @@ const SITE_DIR = process.argv[2];
 const molle = require(`../${SITE_DIR}/molle.json`);
 var fs = require('fs');
 let allData = {
-  pages: {}, items: {}
+  pages: {}, items: {}, datalist: {}
 };
 
 function cleaningFirestoreValue(_data) {
@@ -35,19 +35,19 @@ function cleaningFirestoreValue(_data) {
    * pluginStatic.tsを作成する
    */
   let imports = fs.readFileSync(`${SITE_DIR}/molle/nuxt-config/pluginSpa.ts`, "utf8")
-      .match(/(\/\* <imports)([\s\S]*?)(> \*\/)/)[0]
-      .match(/(?!.*Profile.vue)(import )(.*)(.vue\")/g)
-      .join("\n");
+    .match(/(\/\* <imports)([\s\S]*?)(> \*\/)/)[0]
+    .match(/(?!.*Profile.vue)(import )(.*)(.vue\")/g)
+    .join("\n");
   let molleModules = imports
-      .match(/(import )(.*)( from)/g).map((str) => {
-        let name = str.substring(7, str.length - 5);
-        return `Vue.component("${name}", ${name});`
-      })
-      .join("\n");
+    .match(/(import )(.*)( from)/g).map((str) => {
+      let name = str.substring(7, str.length - 5);
+      return `Vue.component("${name}", ${name});`
+    })
+    .join("\n");
 
   let result = fs.readFileSync(`${SITE_DIR}/molle/nuxt-config/pluginStatic.ts`, "utf8")
-      .replace(/(\/\* <imports)([\s\S]*?)(> \*\/)/, ["/* <imports */", imports, "/* > */"].join("\n"))
-      .replace(/(\/\* <molleModules)([\s\S]*?)(> \*\/)/, ["/* <molleModules */", molleModules, "/* > */"].join("\n"))
+    .replace(/(\/\* <imports)([\s\S]*?)(> \*\/)/, ["/* <imports */", imports, "/* > */"].join("\n"))
+    .replace(/(\/\* <molleModules)([\s\S]*?)(> \*\/)/, ["/* <molleModules */", molleModules, "/* > */"].join("\n"))
   fs.writeFileSync(`${SITE_DIR}/molle/nuxt-config/pluginStatic.ts`, result);
 
 
@@ -56,17 +56,22 @@ function cleaningFirestoreValue(_data) {
    */
 
   firebase.initializeApp({
-    apiKey: process.env.apiKey,
-    authDomain: process.env.authDomain,
-    databaseURL: process.env.databaseURL,
-    projectId: process.env.projectId,
-    storageBucket: process.env.storageBucket,
-    messagingSenderId: process.env.messagingSenderId,
+    apiKey: molle.apiKey,
+    authDomain: molle.authDomain,
+    databaseURL: molle.databaseURL,
+    projectId: molle.projectId,
+    storageBucket: molle.storageBucket,
+    messagingSenderId: molle.messagingSenderId,
   });
 
   const user = await firebase.auth().signInWithEmailAndPassword(molle.developerId, process.env.FIRESTORE_PW);
-  const pages = await firebase.firestore().collection(`${molle.molleProjectID}/${molle.molleBrunch}/pages`).get();
-  const items = await firebase.firestore().collection(`${molle.molleProjectID}/${molle.molleBrunch}/items`).get();
+  let [pages, items, site] = await Promise.all([
+    firebase.firestore().collection(`${molle.molleProjectID}/${molle.molleBrunch}/pages`).get(),
+    firebase.firestore().collection(`${molle.molleProjectID}/${molle.molleBrunch}/items`).get(),
+    firebase.firestore().doc(`${molle.molleProjectID}/${molle.molleBrunch}`).get()
+  ])
+  //
+  allData.datalist = site.data().datalist;
   pages.forEach((snap) => {
     let data = cleaningFirestoreValue(snap.data());
     if (data.noExport) return;
@@ -80,8 +85,8 @@ function cleaningFirestoreValue(_data) {
 
   //全データの出力
   fs.writeFileSync(
-      `${SITE_DIR}/molle/nuxt-config/firestore-snap.json`,
-      JSON.stringify(allData)
+    `${SITE_DIR}/molle/nuxt-config/firestore-snap.json`,
+    JSON.stringify(allData)
   );
   process.exit(0);
 })();

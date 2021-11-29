@@ -4,10 +4,10 @@
   details.molle-guide
     summary
     .molle-guide__body.caption
-      p 一覧ボタンはGoogleStorageへのリンクです。リンク先でGoogleStorageに保存されているファイルが確認できます。
-      p アップロードボタンからGoogleStorageへのファイルアップロードができます。<br>
-        | 使用例：アップロードボタンから画像ファイルをアップロードすると、「{{$words.complete}}」欄が表示されます。
-        | 「{{$words.complete}}」欄に保存先URLが表示されるので、そのURLを画像URLの入力欄に入力します。
+      p 一覧(Explorer)ボタンはGoogleStorageへのリンクです。リンク先でGoogleStorageに保存されているファイルが確認できます。
+      p アップロード(Upload)ボタンからGoogleStorageへのファイルアップロードができます。<br>
+        | 使用例：アップロードボタンから画像ファイルをアップロードすると、「完了(complete)」欄が表示されます。
+        | 「完了(complete)」欄に保存先URLが表示されるので、そのURLを画像URLの入力欄に入力します。
 
   a.btn.btn-info.btn-sm.btn-block.mb-2(
     @click="()=>$root.$emit('google-storage-view')"

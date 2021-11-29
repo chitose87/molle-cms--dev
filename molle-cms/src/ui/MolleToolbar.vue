@@ -285,6 +285,8 @@ export default class MolleToolbar extends Vue {
    *
    */
   cleanup() {
+    // todo storageの削除
+
     console.log("cleanup");
     let batchQue: any = [];
 
@@ -292,10 +294,12 @@ export default class MolleToolbar extends Vue {
       Singleton.pagesRef.get(),
       Singleton.itemsRef.get(),
       Singleton.logsRef.get(),
-    ]).then((v: any) => {
+      firebase.storage().ref().child(`${process.env.molleProjectID}`).listAll()
+    ]).then(([pages, items, logs, storage]) => {
       let obj: any = {};
+      let pagesData: any = {};
       // カウントリセット
-      v[1].forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+      items.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
         obj[_snap.id] = _snap.data();
         obj[_snap.id]._count = 0;
       });
@@ -326,8 +330,9 @@ export default class MolleToolbar extends Vue {
       }
 
       // itemIdに対してカウントアップ
-      v[0].forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+      pages.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
         let pageData = <IPageData>_snap.data();
+        pagesData[_snap.id] = pageData;
         obj[pageData.itemId!] && (obj[pageData.itemId!]._count += 1);
       });
 
@@ -358,7 +363,7 @@ export default class MolleToolbar extends Vue {
         }
       }
       // logの削除
-      v[2].forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+      logs.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
         if (!obj[_snap.id]) {
           batchQue.push({
             cmd: "delete",
@@ -374,6 +379,18 @@ export default class MolleToolbar extends Vue {
       } else {
         alert("未参照のitemはありませんでした。");
       }
+
+      //
+      let str = JSON.stringify(obj) + JSON.stringify(pagesData);
+      storage.items.forEach((itemRef: firebase.storage.Reference) => {
+        // itemRef.getDownloadURL()
+        if (!str.includes(itemRef.fullPath)) {
+          itemRef.delete();
+          console.log("------" + itemRef.fullPath)
+        } else {
+          // console.log(itemRef.fullPath)
+        }
+      });
     });
   }
 

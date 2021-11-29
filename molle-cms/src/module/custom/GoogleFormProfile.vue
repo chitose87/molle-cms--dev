@@ -31,9 +31,9 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Profile} from "~/molle-cms/src/module/Profile";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import StyleComp from "../../ui/property/StyleComp.vue";
 import GoogleForm from "./GoogleForm.vue";
+import {Profile} from "../Profile";
 
 @Component({
   components: {StyleComp}

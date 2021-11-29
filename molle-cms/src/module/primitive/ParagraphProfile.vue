@@ -27,11 +27,10 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {Profile} from "~/molle-cms/src/module/Profile";
-import {StyleAlign} from "~/molle-cms/src/Singleton";
-import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
-import Headline from "./Headline.vue";
+import StyleComp from "../../ui/property/StyleComp.vue";
+import {Profile} from "../Profile";
+import {StyleAlign} from "../../Singleton";
+import TextAreaQuill from "../../ui/property/TextAreaQuill.vue";
 import Paragraph from "./Paragraph.vue";
 
 @Component({
@@ -59,11 +58,11 @@ export default class ParagraphProfile extends Profile {
     margin: "",
     // padding: "",
     theme: {default: "", select: ["", "-caption"]},
-    // color: {default: "", select: ["", "dark"]},
+    color: {default: "", select: ["", "-white"]},
   };
   static settings = {
     type: "text",
-    convert: [Headline],
+    convert: ["Headline"],
     icon: "text-paragraph",
   };
 }

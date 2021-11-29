@@ -29,10 +29,10 @@ div
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {Profile} from "~/molle-cms/src/module/Profile";
+import StyleComp from "../../ui/property/StyleComp.vue";
+import {Profile} from "../Profile";
 import DevModuleGuide from "./DevModuleGuide.vue";
-import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
+import TextAreaQuill from "../../ui/property/TextAreaQuill.vue";
 
 @Component({
   components: {TextAreaQuill, StyleComp},
@@ -51,7 +51,7 @@ export default class DevModuleGuideProfile extends Profile {
 
   static settings = {
     type: "children",
-    black: [DevModuleGuide],
+    black: ["DevModuleGuide"],
     icon: "archive-fill",
     opt: {
       option: {

@@ -34,14 +34,8 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {Profile} from "~/molle-cms/src/module/Profile";
-import ColumnBox from "./ColumnBox.vue";
-import Button from "./Button.vue";
-import ButtonList from "./ButtonList.vue";
-import Box from "./Box.vue";
-import BackgroundBox from "./BackgroundBox.vue";
-import IsviewBox from "./IsviewBox.vue";
+import StyleComp from "../../ui/property/StyleComp.vue";
+import {Profile} from "../Profile";
 import LinkBox from "./LinkBox.vue";
 
 @Component({
@@ -63,7 +57,8 @@ export default class LinkBoxProfile extends Profile {
     },
   };
   //style setting
-  static readonly stylePermission = {};
+  static readonly stylePermission = {
+  };
 
   static settings = {
     type: "children",
@@ -72,8 +67,8 @@ export default class LinkBoxProfile extends Profile {
         {id: "{uid}", fixedModuleId: "Paragraph"},
       ],
     },
-    black: [ColumnBox, Button, ButtonList],
-    convert: [Box, BackgroundBox, IsviewBox],
+    black: ["ColumnBox", "Button", "ButtonList"],
+    convert: ["Box", "BackgroundBox", "IsviewBox"],
     icon: "plus-square",
   };
 }

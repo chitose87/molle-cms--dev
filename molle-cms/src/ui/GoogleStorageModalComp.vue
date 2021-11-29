@@ -11,7 +11,7 @@
               input.form-control-sm.form-control-file(
                 type="file",
                 name="files",
-                accept="image/png,image/jpeg,image/gif",
+                accept="image/png,image/jpeg,image/gif,image/svg+xml",
                 @change="onImport"
               )
               button.btn.btn-primary.ml-auto(@click="upload" :disabled="!source")
@@ -144,24 +144,31 @@ export default class GoogleStorageModalComp extends Vue {
     current: 0,
     option: [
       {
-        label: "1:1 JPEG 80%",
+        label: "小 16:9 JPEG 80%",
         mime: "jpg",
-        width: 800,
-        height: 800,
+        width: 640,
+        height: 360,
         quality: 80,
       },
       {
-        label: "3:2 JPEG 80%",
+        label: "中 16:9 JPEG 80%",
         mime: "jpg",
-        width: 1200,
-        height: 800,
+        width: 1280,
+        height: 640,
         quality: 80,
       },
       {
-        label: "800:auto JPEG 80%",
+        label: "大 16:9 JPEG 80%",
         mime: "jpg",
-        width: 800,
-        height: "auto",
+        width: 1920,
+        height: 1080,
+        quality: 80,
+      },
+      {
+        label: "SP大 1:1 JPEG 80%",
+        mime: "jpg",
+        width: 640,
+        height: 640,
         quality: 80,
       },
     ],

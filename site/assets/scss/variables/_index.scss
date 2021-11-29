@@ -1,6 +1,8 @@
 $rem: 16px;
-//$gutter: 24px;
+$gtr: ($gutter * 1px);
 $size-container: ($rem * 4.5 * 12) + ($gutter * 11) + ($gutter * 2);
+$header-height: 4rem;
+$header-height-sp: 3rem;
 
 $size-col: (
   1: calc(100% / 12 - 0.01px),

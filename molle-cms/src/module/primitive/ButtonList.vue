@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import {Module} from "~/molle-cms/src/module/Module";
+import {Module} from "../Module";
 
 @Component({
   components: {},
@@ -27,6 +27,8 @@ export default class ButtonList extends Module {
 
 <style lang="scss">
 .button-list {
+  margin-right: -1rem;
+  //margin-bottom: 1rem;
 
   &.text-left {
     justify-content: flex-start;
@@ -41,7 +43,9 @@ export default class ButtonList extends Module {
   }
 
   .button {
-    margin: 1rem;
+    //margin: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
   }
 }
 </style>

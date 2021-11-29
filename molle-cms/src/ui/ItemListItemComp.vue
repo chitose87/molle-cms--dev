@@ -15,8 +15,14 @@
       span(v-if="isRoot")
         b-icon.ml-n1.mr-1(icon="aspect-ratio-fill")
         b(v-html="node.id")
-      span(v-else-if="itemData.option.tag=='section'")
+      span(v-else-if="itemData.moduleId=='Section'")
         b-icon.ml-n1.mr-1(icon="bookmark-check-fill")
+        b {{itemData.name||$words.section}}
+      span(v-else-if="itemData.moduleId=='ContentSizeBox'")
+        b-icon.ml-n1.mr-1(icon="exclamation-diamond")
+        b {{itemData.name||$words.section}}
+      span(v-else-if="itemData.option.tag=='section'")
+        b-icon.ml-n1.mr-1(icon="exclamation-diamond")
         b {{itemData.name||$words.section}}
       span(v-else-if="itemData.moduleId=='Headline'")
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
@@ -26,7 +32,7 @@
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b Btn
         span :{{itemData.value}}
-      span(v-else-if="itemData.moduleId=='DevModuleGuide'")
+      span(v-else-if="itemData.moduleId=='DevModuleGuide' && $molleModules[itemData.option.module]")
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b-icon.mr-1(:icon="$molleModules[itemData.option.module].icon")
         span(v-html="itemData.option.module")
@@ -71,10 +77,12 @@
   )
     ItemListItemComp(v-for="node in groupChildSort(itemData.value)", :key="node.id", :node="node")
 
+  //Reference
   .list-group.pl-2.pb-2(
     v-else-if="itemData.moduleId === 'Reference'"
   )
-    ItemListItemComp(:node="itemData.value")
+    span.small(v-html="itemData.value.id")
+    //ItemListItemComp.item-list-item-comp--reference(:node="itemData.value")
 </template>
 
 <script lang="ts">
@@ -103,19 +111,19 @@ export default class ItemListItemComp extends Vue {
   maxHistory: number = 100;
   expanded = true;
 
-  @Watch("node", {immediate: true})
-  updateNode() {
-    if (!this.node.id) {
-      this.$set(this, "itemData", {});
-      return;
-    }
+  mounted() {
+    // if (!this.node.id) {
+    //   this.$set(this, "itemData", {});
+    //   return;
+    // }
     if (this.checkLoop(this.$parent)) return;
+    //
 
     if (this.unsubscribe) this.unsubscribe();
     this.unsubscribe = Singleton.itemsRef
       .doc(this.node.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-        console.log(!snap.exists);
+        // console.log(!snap.exists);
         if (!snap.exists) {
           if (this.node.fixedModuleId) {
             MoUtils.updateItem(
@@ -177,6 +185,7 @@ export default class ItemListItemComp extends Vue {
   }
 
   deleteModule() {
+    if (!confirm(`削除します`)) return
     let parent = <ItemListItemComp>this.$parent.$parent;
     let value: any = parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id);
     let update = {value: value};
@@ -230,6 +239,10 @@ export default class ItemListItemComp extends Vue {
 
   &__delete {
     min-width: auto;
+  }
+
+  &--reference {
+    pointer-events: none;
   }
 }
 </style>

@@ -1,28 +1,15 @@
 <template lang="pug">
 header.global-header(:aria-expanded="isMenuOpen")
-  a.company-name(href="/")
-    span LOGO
+  .container-fluid
+    .global-header__body
+      a.company-name(href="/")
+        img(src="/img/logo_black.png" width="530px" height="200px" alt="NPO法人 青春基地")
 
-  .global-header__menu
-    button.global-header__menu__btn.isSp(type="button" @click="()=>isMenuOpen=!isMenuOpen")
-      span.global-header__menu__btn__line
-      span.global-header__menu__btn__label
+      button.global-header__toggle(type="button" @click="()=>isMenuOpen=!isMenuOpen" aria-label="Menu")
+        span.global-header__toggle__line
+        span.global-header__toggle__label
 
-    ModuleLoader(:node="{id:'_global-header'}" :isRoot="true")
-
-    //ul.global-header__menu__body
-      li.global-header__menu__item
-        a(href="/about")
-          span About
-      li.global-header__menu__item
-        a(href="/news")
-          span  News
-      li.global-header__menu__item
-        a(href="/qa")
-          span  Q&A
-      li.global-header__menu__item
-        a(href="/contact")
-          span  Contact
+    ModuleLoader(:node="{id:'--no-export%2Fglobal_header'}")
 
 </template>
 
@@ -43,9 +30,6 @@ export default class GlobalHeaderComp extends Vue {
 
 <style lang="scss">
 .global-header {
-  $pcH: 4.5rem;
-  $spH: 4rem;
-
   z-index: 2;
   position: fixed;
   top: 0;
@@ -54,186 +38,185 @@ export default class GlobalHeaderComp extends Vue {
   width: 100%;
   max-width: 100vw;
   background: $color-white;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  //box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  border-bottom: 1px solid $color-black;
+  overflow: hidden;
+
   @include mediaquery-not-sm {
-    display: flex;
-    align-items: center;
-    height: $pcH;
+    height: $header-height;
   }
   @include mediaquery-sm {
-    min-height: $spH;
-    max-height: 100%;
-    overflow: hidden;
+    height: $header-height-sp;
+  }
+
+  &__body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include mediaquery-not-sm {
+      height: $header-height;
+    }
+    @include mediaquery-sm {
+      height: $header-height-sp;
+    }
   }
 
   //company-name
   .company-name {
-    text-decoration: none;
     @include mediaquery-not-sm {
-      margin-left: 1.5rem;
-      margin-right: auto;
-      font-size: 40px;
+      height: 40px;
     }
     @include mediaquery-sm {
-      height: $spH;
-      padding-left: 1rem;
-      display: flex;
-      align-items: center;
-      position: absolute;
-      top: 0;
-      font-size: 32px;
+      height: 30px;
+    }
+
+    img {
+      height: 100%;
+      width: auto;
     }
   }
 
-  &__menu {
+  //
+  &__toggle {
+    position: relative;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    width: 1em;
+    margin-right: -0.25em;
+
     @include mediaquery-not-sm {
-      height: 100%;
+      font-size: $header-height;
     }
 
-    &__btn {
+    @include mediaquery-sm {
+      font-size: $header-height-sp;
+    }
+
+    &__line, &:before, &:after {
+      content: "";
+      display: block;
+      width: 0.5em;
+      height: 2px;
+      background-color: $color-black;
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 4.5rem;
-      height: $spH;
-      background-color: $color-white;
-      border: none;
-
-      &__line, &:before, &:after {
-        display: block;
-        width: 20px;
-        height: 2px;
-        background-color: $color-black;
-        position: absolute;
-        top: (26px - 1px);
-        left: 26px;
-        border-radius: 1px;
-      }
-
-      &:before {
-        content: "";
-        transform: translateY(-8px);
-      }
-
-      &:after {
-        content: "";
-        transform: translateY(8px);
-      }
-
-      &__label {
-        width: 100%;
-        font-size: 10px;
-        position: absolute;
-        left: 0;
-        bottom: 10px;
-        line-height: 1;
-      }
+      top: calc(0.5em - 1px);
+      left: 0.25em;
+      border-radius: 1px;
     }
+  }
 
-    &__body {
-      @include mediaquery-not-sm {
-        margin-left: auto;
-        margin-right: 2rem;
-        height: 100%;
-        display: flex;
-        margin-bottom: 0;
+
+  &:not([aria-expanded=true]) {
+    transition: height $tick $easeOut;
+
+    .global-header {
+      &__body {
       }
-      @include mediaquery-sm {
-        width: 100%;
-        padding-top: ($spH + 1rem);
-        padding-bottom: 3rem;
-      }
-    }
 
-    &__item {
-      @include mediaquery-not-sm {
-        a {
-          margin-left: 0.9rem;
-          margin-right: 0.9rem;
-          display: inline-flex;
-          height: 100%;
-          align-items: center;
-          text-decoration: none;
-          position: relative;
-          color: $color-gray-700;
+      &__toggle {
+        &__line, &:before, &:after {
+          transition: all $tick $easeInOut;
+        }
 
-          &:hover {
-            color: $color-blue;
-          }
+        &:before {
+          transform: translateY(-0.14em);
+        }
+
+        &:after {
+          transform: translateY(0.14em);
         }
       }
-      @include mediaquery-sm {
-        margin-top: 1rem;
-        text-align: center;
-        a {
-          text-decoration: none;
-          color: $color-gray-700;
-          display: inline-block;
-          padding: 0.5rem 1rem;
-        }
+
+      &__menu {
       }
     }
   }
 
-  @include mediaquery-sm {
-    //sp menu closed
-    &:not([aria-expanded=true]) {
-      height: 0;
-      transition: height $tick $easeOut;
+  //sp menu opend
+  &[aria-expanded=true] {
+    height: 100vh;
+    transition: height $tick $easeInOut;
 
-      .global-header {
-        &__menu {
-          &__btn {
-            &__line, &:before, &:after {
-              transition: all $tick $easeInOut;
-            }
+    .global-header {
 
-            &:before {
-              transform: translateY(-8px);
-            }
+      &__toggle {
+        &__line, &:before, &:after {
+          transition: all $tick $easeInOut;
+        }
 
-            &:after {
-              transform: translateY(8px);
-            }
+        &__line {
+          transform: scaleX(0);
+        }
 
-            &__label:before {
-              content: "メニュー";
-            }
-          }
+        &:before {
+          transform: rotate(-45deg);
+        }
+
+        &:after {
+          transform: rotate(45deg);
         }
       }
     }
 
-    //sp menu opend
-    &[aria-expanded=true] {
-      height: 100%;
-      transition: height $tick $easeInOut;
+    .site-map {
+      pointer-events: inherit;
+    }
+  }
+}
 
-      .global-header {
-        &__menu {
-          &__btn {
-            &__line, &:before, &:after {
-              transition: all $tick $easeInOut;
-            }
+//site-map
+.site-map {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  height: calc(100vh - #{$header-height});
+  pointer-events: none;
 
-            &__line {
-              transform: scaleX(0);
-            }
+  &__body {
+    display: inline-flex;
+    flex-direction: column;
+    @include mediaquery-not-sm {
+    }
 
-            &:before {
-              transform: rotate(-45deg);
-            }
+    @include mediaquery-sm {
+    }
 
-            &:after {
-              transform: rotate(45deg);
-            }
+    .button {
+      display: block;
+      text-decoration: none;
+      font-size: 2vh;
 
-            &__label:before {
-              content: "閉じる";
-            }
-          }
-        }
-      }
+      //font-size: 22px;
+      //border: none;
+      //padding-top: 0.5rem;
+      //padding-bottom: 0.5rem;
+      //margin: 0;
+      //border-radius: 0;
+    }
+  }
+
+  &__1st {
+    margin-top: 0;
+    margin-bottom: 2vh;
+
+    > .button {
+      font-weight: bolder;
+      font-size: 2.4vh;
+    }
+  }
+
+  &__2nd {
+    //border-top: 2px solid $color-border;
+    margin-top: 0;
+    padding-left: 1rem;
+    //padding-top: 0.5vh;
+
+    > .button {
+      font-size: 2.4vh;
     }
   }
 }

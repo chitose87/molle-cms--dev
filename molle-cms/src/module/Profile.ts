@@ -41,6 +41,8 @@ export class Profile extends Vue {
     let flag = false;
     switch (after!.type) {
       case "children":
+        console.log("----------")
+        console.log(after!.value)
         if (!Array.isArray(after!.value)) {
           flag = confirm(`error:valueに異常がありました。\nvalueをリセットしますか？\nitemId:${this.itemId}/${after!.value}`);
           after!.value = [];

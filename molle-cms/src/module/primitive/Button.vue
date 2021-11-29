@@ -1,17 +1,18 @@
 <template lang="pug">
-a.module.button(
+a.button(
   :id="itemData.tagId",
   :class="getClass(itemData)",
   :style="getStyle(itemData)",
   :href="itemData.option.href",
+  v-scroll-to="itemData.option.href.substr(0,1)=='#'?itemData.option.href:false"
   :target="itemData.option.target"
 )
-  span(v-html="itemData.value")
+  span(v-html="$getText(itemData.value)")
 </template>
 
 <script lang="ts">
 import {Component, Prop} from "nuxt-property-decorator";
-import {Module} from "~/molle-cms/src/module/Module";
+import {Module} from "../Module";
 
 @Component({
   components: {},
@@ -27,130 +28,172 @@ export default class Button extends Module {
 .button {
   cursor: pointer;
   position: relative;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-  background-color: transparent;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-  max-width: 100%;
-  border: solid 1px $color-black;
-  border-radius: 10px;
   color: $color-text-black;
-
-  &:hover {
-    color: $color-text-white;
-    background: $color-black;
-  }
+  display: inline-block;
+  max-width: 100%;
+  transition: all $tick $easeIn;
 
   //default
   @include mediaquery-not-sm {
-    font-size: 18px;
-    min-width: 12rem;
-    padding: 1rem 1rem;
   }
   @include mediaquery-sm {
-    font-size: 16px;
-    min-width: 6rem;
-    padding: 1rem 1rem;
+  }
+
+  &:after {
+    @include icon-right-open;
+    display: inline-block;
+    margin-left: 0.5em;
+    transition: transform $tick/2 $easeIn;
+  }
+
+  &:hover {
+    color: $color-link;
+    text-decoration: underline;
+    transition-timing-function: $easeOut;
+
+    &:after {
+      transform: translateX(4px);
+      transition-timing-function: $easeOut;
+    }
+  }
+
+  // color
+  &.c-white {
+    color: $color-text-white;
+
+    &:hover {
+      color: $color-link;
+    }
+  }
+
+  &.-primary, &.-secondary {
+    text-decoration: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: transparent;
+    line-height: 1.5;
+    border: solid 2px $color-text-black;
+    color: $color-text-black;
+    padding: 0.5rem 2rem;
+    text-decoration: none;
+
+    font-weight: 500;
+    font-size: 14px;
+
+    @include mediaquery-not-sm {
+      letter-spacing: 2.5px;
+    }
+    @include mediaquery-sm {
+      letter-spacing: 1px;
+    }
+
+    //&:hover {
+    //  transition-timing-function: $easeOut;
+    //  text-decoration: none;
+    //}
+
+    span {
+    }
+
+    &:after {
+      display: inline-block;
+      line-height: 1;
+    }
+
+    // スモール
+    &.-sm {
+      @include mediaquery-not-sm {
+        min-width: 6rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
+      @include mediaquery-sm {
+        min-width: 4rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
+
+      &:before {
+        border-radius: 3px;
+      }
+    }
+
+    // ラージ
+    &.-lg {
+      @include mediaquery-not-sm {
+        min-width: 23rem;
+        min-height: 50px;
+        //padding: 1.5rem 1rem;
+      }
+      @include mediaquery-sm {
+        min-width: 15rem;
+        min-height: 50px;
+        //padding: 1rem 1rem;
+      }
+
+      &:before {
+        border-radius: 5px;
+      }
+    }
+  }
+
+  //block
+  &.block {
+    display: flex;
+  }
+
+  // color
+  &.-primary {
+    background: $color-white;
+    border-radius: 2px;
+
+    &:hover {
+      border-color: $color-black;
+      background: $color-black;
+      color: $color-text-white;
+    }
+  }
+
+  &.-secondary {
+    color: $color-text-white;
+    background: $color-black;
+    border-radius: 20px;
+
+    &:hover {
+      border-color: $color-black;
+      background: $color-white;
+      color: $color-text-black;
+    }
+
+    //
+    &.-lg {
+      @include mediaquery-not-sm {
+        border-radius: 25px;
+      }
+      @include mediaquery-sm {
+        border-radius: 25px;
+      }
+    }
   }
 
   // theme
   &.-sm {
     @include mediaquery-not-sm {
-      font-size: 16px;
-      min-width: 6rem;
-      padding: 0.5rem 0.5rem;
+      font-size: 14px;
     }
     @include mediaquery-sm {
-      font-size: 18px;
-      min-width: 4rem;
-      padding: 0.5rem 0.5rem;
-    }
-
-    &:before {
-      border-radius: 3px;
+      font-size: 14px;
     }
   }
 
   &.-lg {
     @include mediaquery-not-sm {
-      font-size: 20px;
-      width: 30rem;
-      padding: 1.5rem 1rem;
+      font-size: 17px;
     }
     @include mediaquery-sm {
-      font-size: 18px;
-      width: 22rem;
-      padding: 1rem 1rem;
-    }
-
-    &:before {
-      border-radius: 5px;
-    }
-  }
-
-  // color
-  &.-primary {
-    color: $color-blue;
-    border: solid 1px $color-blue;
-
-    &:hover {
-      background: $color-blue;
-      color: $color-text-white;
-    }
-
-    > span:after {
-      @include icon-right-open;
-      display: inline-block;
-      margin-left: 0.25em;
-      line-height: 1;
-    }
-  }
-
-  &.-secondary {
-    color: $color-gray-600;
-    border: solid 1px $color-gray-600;
-
-    &:hover {
-      background: $color-gray-600;
-      color: $color-text-white;
-    }
-
-    > span:after {
-      @include icon-right-open;
-      display: inline-block;
-      margin-left: 0.25em;
-      line-height: 1;
-    }
-  }
-
-  &.-link {
-    color: $color-text;
-    min-width: auto;
-    padding: 0;
-    font-size: inherit;
-    display: inline-flex;
-    align-items: center;
-    border: none;
-    background: none;
-
-    &.-sm {
-      @include mediaquery-not-sm {
-        font-size: 12px;
-      }
-      @include mediaquery-sm {
-        font-size: 12px;
-      }
-    }
-
-    &.-lg {
-      @include mediaquery-not-sm {
-        font-size: 24px;
-      }
-      @include mediaquery-sm {
-        font-size: 24px;
-      }
+      font-size: 17px;
     }
   }
 
@@ -168,11 +211,8 @@ export default class Button extends Module {
   }
 
   &[target="_blank"] {
-    > span:after {
+    &:after {
       @include icon-blank;
-      display: inline-block;
-      margin-left: 0.25em;
-      line-height: 1;
     }
   }
 }
