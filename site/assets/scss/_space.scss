@@ -1,0 +1,27 @@
+@mixin hoge($rem,$joint,$arr...) {
+  @each $v in $arr {
+    .m#{nth($v,1)}#{$joint}-#{$rem - 1}hr[class*="m#{nth($v,1)}#{$joint}-#{$rem - 1}hr"] {
+      margin#{nth($v,2)}: #{$rem - 0.5}rem;
+    }
+    .m#{nth($v,1)}#{$joint}-#{$rem}r[class*="m#{nth($v,1)}#{$joint}-#{$rem}r"] {
+      margin#{nth($v,2)}: #{$rem}rem;
+    }
+    //
+    .p#{nth($v,1)}#{$joint}-#{$rem - 1}hr[class*="p#{nth($v,1)}#{$joint}-#{$rem - 1}hr"] {
+      padding#{nth($v,2)}: #{$rem - 0.5}rem;
+    }
+    .p#{nth($v,1)}#{$joint}-#{$rem}r[class*="p#{nth($v,1)}#{$joint}-#{$rem}r"] {
+      padding#{nth($v,2)}: #{$rem}rem;
+    }
+  }
+}
+
+@for $rem from 1 through 10 {
+  @include hoge($rem, "", ("", ""), ("t", "-top"), ("r", "-right"), ("b", "-bottom"), ("l", "-left"));
+}
+
+@include mediaquery-sm {
+  @for $rem from 1 through 10 {
+    @include hoge($rem, "-sm", ("", ""), ("t", "-top"), ("r", "-right"), ("b", "-bottom"), ("l", "-left"));
+  }
+}

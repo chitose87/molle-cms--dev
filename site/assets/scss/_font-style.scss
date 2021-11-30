@@ -1,0 +1,100 @@
+html, :root {
+  color: $color-text;
+  box-sizing: border-box;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "palt";
+  -webkit-font-feature-settings: "palt";
+
+  font-size: $rem;
+  //line-height: 1.75;
+  line-height: 1.8;
+  letter-spacing: 0.1em;
+  //font-family:  "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo,'Helvetica Neue', Arial, sans-serif;
+  font-family: YakuHanJP_Noto, 'Noto Sans JP', sans-serif;
+}
+
+em {
+  //color: $color-orange;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.15em;
+}
+
+h1, .h1 {
+  //font-weight: 500;//def
+  //margin-top: 4rem;
+  //margin-bottom: 3.5rem;
+  font-size: 58px;
+  //line-height: 1.4;
+}
+
+h2, .h2 {
+  margin-top: 3.5rem;
+  margin-bottom: 3rem;
+  font-size: 45px;
+  //font-weight: 500;//def
+  letter-spacing: 0.2em;
+  //line-height: 1.4;
+}
+
+h3, .h3 {
+  //letter-spacing: 0.1em;
+  //font-weight: 500;//def
+  //line-height: 1.4;
+  margin-top: 3rem;
+  margin-bottom: 2.5rem;
+  @include mediaquery-not-sm {
+    font-size: 34px;
+    letter-spacing: 6px;
+  }
+  @include mediaquery-sm {
+    font-size: 26px;
+    letter-spacing: 2px;
+  }
+}
+
+h4, .h4 {
+  margin-top: 2.5rem;
+  margin-bottom: 2rem;
+  //font-weight: 500;//def
+  font-size: 28px;
+  @include mediaquery-sm {
+    font-size: 24px;
+  }
+}
+
+h5, .h5 {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 22px;
+  //font-weight: 500;//def
+  @include mediaquery-sm {
+    font-size: 20px;
+  }
+}
+
+h6, .h6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-size: $rem;
+}
+
+p {
+  //font-size: $rem;
+  //letter-spacing: 0.018em;
+  //line-height: 1.4;
+  //font-weight: 500;
+}
+
+.caption {
+  color: $color-gray-700;
+  font-size: 14px;
+  //line-height: 1.5;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}

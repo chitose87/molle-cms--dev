@@ -1,0 +1,19 @@
+{
+  "apiKey": "AIzaSyD-wE7hMTTk8FtCtyrU2SPi496m_TP7cT4",
+  "authDomain": "nct-comthink.firebaseapp.com",
+  "projectId": "nct-comthink",
+  "storageBucket": "nct-comthink.appspot.com",
+  "messagingSenderId": "312022185090",
+  "appId": "1:312022185090:web:31d5f00f00d5631dd7309b",
+  "measurementId": "G-3M15GS6HC2",
+  "siteName": "日本コムシンク株式会社",
+  "title": "日本コムシンク株式会社",
+  "description": "「日本コムシンク」システム化におけるコンサルティング。企業向け業務アプリケーションの開発。組込制御システムの開発。システム運用・保守。",
+  "keywords": "関西,関東,大阪,東京,システム開発,ソフトウェア開発,設計,構築,運用,コンサルティング,データ入力,データ処理会社,中途採用,新卒採用,個人事業主,パートナー募集,ビジネスパートナー募集,保険,金融,クレジットカード,業務,制御,COBOL,Java,日本コムシンク株式会社,ITコンサルタント",
+  "domain": "https://www.comthink.co.jp/",
+  "molleProjectID": "corporate",
+  "molleBrunch": "v1",
+  "developerId": "chitose87+gh@gmail.com",
+  "breakPoint": "768",
+  "gutter": "16"
+}

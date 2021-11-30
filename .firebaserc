@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "nct-comthink"
+  },
+  "targets": {
+    "nct-comthink": {
+      "hosting": {
+        "site-static": [
+          "nct-comthink"
+        ],
+        "site-cms": [
+          "nct-comthink-cms"
+        ]
+      }
+    }
+  }
+}
