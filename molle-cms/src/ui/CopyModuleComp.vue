@@ -127,6 +127,10 @@ export default class CopyModuleComp extends Vue {
     MoUtils.ls.copyItem.parentId = "";
     MoUtils.lsSave();
 
+    // 切り取ったモジュールが移動先として選択されていた場合（処理不要）
+    let targetId = (this.beforeNode! || this.afterNode!).id;
+    if (copyItem.id == targetId) return;
+
     let same = this.parentNode.id == copyItem.parentId;
 
     Promise.all([
