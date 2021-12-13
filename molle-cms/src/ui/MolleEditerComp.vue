@@ -148,7 +148,14 @@ export default class MolleEditerComp extends Vue {
       if (!this.$route.query.edit) return;
 
       //set focus
+      console.log("this.$route.query.focus",this.$route.query.focus)
+      console.log("node",this.$vnode)
+      if(e.ctrlKey || e.metaKey) return;
+      // console.log("判定のところ e.ctrlKey",e.ctrlKey)
+      // console.log("判定のところ e.metaKey",e.metaKey)
+
       for (let i = 0; i < e.path.length; i++) {
+        // console.log("i", i)
         let v = e.path[i].__vue__;
         if (v && v instanceof ModuleLoaderCms) {
           let loader: ModuleLoaderCms = v;
@@ -164,15 +171,20 @@ export default class MolleEditerComp extends Vue {
           }
           //
           let q = {...this.$route.query};
+          // console.log("qは", q)
           switch (e.type) {
             case "mouseover":
               q.hover = loader.$props.node.id;
               break;
             case "click":
+              // console.log("shiftキー押しながらクリックしたか？", e.shiftKey)
+              // console.log("q.focus A地点", q.focus)
+              // console.log("if通過", e.shiftKey)
               q.focus = loader.$props.node.id;
               e.preventDefault();
               break;
           }
+          // console.log("q.focus B地点", q.focus)
           this.$router.replace({query: q}).catch(err => {
           });
           break;
@@ -298,6 +310,7 @@ export default class MolleEditerComp extends Vue {
    *
    */
   editerToggle() {
+    console.log("editerToggleスタート")
     let q: any = {query: {...this.$route.query}};
     if (this.$route.query.edit) {
       delete q.query.edit;

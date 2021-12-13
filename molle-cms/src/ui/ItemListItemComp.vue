@@ -47,6 +47,13 @@
         :icon="expanded?'chevron-up':'chevron-down'"
       )
 
+    //複数選択
+    input.form-control.form-control-sm(
+      v-model="checkboxId",
+      type="checkbox",
+      @change="() => $emit('change')"
+    )
+
     //削除
       v-if="!$parent.notDeleted"
     button.btn.btn-sm.btn-danger.item-list-item-comp__delete(
@@ -97,6 +104,7 @@ import {IItemData, INodeObject, ILogsData} from "../interface";
 import firebase from "firebase";
 import draggable from "vuedraggable";
 import {MoUtils} from "../MoUtils";
+import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
 
 @Component({
   components: {draggable},
@@ -110,6 +118,23 @@ export default class ItemListItemComp extends Vue {
   private unsubscribe!: () => void;
   maxHistory: number = 100;
   expanded = true;
+  private checkboxId: boolean = false;
+
+  @Watch("checkboxId", {immediate: true})
+  onCheckbox(newer: any, older?: any) {
+    console.log("onChange動いた");
+    console.log("this.checkboxId = ", this.checkboxId)
+    console.log("this.itemData.type", this.itemData.type)
+    console.log("node.id", this.node)
+    console.log("focus", this.$route.query.focus)
+    let parent: any = ModuleLoaderCms.modules[this.node.id].$parent;
+    let parentId: any = parent.$parent.node;
+    console.log("parentId",parentId)
+    console.log("parentId.id",parentId.id)
+    // let parentNode <INodeObject>= parent.$parent.node
+    let parentNode: INodeObject = parent.$parent.node;
+    console.log("parent", parentNode)
+  }
 
   mounted() {
     // if (!this.node.id) {
