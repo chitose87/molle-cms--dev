@@ -29,35 +29,8 @@
       .molle-guide__body.caption
         p 余白
 
-  details
+  //details
     summary 削除予定
-    .form-inline
-      //section
-      label
-        span.mr-1 {{$words.section}}:
-        input.form-control.form-control-sm(v-model="itemData.class.section" type="checkbox" @change="()=>$emit('change')")
-
-      //container
-      label
-        span.mr-1 {{$words.container}}:
-        input.form-control.form-control-sm(v-model="itemData.class.container" type="checkbox" @change="()=>$emit('change')")
-
-      //container-fluid
-      label
-        span.mr-1 {{$words.container}}-{{$words.fluid}}:
-        input.form-control.form-control-sm(v-model="itemData.class['container-fluid']" type="checkbox" @change="()=>$emit('change')")
-
-      //Border
-      label
-        span.mr-1 {{$words.border}}:
-        input.form-control.form-control-sm(v-model="itemData.class.border" type="checkbox" @change="()=>$emit('change')")
-      label
-        span.mr-1 padding
-        select.form-control.form-control-sm(
-          v-model="itemData.class.padding"
-          @change="()=>$emit('change')"
-        )
-          option(v-for='item in ["", "0", "sm", "md", "lg"]' :value="item" v-html="item")
   //span.mr-3
     label Free Area
       textarea(v-model="datacss")

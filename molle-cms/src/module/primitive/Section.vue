@@ -184,7 +184,7 @@ export default class Section extends Module {
 
   //color
   &.c-secondary {
-    background-color: $color-key2;
+    background-color: $color-gray-100;
   }
 
   //theme

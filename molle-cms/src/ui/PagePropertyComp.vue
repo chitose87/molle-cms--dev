@@ -55,10 +55,10 @@
 
       hr
       //type
-      label.form-inline
-        span.mr-1 {{$words.type}}:
-        select.form-control.form-control-sm(v-model="pageData.type" @change="update")
-          option(v-for="i in ['', 'all']" :val="i" v-html="i")
+      //label.form-inline
+      //  span.mr-1 Type:
+      //  select.form-control.form-control-sm(v-model="pageData.type" @change="update")
+      //    option(v-for="i in ['', 'all']" :val="i" v-html="i")
 
       //ページテーマ
       div
