@@ -123,8 +123,13 @@ export default class MolleEditerComp extends Vue {
         .get()
         .then((snap: firebase.firestore.DocumentSnapshot) => {
           if (!snap.exists) {
-            console.log("no page data", this.$route.path, id);
-            return;
+            if (confirm(`このURLでページを作成しますか？`)) {
+              this.addPage(id);
+            } else {
+              console.log("no page data", this.$route.path, id);
+              window.history.go(-1);
+              return;
+            }
           }
           // console.log(id, snap.data());
           this.$set(this.vobj, "pageId", id);
@@ -343,6 +348,46 @@ export default class MolleEditerComp extends Vue {
 
   beforeDestroy() {
     this.unsubscribe && this.unsubscribe();
+  }
+
+  private addPage(pageId: any) {
+    let path = decodeURIComponent(pageId);
+    //newsページを追加する場合、パスがyyyy-mm-dd形式になっているかチェック
+    let newsDate = "";
+    if (!path.indexOf("news/")) {
+      newsDate = path.substr(5);
+      let ymd = {
+        y: Number(newsDate.substr(0, 4)),
+        separation1: newsDate.substr(4, 1),
+        m: Number(newsDate.substr(5, 2)),
+        separation2: newsDate.substr(7, 1),
+        d: Number(newsDate.substr(8, 2)),
+      }
+      if (newsDate.length !== 10
+        || isNaN(ymd.y + ymd.m + ymd.d)
+        || ymd.separation1 + ymd.separation2 !== "--") {
+        alert("newsページは、「news/yyyy-mm-dd」の形式でURLを指定してください。\n\n例：news/2021-01-01");
+        return;
+      }
+      //日付の妥当性チェック
+      let date = new Date(ymd.y, (ymd.m - 1), ymd.d);
+      if (date.getFullYear() != ymd.y || date.getMonth() + 1 != ymd.m || date.getDate() != ymd.d) {
+        alert("newsページは、実在する日付でURLを指定してください。");
+        return;
+      }
+    }
+    //pages作成
+    Singleton.pagesRef.doc(pageId).set({
+      path: path,
+      itemId: pageId,
+      date: newsDate,
+      noExport: !path.indexOf("--no-export/"),
+    });
+    //items作成
+    MoUtils.updateItem(pageId, this.$molleModules.Box.def, true)
+      .then(() => {
+        window.open("/" + path + "?edit=true", "_self");
+      });
   }
 }
 </script>
