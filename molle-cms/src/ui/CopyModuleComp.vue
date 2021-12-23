@@ -3,7 +3,7 @@
   .text-right
     span.small.mr-2 選択中のモジュールを
     button.btn.btn-sm.btn-outline-info(type="button", @click="onClone") {{$words.copy}}
-    div(v-if="copyItem.key === 'KeyC' || copyItem.key === 'KeyX'")
+    div(v-if="copyItem.key === 'KeyC' || (copyItem.key === 'KeyX' && !enabled)")
       hr
       span.small.mr-2 {{copyItem.id}}を
       button.btn.btn-sm.btn-outline-info(
@@ -21,6 +21,7 @@ import {Singleton} from "../Singleton";
 import {IItemData, ILogsData, INodeObject} from "../interface";
 import {MoUtils} from "../MoUtils";
 import BoxProfile from "../module/primitive/BoxProfile.vue";
+import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
 
 @Component({
   components: {},
@@ -31,6 +32,23 @@ export default class CopyModuleComp extends Vue {
   @Prop() afterNode?: INodeObject;
 
   private copyItem = MoUtils.ls.copyItem;
+  private enabled: boolean = false;
+
+  mounted() {
+    // 切り取り元モジュールのbefore/afterが選択されている場合、true
+    this.enabled = this.copyItem.id == (this.beforeNode! || this.afterNode!).id;
+    if (this.enabled) return;
+
+    // 切り取り元モジュール配下のbefore/afterが選択されている場合、true
+    let loop = (id: string) => {
+      let parent: any = ModuleLoaderCms.modules[id].$parent;
+      this.enabled = this.copyItem.id == parent.$parent.node.id;
+      if(this.enabled || parent.$parent.$parent.pageData) return;  // trueまたは次の親がなくなったらloop終了
+      // 次の親をチェック
+      loop(parent.$parent.node.id)
+    };
+    loop((this.beforeNode! || this.afterNode!).id)
+  }
 
   onClone() {
     console.log("onClone");
@@ -126,9 +144,6 @@ export default class CopyModuleComp extends Vue {
     MoUtils.ls.copyItem.key = "";
     MoUtils.ls.copyItem.parentId = "";
     MoUtils.lsSave();
-
-    // 移動先が切り取ったモジュールのbefore/afterだった場合（処理不要）
-    if (copyItem.id == (this.beforeNode! || this.afterNode!).id) return;
 
     let same = this.parentNode.id == copyItem.parentId;
 
