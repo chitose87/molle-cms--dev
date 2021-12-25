@@ -120,16 +120,15 @@ export default class MolleEditerComp extends Vue {
     let id = Singleton.getPageIdByPath(this.$route);
     if (id) {
       Singleton.pagesRef.doc(id)
-        .get()
-        .then((snap: firebase.firestore.DocumentSnapshot) => {
+        .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
           if (!snap.exists) {
-            if (confirm(`このURLでページを作成しますか？`)) {
+            if (confirm(`${id}:ページを作成しますか？`)) {
               this.addPage(id);
             } else {
-              console.log("no page data", this.$route.path, id);
+              // console.log("no page data", this.$route.path, id);
               window.history.go(-1);
-              return;
             }
+            return;
           }
           // console.log(id, snap.data());
           this.$set(this.vobj, "pageId", id);
@@ -210,16 +209,16 @@ export default class MolleEditerComp extends Vue {
             break;
 
           case "KeyC":
-            if (!this.$route.query.focus) break
+            if (!this.$route.query.focus) break;
             MoUtils.ls.copyItem.id = <string>this.$route.query.focus;
             MoUtils.ls.copyItem.key = e.code;
             MoUtils.ls.copyItem.parentId = "";
             MoUtils.lsSave();
-            console.log(MoUtils.ls.copyItem)
+            console.log(MoUtils.ls.copyItem);
             break;
 
           case "KeyX":
-            if (!this.$route.query.focus) break
+            if (!this.$route.query.focus) break;
             MoUtils.ls.copyItem.id = "";
             MoUtils.ls.copyItem.key = "";
             MoUtils.ls.copyItem.parentId = "";
@@ -227,7 +226,7 @@ export default class MolleEditerComp extends Vue {
             try {
               let parent: any = ModuleLoaderCms.modules[id].$parent;
               if (parent.itemData.type == "group") {
-                alert("カットできません")
+                alert("カットできません");
                 break;
               }
               MoUtils.ls.copyItem.id = id;
@@ -237,7 +236,7 @@ export default class MolleEditerComp extends Vue {
               // console.log(e)
             }
             MoUtils.lsSave();
-            console.log(MoUtils.ls.copyItem)
+            console.log(MoUtils.ls.copyItem);
             break;
         }
       }
@@ -352,42 +351,16 @@ export default class MolleEditerComp extends Vue {
 
   private addPage(pageId: any) {
     let path = decodeURIComponent(pageId);
-    //newsページを追加する場合、パスがyyyy-mm-dd形式になっているかチェック
-    let newsDate = "";
-    if (!path.indexOf("news/")) {
-      newsDate = path.substr(5);
-      let ymd = {
-        y: Number(newsDate.substr(0, 4)),
-        separation1: newsDate.substr(4, 1),
-        m: Number(newsDate.substr(5, 2)),
-        separation2: newsDate.substr(7, 1),
-        d: Number(newsDate.substr(8, 2)),
-      }
-      if (newsDate.length !== 10
-        || isNaN(ymd.y + ymd.m + ymd.d)
-        || ymd.separation1 + ymd.separation2 !== "--") {
-        alert("newsページは、「news/yyyy-mm-dd」の形式でURLを指定してください。\n\n例：news/2021-01-01");
-        return;
-      }
-      //日付の妥当性チェック
-      let date = new Date(ymd.y, (ymd.m - 1), ymd.d);
-      if (date.getFullYear() != ymd.y || date.getMonth() + 1 != ymd.m || date.getDate() != ymd.d) {
-        alert("newsページは、実在する日付でURLを指定してください。");
-        return;
-      }
-    }
+    // let batch = firebase.firestore().batch();
     //pages作成
     Singleton.pagesRef.doc(pageId).set({
       path: path,
       itemId: pageId,
-      date: newsDate,
+      // date:
       noExport: !path.indexOf("--no-export/"),
     });
     //items作成
-    MoUtils.updateItem(pageId, this.$molleModules.Box.def, true)
-      .then(() => {
-        window.open("/" + path + "?edit=true", "_self");
-      });
+    MoUtils.updateItem(pageId, this.$molleModules.Box.def, true);
   }
 }
 </script>
