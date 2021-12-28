@@ -43,11 +43,11 @@ export default class CopyModuleComp extends Vue {
     let loop = (id: string) => {
       let parent: any = ModuleLoaderCms.modules[id].$parent;
       this.enabled = this.copyItem.id == parent.$parent.node.id;
-      if(this.enabled || parent.$parent.$parent.pageData) return;  // trueまたは次の親がなくなったらloop終了
+      if (this.enabled || parent.$parent.$parent.pageData) return;  // trueまたは次の親がなくなったらloop終了
       // 次の親をチェック
-      loop(parent.$parent.node.id)
+      loop(parent.$parent.node.id);
     };
-    loop((this.beforeNode! || this.afterNode!).id)
+    loop((this.beforeNode! || this.afterNode!).id);
   }
 
   onClone() {
@@ -72,8 +72,8 @@ export default class CopyModuleComp extends Vue {
    * クローン(idが追加される)
    * */
   private clone(targetId: string) {
-    let createNode = {id: Singleton.itemsRef.doc().id}
-    let items: { [key: string]: IItemData } = {};
+    let createNode = {id: Singleton.itemsRef.doc().id};
+    let items: {[key: string]: IItemData} = {};
 
     //targetIdからの全データを取得格納用ループ
     let loop = (id: string, nid: string, first = false) => {
@@ -110,7 +110,7 @@ export default class CopyModuleComp extends Vue {
           return <IItemData>snap.data();
         }),
       //ターゲットの取得＆クローンデータ
-      loop(targetId, createNode.id, true)
+      loop(targetId, createNode.id, true),
     ]).then(([parentItemData]) => {
       // バリデーション
       if (!this.validation(items[createNode.id], <IItemData>parentItemData)) return;
@@ -129,10 +129,10 @@ export default class CopyModuleComp extends Vue {
       // batchスタート
       batch.commit()
         .then(() => {
-          console.log("--end")
+          console.log("--end");
         });
       //todo log & history
-    })
+    });
   }
 
   /**
@@ -173,11 +173,11 @@ export default class CopyModuleComp extends Vue {
           .then((snap: firebase.firestore.DocumentSnapshot) => {
             if (!snap.exists) return;
             let sourceParentItemData = <IItemData>snap.data();
-            console.log(sourceParentItemData, sourceParentItemData.value)
+            console.log(sourceParentItemData, sourceParentItemData.value);
             MoUtils.updateItem(copyItem.parentId!,
-              {value: sourceParentItemData.value.filter((via: INodeObject) => via.id != copyItem.id)}
+              {value: sourceParentItemData.value.filter((via: INodeObject) => via.id != copyItem.id)},
             );
-          })
+          });
       }
       //todo history
     });
@@ -200,7 +200,7 @@ export default class CopyModuleComp extends Vue {
         return false;
       }
     }
-    return true
+    return true;
   }
 
   /**
