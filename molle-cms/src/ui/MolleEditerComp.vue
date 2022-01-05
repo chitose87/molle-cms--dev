@@ -67,7 +67,7 @@ import PagePropertyComp from "./PagePropertyComp.vue";
 import ModulePropertyComp from "./ModulePropertyComp.vue";
 import ItemListViewComp from "./ItemListViewComp.vue";
 import EditorOptionComp from "./EditorOptionComp.vue";
-import {INodeObject, IPageData} from "../interface";
+import {INodeObject, IPageData, IItemData} from "../interface";
 import {Singleton} from "../Singleton";
 import firebase from "firebase";
 import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
@@ -212,7 +212,6 @@ export default class MolleEditerComp extends Vue {
             if (!this.$route.query.focus) break;
             MoUtils.ls.copyItem.id = <string>this.$route.query.focus;
             MoUtils.ls.copyItem.key = e.code;
-            MoUtils.ls.copyItem.parentId = "";
             MoUtils.lsSave();
             console.log(MoUtils.ls.copyItem);
             break;
@@ -221,7 +220,6 @@ export default class MolleEditerComp extends Vue {
             if (!this.$route.query.focus) break;
             MoUtils.ls.copyItem.id = "";
             MoUtils.ls.copyItem.key = "";
-            MoUtils.ls.copyItem.parentId = "";
             let id = <string>this.$route.query.focus;
             try {
               let parent: any = ModuleLoaderCms.modules[id].$parent;
@@ -231,7 +229,17 @@ export default class MolleEditerComp extends Vue {
               }
               MoUtils.ls.copyItem.id = id;
               MoUtils.ls.copyItem.key = e.code;
-              MoUtils.ls.copyItem.parentId = parent.$parent.node.id;
+              //カットしたモジュールを親から削除
+              let parentId = parent.$parent.node.id;
+              Singleton.itemsRef.doc(parentId)
+                .get()
+                .then((snap: firebase.firestore.DocumentSnapshot) => {
+                  if (!snap.exists) return;
+                  let parentItemData = <IItemData>snap.data();
+                  MoUtils.updateItem(parentId!,
+                    {value: parentItemData.value.filter((via: INodeObject) => via.id != id)},
+                  );
+                });
             } catch (e) {
               // console.log(e)
             }

@@ -29,8 +29,7 @@ export class MoUtils {
     }[],
     copyItem: {
       id?: string,
-      key?: string,
-      parentId?: string
+      key?: string
     },
     currentHistory: 0
   };
