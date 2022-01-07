@@ -29,8 +29,7 @@ export class MoUtils {
     }[],
     copyItem: {
       id?: string,
-      key?: string,
-      parentId?: string
+      key?: string
     },
     currentHistory: 0
   };
@@ -39,7 +38,7 @@ export class MoUtils {
    * module名から初期データでインスタンスを作成する
    * @param itemId
    */
-  static createItemData(itemId: string, opt?: { enabled: string[] }) {
+  static createItemData(itemId: string, opt?: {enabled: string[]}) {
     let data: IItemData = Object.assign({}, Vue.prototype.$molleModules[itemId].def);
     if (opt) {
       data.dev = opt;
@@ -183,7 +182,7 @@ export class MoUtils {
   /**
    * 複数保存処理
    */
-  static updateBatch(arr: { cmd: string, ref: any, data: any }[]) {
+  static updateBatch(arr: {cmd: string, ref: any, data: any}[]) {
     let batch = firebase.firestore().batch();
     let promiseList = [];
 
