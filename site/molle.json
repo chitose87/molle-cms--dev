@@ -15,5 +15,46 @@
   "molleBrunch": "v1",
   "developerId": "chitose87+gh@gmail.com",
   "breakPoint": "768",
-  "gutter": "16"
+  "gutter": "16",
+  "pages": [
+    {
+      "id": "news",
+      "prefix": "news/",
+      "icon": "newspaper",
+      "label": "NEWS",
+      "isDateField": true,
+      "tags": [
+        {
+          "1": "お知らせ"
+        },
+        {
+          "2": "活動報告"
+        }
+      ]
+    },
+    {
+      "id": "works",
+      "prefix": "works/",
+      "icon": "newspaper",
+      "label": "事例"
+    },
+    {
+      "id": "members",
+      "prefix": "members/",
+      "icon": "newspaper",
+      "label": "社員"
+    },
+    {
+      "id": "universal",
+      "prefix": "",
+      "icon": "file-earmark",
+      "label": "Universal"
+    },
+    {
+      "id": "noExport",
+      "prefix": "--no-export/",
+      "icon": "file-x",
+      "label": "非出力ページ"
+    }
+  ]
 }

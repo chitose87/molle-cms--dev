@@ -70,18 +70,8 @@ export default class MolleTopPage extends Vue {
   version = process.env.version;
 
   pages: any = {};
-  profile = {
-    pages: [
-      {
-        id: "news", prefix: "news/", icon: "newspaper", label: Vue.prototype.$words.news,
-        isDateField: true,
-        tags: [{1: "お知らせ"}, {2: "活動報告"}],
-      },
-      {id: "works", prefix: "works/", icon: "newspaper", label: "事例"},
-      {id: "members", prefix: "members/", icon: "newspaper", label: "社員"},
-      {id: "universal", prefix: "", icon: "file-earmark", label: Vue.prototype.$words.universal},
-      {id: "noExport", prefix: "--no-export/", icon: "file-x", label: "非出力ページ"},
-    ],
+  profile: any = {
+    pages: process.env.pages,
   };
   isLogin = false;
 
