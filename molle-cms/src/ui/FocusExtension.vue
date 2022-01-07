@@ -150,7 +150,7 @@ export default class FocusExtension extends Vue {
 <style lang="scss">
 .focus-extension {
   position: fixed;
-  z-index: $zindex-modal;
+  z-index: $zindex-modal - 1;
   //outline: 2px solid $color-red;
   pointer-events: none;
 

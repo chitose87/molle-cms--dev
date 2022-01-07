@@ -32,9 +32,8 @@ if (molle.isMolleCms) {
   modules.push("bootstrap-vue/nuxt");
   plugins.push(
     "./molle-cms/src/Words.ts",
-    "./molle/nuxt-config/pluginSpa.ts"
-  );
-  scriptObj.push({src: "https://cdnjs.cloudflare.com/ajax/libs/jimp/0.16.1/jimp.js"});
+    "./molle/nuxt-config/pluginSpa.ts");
+  // scriptObj.push({src: "https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"});
 } else {
   plugins.push("./molle/nuxt-config/pluginStatic.ts");
 }
@@ -45,7 +44,7 @@ export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     htmlAttrs: {
-      lang: 'ja'
+      lang: "ja",
     },
     title: molle.title,
     meta: [
@@ -144,7 +143,7 @@ export default {
     },
   },
   router: {
-    scrollBehavior: function (to, from, savedPosition) {
+    scrollBehavior: function(to, from, savedPosition) {
       return {};
     },
   },

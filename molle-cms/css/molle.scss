@@ -54,6 +54,7 @@
   //.molle-guide
   .molle-guide {
     display: contents;
+
     summary {
       display: inline-block;
       list-style: none;
@@ -80,3 +81,5 @@
     }
   }
 }
+
+@import "~cropperjs";

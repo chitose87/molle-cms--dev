@@ -53,7 +53,7 @@
 
         ModulePropertyComp
       .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'right')")
-    GoogleStorageModalComp(v-if="ready")
+    GoogleStorageModalComp
 
     FocusExtension
     #bootstrap-container
@@ -90,7 +90,6 @@ export default class MolleEditerComp extends Vue {
 
   theme: string = "";
   private unsubscribe!: () => void;
-  ready: boolean = false;
 
   vobj = <{
     pageData: IPageData,
@@ -137,15 +136,6 @@ export default class MolleEditerComp extends Vue {
     }
 
     this.enterFrame();
-
-    //check ready
-    let clearId = setInterval(() => {
-      //@ts-ignore
-      if (window["Jimp"] && true) {
-        this.ready = true;
-        clearInterval(clearId);
-      }
-    }, 100);
 
     let listener = (e: any) => {
       // if (e.type == "click") console.log(e.target);
