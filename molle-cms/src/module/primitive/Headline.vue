@@ -1,5 +1,5 @@
 <template lang="pug">
-component.headline(
+component.module.headline(
   :id="itemData.tagId",
   :is="itemData.option.lv || 'h3'",
   :class="getClass(itemData)",

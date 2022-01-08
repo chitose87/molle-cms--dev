@@ -34,9 +34,9 @@ div
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
 import {Profile} from "../Profile";
-import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {StyleAlign} from "~/molle-cms/src/Singleton";
-import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
+import StyleComp from "../../ui/property/StyleComp.vue";
+import {StyleAlign} from "../../Singleton";
+import TextAreaQuill from "../../ui/property/TextAreaQuill.vue";
 import Headline from "./Headline.vue";
 
 @Component({

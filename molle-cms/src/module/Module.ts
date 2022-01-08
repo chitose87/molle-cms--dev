@@ -54,9 +54,12 @@ export class Module extends Vue {
           obj[value] = true;//todo tbd
           break;
         case "align":
-          //.{value} 形式
           if (!value) break;
           obj[value] = true;
+          break;
+        case "alignSp":
+          if (!value) break;
+          obj[value+"-sp"] = true;
           break;
         case "space":
           obj[`s-${value}`] = !!value;

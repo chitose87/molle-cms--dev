@@ -8,12 +8,14 @@
 
   .molle-editer__body(v-show="$route.query.edit")
     style(v-if="$route.query.edit")
+      | @media screen and (min-width: 768px)  {
       | .molle-editer{
       |   height: calc(100% - {{panelOption.top}}px);
       | }
       | .molle-editer + * {
       |   margin-left: {{panelOption.left.value+8}}px;
       |   margin-right: {{panelOption.right.value+8}}px;
+      | }
       | }
 
     // left

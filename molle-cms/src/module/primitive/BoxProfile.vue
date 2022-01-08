@@ -1,12 +1,12 @@
 <template lang="pug">
 div
-  label.form-inline
-    span.mr-1 {{custom.tag.label}}:削除予定
-    select.form-control.form-control-sm(
-      v-model="itemData.option.tag"
-      @change="()=>$emit('change')"
-    )
-      option(v-for="item in custom.tag.select" :value="item" v-html="item")
+  //label.form-inline
+  //  span.mr-1 {{custom.tag.label}}:削除予定
+  //  select.form-control.form-control-sm(
+  //    v-model="itemData.option.tag"
+  //    @change="()=>$emit('change')"
+  //  )
+  //    option(v-for="item in custom.tag.select" :value="item" v-html="item")
 
   StyleComp(
     :itemData="itemData"
@@ -14,18 +14,18 @@ div
   )
 
   //padding
-  label.form-inline
-    span.mr-1 {{custom.padding.label}}:削除予定
-    select.form-control.form-control-sm(
-      v-model="itemData.class.padding"
-      @change="()=>$emit('change')"
-    )
-      option(v-for="item in custom.padding.select" :value="item" v-html="item")
-
-    details.molle-guide
-      summary
-      .molle-guide__body.caption
-        p 内側の余白
+  //label.form-inline
+  //  span.mr-1 {{custom.padding.label}}:削除予定
+  //  select.form-control.form-control-sm(
+  //    v-model="itemData.class.padding"
+  //    @change="()=>$emit('change')"
+  //  )
+  //    option(v-for="item in custom.padding.select" :value="item" v-html="item")
+  //
+  //  details.molle-guide
+  //    summary
+  //    .molle-guide__body.caption
+  //      p 内側の余白
 
 </template>
 
