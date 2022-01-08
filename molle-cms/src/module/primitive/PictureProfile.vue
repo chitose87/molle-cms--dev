@@ -26,21 +26,10 @@ div
     details.molle-guide
       summary
       .molle-guide__body.caption
-        p 代替文字。何の画像かの説明テキスト
+        p 代替文字。画像の説明
     input.form-control.form-control-sm(
       type="text"
       v-model="itemData.option.alt"
-      @change="()=>$emit('change')"
-    )
-
-  label caption:
-    //details.molle-guide
-      summary
-      .molle-guide__body.caption
-        p 代替文字。何の画像かの説明テキスト
-    input.form-control.form-control-sm(
-      type="text"
-      v-model="itemData.option.text"
       @change="()=>$emit('change')"
     )
 
@@ -67,6 +56,25 @@ div
     v-model="itemData.option.spSize"
     @change="()=>$emit('change')"
   )
+
+  label caption:
+    input.form-control.form-control-sm(
+      type="text"
+      v-model="itemData.option.text"
+      @change="()=>$emit('change')"
+    )
+
+  label.form-inline color:
+    input.form-control.form-control-sm.w-25(
+      type="color"
+      v-model="itemData.style['background-color']"
+      @change="()=>$emit('change')"
+    )
+    button.form-control.form-control-sm(
+      v-if="itemData.style['background-color']"
+      @click="bgClear()"
+    )
+      span clear
 
   GoogleStorage
 
@@ -125,11 +133,16 @@ export default class PictureProfile extends Profile {
         alt: "",
       },
       class: {
-        theme: "-lg"
-      }
+        theme: "-lg",
+      },
     },
     icon: "image",
   };
+
+  bgClear() {
+    delete this.itemData.style["background-color"];
+    this.$emit("change");
+  }
 }
 </script>
 

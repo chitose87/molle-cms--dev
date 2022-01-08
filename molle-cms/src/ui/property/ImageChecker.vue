@@ -19,9 +19,13 @@ export default class ImageChecker extends OptionComp {
 
   loaded(e: any) {
     let img = <HTMLImageElement>e.target;
-    this.$set(this, "localValue", {w: img.naturalWidth, h: img.naturalHeight});
-    this.$emit("change");
-    console.log(img);
+    if (!this.localValue ||
+      this.localValue.w != img.naturalWidth ||
+      this.localValue.h != img.naturalHeight) {
+      this.$set(this, "localValue", {w: img.naturalWidth, h: img.naturalHeight});
+      this.$emit("change");
+    }
+    // console.log(img);
   }
 }
 </script>

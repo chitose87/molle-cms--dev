@@ -54,8 +54,8 @@ export default class CopyModuleComp extends Vue {
    * クローン(idが追加される)
    * */
   private clone(targetId: string) {
-    let createNode = {id: Singleton.itemsRef.doc().id}
-    let items: { [key: string]: IItemData } = {};
+    let createNode = {id: Singleton.itemsRef.doc().id};
+    let items: {[key: string]: IItemData} = {};
 
     //targetIdからの全データを取得格納用ループ
     let loop = (id: string, nid: string, first = false) => {
@@ -92,7 +92,7 @@ export default class CopyModuleComp extends Vue {
           return <IItemData>snap.data();
         }),
       //ターゲットの取得＆クローンデータ
-      loop(targetId, createNode.id, true)
+      loop(targetId, createNode.id, true),
     ]).then(([parentItemData]) => {
       // バリデーション
       if (!this.validation(items[createNode.id], <IItemData>parentItemData)) return;
@@ -111,10 +111,10 @@ export default class CopyModuleComp extends Vue {
       // batchスタート
       batch.commit()
         .then(() => {
-          console.log("--end")
+          console.log("--end");
         });
       //todo log & history
-    })
+    });
   }
 
   /**
@@ -122,12 +122,6 @@ export default class CopyModuleComp extends Vue {
    * */
   private move() {
     let copyItem = Object.assign({}, MoUtils.ls.copyItem);
-    MoUtils.ls.copyItem.id = "";
-    MoUtils.ls.copyItem.key = "";
-    MoUtils.ls.copyItem.parentId = "";
-    MoUtils.lsSave();
-
-    let same = this.parentNode.id == copyItem.parentId;
 
     Promise.all([
       Singleton.itemsRef.doc(copyItem.id).get(),
@@ -137,30 +131,17 @@ export default class CopyModuleComp extends Vue {
       // バリデーション
       if (!this.validation(<IItemData>snap.data(), parentItemData)) return;
 
-      //親から削除
-      if (same) {
-        parentItemData.value = parentItemData.value.filter((via: INodeObject) => via.id != copyItem.id);
-      }
-
       //親へ追加
       this.insertNode(parentItemData, {id: copyItem.id!});
 
       //保存
       MoUtils.updateItem(this.parentNode.id, {value: parentItemData.value});
 
-      //Source元 親データ削除
-      if (!same) {
-        Singleton.itemsRef.doc(copyItem.parentId)
-          .get()
-          .then((snap: firebase.firestore.DocumentSnapshot) => {
-            if (!snap.exists) return;
-            let sourceParentItemData = <IItemData>snap.data();
-            console.log(sourceParentItemData, sourceParentItemData.value)
-            MoUtils.updateItem(copyItem.parentId!,
-              {value: sourceParentItemData.value.filter((via: INodeObject) => via.id != copyItem.id)}
-            );
-          })
-      }
+      //localStorageのクリア
+      MoUtils.ls.copyItem.id = "";
+      MoUtils.ls.copyItem.key = "";
+      MoUtils.lsSave();
+
       //todo history
     });
   }
@@ -171,7 +152,12 @@ export default class CopyModuleComp extends Vue {
    */
   private validation(itemData: IItemData, parentItemData: IItemData) {
     let moduleOpt = this.$molleModules[parentItemData.moduleId];
-    if (moduleOpt.white) {
+    if (parentItemData.dev && parentItemData.dev.enabled) {
+      if (!parentItemData.dev.enabled.includes(itemData.moduleId)) {
+        alert(`${itemData.moduleId}は配置できません。`);
+        return false;
+      }
+    } else if (moduleOpt.white) {
       if (!moduleOpt.white.includes(itemData.moduleId)) {
         alert(`${itemData.moduleId}は配置できません。`);
         return false;
@@ -182,7 +168,7 @@ export default class CopyModuleComp extends Vue {
         return false;
       }
     }
-    return true
+    return true;
   }
 
   /**
