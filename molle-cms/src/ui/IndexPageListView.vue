@@ -4,6 +4,7 @@ table.item-list-view-comp
     tr
       th(scope="col") Path
       th(scope="col") Title
+      th(scope="col")
       th(scope="col") {{$words.donotExport}}
       th(scope="col") {{$words.delete}}
 
@@ -19,9 +20,10 @@ table.item-list-view-comp
           b-icon(icon="chevron-right")
       td
         span.mr-2.ml-auto(v-html="item.title || '{no title}'")
-      td(v-if="item.date")
-        span.mr-2 :
-        span.mr-2(v-html="item.date")
+      td
+        div(v-if="item.date")
+          span.mr-2 :
+          span.mr-2(v-html="item.date")
       td
         label.small.form-inline.justify-content-center
           input.form-control.form-control-sm(
