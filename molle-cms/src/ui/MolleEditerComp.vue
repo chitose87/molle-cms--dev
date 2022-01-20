@@ -227,8 +227,13 @@ export default class MolleEditerComp extends Vue {
                 .then((snap: firebase.firestore.DocumentSnapshot) => {
                   if (!snap.exists) return;
                   let parentItemData = <IItemData>snap.data();
-                  MoUtils.updateItem(parentId!,
-                    {value: parentItemData.value.filter((via: INodeObject) => via.id != id)},
+                  let value: any = parentItemData.value.filter((via: INodeObject) => via.id != id);
+                  let update = {value: value};
+                  MoUtils.updateItem(parentId, update);
+                  MoUtils.addHistory("delete",
+                    parentId,
+                    parentItemData,
+                    update,
                   );
                 });
             } catch (e) {
