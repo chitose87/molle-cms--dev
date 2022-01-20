@@ -1,10 +1,14 @@
 <template lang="pug">
 .molle-editer.bootstrap(:style="style")
-  button.molle-editer__toggle.btn.btn-info(
-    @click="editerToggle"
-  )
-    span(v-if="$route.query.edit") {{$words.preview}}
-    span(v-else) {{$words.edit}}
+  .molle-editer__fiexd-tl
+    a.btn.btn-outline-secondary(href="/--molle/")
+      b-icon(icon="house-door")
+      span Molle TOP
+    button.btn.btn-info(
+      @click="editerToggle"
+    )
+      span(v-if="$route.query.edit") {{$words.preview}}
+      span(v-else) {{$words.edit}}
 
   .molle-editer__body(v-show="$route.query.edit")
     style(v-if="$route.query.edit")
@@ -20,12 +24,7 @@
 
     // left
     .molle-editer__left.shadow(:style="{width:panelOption.left.value+'px'}")
-      .molle-editer__scroll.pb-4(ref="left")
-        .card.bg-light
-          .card-header.pt-1.pb-1.pl-3.pr-3.text-right
-            a(href="/--molle/")
-              b-icon(icon="house-door")
-              span Molle TOP
+      .molle-editer__scroll.pb-4.pt-2hr(ref="left")
 
         PageListComp
 
@@ -376,7 +375,7 @@ export default class MolleEditerComp extends Vue {
   //@include mediaquery-not-sm {
   //  display: flex;
   //}
-  &__toggle {
+  &__fiexd-tl {
     position: absolute;
     left: 0rem;
     top: 0rem;
