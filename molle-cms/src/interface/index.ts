@@ -68,6 +68,7 @@ export interface IPayload {
 
 export interface ILogsData {
   timestamp: any;
+  id: string;
   uid: string;
-  update: any;
+  data: any;
 }

@@ -75,37 +75,25 @@ export class MoUtils {
    * @param update
    */
   static updateItem(id: string, update: any, isSet = false) {
-    let promise;
-    let historyItem: any = {
-      timestamp: firebase.firestore.Timestamp.now(),
-      uid: firebase.auth().currentUser!.email,
-    };
+    let batchQue: any = [
+      {
+        cmd: isSet ? "set" : "update",
+        ref: Singleton.itemsRef.doc(id),
+        data: {...update},
+      },
+      {
+        cmd: "set",
+        ref: Singleton.logsRef.doc(new Date().getTime() + "-" + Math.floor(Math.random() * 1000)),
+        data: {
+          id: id,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          uid: firebase.auth().currentUser!.email,
+          data: update,
+        },
+      },
+    ];
 
-    //
-    if (isSet) {
-      promise = Singleton.itemsRef.doc(id).set(update);
-    } else {
-      promise = Singleton.itemsRef.doc(id).update({...update});
-    }
-    //log
-    let logRef = Singleton.logsRef.doc(id);
-    logRef.get()
-      .then((snap: firebase.firestore.DocumentSnapshot) => {
-        let data = snap.data() || {};
-        let history: ILogsData[] = data.history || [];
-        if (snap.exists) historyItem.update = update;
-        history.unshift(historyItem);
-        // console.log(history)
-        //todo 短時間で同一idに対して変更があったものを統合
-        if (history.length > 100) history.length = 100;
-        if (snap.exists) {
-          logRef.update({history: history});
-        } else {
-          logRef.set({history: history});
-        }
-      });
-
-    return promise;
+    return MoUtils.updateBatch(batchQue);
   }
 
   /**

@@ -116,6 +116,46 @@ export default class MolleEditerComp extends Vue {
    *
    **/
   mounted() {
+    // 一時的コード
+    // Singleton.logsRef.get().then((snap: firebase.firestore.QuerySnapshot) => {
+    //   let batchQue: any = [];
+    //
+    //   snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+    //     let id = _snap.id;
+    //     let data: any = _snap.data();
+    //
+    //     if (data.history) {
+    //       for (let item of data.history) {
+    //         let uniq = item.timestamp.seconds * 1000 + "-" + Math.floor(Math.random() * 1000);
+    //         let hoge: any = {};
+    //         if (item.update) {
+    //           if (item.update.value) hoge.value = item.update.value;
+    //           if (item.update.option) hoge.option = item.update.option;
+    //           if (item.update.class) hoge.class = item.update.class;
+    //           if (item.update.moduleId) hoge.moduleId = item.update.moduleId;
+    //           if (item.update.name) hoge.name = item.update.name;
+    //         }
+    //         let obj = {
+    //           id: id,
+    //           timestamp: 0,
+    //           uid: item.uid,
+    //           data: hoge,
+    //         };
+    //         batchQue.push({
+    //           cmd: "set",
+    //           ref: Singleton.logsRef.doc(uniq),
+    //           data: obj,
+    //         });
+    //       }
+    //     }
+    //     // console.log(id, data);
+    //   });
+    //   console.log(batchQue);
+    //   MoUtils.updateBatch(batchQue).then(() => {
+    //     alert("complete");
+    //   });
+    // });
+
     // pageData
     let id = Singleton.getPageIdByPath(this.$route);
     if (id) {
