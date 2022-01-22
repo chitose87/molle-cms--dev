@@ -294,7 +294,7 @@ export default class MolleToolbar extends Vue {
       Singleton.pagesRef.get(),
       Singleton.itemsRef.get(),
       Singleton.logsRef.get(),
-      firebase.storage().ref().child(`${process.env.molleProjectID}`).listAll()
+      firebase.storage().ref().child(`${process.env.molleProjectID}`).listAll(),
     ]).then(([pages, items, logs, storage]) => {
       let obj: any = {};
       let pagesData: any = {};
@@ -363,14 +363,62 @@ export default class MolleToolbar extends Vue {
         }
       }
       // logの削除
+      let logAll: any = {};
       logs.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
-        if (!obj[_snap.id]) {
+        let data: any = _snap.data();
+        if (!data.id || !obj[data.id]) {
           batchQue.push({
             cmd: "delete",
             ref: Singleton.logsRef.doc(_snap.id),
           });
+        } else {
+          if (!logAll[data.id]) logAll[data.id] = [];
+          data.refId = _snap.id;
+          logAll[data.id].push(data);
         }
       });
+
+      // logの結合　(=LogPropertyComp.vue
+      for (let key in logAll) {
+        let list = logAll[key];
+        //sort 降順
+        list.sort((a: any, b: any) => {
+          return a.timestamp < b.timestamp ? 1 : -1;
+        });
+        let before = list[0];
+        let host: any;
+        for (let i = 1; i < list.length; i++) {
+          let log = list[i];
+
+          if (before.uid == log.uid && before.timestamp - log.timestamp < 10
+            || i > 100) {
+            // 同じユーザーが10秒以内に変更したもの or 100件以上
+
+            // 統合
+            if (i < 100) {
+              if (!host) host = before;
+              host.data = Object.assign(log.data, host.data);
+            }
+            // listから削除して、logを消す
+            list.splice(i, 1);
+            batchQue.push({
+              cmd: "delete",
+              ref: Singleton.logsRef.doc(log.refId),
+            });
+            i--;
+          } else if (host) {
+            // 別のユーザーに切り替わる or 10秒以上間がある host更新
+            batchQue.push({
+              cmd: "update",
+              ref: Singleton.logsRef.doc(host.refId),
+              data: {data: host.data},
+            });
+            host = null;
+          }
+
+          before = log;
+        }
+      }
       console.log(batchQue.length);
       if (batchQue.length) {
         MoUtils.updateBatch(batchQue).then(() => {
@@ -386,7 +434,7 @@ export default class MolleToolbar extends Vue {
         // itemRef.getDownloadURL()
         if (!str.includes(itemRef.fullPath)) {
           itemRef.delete();
-          console.log("------" + itemRef.fullPath)
+          console.log("------" + itemRef.fullPath);
         } else {
           // console.log(itemRef.fullPath)
         }

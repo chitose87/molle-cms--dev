@@ -169,7 +169,7 @@ export default class ModulePropertyComp extends Vue {
         flag = true;
       }
     });
-    console.log(flag, "update", this.itemId, update);
+    // console.log(flag, "update", this.itemId, update);
     if (flag) {
       MoUtils.updateItem(this.itemId, update);
       MoUtils.addHistory("update",
