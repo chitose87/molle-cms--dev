@@ -395,7 +395,6 @@ export default class MolleEditerComp extends Vue {
 
   private addPage(pageId: any) {
     let path = decodeURIComponent(pageId);
-    // let batch = firebase.firestore().batch();
     //pages作成
     Singleton.pagesRef.doc(pageId).set({
       path: path,

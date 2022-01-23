@@ -98,21 +98,29 @@ export default class CopyModuleComp extends Vue {
       if (!this.validation(items[createNode.id], <IItemData>parentItemData)) return;
 
       // 登録
-      let batch = firebase.firestore().batch();
+      let batchQue: any = [];
       for (let id in items) {
-        batch.set(Singleton.itemsRef.doc(id), items[id]);
+        batchQue.push({
+          cmd: "set",
+          ref: Singleton.itemsRef.doc(id),
+          data: items[id],
+        });
       }
 
       // 親データの更新
       if (parentItemData) {
         this.insertNode(parentItemData, createNode);
-        batch.update(Singleton.itemsRef.doc(this.parentNode.id), {value: parentItemData.value});
+        batchQue.push({
+          cmd: "update",
+          ref: Singleton.itemsRef.doc(this.parentNode.id),
+          data: {value: parentItemData.value},
+        });
       }
       // batchスタート
-      batch.commit()
+      MoUtils.updateBatch(batchQue)
         .then(() => {
-          console.log("--end");
-        });
+        console.log("--end");
+      });
       //todo log & history
     });
   }
