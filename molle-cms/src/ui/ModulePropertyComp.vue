@@ -204,6 +204,11 @@ export default class ModulePropertyComp extends Vue {
       //     break;
       // }
       MoUtils.updateItem(this.itemId, data);
+      MoUtils.addHistory("update",
+        this.itemId,
+        this.itemData,
+        data,
+      );
     }
   }
 }

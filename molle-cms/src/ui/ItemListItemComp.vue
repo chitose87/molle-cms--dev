@@ -156,7 +156,7 @@ export default class ItemListItemComp extends Vue {
 
   deleteModule() {
     if (!confirm(`削除します`)) return
-    let parent = <ItemListItemComp>this.$parent.$parent;
+    let parent = <ItemListItemComp>this.$parent;
     let value: any = parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id);
     let update = {value: value};
     MoUtils.updateItem(parent.node.id, update);

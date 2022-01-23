@@ -144,6 +144,11 @@ export default class CopyModuleComp extends Vue {
 
       //保存
       MoUtils.updateItem(this.parentNode.id, {value: parentItemData.value});
+      MoUtils.addHistory("paste",
+        this.parentNode.id,
+        parentSnap.data(),
+        {value: parentItemData.value},
+      );
 
       //localStorageのクリア
       MoUtils.ls.copyItem.id = "";

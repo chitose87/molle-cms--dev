@@ -134,6 +134,7 @@ export class MoUtils {
       case "create":
       case "update":
       case "delete":
+      case "paste":
         this.updateItem(
           history.id,
           history.before,
@@ -155,6 +156,7 @@ export class MoUtils {
       case "create":
       case "update":
       case "delete":
+      case "paste":
         this.updateItem(
           history.id,
           Object.assign({}, history.before, history.data),
