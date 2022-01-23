@@ -55,14 +55,10 @@
     ) x
 
   // children
-  draggable.list-group.pl-2.pb-2(
+  .list-group.pl-2.pb-2(
     v-if="$molleModules[itemData.moduleId].def.type === 'children'"
     v-show="expanded"
     v-model="itemData.value"
-    :group="getGroup(itemData.moduleId)"
-    @remove="updateChild"
-    @add="updateChild"
-    @update="updateChild"
   )
     ItemListItemComp(v-for="node in itemData.value", :key="node.id", :node="node")
     .item-list-item-comp.list-group-item.list-group-item-action.pr-0.border-right-0(
@@ -95,11 +91,10 @@ import {
 import {Singleton} from "../Singleton";
 import {IItemData, INodeObject, ILogsData} from "../interface";
 import firebase from "firebase";
-import draggable from "vuedraggable";
 import {MoUtils} from "../MoUtils";
 
 @Component({
-  components: {draggable},
+  components: {},
 })
 export default class ItemListItemComp extends Vue {
   @Prop() node!: INodeObject;
@@ -148,7 +143,6 @@ export default class ItemListItemComp extends Vue {
       });
   }
 
-
   private checkLoop(p: any): any {
     if (!p) return false;
     if (p.itemData && p.node.id === this.node.id) {
@@ -158,30 +152,6 @@ export default class ItemListItemComp extends Vue {
       return true;
     }
     if (p.$parent) return this.checkLoop(p.$parent);
-  }
-
-  getGroup(moduleId: string) {
-    switch (moduleId) {
-      //- case "Column":
-      //- return moduleId;
-      default:
-        return "Box";
-    }
-  }
-
-  // @Watch("itemData.value", {immediate: true})
-  // private hoge(after: any, before: any) {
-  //   this.beforeValue = before;
-  // }
-
-  updateChild() {
-    let update = {value: this.itemData.value};
-    MoUtils.updateItem(this.node.id, update);
-    // MoUtils.addHistory("updateItemData",
-    //   this.node.id,
-    //   Object.assign({}, this.itemData, {value: this.beforeValue}),
-    //   update,
-    // );
   }
 
   deleteModule() {
