@@ -217,73 +217,92 @@ export default class MolleEditerComp extends Vue {
     this.$parent.$el.addEventListener("mouseover", listener);
     this.$parent.$el.addEventListener("click", listener);
 
+    let _check = () => {
+      var current = <HTMLElement>document.activeElement;
+      return current.tagName == "TEXTAREA" ||
+        (current.tagName == "INPUT" && current.getAttribute("type") == "text") ||
+        current.getAttribute("contenteditable") == "true";
+    };
+
     //
     document.addEventListener("keydown", (e: KeyboardEvent) => {
-      var current = <HTMLElement>document.activeElement;
-      if (
-        current.tagName == "TEXTAREA" ||
-        (current.tagName == "INPUT" && current.getAttribute("type") == "text") ||
-        current.getAttribute("contenteditable") == "true") {
-        return;
-      }
+      if (_check()) return;
       if (e.ctrlKey || e.metaKey) {
         //ctrl + z
         switch (e.code) {
           case "KeyZ":
-            if (e.shiftKey) {
-              console.log("redo?");
-              MoUtils.redoHistory(this);
-            } else {
-              console.log("undo?");
-              MoUtils.undoHistory(this);
-            }
-            break;
-
-          case "KeyC":
-            if (!this.$route.query.focus) break;
-            MoUtils.ls.copyItem.id = <string>this.$route.query.focus;
-            MoUtils.ls.copyItem.key = e.code;
-            MoUtils.lsSave();
-            console.log(MoUtils.ls.copyItem);
-            break;
-
-          case "KeyX":
-            if (!this.$route.query.focus) break;
-            MoUtils.ls.copyItem.id = "";
-            MoUtils.ls.copyItem.key = "";
-            let id = <string>this.$route.query.focus;
-            try {
-              let parent: any = ModuleLoaderCms.modules[id].$parent;
-              if (parent.itemData.type == "group") {
-                alert("カットできません");
-                break;
-              }
-              MoUtils.ls.copyItem.id = id;
-              MoUtils.ls.copyItem.key = e.code;
-              //カットしたモジュールを親から削除
-              let parentId = parent.$parent.node.id;
-              Singleton.itemsRef.doc(parentId)
-                .get()
-                .then((snap: firebase.firestore.DocumentSnapshot) => {
-                  if (!snap.exists) return;
-                  let parentItemData = <IItemData>snap.data();
-                  let value: any = parentItemData.value.filter((via: INodeObject) => via.id != id);
-                  let update = {value: value};
-                  MoUtils.updateItem(parentId, update);
-                  MoUtils.addHistory("delete",
-                    parentId,
-                    parentItemData,
-                    update,
-                  );
-                });
-            } catch (e) {
-              // console.log(e)
-            }
-            MoUtils.lsSave();
-            console.log(MoUtils.ls.copyItem);
+            if (e.shiftKey) MoUtils.redoHistory(this);
+            else MoUtils.undoHistory(this);
             break;
         }
       }
+    });
+
+    /**
+     * ctrl + c
+     */
+    document.addEventListener("copy", (e: any) => {
+      if (_check() || !this.$route.query.focus) return;
+
+      MoUtils.ls.copyItem.id = <string>this.$route.query.focus;
+      MoUtils.ls.copyItem.key = "KeyC";
+      MoUtils.lsSave();
+
+      e.clipboardData.setData("text/plain", this.$route.query.focus);
+      e.preventDefault();
+    });
+
+    /**
+     * ctrl + x
+     */
+    document.addEventListener("cut", (e: any) => {
+      if (_check() || !this.$route.query.focus) return;
+
+      let id = <string>this.$route.query.focus;
+      MoUtils.ls.copyItem.id = id;
+      MoUtils.ls.copyItem.key = "KeyX";
+      MoUtils.lsSave();
+
+      try {
+        let parent: any = ModuleLoaderCms.modules[id].$parent;
+        if (parent.itemData.type == "group") {
+          alert("カットできません");
+          return;
+        }
+        //カットしたモジュールを親から削除
+        let value: any = parent.$parent.itemData.value.filter((via: INodeObject) => via.id != id);
+        let update = {value: value};
+        MoUtils.updateItem(parent.$parent.node.id, update);
+        MoUtils.addHistory("delete",
+          parent.$parent.node.id,
+          parent.$parent.itemData,
+          update,
+        );
+        e.clipboardData.setData("text/plain", id);
+        e.preventDefault();
+      } catch (e) {
+        // console.log(e)
+      }
+    });
+
+    /**
+     * ctrl + v
+     */
+    document.addEventListener("paste", (e: any) => {
+      // console.log(e.clipboardData);
+      // console.log(e.clipboardData.getData("text/plain"));
+      if (_check() || !this.$route.query.focus) return;
+
+      let _id = e.clipboardData.getData("text/plain");
+      if (_id && _id == MoUtils.ls.copyItem.id) {
+        //_idを優先してコピーしてみる
+      }else{
+        //MoUtils.ls.copyItem.idでやる
+      }
+
+      /**
+       * ls
+       */
     });
   }
 

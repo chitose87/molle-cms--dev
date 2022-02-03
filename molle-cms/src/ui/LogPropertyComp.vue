@@ -49,7 +49,7 @@ export default class LogPropertyComp extends Vue {
           let log = list[i];
 
           if (before.uid == log.uid && before.timestamp - log.timestamp < 10
-            || i > 100) {
+            || i >= 100) {
             // 同じユーザーが10秒以内に変更したもの or 100件以上
 
             // 統合
