@@ -130,43 +130,57 @@ export class MoUtils {
   static undoHistory(ctx: any) {
     let history = this.ls.history[this.ls.currentHistory];
     if (!history) return;
-    switch (history.cmd) {
-      case "create":
-      case "update":
-      case "delete":
-      case "paste":
-        this.updateItem(
-          history.id,
-          history.before,
-          false,
-        );
-        break;
-    }
+    // switch (history.cmd) {
+    //   case "create":
+    //   case "update":
+    //   case "delete":
+    //   case "paste":
+    //   case "move":
+    this.updateItem(
+      history.id,
+      history.before,
+      false,
+    );
+    // break;
+    // }
 
     ctx.$router.push({query: {...ctx.$route.query, focus: history.id}});
     this.ls.currentHistory++;
-    this.lsSave();
+
+    //
+    let next = this.ls.history[this.ls.currentHistory];
+    if (next && next.cmd == "chain") {
+      this.undoHistory(ctx);
+    } else {
+      this.lsSave();
+    }
   }
 
   //redo
   static redoHistory(ctx: any) {
     let history = this.ls.history[this.ls.currentHistory - 1];
     if (!history) return;
-    switch (history.cmd) {
-      case "create":
-      case "update":
-      case "delete":
-      case "paste":
-        this.updateItem(
-          history.id,
-          Object.assign({}, history.before, history.data),
-          false,
-        );
-        break;
-    }
+    // switch (history.cmd) {
+    //   case "create":
+    //   case "update":
+    //   case "delete":
+    //   case "paste":
+    //   case "move":
+    this.updateItem(
+      history.id,
+      Object.assign({}, history.before, history.data),
+      false,
+    );
+    // break;
+    // }
     ctx.$router.push({query: {...ctx.$route.query, focus: history.id}});
     this.ls.currentHistory--;
-    this.lsSave();
+
+    if (history.cmd == "chain") {
+      this.redoHistory(ctx);
+    } else {
+      this.lsSave();
+    }
   }
 
   /**

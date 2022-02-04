@@ -1,5 +1,5 @@
 <template lang="pug">
-.item-list-view-comp.list-group
+.item-list-view-comp
   //.card.bg-light
 
     //.card-header.pt-1.pb-1.pl-3.pr-3.text-right 構造/Structure
