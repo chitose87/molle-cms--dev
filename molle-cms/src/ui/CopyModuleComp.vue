@@ -94,8 +94,10 @@ export default class CopyModuleComp extends Vue {
       //ターゲットの取得＆クローンデータ
       loop(targetId, createNode.id, true),
     ]).then(([parentItemData]) => {
-      // バリデーション
-      if (!this.validation(items[createNode.id], <IItemData>parentItemData)) return;
+      if (!MoUtils.isIncludible(items[createNode.id].moduleId, parentItemData!)) {
+        alert(`${items[createNode.id].moduleId}は配置できません。`);
+        return;
+      }
 
       // 登録
       let batchQue: any = [];
@@ -119,8 +121,8 @@ export default class CopyModuleComp extends Vue {
       // batchスタート
       MoUtils.updateBatch(batchQue)
         .then(() => {
-        console.log("--end");
-      });
+          console.log("--end");
+        });
       //todo log & history
     });
   }
@@ -136,8 +138,11 @@ export default class CopyModuleComp extends Vue {
       Singleton.itemsRef.doc(this.parentNode.id).get(),
     ]).then(([snap, parentSnap]) => {
       let parentItemData = <IItemData>parentSnap.data();
-      // バリデーション
-      if (!this.validation(<IItemData>snap.data(), parentItemData)) return;
+
+      if (!MoUtils.isIncludible(snap.data()!.moduleId, parentItemData)) {
+        alert(`${snap.data()!.moduleId}は配置できません。`);
+        return;
+      }
 
       //親へ追加
       this.insertNode(parentItemData, {id: copyItem.id!});
@@ -157,31 +162,6 @@ export default class CopyModuleComp extends Vue {
 
       //todo history
     });
-  }
-
-  /**
-   * ブラック／ホワイトリストから挿入できるか確認
-   * @private
-   */
-  private validation(itemData: IItemData, parentItemData: IItemData) {
-    let moduleOpt = this.$molleModules[parentItemData.moduleId];
-    if (parentItemData.dev && parentItemData.dev.enabled) {
-      if (!parentItemData.dev.enabled.includes(itemData.moduleId)) {
-        alert(`${itemData.moduleId}は配置できません。`);
-        return false;
-      }
-    } else if (moduleOpt.white) {
-      if (!moduleOpt.white.includes(itemData.moduleId)) {
-        alert(`${itemData.moduleId}は配置できません。`);
-        return false;
-      }
-    } else if (moduleOpt.black) {
-      if (moduleOpt.black.includes(itemData.moduleId)) {
-        alert(`${itemData.moduleId}は禁止されています。`);
-        return false;
-      }
-    }
-    return true;
   }
 
   /**

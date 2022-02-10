@@ -97,6 +97,25 @@ export class MoUtils {
   }
 
   /**
+   *
+   * @param moduleId
+   * @param parentItemData
+   */
+  static isIncludible(moduleId: string, parentItemData: IItemData) {
+    if (parentItemData.type == "group") return false;
+
+    let moduleOpt = Vue.prototype.$molleModules[parentItemData.moduleId];
+    if (parentItemData.dev && parentItemData.dev.enabled) {
+      if (!parentItemData.dev.enabled.includes(moduleId)) return false;
+    } else if (moduleOpt.white) {
+      if (!moduleOpt.white.includes(moduleId)) return false;
+    } else if (moduleOpt.black) {
+      if (moduleOpt.black.includes(moduleId)) return false;
+    }
+    return true;
+  }
+
+  /**
    * undo/redo用
    * @param cmd
    * @param id

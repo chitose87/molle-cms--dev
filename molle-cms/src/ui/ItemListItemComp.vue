@@ -4,7 +4,6 @@
   :class="{_current:$route.query.focus === node.id}"
   :data-item-id="node.id"
   :data-drag-over="isDragOver"
-
 )
   .d-flex.align-items-center
     b-icon.ml-n2.small(
@@ -12,7 +11,6 @@
       :icon="expanded?'chevron-down':'chevron-right'"
       @click="expanded = !expanded"
     )
-    //div.pl-3.ml-n2(v-else-if="!isRoot")
 
     button.btn.btn-sm.btn-link.btn-block.text-left.pt-0.pb-0(
       :class="{active: $route.query.focus === node.id}",
@@ -23,7 +21,7 @@
       draggable
       @dragstart="onDragstart($event)"
       @dragend="onDragend"
-      @dragover.prevent="isDragOver=validation($parent.$data.itemData)"
+      @dragover.prevent="isDragOver=isIncludible($parent.$data.itemData)"
       @dragleave.prevent="isDragOver=false"
       @drop="onDrop($event,$parent,node.id)"
       style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
@@ -34,20 +32,22 @@
       span(v-else-if="itemData.moduleId=='Section'")
         b-icon.ml-n1.mr-1(icon="bookmark-check-fill")
         b {{itemData.name||$words.section}}
-      span(v-else-if="itemData.moduleId=='ContentSizeBox'")
-        b-icon.ml-n1.mr-1(icon="exclamation-diamond")
-        b {{itemData.name||$words.section}}
-      span(v-else-if="itemData.option.tag=='section'")
-        b-icon.ml-n1.mr-1(icon="exclamation-diamond")
-        b {{itemData.name||$words.section}}
       span(v-else-if="itemData.moduleId=='Headline'")
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b H
         span :{{itemData.value}}
+      span(v-else-if="itemData.moduleId=='Paragraph'")
+        b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
+        span {{itemData.value}}
+      span(v-else-if="itemData.moduleId=='Picture'")
+        b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
+        span(v-if="itemData.option.alt") {{itemData.option.alt}}
+        b(v-else) Picture
       span(v-else-if="itemData.moduleId=='Button'")
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b Btn
         span :{{itemData.value}}
+
       span(v-else-if="itemData.moduleId=='DevModuleGuide' && $molleModules[itemData.option.module]")
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b-icon.mr-1(:icon="$molleModules[itemData.option.module].icon")
@@ -72,16 +72,21 @@
     v-model="itemData.value"
   )
     ItemListItemComp(v-for="node in itemData.value", :key="node.id", :node="node")
-    .hoge(
-      @dragover.prevent="isDragOverLast=validation(itemData)"
+    .pr-0(
+      v-if="!itemData.value || itemData.value.length == 0"
+      @dragover.prevent="isDragOverLast=isIncludible(itemData)"
       @dragleave.prevent="isDragOverLast=false"
       @drop="onDrop($event)"
       :data-drag-over-last="isDragOverLast"
     )
-    .pr-0(
-      v-if="!itemData.value || itemData.value.length == 0"
-    )
       span.color-gray-200 -{{$words.empty}}-
+    .hoge(
+      v-else
+      @dragover.prevent="isDragOverLast=isIncludible(itemData)"
+      @dragleave.prevent="isDragOverLast=false"
+      @drop="onDrop($event)"
+      :data-drag-over-last="isDragOverLast"
+    )
 
   //Group
   .pl-3(
@@ -233,7 +238,7 @@ export default class ItemListItemComp extends Vue {
 
     if (!to) to = this;
 
-    if (this.validation(to.itemData) && ItemListItemComp.dragItem.node.id != before) {
+    if (this.isIncludible(to.itemData) && ItemListItemComp.dragItem.node.id != before) {
       let from = <ItemListItemComp>ItemListItemComp.dragItem.$parent;
 
       //from
@@ -274,22 +279,8 @@ export default class ItemListItemComp extends Vue {
     }
   }
 
-  /**
-   *
-   * @param itemData
-   */
-  validation(itemData: IItemData) {
-    if (itemData.type == "group") return false;
-
-    let moduleOpt = this.$molleModules[itemData.moduleId];
-    if (itemData.dev && itemData.dev.enabled) {
-      if (!itemData.dev.enabled.includes(ItemListItemComp.dragItem.itemData.moduleId)) return false;
-    } else if (moduleOpt.white) {
-      if (!moduleOpt.white.includes(ItemListItemComp.dragItem.itemData.moduleId)) return false;
-    } else if (moduleOpt.black) {
-      if (moduleOpt.black.includes(ItemListItemComp.dragItem.itemData.moduleId)) return false;
-    }
-    return true;
+  isIncludible(parentItemData: IItemData) {
+    return MoUtils.isIncludible(ItemListItemComp.dragItem.itemData.moduleId, parentItemData);
   }
 
   beforeDestroy() {
