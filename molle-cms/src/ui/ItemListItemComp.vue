@@ -72,7 +72,7 @@
     v-model="itemData.value"
   )
     ItemListItemComp(v-for="node in itemData.value", :key="node.id", :node="node")
-    .pr-0(
+    .item-list-item-comp__empty.pr-0(
       v-if="!itemData.value || itemData.value.length == 0"
       @dragover.prevent="isDragOverLast=isIncludible(itemData)"
       @dragleave.prevent="isDragOverLast=false"
@@ -80,8 +80,9 @@
       :data-drag-over-last="isDragOverLast"
     )
       span.color-gray-200 -{{$words.empty}}-
-    .hoge(
-      v-else
+
+    .item-list-item-comp__last(
+      v-else=""
       @dragover.prevent="isDragOverLast=isIncludible(itemData)"
       @dragleave.prevent="isDragOverLast=false"
       @drop="onDrop($event)"
@@ -232,6 +233,12 @@ export default class ItemListItemComp extends Vue {
     // console.log(e.type,e);
   }
 
+  /**
+   * 
+   * @param e
+   * @param to
+   * @param before
+   */
   onDrop(e: any, to?: ItemListItemComp, before?: string) {
     this.isDragOver = false;
     this.isDragOverLast = false;
@@ -291,7 +298,7 @@ export default class ItemListItemComp extends Vue {
 
 <style lang="scss">
 .item-list-item-comp {
-  border-top: 5px solid transparent;
+  border-top: 3px solid transparent;
   position: relative;
 
   &__arrow {
@@ -319,15 +326,24 @@ export default class ItemListItemComp extends Vue {
     border-top-color: $color-red;
   }
 
-  .hoge {
+  &__last {
     position: absolute;
     bottom: 0;
     height: 5px;
     width: 100%;
-    border-bottom: 5px solid transparent;
+    border-bottom: 3px solid transparent;
 
     &[data-drag-over-last] {
       border-bottom-color: $color-red;
+    }
+  }
+
+  &__empty {
+    border: 3px solid transparent;
+
+    &[data-drag-over-last] {
+      border-color: $color-red;
+      opacity: 0.6;
     }
   }
 }
