@@ -13,6 +13,9 @@ jobs:
     env:
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       FIRESTORE_PW: ${{ secrets.FIRESTORE_PW }}
+#      FTP_USER: ${{ secrets.FTP_USER }}
+#      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+#      FTP_HOST: ${{ secrets.FTP_HOST }}
 
     steps:
       - uses: actions/checkout@v2
@@ -36,5 +39,15 @@ jobs:
           #- run: npm install
           #- run: npm run build
       - run: npm i
+      - run: ln -fs ../molle-cms site/molle-cms
       - run: FIRESTORE_PW=$FIRESTORE_PW npm run site:gen
       - run: ./node_modules/.bin/firebase deploy --only hosting:site-static --token=$FIREBASE_TOKEN
+
+#      - name: FTP-Deploy-Action
+#        uses: SamKirkland/FTP-Deploy-Action@2.0.0
+#        env:
+#          FTP_SERVER: ${{ secrets.FTP_HOST }}
+#          FTP_USERNAME: ${{ secrets.FTP_USER }}
+#          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+#          LOCAL_DIR: ./site/public
+#          REMOTE_DIR: "/"
