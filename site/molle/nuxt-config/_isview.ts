@@ -47,7 +47,7 @@ Vue.directive('isview', {
             el.setAttribute(key, attr[key]);
           }
         }
-        if (binding.modifiers.once) {
+        if (binding.value.once) {
           window.removeEventListener('scroll', handler);
         }
         if (binding.modifiers["animation-delay"]) {
@@ -66,8 +66,8 @@ Vue.directive('isview', {
     let isLoop = false;
     let loop = () => {
       let rate = (el.getBoundingClientRect().top + el.offsetHeight / 2) / (window.outerHeight / 2);
-      rate=Math.min(rate,2);
-      rate=Math.max(rate,0)*-1;
+      rate = Math.min(rate, 2);
+      rate = Math.max(rate, 0) * -1;
       target.forEach((item: HTMLElement) => {
         item.setAttribute("style", `animation-delay:${rate}s`);
       });

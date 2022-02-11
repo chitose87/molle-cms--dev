@@ -8,19 +8,8 @@ header.global-header(:aria-expanded="isMenuOpen")
       span.global-header__menu__btn__line
       span.global-header__menu__btn__label
 
-    ul.global-header__menu__body
-      li.global-header__menu__item
-        a(href="/about")
-          span About
-      li.global-header__menu__item
-        a(href="/news")
-          span  News
-      li.global-header__menu__item
-        a(href="/qa")
-          span  Q&A
-      li.global-header__menu__item
-        a(href="/contact")
-          span  Contact
+    ModuleLoader(:node="{id:'embed%2Fheader'}")
+
 </template>
 
 <script lang="ts">
@@ -43,7 +32,7 @@ export default class GlobalHeaderComp extends Vue {
   $pcH: 4.5rem;
   $spH: 4rem;
 
-  z-index: 2;
+  z-index: $zindex-on;
   position: fixed;
   top: 0;
   left: 0;
@@ -128,22 +117,19 @@ export default class GlobalHeaderComp extends Vue {
     }
 
     &__body {
+      margin-top: 0;
+      a{
+        display: block;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
       @include mediaquery-not-sm {
         margin-left: auto;
         margin-right: 2rem;
         height: 100%;
         display: flex;
         margin-bottom: 0;
-      }
-      @include mediaquery-sm {
-        width: 100%;
-        padding-top: ($spH + 1rem);
-        padding-bottom: 3rem;
-      }
-    }
 
-    &__item {
-      @include mediaquery-not-sm {
         a {
           margin-left: 0.9rem;
           margin-right: 0.9rem;
@@ -160,14 +146,27 @@ export default class GlobalHeaderComp extends Vue {
         }
       }
       @include mediaquery-sm {
-        margin-top: 1rem;
-        text-align: center;
+        width: 100%;
+        padding-top: ($spH + 1rem);
+        padding-bottom: 3rem;
+
         a {
           text-decoration: none;
           color: $color-gray-700;
           display: inline-block;
           padding: 0.5rem 1rem;
         }
+      }
+    }
+
+    &__item {
+      @include mediaquery-not-sm {
+
+      }
+      @include mediaquery-sm {
+        margin-top: 1rem;
+        text-align: center;
+
       }
     }
   }

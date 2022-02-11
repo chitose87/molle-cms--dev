@@ -1,0 +1,45 @@
+{
+  "projectId": "molle-cms---dev",
+  "defaultSite": "site",
+  "sites": {
+    //
+    "site": {
+      "port": 1234,
+      //静的サイト設定
+      "static": {
+        "hosting": "molle-cms--stg"
+      },
+      //管理画面サイト設定
+      "cms": {
+        "hosting": "molle-cms---dev"
+      },
+      //予約deploy用
+      "cron": "every day 10:00",
+      "ghRepository": "chitose87/molle-cms--dev"
+    },
+    //
+    "comthink": {
+      "port": 1234,
+      "static": {
+        "hosting": "molle-it"
+      },
+      "cms": {
+        "hosting": "molle-it-cms"
+      },
+      "cron": "every day 10:00",
+      "ghRepository": "chitose87/molle-cms--dev"
+    },
+    //
+    "labo": {
+      "port": 1234,
+      "static": {
+        "hosting": "molle-labo"
+      },
+      "cms": {
+        "hosting": "molle-labo-cms"
+      },
+      "cron": "every day 10:00",
+      "ghRepository": "chitose87/molle-cms--dev"
+    }
+  }
+}

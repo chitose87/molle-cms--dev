@@ -30,7 +30,7 @@
       "rewrites": [
         {
           "source": "**",
-          "function": "site_rewrites"
+          "function": "sandbox_rewrites"
         }
       ]
     },
@@ -55,6 +55,30 @@
         {
           "source": "**",
           "function": "comthink_rewrites"
+        }
+      ]
+    },
+    {
+      "target": "labo-static",
+      "public": "labo/public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    },
+    {
+      "target": "labo-cms",
+      "public": "labo/public-cms",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "function": "labo_rewrites"
         }
       ]
     }

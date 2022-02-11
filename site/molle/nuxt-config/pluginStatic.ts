@@ -5,67 +5,77 @@
 
 import {Vue} from "nuxt-property-decorator";
 /* <imports */
-import Box from "~/molle/module/primitive/Box.vue"
-import BackgroundBox from "~/molle/module/primitive/BackgroundBox.vue"
-import Headline from "~/molle/module/primitive/Headline.vue"
-import Paragraph from "~/molle/module/primitive/Paragraph.vue"
-import Picture from "~/molle/module/primitive/Picture.vue"
-import Button from "~/molle/module/primitive/Button.vue"
-import Column from "~/molle/module/primitive/Column.vue"
-import ColumnBox from "~/molle/module/primitive/ColumnBox.vue"
-import Gallery from "~/molle/module/custom/Gallery.vue"
-import GoogleForm from "~/molle/module/custom/GoogleForm.vue"
-import SocialShare from "~/molle/module/custom/SocialShare.vue"
-import Modal from "~/molle/module/primitive/Modal.vue"
-import Card from "~/molle/module/custom/Card.vue"
-import GoogleMap from "~/molle/module/custom/GoogleMap.vue"
-import Table from "~/molle/module/primitive/Table.vue"
+import Section from "~/molle-cms/src/module/primitive/Section.vue"
+import Box from "~/molle-cms/src/module/primitive/Box.vue"
+import BackgroundBox from "~/molle-cms/src/module/primitive/BackgroundBox.vue"
+import Headline from "~/molle-cms/src/module/primitive/Headline.vue"
+import Paragraph from "~/molle-cms/src/module/primitive/Paragraph.vue"
+import Picture from "~/molle-cms/src/module/primitive/Picture.vue"
+import Button from "~/molle-cms/src/module/primitive/Button.vue"
+import Column from "~/molle-cms/src/module/primitive/Column.vue"
+import ColumnBox from "~/molle-cms/src/module/primitive/ColumnBox.vue"
+import Embed from "~/molle-cms/src/module/primitive/Embed.vue"
+import LinkBox from "~/molle-cms/src/module/primitive/LinkBox.vue"
+import IsviewBox from "~/molle-cms/src/module/primitive/IsviewBox.vue"
+import ButtonList from "~/molle-cms/src/module/primitive/ButtonList.vue"
+import Modal from "~/molle-cms/src/module/primitive/Modal.vue"
+import List from "~/molle-cms/src/module/primitive/List.vue"
+import ListBox from "~/molle-cms/src/module/primitive/ListBox.vue"
+import Gallery from "~/molle-cms/src/module/custom/Gallery.vue"
+import GoogleForm from "~/molle-cms/src/module/custom/GoogleForm.vue"
+import SocialShare from "~/molle-cms/src/module/custom/SocialShare.vue"
+import Card from "~/molle-cms/src/module/custom/Card.vue"
+import GoogleMap from "~/molle-cms/src/module/custom/GoogleMap.vue"
+import AnchorNavi from "~/molle-cms/src/module/custom/AnchorNavi.vue"
+import HorizonCard from "~/molle-cms/src/module/custom/HorizonCard.vue"
+import DataBox from "~/molle-cms/src/module/primitive/DataBox.vue"
+import DataSet from "~/molle-cms/src/module/primitive/DataSet.vue"
+import Reference from "~/molle-cms/src/module/primitive/Reference.vue"
+import Table from "~/molle-cms/src/module/primitive/Table.vue"
 /* > */
 import ModuleLoader from "~/molle/module/ModuleLoader.vue";
-import Blank from "~/molle/ui/Blank.vue";
+import Blank from "~/molle-cms/src/Blank.vue";
 
-declare module 'vue/types/vue' {
-  interface Vue {
-    // @ts-ignore
-    $molleModules: {
-      [key: string]: {
-        ref: any;
-        profile?: any;
-        profileName?: string;
-        def?: any;
-        convert?: string[];
-        black?: string[];
-        white?: string[];
-        icon?: string;
-      };
-    }
-  }
-}
-const pluginStatic = Vue.prototype.$molleModules = {
-  /* <molleModules */
- Box : {ref:  Box },
- BackgroundBox : {ref:  BackgroundBox },
- Headline : {ref:  Headline },
- Paragraph : {ref:  Paragraph },
- Picture : {ref:  Picture },
- Button : {ref:  Button },
- Column : {ref:  Column },
- ColumnBox : {ref:  ColumnBox },
- Gallery : {ref:  Gallery },
- GoogleForm : {ref:  GoogleForm },
- SocialShare : {ref:  SocialShare },
- Modal : {ref:  Modal },
- Card : {ref:  Card },
- GoogleMap : {ref:  GoogleMap },
- Table : {ref:  Table }
+/* <molleModules */
+Vue.component("Section", Section);
+Vue.component("Box", Box);
+Vue.component("BackgroundBox", BackgroundBox);
+Vue.component("Headline", Headline);
+Vue.component("Paragraph", Paragraph);
+Vue.component("Picture", Picture);
+Vue.component("Button", Button);
+Vue.component("Column", Column);
+Vue.component("ColumnBox", ColumnBox);
+Vue.component("Embed", Embed);
+Vue.component("LinkBox", LinkBox);
+Vue.component("IsviewBox", IsviewBox);
+Vue.component("ButtonList", ButtonList);
+Vue.component("Modal", Modal);
+Vue.component("List", List);
+Vue.component("ListBox", ListBox);
+Vue.component("Gallery", Gallery);
+Vue.component("GoogleForm", GoogleForm);
+Vue.component("SocialShare", SocialShare);
+Vue.component("Card", Card);
+Vue.component("GoogleMap", GoogleMap);
+Vue.component("AnchorNavi", AnchorNavi);
+Vue.component("HorizonCard", HorizonCard);
+Vue.component("DataBox", DataBox);
+Vue.component("DataSet", DataSet);
+Vue.component("Reference", Reference);
+Vue.component("Table", Table);
 /* > */
-};
-// export type molleModules = typeof molleModules[keyof typeof molleModules];
 
+Vue.component("DevModuleGuide", Blank);
+Vue.component("MolleEditerComp", Blank);
 Vue.component("AddModuleComp", Blank);
 Vue.component("ModuleLoader", ModuleLoader);
-//modules
-for (let key in pluginStatic) {
-  // @ts-ignore
-  Vue.component(key, pluginStatic[key].ref);
+
+import allData from "~/molle/nuxt-config/firestore-snap.json";
+Vue.prototype.$getText = (str: string) => {
+  for (let item of allData.datalist) {
+    if (!str.includes("${")) break;
+    str = str.replace(new RegExp("\\${" + item.id+"}", "g"), item.value);
+  }
+  return str;
 }

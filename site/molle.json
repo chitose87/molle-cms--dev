@@ -7,6 +7,43 @@
   "molleProjectID": "sandbox",
   "molleBrunch": "beta",
   "developerId": "chitose87@gmail.com",
+  "apiKey": "AIzaSyCi8-uxlUVlUKEL8HuATVYBt6O89zylqwY",
+  "authDomain": "molle-cms---dev.firebaseapp.com",
+  "databaseURL": "https://seishun-style.firebaseio.com",
+  "projectId": "molle-cms---dev",
+  "storageBucket": "molle-cms---dev.appspot.com",
+  "messagingSenderId": "965827033393",
+  "appId": "1:965827033393:web:b13a5b04b03a34ac4a981",
+  "measurementId": "G-3M15GS6HC2",
   "breakPoint": "768",
-  "gutter": "16"
+  "gutter": "16",
+  "pages": [
+    {
+      "id": "news",
+      "prefix": "news/",
+      "icon": "newspaper",
+      "label": "NEWS",
+      "isDateField": true,
+      "tags": [
+        {
+          "1": "お知らせ"
+        },
+        {
+          "2": "活動報告"
+        }
+      ]
+    },
+    {
+      "id": "universal",
+      "prefix": "",
+      "icon": "file-earmark",
+      "label": "Universal"
+    },
+    {
+      "id": "noExport",
+      "prefix": "--no-export/",
+      "icon": "file-x",
+      "label": "非出力ページ"
+    }
+  ]
 }

@@ -1,0 +1,41 @@
+.module.card.banner-card {
+
+}
+
+.banner-card {
+  .card {
+    &__img.picture {
+      @include mediaquery-not-sm {
+        margin-left: -2rem;
+        margin-right: -2rem;
+      }
+      @include mediaquery-sm {
+        margin-left: -1rem;
+        margin-right: -1rem;
+      }
+
+      img {
+        border-radius: 0;
+      }
+    }
+
+    &__title {
+      font-weight: bolder;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+
+      .headline__sub {
+        font-size: 16px;
+        margin-top: 0.2rem;
+      }
+    }
+
+    &__text {
+
+    }
+
+    &__btn-list {
+
+    }
+  }
+}

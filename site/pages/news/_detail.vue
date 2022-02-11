@@ -1,22 +1,24 @@
 <template lang="pug">
 .l-body.news-detail
   GlobalHeaderComp
-  article.l-content
-    .container
-      p.news-detail__date(v-html="pageData.date")
-      Headline(
-        :static__value="pageData.displayTitle||pageData.title"
-        :static__option="{lv:'h2'}"
-      )
-      ModuleLoader(v-if="pageData.itemId" :node="{id:pageData.itemId}")
+  MolleEditerComp
+  main
+    article.l-content
+      .container
+        p.news-detail__date(v-html="pageData.date")
+        Headline(
+          :static__value="pageData.displayTitle||pageData.title"
+          :static__option="{lv:'h2'}"
+        )
+        ModuleLoader(v-if="pageData.itemId" :node="{id:pageData.itemId}")
 
   GlobalFooterComp
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue} from "nuxt-property-decorator";
-import {Utils} from "~/molle/Utils";
-import {IPageData} from "~/molle/interface";
+import {Utils} from "~/molle-cms/src/Utils";
+import {IPageData} from "~/molle-cms/src/interface";
 
 @Component({
   components: {},

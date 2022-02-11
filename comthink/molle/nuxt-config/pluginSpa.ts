@@ -1,252 +1,184 @@
 import firebase from "firebase";
+
+import DevModuleGuide from "~/molle-cms/src/module/custom/DevModuleGuide.vue";
+import DevModuleGuideProfile from "~/molle-cms/src/module/custom/DevModuleGuideProfile.vue";
 /* <imports */
-import Box from "~/molle/module/primitive/Box.vue";
-import BoxProfile from "~/molle/module/primitive/BoxProfile.vue";
-import BackgroundBox from "~/molle/module/primitive/BackgroundBox.vue";
-import BackgroundBoxProfile from "~/molle/module/primitive/BackgroundBoxProfile.vue";
-import Headline from "~/molle/module/primitive/Headline.vue";
-import HeadlineProfile from "~/molle/module/primitive/HeadlineProfile.vue";
-import Paragraph from "~/molle/module/primitive/Paragraph.vue";
-import ParagraphProfile from "~/molle/module/primitive/ParagraphProfile.vue";
-import Picture from "~/molle/module/primitive/Picture.vue";
-import PictureProfile from "~/molle/module/primitive/PictureProfile.vue";
-import Button from "~/molle/module/primitive/Button.vue";
-import ButtonProfile from "~/molle/module/primitive/ButtonProfile.vue";
-import Column from "~/molle/module/primitive/Column.vue";
-import ColumnProfile from "~/molle/module/primitive/ColumnProfile.vue";
-import ColumnBox from "~/molle/module/primitive/ColumnBox.vue";
-import ColumnBoxProfile from "~/molle/module/primitive/ColumnBoxProfile.vue";
-import Gallery from "~/molle/module/custom/Gallery.vue";
-import GalleryProfile from "~/molle/module/custom/GalleryProfile.vue";
-import GoogleForm from "~/molle/module/custom/GoogleForm.vue";
-import GoogleFormProfile from "~/molle/module/custom/GoogleFormProfile.vue";
-import ModalProfile from "~/molle/module/primitive/ModalProfile.vue";
-import SocialShare from "~/molle/module/custom/SocialShare.vue";
-import SocialShareProfile from "~/molle/module/custom/SocialShareProfile.vue";
-import Modal from "~/molle/module/primitive/Modal.vue";
-import Card from "~/molle/module/custom/Card.vue";
-import CardProfile from "~/molle/module/custom/CardProfile.vue";
-import GoogleMap from "~/molle/module/custom/GoogleMap.vue";
-import GoogleMapProfile from "~/molle/module/custom/GoogleMapProfile.vue";
-import Table from "~/molle/module/primitive/Table.vue";
-import TableProfile from "~/molle/module/primitive/TableProfile.vue";
+import SlideShow from "~/molle/module/custom/SlideShow.vue";
+import SlideShowProfile from "~/molle/module/custom/SlideShowProfile.vue";
+import Feature from "~/molle/module/custom/Feature.vue";
+import FeatureProfile from "~/molle/module/custom/FeatureProfile.vue";
+import FeatureBox from "~/molle/module/custom/FeatureBox.vue";
+import FeatureBoxProfile from "~/molle/module/custom/FeatureBoxProfile.vue";
+import Box from "~/molle-cms/src/module/primitive/Box.vue";
+import BoxProfile from "~/molle-cms/src/module/primitive/BoxProfile.vue";
+import BackgroundBox from "~/molle-cms/src/module/primitive/BackgroundBox.vue";
+import BackgroundBoxProfile from "~/molle-cms/src/module/primitive/BackgroundBoxProfile.vue";
+import Headline from "~/molle-cms/src/module/primitive/Headline.vue";
+import HeadlineProfile from "~/molle-cms/src/module/primitive/HeadlineProfile.vue";
+import Paragraph from "~/molle-cms/src/module/primitive/Paragraph.vue";
+import ParagraphProfile from "~/molle-cms/src/module/primitive/ParagraphProfile.vue";
+import Picture from "~/molle-cms/src/module/primitive/Picture.vue";
+import PictureProfile from "~/molle-cms/src/module/primitive/PictureProfile.vue";
+import Button from "~/molle-cms/src/module/primitive/Button.vue";
+import ButtonProfile from "~/molle-cms/src/module/primitive/ButtonProfile.vue";
+import Column from "~/molle-cms/src/module/primitive/Column.vue";
+import ColumnProfile from "~/molle-cms/src/module/primitive/ColumnProfile.vue";
+import ColumnBox from "~/molle-cms/src/module/primitive/ColumnBox.vue";
+import ColumnBoxProfile from "~/molle-cms/src/module/primitive/ColumnBoxProfile.vue";
+import Embed from "~/molle-cms/src/module/primitive/Embed.vue";
+import EmbedProfile from "~/molle-cms/src/module/primitive/EmbedProfile.vue";
+import LinkBox from "~/molle-cms/src/module/primitive/LinkBox.vue";
+import LinkBoxProfile from "~/molle-cms/src/module/primitive/LinkBoxProfile.vue";
+import IsviewBox from "~/molle-cms/src/module/primitive/IsviewBox.vue";
+import IsviewBoxProfile from "~/molle-cms/src/module/primitive/IsviewBoxProfile.vue";
+import ButtonList from "~/molle-cms/src/module/primitive/ButtonList.vue";
+import ButtonListProfile from "~/molle-cms/src/module/primitive/ButtonListProfile.vue";
+import Modal from "~/molle-cms/src/module/primitive/Modal.vue";
+import ModalProfile from "~/molle-cms/src/module/primitive/ModalProfile.vue";
+import List from "~/molle-cms/src/module/primitive/List.vue";
+import ListProfile from "~/molle-cms/src/module/primitive/ListProfile.vue";
+import Gallery from "~/molle-cms/src/module/custom/Gallery.vue";
+import GalleryProfile from "~/molle-cms/src/module/custom/GalleryProfile.vue";
+import GoogleForm from "~/molle-cms/src/module/custom/GoogleForm.vue";
+import GoogleFormProfile from "~/molle-cms/src/module/custom/GoogleFormProfile.vue";
+import SocialShare from "~/molle-cms/src/module/custom/SocialShare.vue";
+import SocialShareProfile from "~/molle-cms/src/module/custom/SocialShareProfile.vue";
+import Card from "~/molle-cms/src/module/custom/Card.vue";
+import CardProfile from "~/molle-cms/src/module/custom/CardProfile.vue";
+import GoogleMap from "~/molle-cms/src/module/custom/GoogleMap.vue";
+import GoogleMapProfile from "~/molle-cms/src/module/custom/GoogleMapProfile.vue";
+import Table from "~/molle-cms/src/module/primitive/Table.vue";
+import TableProfile from "~/molle-cms/src/module/primitive/TableProfile.vue";
 /* > */
-
 import {Vue} from "nuxt-property-decorator";
-import ModuleLoaderCms from "~/molle/module/ModuleLoaderCms.vue";
-import AddModuleComp from "~/molle/ui/AddModuleComp.vue";
-import ItemListItemComp from "~/molle/ui/ItemListItemComp.vue";
+import ModuleLoaderCms from "~/molle-cms/src/module/ModuleLoaderCms.vue";
+import AddModuleComp from "~/molle-cms/src/ui/AddModuleComp.vue";
+import ItemListItemComp from "~/molle-cms/src/ui/ItemListItemComp.vue";
+import MolleEditerComp from "~/molle-cms/src/ui/MolleEditerComp.vue";
 
-declare module 'vue/types/vue' {
+Vue.component("MolleEditerComp", MolleEditerComp);
+Vue.component("AddModuleComp", AddModuleComp);
+Vue.component("ItemListItemComp", ItemListItemComp);
+Vue.component("ModuleLoader", ModuleLoaderCms);
+
+declare module "vue/types/vue" {
   interface Vue {
     // @ts-ignore
     $molleModules: {
       [key: string]: {
         ref: any;
         profile?: any;
-        profileName?: string;
         def: any;
-        convert?: string[];
-        black?: string[];
-        white?: string[];
+        convert?: any[];
+        black?: any[];
+        white?: any[];
         icon?: string;//puzzle
       };
     }
-  }
-}
-const molleModules = Vue.prototype.$molleModules = {
-  Box: {
-    ref: Box,
-    profile: BoxProfile,
-    profileName: "BoxProfile",
-    def: c("Box", "children"),
-    black: ["ColumnBox"],
-    convert: ["ColumnBox", "BackgroundBox"],
-    icon: "plus-square",
-  },
-  BackgroundBox: {
-    ref: BackgroundBox,
-    profile: BackgroundBoxProfile,
-    profileName: "BackgroundBoxProfile",
-    def: c("BackgroundBox", "children"),
-    black: ["ColumnBox"],
-    convert: ["Box", "ColumnBox"],
-    icon: "plus-square",
-  },
-  Headline: {
-    ref: Headline,
-    profile: HeadlineProfile,
-    profileName: "HeadlineProfile",
-    def: c("Headline", "text", {
-      option: {
-        lv: "h3",
-      },
-    }),
-    convert: ["Paragraph"],
-    icon: "card-heading",
-  },
-  Paragraph: {
-    ref: Paragraph,
-    profile: ParagraphProfile,
-    profileName: "ParagraphProfile",
-    def: c("Paragraph", "text"),
-    convert: ["Headline"],
-    icon: "text-paragraph",
-  },
-  Picture: {
-    ref: Picture,
-    profile: PictureProfile,
-    profileName: "PictureProfile",
-    def: c("Picture", "picture", {
-      option: {
-        sp: "",
-        alt: "",
-      },
-    }),
-    icon: "image",
-  },
-  Button: {
-    ref: Button,
-    profile: ButtonProfile,
-    profileName: "ButtonProfile",
-    def: c("Button", "button", {
-      option: {
-        href: "https://placehold.jp/",
-        target: "",
-      },
-    }),
-    icon: "hand-index",
-  },
-  // Card: {
-  //   ref: Card,
-  //   profile: CardProfile,
-  //   def: c("Card", "group")
-  // },
-  //
-  Column: {
-    ref: Column,
-    profile: ColumnProfile,
-    profileName: "ColumnProfile",
-    def: c("Column", "children"),
-    white: ["ColumnBox", "Box"],
-    icon: "layout-three-columns",
-  },
-  ColumnBox: {
-    ref: ColumnBox,
-    profile: ColumnBoxProfile,
-    profileName: "ColumnBoxProfile",
-    def: c("ColumnBox", "children"),
-    black: ["ColumnBox"],
-    convert: ["Box"],
-    icon: "plus-square",
-  },
-  Table: {
-    ref: Table,
-    profile: TableProfile,
-    profileName: "TableProfile",
-    def: c("Table", "text", {
-      value: "th,aaa\nth,bbb",
-      option: {columnHeading: true},
-    }),
-    icon: "table",
-  },
-  Modal: {
-    ref: Modal,
-    profile: ModalProfile,
-    profileName: "ModalProfile",
-    def: c("Modal", "children"),
-    // black: ["ColumnBox"],
-    // convert: ["ColumnBox"],
-    icon: "pip",
-  },
-
-  //custom
-  Gallery: {
-    ref: Gallery,
-    profile: GalleryProfile,
-    profileName: "GalleryProfile",
-    def: c("Gallery", "children"),
-    white: ["Picture"],
-    icon: "three-dots",
-  },
-  GoogleForm: {
-    ref: GoogleForm,
-    profile: GoogleFormProfile,
-    profileName: "GoogleFormProfile",
-    def: c("GoogleForm", "any"),
-    icon: "ui-radios",
-  },
-  GoogleMap: {
-    ref: GoogleMap,
-    profile: GoogleMapProfile,
-    profileName: "GoogleMapProfile",
-    def: c("GoogleMap", "any"),
-    icon: "geo-alt",
-  },
-  SocialShare: {
-    ref: SocialShare,
-    profile: SocialShareProfile,
-    profileName: "SocialShareProfile",
-    def: c("SocialShare", "any"),
-    icon: "share",
-  },
-  //
-  Card: {
-    ref: Card,
-    profile: CardProfile,
-    profileName: "CardProfile",
-    def: c("Card", "group", {
-      value: {
-        img: {fixedModuleId: "Picture", order: 0},
-        headline: {fixedModuleId: "Paragraph", order: 10},
-        text: {fixedModuleId: "Paragraph", order: 20},
-      }
-    }),
-    icon: "file-richtext",
-  },
-};
-// export type molleModules = typeof molleModules[keyof typeof molleModules];
-
-Vue.component("AddModuleComp", AddModuleComp);
-Vue.component("ItemListItemComp", ItemListItemComp);
-Vue.component("ModuleLoader", ModuleLoaderCms);
-//modules
-for (let key in molleModules) {
-  // @ts-ignore
-  Vue.component(key, molleModules[key].ref);
-  // @ts-ignore
-  if (molleModules[key].profile) {
     // @ts-ignore
-    Vue.component(molleModules[key].profileName, molleModules[key].profile);
+    $molleModuleList: {
+      ref: any;
+      profile?: any;
+      def: any;
+      convert?: any[];
+      black?: any[];
+      white?: any[];
+      icon?: string;//puzzle
+    }[];
   }
 }
 
-
-/**
- * Create InitialValue
- * @param moduleId
- * @param type
- * @param opt
- */
-function c(moduleId: string, type: string, opt?: any) {
+// modules
+let _molleModules: any = {};
+let _molleModuleList: any[] = [];
+[{
+  ref: Box,
+  profile: BoxProfile,
+}, {
+  ref: BackgroundBox,
+  profile: BackgroundBoxProfile,
+}, {
+  ref: LinkBox,
+  profile: LinkBoxProfile,
+}, {
+  ref: IsviewBox,
+  profile: IsviewBoxProfile,
+}, {
+  ref: Headline,
+  profile: HeadlineProfile,
+}, {
+  ref: Paragraph,
+  profile: ParagraphProfile,
+}, {
+  ref: Embed,
+  profile: EmbedProfile,
+}, {
+  ref: Picture,
+  profile: PictureProfile,
+}, {
+  ref: Button,
+  profile: ButtonProfile,
+}, {
+  ref: ButtonList,
+  profile: ButtonListProfile,
+}, {
+  ref: Column,
+  profile: ColumnProfile,
+}, {
+  ref: ColumnBox,
+  profile: ColumnBoxProfile,
+}, {
+  ref: Table,
+  profile: TableProfile,
+}, {
+  ref: Modal,
+  profile: ModalProfile,
+}, {
+  ref: Gallery,
+  profile: GalleryProfile,
+}, {
+  ref: GoogleForm,
+  profile: GoogleFormProfile,
+}, {
+  ref: GoogleMap,
+  profile: GoogleMapProfile,
+}, {
+  ref: SocialShare,
+  profile: SocialShareProfile,
+}, {
+  ref: Card,
+  profile: CardProfile,
+}, {
+  ref: SlideShow,
+  profile: SlideShowProfile,
+}, {
+  ref: FeatureBox,
+  profile: FeatureBoxProfile,
+}, {
+  ref: Feature,
+  profile: FeatureProfile,
+}, {
+  ref: DevModuleGuide,
+  profile: DevModuleGuideProfile,
+}, {
+  ref: List,
+  profile: ListProfile,
+},
+].forEach((attr: {ref: any; profile?: any;}) => {
   let v: any = {
-    moduleId: moduleId,
-    type: type,
+    moduleId: attr.ref.CLASS_NAME,
+    type: attr.profile.settings.type,
     tagId: "",
     tagClass: "",
     style: {},
     class: {},
     option: {},
     createTime: firebase.firestore.FieldValue.serverTimestamp(),
-    // updateTime: firebase.firestore.FieldValue.serverTimestamp(),
   };
-  switch (type) {
+  switch (attr.profile.settings.type) {
     case "children":
       v.value = [];
       break;
-    // case "items":
-    //   v.value = [];
-    //   break;
     case "any":
       v.value = {};
       break;
@@ -263,10 +195,27 @@ function c(moduleId: string, type: string, opt?: any) {
       v.value = "BUTTON";
       break;
   }
-  if (opt) {
-    for (let key in opt) {
-      v[key] = opt[key];
+  if (attr.profile.settings.opt) {
+    for (let key in attr.profile.settings.opt) {
+      v[key] = attr.profile.settings.opt[key];
     }
   }
-  return v;
-}
+  _molleModules[attr.ref.CLASS_NAME] = {
+    ref: attr.ref,
+    profile: attr.profile,
+    black: attr.profile.settings.black,
+    white: attr.profile.settings.white,
+    convert: attr.profile.settings.convert,
+    icon: attr.profile.settings.icon,
+    def: v,
+  };
+  _molleModuleList.push(_molleModules[attr.ref.CLASS_NAME]);
+
+  Vue.component(attr.ref.CLASS_NAME, attr.ref);
+  if (attr.profile) {
+    Vue.component(attr.profile.CLASS_NAME, attr.profile);
+  }
+});
+
+Vue.prototype.$molleModules = _molleModules;
+Vue.prototype.$molleModuleList = _molleModuleList;

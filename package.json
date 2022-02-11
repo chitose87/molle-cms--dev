@@ -1,9 +1,12 @@
 {
   "name": "molle-cms",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.x"
+  },
   "private": true,
   "scripts": {
-    "setup": "node molle/setup.node.js",
+    "setup": "node molle-cms/setup.node.js",
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
     "<molle:setup.node.js>": "",
@@ -12,14 +15,20 @@
     "gen:cms": "npm run site:gen:cms",
     "deploy": "npm run site:deploy",
     "site:dev": "cross-env NUXT_PORT=1234 IS_MOLLE_CMS=true nuxt-ts dev site",
-    "site:gen": "node ./molle/before.node.js site && nuxt-ts generate site",
+    "site:gen": "node ./molle-cms/before.node.js site && nuxt-ts generate site",
     "site:gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate site",
     "site:deploy": "firebase deploy --only hosting:site-static",
     "comthink:dev": "cross-env NUXT_PORT=1234 IS_MOLLE_CMS=true nuxt-ts dev comthink",
-    "comthink:gen": "node ./molle/before.node.js comthink && nuxt-ts generate comthink",
+    "comthink:gen": "node ./molle-cms/before.node.js comthink && nuxt-ts generate comthink",
     "comthink:gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate comthink",
     "comthink:deploy": "firebase deploy --only hosting:comthink-static",
+    "labo:dev": "cross-env NUXT_PORT=1234 IS_MOLLE_CMS=true nuxt-ts dev labo",
+    "labo:gen": "node ./molle-cms/before.node.js labo && nuxt-ts generate labo",
+    "labo:gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate labo",
+    "labo:deploy": "firebase deploy --only hosting:labo-static",
     "</molle:setup.node.js>": "",
+    "site:ftp": "node site/deploy.js",
+    "site:storage": "node ./molle-cms/storage.node.js site",
     "deploy:cms": "firebase deploy --only functions"
   },
   "dependencies": {
@@ -29,10 +38,12 @@
     "bootstrap": "^4.1.3",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.12.1",
+    "cropperjs": "^1.5.12",
     "cross-env": "^7.0.3",
     "firebase-tools": "^9.10.2",
     "nuxt": "^2.15.5",
     "quill": "^1.3.7",
+    "request": "^2.88.2",
     "tsconfig-paths-webpack-plugin": "^3.5.1",
     "vue-scrollto": "^2.20.0",
     "vuex": "^3.6.2",
@@ -44,14 +55,14 @@
     "@nuxtjs/style-resources": "^1.0.0",
     "@types/firebase": "^3.2.1",
     "@types/googlemaps": "^3.43.3",
-    "firebase": "^8.5.0",
+    "firebase": "^8.10.0",
+    "ftp-deploy": "^2.4.1",
     "node-sass": "^4.14.1",
     "nuxt-property-decorator": "^2.9.1",
     "pug": "^2.0.0",
     "pug-loader": "^2.4.0",
     "pug-plain-loader": "^1.1.0",
     "sass-loader": "^10.1.0",
-    "vuedraggable": "^2.24.3",
     "vuex-module-decorators": "^1.0.1"
   }
 }

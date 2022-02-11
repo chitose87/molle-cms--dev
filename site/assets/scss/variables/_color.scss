@@ -1,14 +1,14 @@
 // Color system
 $color-white: #fff !default;
-$color-gray-100: #f8f9fa !default;
-$color-gray-200: #EBE8E4 !default;//xdからとった
-$color-gray-300: #dee2e6 !default;
-$color-gray-400: #A09B97 !default;//xdからとった
-$color-gray-500: #98938E !default;//xdからとった
-$color-gray-600: #707070 !default;//xdからとった
-$color-gray-700: #403B36 !default;//xdからとった
+$color-gray-100: #f9f9f9 !default;
+$color-gray-200: #efefef !default;
+$color-gray-300: #dfdfdf !default;
+$color-gray-400: #aaaaaa !default;
+$color-gray-500: #9f9f9f !default;
+$color-gray-600: #747474 !default;
+$color-gray-700: #555555 !default;
 $color-gray-800: #333333 !default;
-$color-gray-900: #212529 !default;
+$color-gray-900: #151515 !default;
 $color-black: #000 !default;
 
 $color-blue: #007bff !default;
@@ -21,6 +21,8 @@ $color-yellow: #d8c24b !default;
 $color-green: #789529 !default;//xdからとった
 $color-teal: #269B8F !default;
 $color-cyan: #17a2b8 !default;
+$color-blue-gray-100: #9EBBC4 !default;//xdからとった
+$color-blue-gray-200: #E7EDEF !default;//xdからとった
 
 $color-primary: $color-blue !default;
 $color-secondary: $color-gray-600 !default;
@@ -39,7 +41,7 @@ $color-border: $color-gray-400;
 $color-border-light: $color-gray-200;
 $color-border-alpha: rgba($color-black, .1);
 
-$color-text-black: $color-gray-700;
+$color-text-black: $color-gray-800;
 $color-text-white: $color-white;
 $color-text: $color-text-black;
 

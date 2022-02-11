@@ -9,8 +9,8 @@ ul.news-list
 
 <script lang="ts">
 import {Component, Vue, Prop} from "nuxt-property-decorator";
-import {IPageData} from "~/molle/interface";
-import {Utils} from "~/molle/Utils";
+import {IPageData} from "~/molle-cms/src/interface";
+import {Utils} from "~/molle-cms/src/Utils";
 
 @Component({
   components: {}

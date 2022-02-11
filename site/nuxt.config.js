@@ -2,16 +2,8 @@ const SITE_DIR = process.argv[3];
 require("dotenv").config();
 
 const molle = require("./molle.json");
-molle.version = "0.7";
+molle.version = "0.8";
 molle.isMolleCms = process.env.IS_MOLLE_CMS == "true";
-molle.apiKey = process.env.apiKey;
-molle.authDomain = process.env.authDomain;
-molle.databaseURL = process.env.databaseURL;
-molle.projectId = process.env.projectId;
-molle.storageBucket = process.env.storageBucket;
-molle.messagingSenderId = process.env.messagingSenderId;
-molle.appId = process.env.appId;
-molle.measurementId = process.env.measurementId;
 
 const scssEnv = {
   breakPoint: molle.breakPoint,
@@ -29,15 +21,19 @@ const css = [
 const modules = [
   "@nuxtjs/dotenv",
   "@nuxtjs/style-resources",
-  "../molle/generateHooks",
+  "./molle-cms/generateHooks",
 ];
 const plugins = [
   "./molle/nuxt-config/plugin.ts",
 ];
+const scriptObj = [];
 if (molle.isMolleCms) {
-  css.push("./molle/css/molle.scss");
+  css.push("molle-cms/css/molle.scss");
   modules.push("bootstrap-vue/nuxt");
-  plugins.push("./molle/nuxt-config/pluginSpa.ts");
+  plugins.push(
+    "./molle-cms/src/Words.ts",
+    "./molle/nuxt-config/pluginSpa.ts");
+  // scriptObj.push({src: "https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"});
 } else {
   plugins.push("./molle/nuxt-config/pluginStatic.ts");
 }
@@ -47,6 +43,9 @@ export default {
   ssr: !molle.isMolleCms,
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
+    htmlAttrs: {
+      lang: "ja",
+    },
     title: molle.title,
     meta: [
       {charset: "utf-8"},
@@ -68,10 +67,14 @@ export default {
       {rel: "preconnect", href: "https://fonts.gstatic.com"},
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://cdn.jsdelivr.net/npm/yakuhanjp@3.4.1/dist/css/yakuhanjp-noto.min.css",
       },
     ],
-    script: [],
+    script: scriptObj,
   },
   env: molle,
 
@@ -107,9 +110,9 @@ export default {
   build: {
     extractCSS: true,
     filenames: {
-      app: ({isDev}) => true ? "[name]-app.js" : "[contenthash].js",
-      chunk: ({isDev}) => true ? "[name].js" : "[contenthash].js",
-      css: ({isDev}) => true ? "[name].css" : "[contenthash].css",
+      app: ({isDev}) => isDev || !molle.isMolleCms ? "[name]-app.js" : "[name]-app.js?[contenthash]",
+      chunk: ({isDev}) => isDev || !molle.isMolleCms ? "[name].js" : "[name].js?[contenthash]",
+      css: ({isDev}) => isDev || !molle.isMolleCms ? "[name].css" : "[name].css?[contenthash]",
       img: ({isDev}) => isDev ? "[path][name].[ext]" : "img/[contenthash:7].[ext]",
       font: ({isDev}) => isDev ? "[path][name].[ext]" : "fonts/[contenthash:7].[ext]",
       video: ({isDev}) => isDev ? "[path][name].[ext]" : "videos/[contenthash:7].[ext]",

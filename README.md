@@ -1,4 +1,4 @@
-# MOLLE CMS v0
+# MOLLE CMS v0.7
 
 ## 公開環境　(public)
 https://molle-cms--stg.web.app/
@@ -13,6 +13,7 @@ https://molle-cms---dev.web.app/
 ## セッティング
 npm i
 firebase init
+npm run setup
 
 ## 開発
 npm run dev
@@ -43,6 +44,11 @@ npm run hosting:cms
 npm run hosting
 
 ### プラグイン
+
+###
+firebase functions:config:set site.id="id" site.pw="pw"
+
+firebase functions:config:get > .runtimeconfig.json
 
 
 ## 画像について
