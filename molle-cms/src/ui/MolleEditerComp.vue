@@ -220,7 +220,7 @@ export default class MolleEditerComp extends Vue {
     let _check = () => {
       var current = <HTMLElement>document.activeElement;
       return current.tagName == "TEXTAREA" ||
-        (current.tagName == "INPUT" && ["text","url"].includes(current.getAttribute("type")!)) ||
+        (current.tagName == "INPUT" && ["text","url","number"].includes(current.getAttribute("type")!)) ||
         current.getAttribute("contenteditable") == "true";
     };
 

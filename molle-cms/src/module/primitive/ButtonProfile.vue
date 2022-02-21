@@ -23,6 +23,7 @@ div
     a(:href="itemData.option.href" :target="itemData.option.target")
       b-icon(icon="link")
     input.form-control.form-control-sm(
+      type="url"
       v-model="itemData.option.href"
       @change="()=>$emit('change')"
     )
@@ -31,6 +32,7 @@ div
   label.w-100
     span.mr-1 {{custom.label.label}}:
     input.form-control.form-control-sm(
+      type="text"
       v-model="itemData.value"
       @change="()=>$emit('change')"
     )

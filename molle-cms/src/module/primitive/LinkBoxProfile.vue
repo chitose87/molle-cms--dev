@@ -12,6 +12,7 @@ div
       .molle-guide__body.caption
         p リンク先URLを入力します。
     input.form-control.form-control-sm(
+      type="url"
       v-model="itemData.option.href"
       @change="()=>$emit('change')"
     )
