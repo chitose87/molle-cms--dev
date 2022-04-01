@@ -1,5 +1,6 @@
 <template lang="pug">
 .style-comp
+  hr
   label.form-inline(v-if="permission.theme!==undefined")
     span.mr-1 {{$words.theme}}:
     select.form-control.form-control-sm(v-model="itemData.class.theme" @change="()=>$emit('change')")
@@ -32,12 +33,14 @@
       .molle-guide__body.caption
         p 余白
 
-  //details
-    summary 削除予定
-    .form-inline
-  //span.mr-3
-    label Free Area
-      textarea(v-model="datacss")
+  //.css
+  details(v-if="permission.css")
+    summary CSS入力欄
+    div
+      textarea.form-control.form-control-sm.small(
+        v-model="itemData.css"
+        @change="()=>$emit('change')"
+      )
 
 </template>
 

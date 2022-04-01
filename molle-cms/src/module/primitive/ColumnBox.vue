@@ -10,6 +10,7 @@
     :parentNode="loader.node"
     :label="`ColumnBox`"
   )
+  style(v-if="itemData.css" v-html="itemData.css")
 </template>
 
 <script lang="ts">

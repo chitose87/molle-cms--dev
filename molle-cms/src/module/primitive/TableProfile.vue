@@ -1,9 +1,5 @@
 <template lang="pug">
 div
-  StyleComp(
-    :itemData="itemData",
-    @change="() => $emit('change')"
-  )
 
   label.form-inline
     span.mr-1 {{custom.csv.label}}:
@@ -34,6 +30,11 @@ div
       type="checkbox",
       @change="() => $emit('change')"
     )
+  StyleComp(
+    :itemData="itemData",
+    @change="() => $emit('change')"
+  )
+
 </template>
 
 <script lang="ts">

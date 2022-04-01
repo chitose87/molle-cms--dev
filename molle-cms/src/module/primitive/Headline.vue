@@ -1,5 +1,5 @@
 <template lang="pug">
-component.module.headline(
+component.headline(
   :id="itemData.tagId",
   :is="itemData.option.lv || 'h3'",
   :class="getClass(itemData)",
@@ -14,7 +14,7 @@ component.module.headline(
 
 <script lang="ts">
 import {Component, Prop} from "nuxt-property-decorator";
-import {Module} from "../Module";
+import {Module} from "~/molle-cms/src/module/Module";
 
 @Component({
   components: {},

@@ -1,10 +1,5 @@
 <template lang="pug">
 div
-  StyleComp(
-    :itemData="itemData"
-    @change="()=>$emit('change')"
-  )
-
   label
     span.mr-1 {{custom.column.label}}:
     .form-inline
@@ -31,6 +26,11 @@ div
       p 横幅を12分割した時の割合で当該要素のカラム幅(column)を指定します。
   p.caption *-1=auto
   p.caption *0={{$words.notSet}}
+
+  StyleComp(
+    :itemData="itemData"
+    @change="()=>$emit('change')"
+  )
 
 </template>
 
@@ -59,12 +59,7 @@ export default class ColumnBoxProfile extends Profile {
   };
   //style setting
   static readonly stylePermission = {
-    // container: false,
-    // border: false,
-    // margin: "",
-    // padding: "",
-    // theme: {default: "", select: ["", "test"]},
-    // color: {default: "", select: ["", "dark"]},
+    css: true,
   };
   static settings = {
     type: "children",

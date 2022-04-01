@@ -1,9 +1,5 @@
 <template lang="pug">
 div
-  StyleComp(
-    :itemData="itemData"
-    @change="()=>$emit('change')"
-  )
   details.molle-guide
     summary
     .molle-guide__body.caption
@@ -17,6 +13,10 @@ div
       summary
       .molle-guide__body.caption
         p ---
+  StyleComp(
+    :itemData="itemData"
+    @change="()=>$emit('change')"
+  )
 
 </template>
 

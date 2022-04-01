@@ -28,9 +28,7 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-
   )
-
 
 </template>
 
@@ -66,13 +64,7 @@ export default class BackgroundBoxProfile extends Profile {
   };
   //style setting
   static readonly stylePermission = {
-    // container: false,
-    // "container-fluid": false,
-    // section: false,
-    // border: false,
-    // margin: "",
-    // padding: "",
-    // theme: {default: "", select: ["", "-quote"]},
+    css: true,
     color: {default: "", select: ["", "-dark"]},
   };
 

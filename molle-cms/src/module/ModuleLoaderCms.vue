@@ -18,7 +18,7 @@ import {Module} from "./Module";
   components: {},
 })
 export default class ModuleLoaderCms extends Vue {
-  static modules = <{ [key: string]: ModuleLoaderCms }>{};
+  static modules = <{[key: string]: ModuleLoaderCms}>{};
 
   @Prop({default: () => ({id: 0})}) node!: INodeObject;
   @Prop({default: false}) isRoot!: boolean;
@@ -49,7 +49,7 @@ export default class ModuleLoaderCms extends Vue {
   }
 
   check() {
-    let obj: any = {}
+    let obj: any = {};
     if (this.itemData.noExport) {
       obj.opacity = 0.5;
     }
@@ -66,7 +66,7 @@ export default class ModuleLoaderCms extends Vue {
     } else if (this.$route.query.hover == this.node.id) {
       obj.outline = "2px solid reoranged";
     }
-    return obj
+    return obj;
   }
 
   beforeDestroy() {

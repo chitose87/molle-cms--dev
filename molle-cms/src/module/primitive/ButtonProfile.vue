@@ -1,9 +1,5 @@
 <template lang="pug">
 div
-  StyleComp(
-    :itemData="itemData"
-    @change="()=>$emit('change')"
-  )
   // block
   label.form-inline
     span.mr-1 {{custom.block.label}}:
@@ -60,6 +56,12 @@ div
           p ファイルをアップロードし、URLにアップロード先URLを入力するとそのファイルへのリンクボタンになります。
     div
       GoogleStorage
+
+  StyleComp(
+    :itemData="itemData"
+    @change="()=>$emit('change')"
+  )
+
 
 </template>
 

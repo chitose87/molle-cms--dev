@@ -1,9 +1,5 @@
 <template lang="pug">
 div
-  StyleComp(
-    :itemData="itemData"
-    @change="()=>$emit('change')"
-  )
   //Border
   label.form-inline
     span.mr-1 {{$words.border}}:
@@ -80,6 +76,10 @@ div
 
   //a.btn.btn-secondary.btn-sm(href="https://console.firebase.google.com/project/" + process.env.projectId + "/storage/" + process.env.storageBucket + "/files~2Fimages?hl=ja" target="_blank")
     span Storage
+  StyleComp(
+    :itemData="itemData"
+    @change="()=>$emit('change')"
+  )
 
 </template>
 

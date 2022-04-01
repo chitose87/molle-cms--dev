@@ -1,14 +1,13 @@
 <template lang="pug">
 div
-  StyleComp(
-    :itemData="itemData"
-    @change="()=>$emit('change')"
-  )
-
   details.molle-guide
     summary
     .molle-guide__body.caption
       p マーカーの種類をテーマで選択できます。
+  StyleComp(
+    :itemData="itemData"
+    @change="()=>$emit('change')"
+  )
 
 </template>
 

@@ -4,30 +4,15 @@
     .card-header.pt-1.pb-1.pl-3.pr-3(@click="expand.all=!expand.all") {{$words.page}} {{$words.list}}
       b-icon(:icon="expand.all?'chevron-up':'chevron-down'")
     .card-body.p-0.pb-3(v-if="expand.all")
-      div
-        button.btn.btn-sm.btn-link.btn-block.text-left(@click="expand.news=!expand.news")
-          span {{$words.news}} {{$words.list}}
-          b-icon(:icon="expand.news?'chevron-up':'chevron-down'")
-
-        .item-list-item-comp.list-group-item.p-0.pl-2.pb-3.border-right-0(v-if="expand.news")
-          // news
+      //
+      div(v-for="page in profile.pages")
+        button.btn.btn-sm.btn-link.btn-block.text-left(@click="$set(expand, page.id, !expand[page.id])")
+          b-icon.mr-2(:icon="page.icon")
+          | {{page.label}}
+          b-icon(:icon="expand[page.id]?'chevron-up':'chevron-down'")
+        .item-list-item-comp.list-group-item.p-0.pl-2.pb-3.border-right-0(v-if="expand[page.id]")
           .item-list-item-comp.list-group-item.list-group-item-action.p-0(
-            v-for="(item, key) in news"
-          )
-            NuxtLink.btn.btn-sm.btn-link.btn-block.text-left(
-              :to="{path: '/'+item.path, query: {edit: 'true'}}"
-            )
-              b-icon.ml-n1.mr-1(icon="window")
-              b(v-html="item.path")
-
-      div
-        button.btn.btn-sm.btn-link.btn-block.text-left(@click="expand.universal=!expand.universal")
-          span {{$words.universal}} {{$words.list}}
-          b-icon(:icon="expand.universal?'chevron-up':'chevron-down'")
-        .item-list-item-comp.list-group-item.p-0.pl-2.pb-3.border-right-0(v-if="expand.universal")
-          // pages
-          .item-list-item-comp.list-group-item.list-group-item-action.p-0(
-            v-for="(item, key) in pages"
+            v-for="(item, key) in pages[page.id]"
           )
             NuxtLink.btn.btn-sm.btn-link.btn-block.text-left(
               :to="{path: '/'+item.path, query: {edit: 'true'}}"
@@ -47,13 +32,13 @@ import {IPageData} from "../interface";
   components: {},
 })
 export default class PageListComp extends Vue {
-  pages: {[key: string]: IPageData} = {};
-  news: {[key: string]: IPageData} = {};
+  pages: any = {};
+  profile: any = {
+    pages: process.env.pages,
+  };
 
-  expand = {
+  expand: any = {
     all: false,
-    news: false,
-    universal: false,
   };
   inited = false;
 
@@ -63,19 +48,29 @@ export default class PageListComp extends Vue {
       this.inited = true;
       Singleton.pagesRef.onSnapshot(
         (snap: firebase.firestore.QuerySnapshot) => {
-          this.$set(this, "pages", {});
-          this.$set(this, "news", {});
+          let pages: any = {
+            universal: {},
+          };
 
           snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
             let pageData = <IPageData>_snap.data();
-            if (pageData.path.indexOf("news/") == 0) {
-              this.$set(this.news, _snap.id, pageData);
-              //   // } else if (pageData.path.indexOf("case-study/") == 0) {
-              //   //   this.$set(this.casestudy, _snap.id, pageData);
-            } else {
-              this.$set(this.pages, _snap.id, pageData);
+
+            let flag = true;
+            for (let page of this.profile.pages) {
+              if (!page.prefix) continue;
+              if (pageData.path.includes(page.prefix, 0)) {
+                if (!pages[page.id]) pages[page.id] = {};
+                pages[page.id][_snap.id] = pageData;
+
+                flag = false;
+                break;
+              }
+            }
+            if (flag) {
+              pages.universal[_snap.id] = pageData;
             }
           });
+          this.$set(this, "pages", pages);
         });
     }
   }

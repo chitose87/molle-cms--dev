@@ -1,10 +1,5 @@
 <template lang="pug">
 div
-  StyleComp(
-    :itemData="itemData"
-    @change="()=>$emit('change')"
-  )
-
   div(v-if="itemData.class.theme=='bg'")
     InputUrlByGS(
       :label="custom.bg.label+':'"
@@ -30,6 +25,10 @@ div
     )
 
     GoogleStorage
+  StyleComp(
+    :itemData="itemData"
+    @change="()=>$emit('change')"
+  )
 
 </template>
 

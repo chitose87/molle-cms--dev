@@ -3,12 +3,16 @@
   .molle-editer__fiexd-tl
     a.btn.btn-outline-secondary(href="/--molle/")
       b-icon(icon="house-door")
-      span Molle TOP
-    button.btn.btn-info(
-      @click="editerToggle"
-    )
-      span(v-if="$route.query.edit") {{$words.preview}}
-      span(v-else) {{$words.edit}}
+
+    button.btn.btn-info(@click="editerToggle")
+      span(v-if="$route.query.edit")
+        b-icon(icon="display")
+      span(v-else)
+        b-icon(icon="pencil")
+
+    button.btn.btn-outline-info(@click="openMobileWindow")
+      span
+        b-icon(icon="phone")
 
   .molle-editer__body(v-show="$route.query.edit")
     style(v-if="$route.query.edit")
@@ -126,6 +130,7 @@ export default class MolleEditerComp extends Vue {
     //
     //     if (data.history) {
     //       for (let item of data.history) {
+    //         if(!item.timestamp)continue;
     //         let uniq = item.timestamp.seconds * 1000 + "-" + Math.floor(Math.random() * 1000);
     //         let hoge: any = {};
     //         if (item.update) {
@@ -220,7 +225,7 @@ export default class MolleEditerComp extends Vue {
     let _check = () => {
       var current = <HTMLElement>document.activeElement;
       return current.tagName == "TEXTAREA" ||
-        (current.tagName == "INPUT" && ["text","url","number"].includes(current.getAttribute("type")!)) ||
+        (current.tagName == "INPUT" && ["text", "url", "number"].includes(current.getAttribute("type")!)) ||
         current.getAttribute("contenteditable") == "true";
     };
 
@@ -248,8 +253,8 @@ export default class MolleEditerComp extends Vue {
       MoUtils.ls.copyItem.key = "KeyC";
       MoUtils.lsSave();
 
-      e.clipboardData.setData("text/plain", this.$route.query.focus);
-      e.preventDefault();
+      // e.clipboardData.setData("text/plain", this.$route.query.focus);
+      // e.preventDefault();
     });
 
     /**
@@ -278,8 +283,8 @@ export default class MolleEditerComp extends Vue {
           parent.$parent.itemData,
           update,
         );
-        e.clipboardData.setData("text/plain", id);
-        e.preventDefault();
+        // e.clipboardData.setData("text/plain", id);
+        // e.preventDefault();
       } catch (e) {
         // console.log(e)
       }
@@ -293,12 +298,12 @@ export default class MolleEditerComp extends Vue {
       // console.log(e.clipboardData.getData("text/plain"));
       if (_check() || !this.$route.query.focus) return;
 
-      let _id = e.clipboardData.getData("text/plain");
-      if (_id && _id == MoUtils.ls.copyItem.id) {
-        //_idを優先してコピーしてみる
-      }else{
-        //MoUtils.ls.copyItem.idでやる
-      }
+      // let _id = e.clipboardData.getData("text/plain");
+      // if (_id && _id == MoUtils.ls.copyItem.id) {
+      //   //_idを優先してコピーしてみる
+      // }else{
+      //   //MoUtils.ls.copyItem.idでやる
+      // }
 
       /**
        * ls
@@ -372,6 +377,12 @@ export default class MolleEditerComp extends Vue {
       q.query.edit = true;
     }
     this.$router.push(q);
+  }
+
+  openMobileWindow() {
+    window.open(location.origin + location.pathname + "?mode=sp",
+      'MOLLE-SPview',
+      'width=380,height=800')
   }
 
   /**

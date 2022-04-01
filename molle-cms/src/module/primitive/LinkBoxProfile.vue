@@ -1,10 +1,5 @@
 <template lang="pug">
 div
-  StyleComp(
-    :itemData="itemData"
-    @change="()=>$emit('change')"
-
-  )
   label.form-inline
     span.mr-1 {{custom.url.label}}:
     details.molle-guide
@@ -30,6 +25,10 @@ div
         p リンクの表示先ウィンドウの指定方法です。
           | 例えば、_blankを選択した場合、新しいウィンドウまたはタブを開いてリンク先を表示します。
           | （新しいウィンドウになるか、新しいタブになるかは、使用しているブラウザに依存して変わります。）
+  StyleComp(
+    :itemData="itemData"
+    @change="()=>$emit('change')"
+  )
 
 </template>
 

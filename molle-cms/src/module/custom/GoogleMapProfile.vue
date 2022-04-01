@@ -68,11 +68,11 @@ export default class GoogleMapProfile extends Profile {
     lng: {label: Vue.prototype.$words.lng, value: Vue.prototype.$words.number},
     markerTitle: {
       label: Vue.prototype.$words.marker + " " + Vue.prototype.$words.title,
-      value: Vue.prototype.$words.text
+      value: Vue.prototype.$words.text,
     },
     markerText: {
       label: Vue.prototype.$words.marker + " " + Vue.prototype.$words.text,
-      value: Vue.prototype.$words.text
+      value: Vue.prototype.$words.text,
     },
   };
   //style setting

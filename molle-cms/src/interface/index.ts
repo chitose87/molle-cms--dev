@@ -34,12 +34,16 @@ export interface IItemData {
   // extends?: string;
   // selector?: string;
   style?: any;
+  css?: string;//CSS自由入力欄
 
   class: {
     theme?: string;
     color?: string;
     border?: boolean;
     align?: string;
+    isPc?: boolean;
+    isSp?: boolean;
+    hidden?: boolean;
   };
 
   tagId: string;

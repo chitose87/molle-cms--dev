@@ -64,6 +64,7 @@ export default class BoxProfile extends Profile {
   };
   //style setting
   static readonly stylePermission = {
+    css: true,
     theme: {
       default: "",
       select: ["", "quote", "border -zone", "line -zone", "read-size", "read-size--left", "read-size--rigth"]

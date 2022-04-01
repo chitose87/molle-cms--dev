@@ -15,6 +15,7 @@ component.module.box(
     :label="`Box`"
     :parentNode="loader.node"
   )
+  style(v-if="itemData.css" v-html="itemData.css")
 </template>
 
 <script lang="ts">
