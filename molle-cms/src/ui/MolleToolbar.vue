@@ -1,88 +1,81 @@
 <template lang="pug">
 .molle-tool-bar
-  div(v-if="!localValue")
-    // 未ログイン
-    form.form-group(@submit.prevent, @submit="onLogin")
-      label {{$words.mail}}:
-        input.form-control.form-control-sm(type="email" name="email" v-model="user.email")
-      label {{$words.password}}:
-        input.form-control.form-control-sm(type="password" name="password")
-      button.btn.btn-info(type="submit")
-        span {{$words.login}}
-      button.btn.btn-link.btn-sm(@click="sendPasswordResetEmail")
-        b-icon(icon="envelope")
-        span {{$words.password}} {{$words.resetting}}
+  //ログイン済み
+  .mb-2
+    button.btn.btn-primary(type="button", @click="checkCI")
+      span {{$words.release}} {{$words.settings}}
 
-  div(v-else)
-    //ログイン済み
-    .mb-2
-      button.btn.btn-primary(type="button", @click="checkCI")
-        span {{$words.release}} {{$words.settings}}
+    .modal(v-if="deployModal")
+      .modal__fiexd
+        .modal__close(@click="deployModal=false")
+        .modal__body
 
-      .modal(v-if="deployModal" :aria-expanded="deployModal")
-        .modal__fiexd
-          .modal__close(@click="deployModal=!deployModal")
-          .modal__body
+          button.btn.btn-warning(type="button", @click="deployQue")
+            span() {{$words.immediate}} {{$words.execution}}
+          p.caption
+            | 5~10分程度かかります。
+            br
+            | 1日あたり100分を超えると料金が発生します。
 
-            button.btn.btn-warning(type="button", @click="deployQue")
-              span() {{$words.immediate}} {{$words.execution}}
-            p.caption
-              | 5~10分程度かかります。
-              br
-              | 1日あたり100分を超えると料金が発生します。
+          hr
+          .form-inline
+            input.form-control.mr-2(type="date" v-model="schedule.date" @change="scheduleUpdate")
+            label.btn.btn-outline-primary
+              span.mr-2 {{$words.reserve}}
+              input(type="checkbox" v-model="schedule.active" @change="scheduleUpdate")
+          p.caption *指定日の朝9時頃に実行されます。
 
-            hr
-            .form-inline
-              input.form-control.mr-2(type="date" v-model="schedule.date" @change="scheduleUpdate")
-              label.btn.btn-outline-primary
-                span.mr-2 {{$words.reserve}}
-                input(type="checkbox" v-model="schedule.active" @change="scheduleUpdate")
-            p.caption *指定日の朝9時頃に実行されます。
+          hr
+          h4 Github {{$words.actions}} {{$words.status}}.
+          div(v-if="currentCIFlow.reading")
+            p {{$words.checking}}…
+          div(v-else)
+            p
+              span {{$words.task}}：
+              span(v-html="currentCIFlow.name")
+            p
+              span {{$words.status}}：
+              span(v-html="currentCIFlow.status")
+            p
+              span {{$words.conclusion}}：
+              span(v-html="currentCIFlow.conclusion")
+            p
+              span {{$words.date}}：
+              span(v-html="currentCIFlow.created_at")
+  hr
+  .mb-2
+    button.btn.btn-info.btn-block(type="button" @click="onExport")
+      span {{$words.export}}
+  .mb-2
+    button.btn.btn-warning.btn-block(type="submit" @click="importModal=true")
+      span {{$words.import}}
+    .modal(v-if="importModal")
+      .modal__fiexd
+        .modal__close(@click="importModal=false")
+        .modal__body
+          form(@submit.prevent, @submit="onImport")
+            input(
+              type="file",
+              name="files",
+              accept="application/json",
+              multiple
+            )
+            button.btn.btn-info(type="submit")
+              span {{$words.import}}
+  hr
+  .mb-2
+    button.btn.btn-danger.btn-block(@click="cleanup")
+      span {{$words.dataClean}}
+  .mb-2
+    button.btn.btn-danger.btn-block(@click="cleanupStorage")
+      span Cleanup Storage
+  .mb-2
+    button.btn.btn-info.btn-block(type="button" @click="onLogout")
+      span {{$words.logout}}
 
-            hr
-            h4 Github {{$words.actions}} {{$words.status}}.
-            div(v-if="currentCIFlow.reading")
-              p {{$words.checking}}…
-            div(v-else)
-              p
-                span {{$words.task}}：
-                span(v-html="currentCIFlow.name")
-              p
-                span {{$words.status}}：
-                span(v-html="currentCIFlow.status")
-              p
-                span {{$words.conclusion}}：
-                span(v-html="currentCIFlow.conclusion")
-              p
-                span {{$words.date}}：
-                span(v-html="currentCIFlow.created_at")
-    hr
-    .mb-2
-      button.btn.btn-info(type="button" @click="onExport")
-        span {{$words.export}}
-    .mb-2
-      button.btn.btn-warning(type="submit" @click="importModal=true")
-        span {{$words.import}}
-      .modal(v-if="importModal" :aria-expanded="importModal")
-        .modal__fiexd
-          .modal__close(@click="importModal=!importModal")
-          .modal__body
-            form(@submit.prevent, @submit="onImport")
-              input(
-                type="file",
-                name="files",
-                accept="application/json",
-                multiple
-              )
-              button.btn.btn-info(type="submit")
-                span {{$words.import}}
-    hr
-    .mb-2
-      button.btn.btn-danger(@click="cleanup")
-        span {{$words.dataClean}}
-    .mb-2
-      button.btn.btn-info(type="button" @click="onLogout")
-        span {{$words.logout}}
+    UserSettings
+    // ユーザー設定
+
 
 </template>
 
@@ -97,25 +90,12 @@ import firebase from "firebase";
 import {Singleton} from "../Singleton";
 import {IItemData, ILogsData, IPageData} from "../interface";
 import {MoUtils} from "../MoUtils";
+import UserSettings from "./UserSettings.vue";
 
 @Component({
-  components: {},
+  components: {UserSettings},
 })
 export default class MolleToolbar extends Vue {
-  @Prop() public value!: any;
-
-  @Emit()
-  public input(value: any) {
-  }
-
-  protected get localValue(): any {
-    return this.value;
-  }
-
-  protected set localValue(value: any) {
-    this.input(value);
-  }
-
   importModal: boolean = false;
   deployModal: boolean = false;
   currentCIFlow: any = {};
@@ -124,27 +104,13 @@ export default class MolleToolbar extends Vue {
     date: "",
     active: false,
   };
-
-  user = {
-    email: "",
-  };
-
-
-  onLogin(e: any) {
-    firebase.auth()
-      .signInWithEmailAndPassword(e.target.email.value, e.target.password.value)
-      .then((user) => {
-        if (user) {
-          this.localValue = true;
-        }
-      });
-  }
+  cleanupStr = "";
 
   onLogout() {
     firebase.auth().signOut();
-    this.localValue = false;
   }
 
+  // デプロイチェック
   checkCI() {
     this.deployModal = true;
     this.$set(this, "currentCIFlow", {reading: true});
@@ -285,8 +251,6 @@ export default class MolleToolbar extends Vue {
    *
    */
   cleanup() {
-    // todo storageの削除
-
     console.log("cleanup");
     let batchQue: any = [];
 
@@ -294,8 +258,7 @@ export default class MolleToolbar extends Vue {
       Singleton.pagesRef.get(),
       Singleton.itemsRef.get(),
       Singleton.logsRef.get(),
-      firebase.storage().ref().child(`${process.env.molleProjectID}`).listAll(),
-    ]).then(([pages, items, logs, storage]) => {
+    ]).then(([pages, items, logs]) => {
       let obj: any = {};
       let pagesData: any = {};
       // カウントリセット
@@ -427,32 +390,42 @@ export default class MolleToolbar extends Vue {
       } else {
         alert("未参照のitemはありませんでした。");
       }
-
-      //
-      let str = JSON.stringify(obj) + JSON.stringify(pagesData);
-      storage.items.forEach((itemRef: firebase.storage.Reference) => {
-        // itemRef.getDownloadURL()
-        if (!str.includes(itemRef.fullPath)) {
-          itemRef.delete();
-          console.log("------" + itemRef.fullPath);
-        } else {
-          // console.log(itemRef.fullPath)
-        }
-      });
     });
   }
 
   /**
-   *
+   * 
    */
-  sendPasswordResetEmail() {
-    firebase.auth().sendPasswordResetEmail(this.user.email)
-      .then((result) => {
-        alert(`パスワード再設定メールをリクエストしました。メールをご確認ください`);
-      })
-      .catch((error) => {
-        alert(error + "/" + this.user.email);
+  cleanupStorage() {
+    Promise.all([
+      Singleton.pagesRef.get(),
+      Singleton.itemsRef.get(),
+      firebase.storage().ref().child(`${process.env.molleProjectID}`).listAll(),
+    ]).then(([pages, items, storage]) => {
+      let arr: any = [];
+      items.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+        arr.push(_snap.data());
       });
+      pages.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+        arr.push(_snap.data());
+      });
+
+      let str = JSON.stringify({data: arr});
+      let deleteList: string[] = [];
+      storage.items.forEach((itemRef: firebase.storage.Reference) => {
+        if (!str.includes(itemRef.fullPath)) {
+          deleteList.push(itemRef.fullPath);
+          console.log("------" + itemRef.fullPath);
+        }
+      });
+      if ("削除します。\r\n" + confirm(deleteList.join("\r\n"))) {
+        storage.items.forEach((itemRef: firebase.storage.Reference) => {
+          if (!str.includes(itemRef.fullPath)) {
+            itemRef.delete();
+          }
+        });
+      }
+    });
   }
 }
 </script>

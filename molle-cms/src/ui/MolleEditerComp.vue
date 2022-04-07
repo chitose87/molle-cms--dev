@@ -1,5 +1,6 @@
 <template lang="pug">
 .molle-editer.bootstrap(:style="style")
+  MolleBase
   .molle-editer__fiexd-tl
     a.btn.btn-outline-secondary(href="/--molle/")
       b-icon(icon="house-door")
@@ -78,9 +79,11 @@ import firebase from "firebase";
 import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
 import PageListComp from "./PageListComp.vue";
 import {MoUtils} from "../MoUtils";
+import MolleBase from "./MolleBase.vue";
 
 @Component({
   components: {
+    MolleBase,
     PageListComp,
     FocusExtension,
     GoogleStorageModalComp,
