@@ -9,6 +9,7 @@ service firebase.storage {
                             request.auth.uid=="5zNNlljcTMd7PLVd5dNh8ZRCxS62" ||
                             request.auth.uid=="NpjoQHny4xblT6XoLVrhTmazDap1" ||
                             request.auth.uid=="EH6g7lTMVqSsqGXTHpiC9CjzUPg1" ||
+                            request.auth.uid=="gKnwJEwcbqZbmSTZOaIMmmH2atG3" ||
                             request.auth.uid=="vIDI7VkgJFdEpZV7nLWNst7tzke2" ;
     }
   }
