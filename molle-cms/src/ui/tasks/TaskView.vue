@@ -7,12 +7,19 @@ div(v-if="$route.query.id && taskMetaData")
         // title
         label.form-inline
           span.mr-2 {{opt.dt.title.jp}}:
-          input.form-control(type="text" v-model="taskMetaData" @change="update('meta','title')")
+          input.form-control(type="text" v-model="taskMetaData.title" @change="update('meta','title')")
+
+        // 担当者
+        label.form-inline
+          span.mr-2 担当者:
+          select.form-control(v-model="taskMetaData.holder")
+            option(value="") 未設定
+            option(v-for="(item,key) in users" :value="key" v-html="item.name")
 
         //limitDate
         label.form-inline
           span.mr-2 {{opt.dt.limitDate.jp}}:
-          input.form-control(type="date" v-model="taskMetaData" @change="update('meta','limitDate')")
+          input.form-control(type="date" v-model="taskMetaData.limitData" @change="update('meta','limitDate')")
 
         // description
         div(v-html="taskBodyData.description")
@@ -66,6 +73,7 @@ import {MoUtils} from "../../MoUtils";
 export default class TaskView extends Vue {
 
   @Prop() metaData!: any;
+  @Prop() users!: any;
   opt = {
     dt: TasksList.dt,
     dtOrder: TasksList.dt.arr,

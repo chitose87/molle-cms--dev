@@ -394,7 +394,7 @@ export default class MolleToolbar extends Vue {
   }
 
   /**
-   * 
+   *
    */
   cleanupStorage() {
     Promise.all([

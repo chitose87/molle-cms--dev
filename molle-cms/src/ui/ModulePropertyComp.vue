@@ -61,7 +61,10 @@
             @change="update"
             :placeholder="$words.class")
       hr
-
+      CommentPropertyComp(
+        :itemData="itemData"
+        :itemId="itemId")
+      hr
       LogPropertyComp(:itemId="itemId")
       //
       hr
@@ -98,9 +101,10 @@ import {Singleton} from "../Singleton";
 import firebase from "firebase";
 import LogPropertyComp from "../ui/LogPropertyComp.vue";
 import {MoUtils} from "../MoUtils";
+import CommentPropertyComp from "~/molle-cms/src/ui/CommentPropertyComp.vue";
 
 @Component({
-  components: {LogPropertyComp},
+  components: {CommentPropertyComp, LogPropertyComp},
 })
 export default class ModulePropertyComp extends Vue {
   itemId: string = "";
@@ -126,7 +130,8 @@ export default class ModulePropertyComp extends Vue {
         this.unsubscribe();
       }
 
-      this.unsubscribe = Singleton.itemsRef.doc(newer).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+      this.unsubscribe = Singleton.itemsRef.doc(newer)
+        .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         if (!snap.exists) return;
 
         this.itemDataBefore = <IItemData>snap.data();
@@ -243,7 +248,7 @@ export default class ModulePropertyComp extends Vue {
         this.itemData.class.hidden = true;
         break;
       default:
-        break
+        break;
     }
     this.update();
   }

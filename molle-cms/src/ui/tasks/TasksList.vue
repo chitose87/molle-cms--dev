@@ -1,62 +1,80 @@
 <template lang="pug">
 .molle-sys-ui.bootstrap
-  MolleBase
-  .container-fluid
-    table.table
-      thead
-        tr
-          th(v-for="key in opt.dtOrder")
-            span(v-html="opt.dt[key].jp")
-      tbody
-        tr(v-for="id in data.metaData.arr" @click="$router.replace({query: {id:id}})")
-          td(v-for="key in opt.dtOrder")
-            span(v-for="item in [data.metaData[id][key]]")
-              span(v-html="(item && item.toDate && item.toDate().toLocaleString({timeZone: 'Asia/Tokyo'})) || item")
+  MolleBase(v-model="isLogin")
+  div(v-if="isLogin")
+    .container-fluid
+      table.table
+        thead
+          tr
+            th(v-for="key in opt.dtOrder")
+              span(v-html="opt.dt[key].jp")
+        tbody
+          tr(v-for="id in data.metaData.arr" @click="$router.replace({query: {id:id}})")
+            td(v-for="key in opt.dtOrder")
+              span(v-for="item in [data.metaData[id][key]]")
+                span(v-if="key=='holder'" v-html="opt.users[item]?opt.users[item].name:''")
+                span(v-else-if="item && item.toDate" v-html="item.toDate().toLocaleString({timeZone: 'Asia/Tokyo'})")
+                span(v-else v-html="item")
 
-    // 追加UI
-    .fixed-bottom.d-flex(v-if="!isShow && !$route.query.id")
-      input.form-control(
-        type="text"
-        v-model="addMetaData.title"
-        :placeholder="opt.dt.title.jp"
-      )
-      button.btn-primary(@click="isShow=true")
-        span
-          b-icon(icon="plus")
-
-  // 追加モーダル
-  div(v-if="isShow")
-    .modal(:aria-expanded="isShow")
-      .modal__fiexd
-        .modal__close(@click="isShow=!isShow")
-        .modal__body.bootstrap
-          // title
+      // 追加UI
+      .fixed-bottom.d-flex(v-if="!isShow && !$route.query.id")
+        input.form-control(
+          type="text"
+          v-model="addMetaData.title"
+          :placeholder="opt.dt.title.jp"
+        )
+        div
           label.form-inline
-            span.mr-2 {{opt.dt.title.jp}}:
-            input.form-control(type="text" v-model="addMetaData.title")
+            //span 担当者
+            select.form-control(v-model="addMetaData.holder")
+              option(value="") 未設定
+              option(v-for="(item,key) in opt.users" :value="key" v-html="item.name")
 
-          //limitDate
-          label.form-inline
-            span.mr-2 {{opt.dt.limitDate.jp}}:
-            input.form-control(type="date" v-model="addMetaData.limitDate")
+        button.btn-primary(@click="isShow=true")
+          span
+            b-icon(icon="plus")
 
-          // description
-          TextAreaQuill(
-            :label="opt.dt.description.jp+':'"
-            v-model="addBodyData.description"
-            :toolbar="'full'"
-          )
+    // 追加モーダル
+    div(v-if="isShow")
+      .modal(:aria-expanded="isShow")
+        .modal__fiexd
+          .modal__close(@click="isShow=!isShow")
+          .modal__body.bootstrap
+            // title
+            label.form-inline
+              span.mr-2 {{opt.dt.title.jp}}:
+              input.form-control(type="text" v-model="addMetaData.title")
 
-          .d-flex
-            button.btn-primary(@click="addSave")
-              span
-                b-icon(icon="plus")
-                | 保存
+            // 担当者
+            label.form-inline
+              span 担当者
+              select.form-control(v-model="addMetaData.holder")
+                option(value="") 未設定
+                option(v-for="item in opt.users" :value="item.id" v-html="item.name")
 
-  // 閲覧・編集モーダル
-  TaskView(
-    :metaData="data.metaData"
-  )
+            //limitDate
+            label.form-inline
+              span.mr-2 {{opt.dt.limitDate.jp}}:
+              input.form-control(type="date" v-model="addMetaData.limitDate")
+
+            // description
+            TextAreaQuill(
+              :label="opt.dt.description.jp+':'"
+              v-model="addBodyData.description"
+              :toolbar="'full'"
+            )
+
+            .d-flex
+              button.btn-primary(@click="addSave")
+                span
+                  b-icon(icon="plus")
+                  | 保存
+
+    // 閲覧・編集モーダル
+    TaskView(
+      :metaData="data.metaData"
+      :users="opt.users"
+    )
 </template>
 
 <script lang="ts">
@@ -107,10 +125,12 @@ export default class TasksList extends Vue {
   opt = {
     dt: TasksList.dt,
     dtOrder: TasksList.dt.arr,
+    users: {},
   };
   addMetaData = <ITaskMetaData>{};
   addBodyData = <ITaskBodyData>{};
   isShow = false;
+  isLogin = false;
 
   data = {
     focus: "",
@@ -127,18 +147,27 @@ export default class TasksList extends Vue {
   }
 
   created() {
-    Singleton.firebaseInit((user: any) => {
-      TasksList.tasksMetaRef
-        // .orderBy("updateTime")
-        .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
-          let dic: any = {arr: []};
-          snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
-            dic[_snap.id] = _snap.data();
-            dic.arr.push(_snap.id);
-          });
-          this.$set(this.data, "metaData", dic);
+    TasksList.tasksMetaRef
+      // .orderBy("updateTime")
+      .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
+        let dic: any = {arr: []};
+        snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+          dic[_snap.id] = _snap.data();
+          dic.arr.push(_snap.id);
         });
-    });
+        this.$set(this.data, "metaData", dic);
+      });
+
+    //
+    firebase.firestore().collection("_users")
+      .get()
+      .then((snap: firebase.firestore.QuerySnapshot) => {
+        let dic: any = {};
+        snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+          dic[_snap.id] = _snap.data();
+        });
+        this.$set(this.opt, "users", dic);
+      });
   }
 
   addSave() {

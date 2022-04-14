@@ -1,68 +1,72 @@
 <template lang="pug">
-.molle-editer.bootstrap(:style="style")
+.bootstrap.molle-editer
   MolleBase
-  .molle-editer__fiexd-tl
-    a.btn.btn-outline-secondary(href="/--molle/")
-      b-icon(icon="house-door")
+  .molle-editer__wrap(:style="style")
+    .molle-editer__fiexd-tl
+      a.btn.btn-outline-secondary(href="/--molle/")
+        b-icon(icon="house-door")
 
-    button.btn.btn-info(@click="editerToggle")
-      span(v-if="$route.query.edit")
-        b-icon(icon="display")
-      span(v-else)
-        b-icon(icon="pencil")
+      button.btn.btn-info(@click="editerToggle")
+        span(v-if="$route.query.edit")
+          b-icon(icon="display")
+        span(v-else)
+          b-icon(icon="pencil")
 
-    button.btn.btn-outline-info(@click="openMobileWindow")
-      span
-        b-icon(icon="phone")
+      button.btn.btn-outline-info(@click="openMobileWindow")
+        span
+          b-icon(icon="phone")
 
-  .molle-editer__body(v-show="$route.query.edit")
-    style(v-if="$route.query.edit")
-      | @media screen and (min-width: 768px)  {
-      | .molle-editer{
-      |   height: calc(100% - {{panelOption.top}}px);
-      | }
-      | .molle-editer + * {
-      |   margin-left: {{panelOption.left.value+8}}px;
-      |   margin-right: {{panelOption.right.value+8}}px;
-      | }
-      | }
+    .molle-editer__body(v-show="$route.query.edit")
+      style(v-if="$route.query.edit")
+        | @media screen and (min-width: 768px)  {
+        | .molle-editer__wrap{
+        |   height: calc(100% - {{panelOption.top}}px);
+        | }
+        | .molle-editer + * {
+        |   margin-left: {{panelOption.left.value+8}}px;
+        |   margin-right: {{panelOption.right.value+8}}px;
+        | }
+        | }
 
-    // left
-    .molle-editer__left.shadow(:style="{width:panelOption.left.value+'px'}")
-      .molle-editer__scroll.pb-4.pt-2hr(ref="left")
+      // left
+      .molle-editer__left.shadow(:style="{width:panelOption.left.value+'px'}")
+        .molle-editer__scroll.pb-4.pt-2hr(ref="left")
 
-        PageListComp
+          PageListComp
 
-        PagePropertyComp(
-          v-if="vobj.pageData && vobj.pageId"
-          :pageData="vobj.pageData", :pageId="vobj.pageId"
-        )
-
-        .card.bg-light
-          .card-header.pt-1.pb-1.pl-3.pr-3 {{$words.structure}}
-          ItemListViewComp(
-            v-if="vobj.pageData"
-            :itemId="vobj.pageData.itemId"
+          PagePropertyComp(
+            v-if="vobj.pageData && vobj.pageId"
+            :pageData="vobj.pageData", :pageId="vobj.pageId"
           )
-          ItemListViewComp(
-            v-for="(loader,id) in moduleLoaderCms.modules"
-            v-if="loader.isRoot"
-            :itemId="id"
-            :key="id"
-          )
-      .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'left')")
 
-    // right
-    .molle-editer__right.shadow(:style="{width:panelOption.right.value+'px'}")
-      .molle-editer__scroll
-        EditorOptionComp
+          .card.bg-light
+            .card-header.pt-1.pb-1.pl-3.pr-3 {{$words.structure}}
+            ItemListViewComp(
+              v-if="vobj.pageData"
+              :itemId="vobj.pageData.itemId"
+            )
+            ItemListViewComp(
+              v-for="(loader,id) in moduleLoaderCms.modules"
+              v-if="loader.isRoot"
+              :itemId="id"
+              :key="id"
+            )
+        .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'left')")
 
-        ModulePropertyComp
-      .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'right')")
-    GoogleStorageModalComp
+      // right
+      .molle-editer__right.shadow(:style="{width:panelOption.right.value+'px'}")
+        .molle-editer__scroll
+          EditorOptionComp
 
-    FocusExtension
-    #bootstrap-container
+          ModulePropertyComp
+        .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'right')")
+      GoogleStorageModalComp
+
+      FocusExtension
+      #bootstrap-container
+
+  MolleCommentView(v-if="$route.query.edit")
+
 </template>
 
 <script lang="ts">
@@ -72,6 +76,7 @@ import GoogleStorageModalComp from "./GoogleStorageModalComp.vue";
 import PagePropertyComp from "./PagePropertyComp.vue";
 import ModulePropertyComp from "./ModulePropertyComp.vue";
 import ItemListViewComp from "./ItemListViewComp.vue";
+import MolleCommentView from "./MolleCommentView.vue";
 import EditorOptionComp from "./EditorOptionComp.vue";
 import {INodeObject, IPageData, IItemData} from "../interface";
 import {Singleton} from "../Singleton";
@@ -90,6 +95,7 @@ import MolleBase from "./MolleBase.vue";
     PagePropertyComp,
     ModulePropertyComp,
     ItemListViewComp,
+    MolleCommentView,
     EditorOptionComp,
   },
 })
@@ -320,7 +326,7 @@ export default class MolleEditerComp extends Vue {
   private enterFrame() {
     try {
       // let el = <HTMLElement>document.querySelector(".molle-editer + *");
-      let v = this.$el.getBoundingClientRect().top;
+      let v = this.$el.querySelector(".molle-editer__wrap")!.getBoundingClientRect().top;
       if (this.panelOption.top != v) {
         this.$set(this.panelOption, "top", v);
       }
@@ -384,8 +390,8 @@ export default class MolleEditerComp extends Vue {
 
   openMobileWindow() {
     window.open(location.origin + location.pathname + "?mode=sp",
-      'MOLLE-SPview',
-      'width=380,height=800')
+      "MOLLE-SPview",
+      "width=380,height=800");
   }
 
   /**
@@ -443,11 +449,13 @@ export default class MolleEditerComp extends Vue {
 
 <style lang="scss">
 .molle-editer {
-  position: fixed;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-  z-index: $zindex-heaven;
+  &__wrap {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: $zindex-heaven;
+  }
 
   //@include mediaquery-not-sm {
   //  display: flex;
@@ -456,7 +464,7 @@ export default class MolleEditerComp extends Vue {
     position: absolute;
     left: 0rem;
     top: 0rem;
-    z-index: $zindex-modal + 1;
+    z-index: $zindex-modal - 1;
     pointer-events: auto;
   }
 
@@ -472,7 +480,7 @@ export default class MolleEditerComp extends Vue {
     position: absolute;
     top: 0;
     width: 0;
-    z-index: $zindex-modal;
+    z-index: $zindex-modal - 2;
     flex-shrink: 0;
     flex-grow: 0;
     pointer-events: auto;

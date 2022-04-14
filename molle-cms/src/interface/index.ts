@@ -50,6 +50,11 @@ export interface IItemData {
   tagClass: string;
 
   dev?: any;
+  comment?: {
+    [key: string]: {
+      status: string;
+    }
+  }
   noExport: boolean;
   //   log?: any;
   // };
@@ -60,14 +65,14 @@ export interface INodeObject {
   // uid: string;
   fixedModuleId?: string;
   order?: number;
-  opt?: { enabled: string[] };
+  opt?: {enabled: string[]};
 }
 
 export interface IPayload {
   id: string;
   pageData: IPageData;
-  pages: { [key: string]: IPageData };
-  items: { [key: string]: IItemData };
+  pages: {[key: string]: IPageData};
+  items: {[key: string]: IItemData};
 }
 
 export interface ILogsData {

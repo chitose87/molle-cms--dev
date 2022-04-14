@@ -35,14 +35,13 @@ export default class ModuleLoaderCms extends Vue {
     // console.log("node", this.node, this.isMolleCms)
     if (this.node.id) {
       if (this.unsubscribe) this.unsubscribe();
-      Singleton.firebaseInit(() => {
-        this.unsubscribe = Singleton.itemsRef
-          .doc(this.node.id)
-          .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-            // console.log(this.node.id, snap.exists);
-            if (snap.exists) this.$set(this, "itemData", snap.data());
-          });
-      });
+
+      this.unsubscribe = Singleton.itemsRef
+        .doc(this.node.id)
+        .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+          // console.log(this.node.id, snap.exists);
+          if (snap.exists) this.$set(this, "itemData", snap.data());
+        });
 
       ModuleLoaderCms.modules[this.node.id] = this;
     }
