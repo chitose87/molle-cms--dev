@@ -60,7 +60,6 @@ export default class MolleBase extends Vue {
   mounted() {
     Singleton.firebaseInit((user: any) => {
       this.ready = true;
-      this.localValue = this.isLogin = !!user;
 
       // user
       firebase.firestore().collection(`_users/`)
@@ -69,6 +68,7 @@ export default class MolleBase extends Vue {
           snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
             Vue.prototype.$users[_snap.id] = _snap.data();
           });
+          this.localValue = this.isLogin = !!user;
         });
     });
   }

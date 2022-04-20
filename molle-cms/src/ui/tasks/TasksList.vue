@@ -12,8 +12,8 @@
           tr(v-for="id in data.metaData.arr" @click="$router.replace({query: {id:id}})")
             td(v-for="key in opt.dtOrder")
               span(v-for="item in [data.metaData[id][key]]")
-                span(v-if="key=='holder'" v-html="opt.users[item]?opt.users[item].name:''")
-                span(v-else-if="item && item.toDate" v-html="item.toDate().toLocaleString({timeZone: 'Asia/Tokyo'})")
+                span(v-if="key=='holder'" v-html="$getUser(item).name")
+                span(v-else-if="item && item.toDate" v-html="$dateFormatter(item.toDate(),'YYYY/MM/DD')")
                 span(v-else v-html="item")
 
       // 追加UI
@@ -28,7 +28,7 @@
             //span 担当者
             select.form-control(v-model="addMetaData.holder")
               option(value="") 未設定
-              option(v-for="(item,key) in opt.users" :value="key" v-html="item.name")
+              option(v-for="(item,key) in $users" :value="key" v-html="item.name")
 
         button.btn-primary(@click="isShow=true")
           span
@@ -50,7 +50,7 @@
               span 担当者
               select.form-control(v-model="addMetaData.holder")
                 option(value="") 未設定
-                option(v-for="item in opt.users" :value="item.id" v-html="item.name")
+                option(v-for="(item,id) in $users" :value="id" v-html="item.name")
 
             //limitDate
             label.form-inline
@@ -125,7 +125,6 @@ export default class TasksList extends Vue {
   opt = {
     dt: TasksList.dt,
     dtOrder: TasksList.dt.arr,
-    users: {},
   };
   addMetaData = <ITaskMetaData>{};
   addBodyData = <ITaskBodyData>{};
@@ -156,17 +155,6 @@ export default class TasksList extends Vue {
           dic.arr.push(_snap.id);
         });
         this.$set(this.data, "metaData", dic);
-      });
-
-    //
-    firebase.firestore().collection("_users")
-      .get()
-      .then((snap: firebase.firestore.QuerySnapshot) => {
-        let dic: any = {};
-        snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
-          dic[_snap.id] = _snap.data();
-        });
-        this.$set(this.opt, "users", dic);
       });
   }
 

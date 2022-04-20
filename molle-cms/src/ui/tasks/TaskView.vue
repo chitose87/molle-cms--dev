@@ -14,7 +14,7 @@ div(v-if="$route.query.id && taskMetaData")
           span.mr-2 担当者:
           select.form-control(v-model="taskMetaData.holder")
             option(value="") 未設定
-            option(v-for="(item,key) in users" :value="key" v-html="item.name")
+            option(v-for="(item,key) in $users" :value="key" v-html="item.name")
 
         //limitDate
         label.form-inline
