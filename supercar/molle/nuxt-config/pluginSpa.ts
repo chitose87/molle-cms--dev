@@ -9,14 +9,14 @@ import Box from "~/molle-cms/src/module/primitive/Box.vue";
 import BoxProfile from "~/molle-cms/src/module/primitive/BoxProfile.vue";
 import BackgroundBox from "~/molle-cms/src/module/primitive/BackgroundBox.vue";
 import BackgroundBoxProfile from "~/molle-cms/src/module/primitive/BackgroundBoxProfile.vue";
-import Headline from "~/molle-cms/src/module/primitive/Headline.vue";
-import HeadlineProfile from "~/molle-cms/src/module/primitive/HeadlineProfile.vue";
-import Paragraph from "~/molle-cms/src/module/primitive/Paragraph.vue";
-import ParagraphProfile from "~/molle-cms/src/module/primitive/ParagraphProfile.vue";
+import Headline from "~/molle/module/primitive/Headline.vue";
+import HeadlineProfile from "~/molle/module/primitive//HeadlineProfile.vue";
+import Paragraph from "~/molle/module/primitive/Paragraph.vue";
+import ParagraphProfile from "~/molle/module/primitive/ParagraphProfile.vue";
 import Picture from "~/molle-cms/src/module/primitive/Picture.vue";
 import PictureProfile from "~/molle-cms/src/module/primitive/PictureProfile.vue";
-import Button from "~/molle-cms/src/module/primitive/Button.vue";
-import ButtonProfile from "~/molle-cms/src/module/primitive/ButtonProfile.vue";
+import Button from "~/molle/module/primitive/Button.vue";
+import ButtonProfile from "~/molle/module/primitive/ButtonProfile.vue";
 import Column from "~/molle-cms/src/module/primitive/Column.vue";
 import ColumnProfile from "~/molle-cms/src/module/primitive/ColumnProfile.vue";
 import ColumnBox from "~/molle-cms/src/module/primitive/ColumnBox.vue";
@@ -185,7 +185,7 @@ let _molleModuleList: any[] = [];
   ref: Reference,
   profile: ReferenceProfile,
 },
-].forEach((attr: { ref: any; profile?: any; }) => {
+].forEach((attr: {ref: any; profile?: any;}) => {
   let v: any = {
     moduleId: attr.ref.CLASS_NAME,
     type: attr.profile.settings.type,
@@ -243,7 +243,7 @@ Vue.prototype.$molleModuleList = _molleModuleList;
 
 //
 
-let datalist = <{ id: string, value: string }[]>[];
+let datalist = <{id: string, value: string}[]>[];
 Singleton.systemDocRef
   .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
     let siteData: any = snap.data();
@@ -252,7 +252,7 @@ Singleton.systemDocRef
 Vue.prototype.$getText = (str: string) => {
   for (let item of datalist) {
     if (!str.includes("${")) break;
-    str = str.replace(new RegExp("\\${" + item.id+"}", "g"), item.value);
+    str = str.replace(new RegExp("\\${" + item.id + "}", "g"), item.value);
   }
   return str;
-}
+};

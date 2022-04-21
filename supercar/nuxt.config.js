@@ -64,10 +64,10 @@ export default {
     ],
     link: [
       {rel: "icon", type: "image/x-icon", href: "/favicon.ico"},
-      {rel: "preconnect", href: "https://fonts.gstatic.com"},
-      {
-        href: "https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;900&display=swap",
-      },
+      // {rel: "preconnect", href: "https://fonts.gstatic.com"},
+      // {
+      //   href: "https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500&family=Montserrat:wght@400;500&family=Noto+Serif+JP:wght@400;600;900&display=swap",
+      // },
       {
         rel: "stylesheet",
         href: "https://cdn.jsdelivr.net/npm/yakuhanjp@3.4.1/dist/css/yakuhanjp-noto.min.css",

@@ -1,8 +1,8 @@
 $rem: 16px;
 $gtr: ($gutter * 1px);
 $size-container: ($rem * 4.5 * 12) + ($gutter * 11) + ($gutter * 2);
-$header-height: 4rem;
-$header-height-sp: 3rem;
+$header-height: 0;
+$header-height-sp: 0;
 
 $size-col: (
   1: calc(100% / 12 - 0.01px),
@@ -31,6 +31,11 @@ $size-col: (
   //@include mediaquery-sm {
   //  padding: 0.25rem 0.5rem;
   //}
+}
+
+@mixin font-style() {
+  font-family: 'Lexend Zetta', YakuHanJP_Noto, 'Noto Serif JP', sans-serif;
+  //font-weight: 500;
 }
 
 $spacer: 1rem !default;

@@ -58,10 +58,10 @@
 .l-body {
   overflow: hidden;
   @include mediaquery-not-sm {
-    padding-top: $header-height;
+    //padding-top: $header-height;
   }
   @include mediaquery-sm {
-    padding-top: $header-height-sp;
+    //padding-top: $header-height-sp;
   }
 }
 
@@ -75,7 +75,7 @@
 
   @include mediaquery-not-sm {
     &::before {
-      margin-bottom: 3rem;
+      //margin-bottom: 3rem;
     }
     //&::after {
     //  margin-top: 4rem;
@@ -83,10 +83,10 @@
   }
   @include mediaquery-sm {
     &::before {
-      margin-bottom: 0rem;
+      //margin-bottom: 0rem;
     }
     //&::after {
-    //  margin-t/op: 5rem;
+    //  margin-top: 5rem;
     //}
   }
 
