@@ -1,15 +1,29 @@
 <template lang="pug">
-.item-list-item-comp.list-group-item.list-group-item-action.p-0.border-right-0(
+.item-list-item-comp(
   v-if="itemData.moduleId"
   :class="{_current:$route.query.focus === node.id}"
   :data-item-id="node.id"
+  :data-drag-over="isDragOver"
 )
-  .d-flex
-    button.btn.btn-sm.btn-link.btn-block.text-left(
+  .d-flex.align-items-center
+    b-icon.ml-n2.small(
+      v-if="!isRoot && $molleModules[itemData.moduleId].def.type === 'children' || $molleModules[itemData.moduleId].def.type === 'group'"
+      :icon="expanded?'chevron-down':'chevron-right'"
+      @click="expanded = !expanded"
+    )
+
+    button.btn.btn-sm.btn-link.btn-block.text-left.pt-0.pb-0(
       :class="{active: $route.query.focus === node.id}",
       :title="node.id",
       @click="onClick"
+      @dblclick="expanded = !expanded"
       @mouseover="$router.replace({query: {...$route.query, hover: node.id}}).catch(err=>{})"
+      draggable
+      @dragstart="onDragstart($event)"
+      @dragend="onDragend"
+      @dragover.prevent="isDragOver=isIncludible($parent.$data.itemData)"
+      @dragleave.prevent="isDragOver=false"
+      @drop="onDrop($event,$parent,node.id)"
       style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
     )
       span(v-if="isRoot")
@@ -18,20 +32,22 @@
       span(v-else-if="itemData.moduleId=='Section'")
         b-icon.ml-n1.mr-1(icon="bookmark-check-fill")
         b {{itemData.name||$words.section}}
-      span(v-else-if="itemData.moduleId=='ContentSizeBox'")
-        b-icon.ml-n1.mr-1(icon="exclamation-diamond")
-        b {{itemData.name||$words.section}}
-      span(v-else-if="itemData.option.tag=='section'")
-        b-icon.ml-n1.mr-1(icon="exclamation-diamond")
-        b {{itemData.name||$words.section}}
       span(v-else-if="itemData.moduleId=='Headline'")
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b H
         span :{{itemData.value}}
+      span(v-else-if="itemData.moduleId=='Paragraph'")
+        b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
+        span {{itemData.value}}
+      span(v-else-if="itemData.moduleId=='Picture'")
+        b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
+        span(v-if="itemData.option.alt") {{itemData.option.alt}}
+        b(v-else) Picture
       span(v-else-if="itemData.moduleId=='Button'")
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b Btn
         span :{{itemData.value}}
+
       span(v-else-if="itemData.moduleId=='DevModuleGuide' && $molleModules[itemData.option.module]")
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b-icon.mr-1(:icon="$molleModules[itemData.option.module].icon")
@@ -40,12 +56,7 @@
         b-icon.ml-n1.mr-1(:icon="$molleModules[itemData.moduleId].icon")
         b(v-html="itemData.moduleId")
         span(v-if="itemData.name") :{{itemData.name}}
-
       //
-      b-icon.ml-1(
-        v-if="$molleModules[itemData.moduleId].def.type === 'children' || $molleModules[itemData.moduleId].def.type === 'group'"
-        :icon="expanded?'chevron-up':'chevron-down'"
-      )
 
     //削除
       v-if="!$parent.notDeleted"
@@ -55,34 +66,43 @@
     ) x
 
   // children
-  draggable.list-group.pl-2.pb-2(
+  .pl-3(
     v-if="$molleModules[itemData.moduleId].def.type === 'children'"
     v-show="expanded"
     v-model="itemData.value"
-    :group="getGroup(itemData.moduleId)"
-    @remove="updateChild"
-    @add="updateChild"
-    @update="updateChild"
   )
     ItemListItemComp(v-for="node in itemData.value", :key="node.id", :node="node")
-    .item-list-item-comp.list-group-item.list-group-item-action.pr-0.border-right-0(
+    .item-list-item-comp__empty.pr-0(
       v-if="!itemData.value || itemData.value.length == 0"
+      @dragover.prevent="isDragOverLast=isIncludible(itemData)"
+      @dragleave.prevent="isDragOverLast=false"
+      @drop="onDrop($event)"
+      :data-drag-over-last="isDragOverLast"
     )
       span.color-gray-200 -{{$words.empty}}-
 
+    .item-list-item-comp__last(
+      v-else=""
+      @dragover.prevent="isDragOverLast=isIncludible(itemData)"
+      @dragleave.prevent="isDragOverLast=false"
+      @drop="onDrop($event)"
+      :data-drag-over-last="isDragOverLast"
+    )
+
   //Group
-  .list-group.pl-2.pb-2(
+  .pl-3(
     v-else-if="$molleModules[itemData.moduleId].def.type === 'group'"
     v-show="expanded"
   )
     ItemListItemComp(v-for="node in groupChildSort(itemData.value)", :key="node.id", :node="node")
 
   //Reference
-  .list-group.pl-2.pb-2(
+  .pl-3(
     v-else-if="itemData.moduleId === 'Reference'"
   )
     span.small(v-html="itemData.value.id")
     //ItemListItemComp.item-list-item-comp--reference(:node="itemData.value")
+
 </template>
 
 <script lang="ts">
@@ -95,11 +115,11 @@ import {
 import {Singleton} from "../Singleton";
 import {IItemData, INodeObject, ILogsData} from "../interface";
 import firebase from "firebase";
-import draggable from "vuedraggable";
 import {MoUtils} from "../MoUtils";
+import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
 
 @Component({
-  components: {draggable},
+  components: {},
 })
 export default class ItemListItemComp extends Vue {
   @Prop() node!: INodeObject;
@@ -110,6 +130,10 @@ export default class ItemListItemComp extends Vue {
   private unsubscribe!: () => void;
   maxHistory: number = 100;
   expanded = true;
+  isDragOver = false;
+  isDragOverLast = false;
+
+  static dragItem: ItemListItemComp;
 
   mounted() {
     // if (!this.node.id) {
@@ -148,7 +172,6 @@ export default class ItemListItemComp extends Vue {
       });
   }
 
-
   private checkLoop(p: any): any {
     if (!p) return false;
     if (p.itemData && p.node.id === this.node.id) {
@@ -160,33 +183,9 @@ export default class ItemListItemComp extends Vue {
     if (p.$parent) return this.checkLoop(p.$parent);
   }
 
-  getGroup(moduleId: string) {
-    switch (moduleId) {
-      //- case "Column":
-      //- return moduleId;
-      default:
-        return "Box";
-    }
-  }
-
-  // @Watch("itemData.value", {immediate: true})
-  // private hoge(after: any, before: any) {
-  //   this.beforeValue = before;
-  // }
-
-  updateChild() {
-    let update = {value: this.itemData.value};
-    MoUtils.updateItem(this.node.id, update);
-    // MoUtils.addHistory("updateItemData",
-    //   this.node.id,
-    //   Object.assign({}, this.itemData, {value: this.beforeValue}),
-    //   update,
-    // );
-  }
-
   deleteModule() {
-    if (!confirm(`削除します`)) return
-    let parent = <ItemListItemComp>this.$parent.$parent;
+    if (!confirm(`削除します`)) return;
+    let parent = <ItemListItemComp>this.$parent;
     let value: any = parent.itemData.value.filter((via: INodeObject) => via.id != this.node.id);
     let update = {value: value};
     MoUtils.updateItem(parent.node.id, update);
@@ -212,13 +211,83 @@ export default class ItemListItemComp extends Vue {
    *
    */
   onClick() {
-    if (this.$route.query.focus == this.node.id) {
-      this.expanded = !this.expanded;
-    }
     this.$router
       .replace({query: {...this.$route.query, focus: this.node.id}})
       .catch(err => {
       });
+  }
+
+  onDragstart(e: any) {
+    if (!this.$parent.$data.itemData || this.$parent.$data.itemData.type == "group") {
+      e.preventDefault();
+      return;
+    }
+
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.dropEffect = "move";
+    ItemListItemComp.dragItem = this;
+    this.expanded = false;
+  }
+
+  onDragend(e: any) {
+    // console.log(e.type,e);
+  }
+
+  /**
+   * 
+   * @param e
+   * @param to
+   * @param before
+   */
+  onDrop(e: any, to?: ItemListItemComp, before?: string) {
+    this.isDragOver = false;
+    this.isDragOverLast = false;
+
+    if (!to) to = this;
+
+    if (this.isIncludible(to.itemData) && ItemListItemComp.dragItem.node.id != before) {
+      let from = <ItemListItemComp>ItemListItemComp.dragItem.$parent;
+
+      //from
+      let update = {
+        value: from.itemData.value.filter((via: INodeObject) => via.id != ItemListItemComp.dragItem.node.id),
+      };
+      if (from.node.id != to.node.id) {
+        // 別の親の場合、保存 & updateのすり替え
+        MoUtils.updateItem(from.node.id, update);
+        MoUtils.addHistory("chain",
+          from.node.id,
+          from.itemData,
+          update,
+        );
+        update = {
+          value: [...to.itemData.value],
+        };
+      }
+
+      // to
+      if (before) {
+        update.value.some((_node: INodeObject, i: number) => {
+          if (before == _node.id) {
+            update.value.splice(i, 0, ItemListItemComp.dragItem.node);
+            return true;
+          }
+        });
+      } else {
+        update.value.push(ItemListItemComp.dragItem.node);
+      }
+
+      MoUtils.updateItem(to.node.id, update);
+      MoUtils.addHistory("move",
+        to.node.id,
+        to.itemData,
+        update,
+      );
+    }
+  }
+
+  isIncludible(parentItemData: IItemData) {
+    return MoUtils.isIncludible(ItemListItemComp.dragItem.itemData.moduleId, parentItemData);
   }
 
   beforeDestroy() {
@@ -229,6 +298,14 @@ export default class ItemListItemComp extends Vue {
 
 <style lang="scss">
 .item-list-item-comp {
+  border-top: 3px solid transparent;
+  position: relative;
+
+  &__arrow {
+    position: absolute;
+    left: -1rem;
+  }
+
   &:hover, &:focus {
     background-color: $color-gray-200 !important;
   }
@@ -243,6 +320,31 @@ export default class ItemListItemComp extends Vue {
 
   &--reference {
     pointer-events: none;
+  }
+
+  &[data-drag-over] {
+    border-top-color: $color-red;
+  }
+
+  &__last {
+    position: absolute;
+    bottom: 0;
+    height: 5px;
+    width: 100%;
+    border-bottom: 3px solid transparent;
+
+    &[data-drag-over-last] {
+      border-bottom-color: $color-red;
+    }
+  }
+
+  &__empty {
+    border: 3px solid transparent;
+
+    &[data-drag-over-last] {
+      border-color: $color-red;
+      opacity: 0.6;
+    }
   }
 }
 </style>

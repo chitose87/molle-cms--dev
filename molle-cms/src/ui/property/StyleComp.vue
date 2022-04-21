@@ -1,5 +1,6 @@
 <template lang="pug">
 .style-comp
+  hr
   label.form-inline(v-if="permission.theme!==undefined")
     span.mr-1 {{$words.theme}}:
     select.form-control.form-control-sm(v-model="itemData.class.theme" @change="()=>$emit('change')")
@@ -10,12 +11,15 @@
     select.form-control.form-control-sm(v-model="itemData.class.color" @change="()=>$emit('change')")
       option(v-for="item in permission.color.select" :value="item" v-html="item.split(' ')[0]")
 
-
-
   //TextHorizontal
   label.form-inline(v-if="permission.align!==undefined")
     span.mr-1 {{$words.align}}:
     select.form-control.form-control-sm(v-model="itemData.class.align" @change="()=>$emit('change')")
+      option(v-for="item in styleAlign" :value="item.value" v-html="$words[item.label]")
+
+  label.form-inline(v-if="permission.align!==undefined")
+    span.mr-1 └{{$words.sp}}:
+    select.form-control.form-control-sm(v-model="itemData.class.alignSp" @change="()=>$emit('change')")
       option(v-for="item in styleAlign" :value="item.value" v-html="$words[item.label]")
 
   //space
@@ -29,11 +33,14 @@
       .molle-guide__body.caption
         p 余白
 
-  //details
-    summary 削除予定
-  //span.mr-3
-    label Free Area
-      textarea(v-model="datacss")
+  //.css
+  details(v-if="permission.css")
+    summary CSS入力欄
+    div
+      textarea.form-control.form-control-sm.small(
+        v-model="itemData.css"
+        @change="()=>$emit('change')"
+      )
 
 </template>
 

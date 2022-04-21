@@ -75,37 +75,44 @@ export class MoUtils {
    * @param update
    */
   static updateItem(id: string, update: any, isSet = false) {
-    let promise;
-    let historyItem: any = {
-      timestamp: firebase.firestore.Timestamp.now(),
-      uid: firebase.auth().currentUser!.email,
-    };
+    let batchQue: any = [
+      {
+        cmd: isSet ? "set" : "update",
+        ref: Singleton.itemsRef.doc(id),
+        data: {...update},
+      },
+      {
+        cmd: "set",
+        ref: Singleton.logsRef.doc(new Date().getTime() + "-" + Math.floor(Math.random() * 1000)),
+        data: {
+          id: id,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          uid: firebase.auth().currentUser!.email,
+          data: update,
+        },
+      },
+    ];
 
-    //
-    if (isSet) {
-      promise = Singleton.itemsRef.doc(id).set(update);
-    } else {
-      promise = Singleton.itemsRef.doc(id).update({...update});
+    return MoUtils.updateBatch(batchQue);
+  }
+
+  /**
+   *
+   * @param moduleId
+   * @param parentItemData
+   */
+  static isIncludible(moduleId: string, parentItemData: IItemData) {
+    if (parentItemData.type == "group") return false;
+
+    let moduleOpt = Vue.prototype.$molleModules[parentItemData.moduleId];
+    if (parentItemData.dev && parentItemData.dev.enabled) {
+      if (!parentItemData.dev.enabled.includes(moduleId)) return false;
+    } else if (moduleOpt.white) {
+      if (!moduleOpt.white.includes(moduleId)) return false;
+    } else if (moduleOpt.black) {
+      if (moduleOpt.black.includes(moduleId)) return false;
     }
-    //log
-    let logRef = Singleton.logsRef.doc(id);
-    logRef.get()
-      .then((snap: firebase.firestore.DocumentSnapshot) => {
-        let data = snap.data() || {};
-        let history: ILogsData[] = data.history || [];
-        if (snap.exists) historyItem.update = update;
-        history.unshift(historyItem);
-        // console.log(history)
-        //todo 短時間で同一idに対して変更があったものを統合
-        if (history.length > 100) history.length = 100;
-        if (snap.exists) {
-          logRef.update({history: history});
-        } else {
-          logRef.set({history: history});
-        }
-      });
-
-    return promise;
+    return true;
   }
 
   /**
@@ -142,41 +149,57 @@ export class MoUtils {
   static undoHistory(ctx: any) {
     let history = this.ls.history[this.ls.currentHistory];
     if (!history) return;
-    switch (history.cmd) {
-      case "create":
-      case "update":
-      case "delete":
-        this.updateItem(
-          history.id,
-          history.before,
-          false,
-        );
-        break;
-    }
+    // switch (history.cmd) {
+    //   case "create":
+    //   case "update":
+    //   case "delete":
+    //   case "paste":
+    //   case "move":
+    this.updateItem(
+      history.id,
+      history.before,
+      false,
+    );
+    // break;
+    // }
 
     ctx.$router.push({query: {...ctx.$route.query, focus: history.id}});
     this.ls.currentHistory++;
-    this.lsSave();
+
+    //
+    let next = this.ls.history[this.ls.currentHistory];
+    if (next && next.cmd == "chain") {
+      this.undoHistory(ctx);
+    } else {
+      this.lsSave();
+    }
   }
 
   //redo
   static redoHistory(ctx: any) {
     let history = this.ls.history[this.ls.currentHistory - 1];
     if (!history) return;
-    switch (history.cmd) {
-      case "create":
-      case "update":
-      case "delete":
-        this.updateItem(
-          history.id,
-          Object.assign({}, history.before, history.data),
-          false,
-        );
-        break;
-    }
+    // switch (history.cmd) {
+    //   case "create":
+    //   case "update":
+    //   case "delete":
+    //   case "paste":
+    //   case "move":
+    this.updateItem(
+      history.id,
+      Object.assign({}, history.before, history.data),
+      false,
+    );
+    // break;
+    // }
     ctx.$router.push({query: {...ctx.$route.query, focus: history.id}});
     this.ls.currentHistory--;
-    this.lsSave();
+
+    if (history.cmd == "chain") {
+      this.redoHistory(ctx);
+    } else {
+      this.lsSave();
+    }
   }
 
   /**

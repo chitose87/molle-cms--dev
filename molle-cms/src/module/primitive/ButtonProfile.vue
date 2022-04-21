@@ -1,9 +1,5 @@
 <template lang="pug">
 div
-  StyleComp(
-    :itemData="itemData"
-    @change="()=>$emit('change')"
-  )
   // block
   label.form-inline
     span.mr-1 {{custom.block.label}}:
@@ -23,6 +19,7 @@ div
     a(:href="itemData.option.href" :target="itemData.option.target")
       b-icon(icon="link")
     input.form-control.form-control-sm(
+      type="url"
       v-model="itemData.option.href"
       @change="()=>$emit('change')"
     )
@@ -31,6 +28,7 @@ div
   label.w-100
     span.mr-1 {{custom.label.label}}:
     input.form-control.form-control-sm(
+      type="text"
       v-model="itemData.value"
       @change="()=>$emit('change')"
     )
@@ -58,6 +56,12 @@ div
           p ファイルをアップロードし、URLにアップロード先URLを入力するとそのファイルへのリンクボタンになります。
     div
       GoogleStorage
+
+  StyleComp(
+    :itemData="itemData"
+    @change="()=>$emit('change')"
+  )
+
 
 </template>
 

@@ -1,9 +1,5 @@
 <template lang="pug">
 div
-  StyleComp(
-    :itemData="itemData"
-    @change="()=>$emit('change')"
-  )
   label.form-inline
     span.mr-1 {{custom.facebook.label}}:
     input.form-control.form-control-sm(
@@ -18,6 +14,10 @@ div
       type="checkbox",
       @change="() => $emit('change')"
     )
+  StyleComp(
+    :itemData="itemData"
+    @change="()=>$emit('change')"
+  )
 
 </template>
 

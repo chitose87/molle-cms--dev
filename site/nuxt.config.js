@@ -31,7 +31,7 @@ if (molle.isMolleCms) {
   css.push("molle-cms/css/molle.scss");
   modules.push("bootstrap-vue/nuxt");
   plugins.push(
-    "./molle-cms/src/Words.ts",
+    "./molle-cms/plugin/index.ts",
     "./molle/nuxt-config/pluginSpa.ts");
   // scriptObj.push({src: "https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"});
 } else {

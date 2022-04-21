@@ -20,7 +20,10 @@
 
   div(v-if="uploaded")
     label {{$words.complete}}
-      input.form-control.form-control-sm(:value="uploaded")
+      input.form-control.form-control-sm(
+        type="url"
+        :value="uploaded"
+      )
 
 </template>
 

@@ -21,6 +21,24 @@
         "**/.*",
         "**/node_modules/**"
       ]
+    },
+    {
+      "target": "supercar-static",
+      "public": "supercar/public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    },
+    {
+      "target": "supercar-cms",
+      "public": "supercar/public-cms",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
     }
   ],
   "storage": {

@@ -16,6 +16,20 @@
       //予約deploy用
       "cron": "every day 10:00",
       "ghRepository": "NCT-Companay/corporate"
+    },
+    "supercar": {
+      "port": 2896,
+      //静的サイト設定
+      "static": {
+        "hosting": "japansupercar"
+      },
+      //管理画面サイト設定
+      "cms": {
+        "hosting": "japansupercar-cms"
+      },
+      //予約deploy用
+      "cron": "every day 10:00",
+      "ghRepository": "NCT-Companay/corporate"
     }
   }
 }

@@ -1,62 +1,72 @@
 <template lang="pug">
-.molle-editer.bootstrap(:style="style")
-  button.molle-editer__toggle.btn.btn-info(
-    @click="editerToggle"
-  )
-    span(v-if="$route.query.edit") {{$words.preview}}
-    span(v-else) {{$words.edit}}
+.bootstrap.molle-editer
+  MolleBase
+  .molle-editer__wrap(:style="style")
+    .molle-editer__fiexd-tl
+      a.btn.btn-outline-secondary(href="/--molle/")
+        b-icon(icon="house-door")
 
-  .molle-editer__body(v-show="$route.query.edit")
-    style(v-if="$route.query.edit")
-      | .molle-editer{
-      |   height: calc(100% - {{panelOption.top}}px);
-      | }
-      | .molle-editer + * {
-      |   margin-left: {{panelOption.left.value+8}}px;
-      |   margin-right: {{panelOption.right.value+8}}px;
-      | }
+      button.btn.btn-info(@click="editerToggle")
+        span(v-if="$route.query.edit")
+          b-icon(icon="display")
+        span(v-else)
+          b-icon(icon="pencil")
 
-    // left
-    .molle-editer__left.shadow(:style="{width:panelOption.left.value+'px'}")
-      .molle-editer__scroll.pb-4(ref="left")
-        .card.bg-light
-          .card-header.pt-1.pb-1.pl-3.pr-3.text-right
-            a(href="/--molle/")
-              b-icon(icon="house-door")
-              span Molle TOP
+      button.btn.btn-outline-info(@click="openMobileWindow")
+        span
+          b-icon(icon="phone")
 
-        PageListComp
+    .molle-editer__body(v-show="$route.query.edit")
+      style(v-if="$route.query.edit")
+        | @media screen and (min-width: 768px)  {
+        | .molle-editer__wrap{
+        |   height: calc(100% - {{panelOption.top}}px);
+        | }
+        | .molle-editer + * {
+        |   margin-left: {{panelOption.left.value+8}}px;
+        |   margin-right: {{panelOption.right.value+8}}px;
+        | }
+        | }
 
-        PagePropertyComp(
-          v-if="vobj.pageData && vobj.pageId"
-          :pageData="vobj.pageData", :pageId="vobj.pageId"
-        )
+      // left
+      .molle-editer__left.shadow(:style="{width:panelOption.left.value+'px'}")
+        .molle-editer__scroll.pb-4.pt-2hr(ref="left")
 
-        .card.bg-light
-          .card-header.pt-1.pb-1.pl-3.pr-3 {{$words.structure}}
-          ItemListViewComp(
-            v-if="vobj.pageData"
-            :itemId="vobj.pageData.itemId"
+          PageListComp
+
+          PagePropertyComp(
+            v-if="vobj.pageData && vobj.pageId"
+            :pageData="vobj.pageData", :pageId="vobj.pageId"
           )
-          ItemListViewComp(
-            v-for="(loader,id) in moduleLoaderCms.modules"
-            v-if="loader.isRoot"
-            :itemId="id"
-            :key="id"
-          )
-      .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'left')")
 
-    // right
-    .molle-editer__right.shadow(:style="{width:panelOption.right.value+'px'}")
-      .molle-editer__scroll
-        EditorOptionComp
+          .card.bg-light
+            .card-header.pt-1.pb-1.pl-3.pr-3 {{$words.structure}}
+            ItemListViewComp(
+              v-if="vobj.pageData"
+              :itemId="vobj.pageData.itemId"
+            )
+            ItemListViewComp(
+              v-for="(loader,id) in moduleLoaderCms.modules"
+              v-if="loader.isRoot"
+              :itemId="id"
+              :key="id"
+            )
+        .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'left')")
 
-        ModulePropertyComp
-      .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'right')")
-    GoogleStorageModalComp
+      // right
+      .molle-editer__right.shadow(:style="{width:panelOption.right.value+'px'}")
+        .molle-editer__scroll
+          EditorOptionComp
 
-    FocusExtension
-    #bootstrap-container
+          ModulePropertyComp
+        .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'right')")
+      GoogleStorageModalComp
+
+      FocusExtension
+      #bootstrap-container
+
+  MolleCommentView(v-if="$route.query.edit")
+
 </template>
 
 <script lang="ts">
@@ -66,6 +76,7 @@ import GoogleStorageModalComp from "./GoogleStorageModalComp.vue";
 import PagePropertyComp from "./PagePropertyComp.vue";
 import ModulePropertyComp from "./ModulePropertyComp.vue";
 import ItemListViewComp from "./ItemListViewComp.vue";
+import MolleCommentView from "./MolleCommentView.vue";
 import EditorOptionComp from "./EditorOptionComp.vue";
 import {INodeObject, IPageData, IItemData} from "../interface";
 import {Singleton} from "../Singleton";
@@ -73,15 +84,18 @@ import firebase from "firebase";
 import ModuleLoaderCms from "../module/ModuleLoaderCms.vue";
 import PageListComp from "./PageListComp.vue";
 import {MoUtils} from "../MoUtils";
+import MolleBase from "./MolleBase.vue";
 
 @Component({
   components: {
+    MolleBase,
     PageListComp,
     FocusExtension,
     GoogleStorageModalComp,
     PagePropertyComp,
     ModulePropertyComp,
     ItemListViewComp,
+    MolleCommentView,
     EditorOptionComp,
   },
 })
@@ -115,6 +129,47 @@ export default class MolleEditerComp extends Vue {
    *
    **/
   mounted() {
+    // 一時的コード
+    // Singleton.logsRef.get().then((snap: firebase.firestore.QuerySnapshot) => {
+    //   let batchQue: any = [];
+    //
+    //   snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
+    //     let id = _snap.id;
+    //     let data: any = _snap.data();
+    //
+    //     if (data.history) {
+    //       for (let item of data.history) {
+    //         if(!item.timestamp)continue;
+    //         let uniq = item.timestamp.seconds * 1000 + "-" + Math.floor(Math.random() * 1000);
+    //         let hoge: any = {};
+    //         if (item.update) {
+    //           if (item.update.value) hoge.value = item.update.value;
+    //           if (item.update.option) hoge.option = item.update.option;
+    //           if (item.update.class) hoge.class = item.update.class;
+    //           if (item.update.moduleId) hoge.moduleId = item.update.moduleId;
+    //           if (item.update.name) hoge.name = item.update.name;
+    //         }
+    //         let obj = {
+    //           id: id,
+    //           timestamp: 0,
+    //           uid: item.uid,
+    //           data: hoge,
+    //         };
+    //         batchQue.push({
+    //           cmd: "set",
+    //           ref: Singleton.logsRef.doc(uniq),
+    //           data: obj,
+    //         });
+    //       }
+    //     }
+    //     // console.log(id, data);
+    //   });
+    //   console.log(batchQue);
+    //   MoUtils.updateBatch(batchQue).then(() => {
+    //     alert("complete");
+    //   });
+    // });
+
     // pageData
     let id = Singleton.getPageIdByPath(this.$route);
     if (id) {
@@ -176,68 +231,92 @@ export default class MolleEditerComp extends Vue {
     this.$parent.$el.addEventListener("mouseover", listener);
     this.$parent.$el.addEventListener("click", listener);
 
+    let _check = () => {
+      var current = <HTMLElement>document.activeElement;
+      return current.tagName == "TEXTAREA" ||
+        (current.tagName == "INPUT" && ["text", "url", "number"].includes(current.getAttribute("type")!)) ||
+        current.getAttribute("contenteditable") == "true";
+    };
+
     //
     document.addEventListener("keydown", (e: KeyboardEvent) => {
-      var current = <HTMLElement>document.activeElement;
-      if (
-        current.tagName == "TEXTAREA" ||
-        (current.tagName == "INPUT" && current.getAttribute("type") == "text") ||
-        current.getAttribute("contenteditable") == "true") {
-        return;
-      }
+      if (_check()) return;
       if (e.ctrlKey || e.metaKey) {
         //ctrl + z
         switch (e.code) {
           case "KeyZ":
-            if (e.shiftKey) {
-              console.log("redo?");
-              MoUtils.redoHistory(this);
-            } else {
-              console.log("undo?");
-              MoUtils.undoHistory(this);
-            }
-            break;
-
-          case "KeyC":
-            if (!this.$route.query.focus) break;
-            MoUtils.ls.copyItem.id = <string>this.$route.query.focus;
-            MoUtils.ls.copyItem.key = e.code;
-            MoUtils.lsSave();
-            console.log(MoUtils.ls.copyItem);
-            break;
-
-          case "KeyX":
-            if (!this.$route.query.focus) break;
-            MoUtils.ls.copyItem.id = "";
-            MoUtils.ls.copyItem.key = "";
-            let id = <string>this.$route.query.focus;
-            try {
-              let parent: any = ModuleLoaderCms.modules[id].$parent;
-              if (parent.itemData.type == "group") {
-                alert("カットできません");
-                break;
-              }
-              MoUtils.ls.copyItem.id = id;
-              MoUtils.ls.copyItem.key = e.code;
-              //カットしたモジュールを親から削除
-              let parentId = parent.$parent.node.id;
-              Singleton.itemsRef.doc(parentId)
-                .get()
-                .then((snap: firebase.firestore.DocumentSnapshot) => {
-                  if (!snap.exists) return;
-                  let parentItemData = <IItemData>snap.data();
-                  MoUtils.updateItem(parentId!,
-                    {value: parentItemData.value.filter((via: INodeObject) => via.id != id)},
-                  );
-                });
-            } catch (e) {
-              // console.log(e)
-            }
-            MoUtils.lsSave();
-            console.log(MoUtils.ls.copyItem);
+            if (e.shiftKey) MoUtils.redoHistory(this);
+            else MoUtils.undoHistory(this);
             break;
         }
       }
+    });
+
+    /**
+     * ctrl + c
+     */
+    document.addEventListener("copy", (e: any) => {
+      if (_check() || !this.$route.query.focus) return;
+
+      MoUtils.ls.copyItem.id = <string>this.$route.query.focus;
+      MoUtils.ls.copyItem.key = "KeyC";
+      MoUtils.lsSave();
+
+      // e.clipboardData.setData("text/plain", this.$route.query.focus);
+      // e.preventDefault();
+    });
+
+    /**
+     * ctrl + x
+     */
+    document.addEventListener("cut", (e: any) => {
+      if (_check() || !this.$route.query.focus) return;
+
+      let id = <string>this.$route.query.focus;
+      MoUtils.ls.copyItem.id = id;
+      MoUtils.ls.copyItem.key = "KeyX";
+      MoUtils.lsSave();
+
+      try {
+        let parent: any = ModuleLoaderCms.modules[id].$parent;
+        if (parent.itemData.type == "group") {
+          alert("カットできません");
+          return;
+        }
+        //カットしたモジュールを親から削除
+        let value: any = parent.$parent.itemData.value.filter((via: INodeObject) => via.id != id);
+        let update = {value: value};
+        MoUtils.updateItem(parent.$parent.node.id, update);
+        MoUtils.addHistory("delete",
+          parent.$parent.node.id,
+          parent.$parent.itemData,
+          update,
+        );
+        // e.clipboardData.setData("text/plain", id);
+        // e.preventDefault();
+      } catch (e) {
+        // console.log(e)
+      }
+    });
+
+    /**
+     * ctrl + v
+     */
+    document.addEventListener("paste", (e: any) => {
+      // console.log(e.clipboardData);
+      // console.log(e.clipboardData.getData("text/plain"));
+      if (_check() || !this.$route.query.focus) return;
+
+      // let _id = e.clipboardData.getData("text/plain");
+      // if (_id && _id == MoUtils.ls.copyItem.id) {
+      //   //_idを優先してコピーしてみる
+      // }else{
+      //   //MoUtils.ls.copyItem.idでやる
+      // }
+
+      /**
+       * ls
+       */
     });
   }
 
@@ -247,7 +326,7 @@ export default class MolleEditerComp extends Vue {
   private enterFrame() {
     try {
       // let el = <HTMLElement>document.querySelector(".molle-editer + *");
-      let v = this.$el.getBoundingClientRect().top;
+      let v = this.$el.querySelector(".molle-editer__wrap")!.getBoundingClientRect().top;
       if (this.panelOption.top != v) {
         this.$set(this.panelOption, "top", v);
       }
@@ -309,6 +388,12 @@ export default class MolleEditerComp extends Vue {
     this.$router.push(q);
   }
 
+  openMobileWindow() {
+    window.open(location.origin + location.pathname + "?mode=sp",
+      "MOLLE-SPview",
+      "width=380,height=800");
+  }
+
   /**
    *
    * @param event
@@ -349,7 +434,6 @@ export default class MolleEditerComp extends Vue {
 
   private addPage(pageId: any) {
     let path = decodeURIComponent(pageId);
-    // let batch = firebase.firestore().batch();
     //pages作成
     Singleton.pagesRef.doc(pageId).set({
       path: path,
@@ -365,20 +449,22 @@ export default class MolleEditerComp extends Vue {
 
 <style lang="scss">
 .molle-editer {
-  position: fixed;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-  z-index: $zindex-heaven;
+  &__wrap {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: $zindex-heaven;
+  }
 
   //@include mediaquery-not-sm {
   //  display: flex;
   //}
-  &__toggle {
+  &__fiexd-tl {
     position: absolute;
     left: 0rem;
     top: 0rem;
-    z-index: $zindex-modal + 1;
+    z-index: $zindex-modal - 1;
     pointer-events: auto;
   }
 
@@ -394,7 +480,7 @@ export default class MolleEditerComp extends Vue {
     position: absolute;
     top: 0;
     width: 0;
-    z-index: $zindex-modal;
+    z-index: $zindex-modal - 2;
     flex-shrink: 0;
     flex-grow: 0;
     pointer-events: auto;

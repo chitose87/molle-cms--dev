@@ -39,7 +39,7 @@ export class Module extends Vue {
   getClass(data: any) {
     // console.log("getClass",data.moduleId)
     let obj: any = {
-      noExport: data.noExport
+      noExport: data.noExport,
     };
 
     for (let key in data.class) {
@@ -54,9 +54,12 @@ export class Module extends Vue {
           obj[value] = true;//todo tbd
           break;
         case "align":
-          //.{value} 形式
           if (!value) break;
           obj[value] = true;
+          break;
+        case "alignSp":
+          if (!value) break;
+          obj[value + "-sp"] = true;
           break;
         case "space":
           obj[`s-${value}`] = !!value;

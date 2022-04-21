@@ -10,6 +10,12 @@
         ],
         "site-cms": [
           "nct-comthink-cms"
+        ],
+        "supercar-static": [
+          "japansupercar"
+        ],
+        "supercar-cms": [
+          "japansupercar-cms"
         ]
       }
     }

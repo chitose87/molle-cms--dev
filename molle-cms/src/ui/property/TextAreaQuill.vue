@@ -32,14 +32,18 @@ export default class TextAreaQuill extends OptionComp {
   $editer!: HTMLElement;
   tagValue = "";
   isSource = false;
+  @Prop({default: ""}) toolbar!: string;
 
   mounted() {
+    let modules: any = {
+      toolbar: [
+        ["bold", "underline", "link", "clean"],
+      ],
+    };
+    if (this.toolbar == "full") delete modules.toolbar;
+    console.log(this.toolbar)
     this.quill = new Quill(<Element>this.$refs.quillEditor!, {
-      modules: {
-        toolbar: [
-          ["bold", "underline", "link", "clean"],
-        ],
-      },
+      modules: modules,
       theme: "snow",
     });
     delete this.quill.getModule("keyboard").bindings["9"];//tab

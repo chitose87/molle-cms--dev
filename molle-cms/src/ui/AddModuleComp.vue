@@ -98,6 +98,7 @@ export default class AddModuleComp extends Vue {
     let node: INodeObject = {id: Singleton.itemsRef.doc().id};
 
     MoUtils.updateItem(node.id, data, true);
+    // MoUtils.addHistory不要？
 
     //parent
     let update = {value: this.itemData.value.concat()};

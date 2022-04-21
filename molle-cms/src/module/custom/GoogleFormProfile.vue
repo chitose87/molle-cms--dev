@@ -7,6 +7,7 @@ div
       .molle-guide__body.caption
         p GoogleFromのプレビューページのURLを入力します。
     input.form-control.form-control-sm(
+      type="url"
       v-model="itemData.value.url"
       @change="()=>$emit('change')"
       placeholder="Google Form URL"
@@ -24,7 +25,6 @@ div
   StyleComp(
     :itemData="itemData"
     @change="()=>$emit('change')"
-
   )
 
 </template>

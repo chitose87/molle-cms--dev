@@ -15,7 +15,7 @@ component.module.background-box(
       loading="lazy"
       :src="itemData.option.bg"
       :alt="itemData.option.alt"
-      )
+    )
 
   .background-box__body.box
     ModuleLoader(
@@ -24,10 +24,12 @@ component.module.background-box(
       :node="node"
     )
 
+  //
   AddModuleComp(
     :label="`BG-Box`"
     :parentNode="loader.node"
   )
+  style(v-if="itemData.css" v-html="itemData.css")
 </template>
 
 <script lang="ts">

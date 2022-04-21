@@ -18,6 +18,10 @@
     "site:gen": "node ./molle-cms/before.node.js site && nuxt-ts generate site",
     "site:gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate site",
     "site:deploy": "firebase deploy --only hosting:site-static",
+    "supercar:dev": "cross-env NUXT_PORT=2896 IS_MOLLE_CMS=true nuxt-ts dev supercar",
+    "supercar:gen": "node ./molle-cms/before.node.js supercar && nuxt-ts generate supercar",
+    "supercar:gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate supercar",
+    "supercar:deploy": "firebase deploy --only hosting:supercar-static",
     "</molle:setup.node.js>": "",
     "site:ftp": "node site/deploy.js",
     "site:storage": "node ./molle-cms/storage.node.js site",
@@ -55,7 +59,6 @@
     "pug-loader": "^2.4.0",
     "pug-plain-loader": "^1.1.0",
     "sass-loader": "^10.1.0",
-    "vuedraggable": "^2.24.3",
     "vuex-module-decorators": "^1.0.1"
   }
 }

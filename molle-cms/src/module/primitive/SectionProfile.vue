@@ -1,35 +1,34 @@
 <template lang="pug">
-  div
-    StyleComp(
-      :itemData="itemData"
+div
+  div(v-if="itemData.class.theme=='bg'")
+    InputUrlByGS(
+      :label="custom.bg.label+':'"
+      v-model="itemData.option.bg"
+      @change="()=>$emit('change')"
+    )
+    ImageChecker(
+      :target="itemData.option.bg"
+      v-model="itemData.option.size"
       @change="()=>$emit('change')"
     )
 
-    div(v-if="itemData.class.theme=='bg -zone'")
-      InputUrlByGS(
-        :label="custom.bg.label+':'"
-        v-model="itemData.option.bg"
-        @change="()=>$emit('change')"
-      )
-      ImageChecker(
-        :target="itemData.option.bg"
-        v-model="itemData.option.size"
-        @change="()=>$emit('change')"
-      )
+    //
+    InputUrlByGS(
+      :label="custom.bgSp.label+':'"
+      v-model="itemData.option.sp"
+      @change="()=>$emit('change')"
+    )
+    ImageChecker(
+      :target="itemData.option.sp"
+      v-model="itemData.option.spSize"
+      @change="()=>$emit('change')"
+    )
 
-      //
-      InputUrlByGS(
-        :label="custom.bgSp.label+':'"
-        v-model="itemData.option.sp"
-        @change="()=>$emit('change')"
-      )
-      ImageChecker(
-        :target="itemData.option.sp"
-        v-model="itemData.option.spSize"
-        @change="()=>$emit('change')"
-      )
-
-      GoogleStorage
+    GoogleStorage
+  StyleComp(
+    :itemData="itemData"
+    @change="()=>$emit('change')"
+  )
 
 </template>
 
@@ -66,13 +65,11 @@ export default class SectionProfile extends Profile {
     color: {default: "", select: ["", "secondary -zone"]},
   };
 
-  //
   static settings = {
     type: "children",
     opt: {
       value: [],
     },
-    tags: ["box","any"],
     black: ["ColumnBox", "List", "DataSet"],
     convert: ["Box", "ColumnBox", "BackgroundBox", "ListBox", "DataBox"],
     icon: "plus-square",

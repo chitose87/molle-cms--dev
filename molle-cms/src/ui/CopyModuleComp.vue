@@ -94,22 +94,32 @@ export default class CopyModuleComp extends Vue {
       //ターゲットの取得＆クローンデータ
       loop(targetId, createNode.id, true),
     ]).then(([parentItemData]) => {
-      // バリデーション
-      if (!this.validation(items[createNode.id], <IItemData>parentItemData)) return;
+      if (!MoUtils.isIncludible(items[createNode.id].moduleId, parentItemData!)) {
+        alert(`${items[createNode.id].moduleId}は配置できません。`);
+        return;
+      }
 
       // 登録
-      let batch = firebase.firestore().batch();
+      let batchQue: any = [];
       for (let id in items) {
-        batch.set(Singleton.itemsRef.doc(id), items[id]);
+        batchQue.push({
+          cmd: "set",
+          ref: Singleton.itemsRef.doc(id),
+          data: items[id],
+        });
       }
 
       // 親データの更新
       if (parentItemData) {
         this.insertNode(parentItemData, createNode);
-        batch.update(Singleton.itemsRef.doc(this.parentNode.id), {value: parentItemData.value});
+        batchQue.push({
+          cmd: "update",
+          ref: Singleton.itemsRef.doc(this.parentNode.id),
+          data: {value: parentItemData.value},
+        });
       }
       // batchスタート
-      batch.commit()
+      MoUtils.updateBatch(batchQue)
         .then(() => {
           console.log("--end");
         });
@@ -128,14 +138,22 @@ export default class CopyModuleComp extends Vue {
       Singleton.itemsRef.doc(this.parentNode.id).get(),
     ]).then(([snap, parentSnap]) => {
       let parentItemData = <IItemData>parentSnap.data();
-      // バリデーション
-      if (!this.validation(<IItemData>snap.data(), parentItemData)) return;
+
+      if (!MoUtils.isIncludible(snap.data()!.moduleId, parentItemData)) {
+        alert(`${snap.data()!.moduleId}は配置できません。`);
+        return;
+      }
 
       //親へ追加
       this.insertNode(parentItemData, {id: copyItem.id!});
 
       //保存
       MoUtils.updateItem(this.parentNode.id, {value: parentItemData.value});
+      MoUtils.addHistory("paste",
+        this.parentNode.id,
+        parentSnap.data(),
+        {value: parentItemData.value},
+      );
 
       //localStorageのクリア
       MoUtils.ls.copyItem.id = "";
@@ -144,31 +162,6 @@ export default class CopyModuleComp extends Vue {
 
       //todo history
     });
-  }
-
-  /**
-   * ブラック／ホワイトリストから挿入できるか確認
-   * @private
-   */
-  private validation(itemData: IItemData, parentItemData: IItemData) {
-    let moduleOpt = this.$molleModules[parentItemData.moduleId];
-    if (parentItemData.dev && parentItemData.dev.enabled) {
-      if (!parentItemData.dev.enabled.includes(itemData.moduleId)) {
-        alert(`${itemData.moduleId}は配置できません。`);
-        return false;
-      }
-    } else if (moduleOpt.white) {
-      if (!moduleOpt.white.includes(itemData.moduleId)) {
-        alert(`${itemData.moduleId}は配置できません。`);
-        return false;
-      }
-    } else if (moduleOpt.black) {
-      if (moduleOpt.black.includes(itemData.moduleId)) {
-        alert(`${itemData.moduleId}は禁止されています。`);
-        return false;
-      }
-    }
-    return true;
   }
 
   /**

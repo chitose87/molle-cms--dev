@@ -61,9 +61,14 @@
             @change="update"
             :placeholder="$words.class")
       hr
-
+      CommentPropertyComp(
+        :itemData="itemData"
+        :itemId="itemId")
+      hr
       LogPropertyComp(:itemId="itemId")
       //
+      hr
+
       label.small.form-inline
         input.form-control.form-control-sm(
           v-model="itemData.noExport",
@@ -71,6 +76,15 @@
           @change="update"
         )
         span :{{$words.donotExport}}
+
+      label.small.form-inline(v-if="itemData.moduleId==='Paragraph' || itemData.moduleId==='Headline'")
+        span.mr-1 Visible:
+        select.form-control.form-control-sm(v-model="isVisible" @change="updateIsVisivle")
+          option(v-for="item in ['','isSp','isPc','hidden']" :value="item" v-html="item")
+        details.molle-guide
+          summary
+          .molle-guide__body.caption
+            p デフォルトはPC/SPともに表示あり。PCのみ、またはSPのみで表示したい場合に設定してください。
 
       p.mb-0.text-right
         span.small.text-nowrap ID : {{$route.query.focus}}
@@ -87,9 +101,10 @@ import {Singleton} from "../Singleton";
 import firebase from "firebase";
 import LogPropertyComp from "../ui/LogPropertyComp.vue";
 import {MoUtils} from "../MoUtils";
+import CommentPropertyComp from "~/molle-cms/src/ui/CommentPropertyComp.vue";
 
 @Component({
-  components: {LogPropertyComp},
+  components: {CommentPropertyComp, LogPropertyComp},
 })
 export default class ModulePropertyComp extends Vue {
   itemId: string = "";
@@ -104,6 +119,7 @@ export default class ModulePropertyComp extends Vue {
   }/firestore/data/${
     ["", process.env.molleProjectID, process.env.molleBrunch, "items", ""].join("~2F")
   }`;
+  isVisible = "";
 
   @Watch("$route.query.focus", {immediate: true})
   onChangeFocusModuleNode(newer: string, older?: string) {
@@ -114,16 +130,20 @@ export default class ModulePropertyComp extends Vue {
         this.unsubscribe();
       }
 
-      this.unsubscribe = Singleton.itemsRef.doc(newer).onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+      this.unsubscribe = Singleton.itemsRef.doc(newer)
+        .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
         if (!snap.exists) return;
 
         this.itemDataBefore = <IItemData>snap.data();
         //@ts-ignore
         let itemData = Object.assign({}, this.$molleModules[this.itemDataBefore.moduleId].def, snap.data());
 
-        // if (!itemData.option) itemData.option = {};
-        // if (!itemData.class) itemData.class = {};
-        // if (!itemData.style) itemData.style = {};
+        this.$set(this, "isVisible"
+          , itemData.class.hidden ? "hidden"
+            : itemData.class.isSp ? "isSp"
+              : itemData.class.isPc ? "isPc"
+                : "");
+
         this.$set(this, "itemData", itemData);
         this.$set(this, "itemId", snap.id);
         this.flag = true;
@@ -169,7 +189,7 @@ export default class ModulePropertyComp extends Vue {
         flag = true;
       }
     });
-    console.log(flag, "update", this.itemId, update);
+    // console.log(flag, "update", this.itemId, update);
     if (flag) {
       MoUtils.updateItem(this.itemId, update);
       MoUtils.addHistory("update",
@@ -204,7 +224,33 @@ export default class ModulePropertyComp extends Vue {
       //     break;
       // }
       MoUtils.updateItem(this.itemId, data);
+      MoUtils.addHistory("update",
+        this.itemId,
+        this.itemData,
+        data,
+      );
     }
+  }
+
+  updateIsVisivle() {
+    delete this.itemData.class.isSp;
+    delete this.itemData.class.isPc;
+    delete this.itemData.class.hidden;
+
+    switch (this.isVisible) {
+      case "isPc":
+        this.itemData.class.isPc = true;
+        break;
+      case "isSp":
+        this.itemData.class.isSp = true;
+        break;
+      case "hidden":
+        this.itemData.class.hidden = true;
+        break;
+      default:
+        break;
+    }
+    this.update();
   }
 }
 </script>

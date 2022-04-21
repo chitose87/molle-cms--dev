@@ -18,7 +18,7 @@ import {Module} from "./Module";
   components: {},
 })
 export default class ModuleLoaderCms extends Vue {
-  static modules = <{ [key: string]: ModuleLoaderCms }>{};
+  static modules = <{[key: string]: ModuleLoaderCms}>{};
 
   @Prop({default: () => ({id: 0})}) node!: INodeObject;
   @Prop({default: false}) isRoot!: boolean;
@@ -35,21 +35,20 @@ export default class ModuleLoaderCms extends Vue {
     // console.log("node", this.node, this.isMolleCms)
     if (this.node.id) {
       if (this.unsubscribe) this.unsubscribe();
-      Singleton.firebaseInit(() => {
-        this.unsubscribe = Singleton.itemsRef
-          .doc(this.node.id)
-          .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-            // console.log(this.node.id, snap.exists);
-            if (snap.exists) this.$set(this, "itemData", snap.data());
-          });
-      });
+
+      this.unsubscribe = Singleton.itemsRef
+        .doc(this.node.id)
+        .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+          // console.log(this.node.id, snap.exists);
+          if (snap.exists) this.$set(this, "itemData", snap.data());
+        });
 
       ModuleLoaderCms.modules[this.node.id] = this;
     }
   }
 
   check() {
-    let obj: any = {}
+    let obj: any = {};
     if (this.itemData.noExport) {
       obj.opacity = 0.5;
     }
@@ -66,7 +65,7 @@ export default class ModuleLoaderCms extends Vue {
     } else if (this.$route.query.hover == this.node.id) {
       obj.outline = "2px solid reoranged";
     }
-    return obj
+    return obj;
   }
 
   beforeDestroy() {

@@ -34,18 +34,27 @@ export interface IItemData {
   // extends?: string;
   // selector?: string;
   style?: any;
+  css?: string;//CSS自由入力欄
 
   class: {
     theme?: string;
     color?: string;
     border?: boolean;
     align?: string;
+    isPc?: boolean;
+    isSp?: boolean;
+    hidden?: boolean;
   };
 
   tagId: string;
   tagClass: string;
 
   dev?: any;
+  comment?: {
+    [key: string]: {
+      status: string;
+    }
+  }
   noExport: boolean;
   //   log?: any;
   // };
@@ -56,18 +65,19 @@ export interface INodeObject {
   // uid: string;
   fixedModuleId?: string;
   order?: number;
-  opt?: { enabled: string[] };
+  opt?: {enabled: string[]};
 }
 
 export interface IPayload {
   id: string;
   pageData: IPageData;
-  pages: { [key: string]: IPageData };
-  items: { [key: string]: IItemData };
+  pages: {[key: string]: IPageData};
+  items: {[key: string]: IItemData};
 }
 
 export interface ILogsData {
   timestamp: any;
+  id: string;
   uid: string;
-  update: any;
+  data: any;
 }
