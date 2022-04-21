@@ -3,7 +3,7 @@
     .container-fluid
       .global-header__body
         a.company-name(href="/")
-          img(src="/img/logo_black.png" width="530px" height="200px" alt="日本コムシンク株式会社")
+          img(src="/img/nct-logo.gif" width="260px" height="44px" alt="日本コムシンク株式会社")
 
         button.global-header__toggle(type="button" @click="()=>isMenuOpen=!isMenuOpen" aria-label="Menu")
           span.global-header__toggle__line
@@ -166,28 +166,43 @@ export default class GlobalHeaderComp extends Vue {
   //    pointer-events: inherit;
   //  }
   //}
+  .site-map {
+
+    &__body {
+      display: flex;
+
+      .button {
+      }
+    }
+
+    &__1st {
+      margin-left: 1.5rem;
+      > .button {
+        text-decoration: none;
+        &:after {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 //site-map
 .site-map {
 
   &__body {
-    display: flex;
-
     .button {
     }
   }
 
   &__1st {
-    display: flex;
-
     > .button {
+      &:after {
+      }
     }
   }
 
   &__2nd {
-    display: flex;
-
     > .button {
     }
   }

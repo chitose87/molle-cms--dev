@@ -21,7 +21,7 @@
     "</molle:setup.node.js>": "",
     "site:ftp": "node site/deploy.js",
     "site:storage": "node ./molle-cms/storage.node.js site",
-    "deploy:cms": "firebase deploy --only functions"
+    "deploy:cms": "firebase deploy --only hosting:site-cms"
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.1.0",

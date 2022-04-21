@@ -1,13 +1,13 @@
 <template lang="pug">
-footer.global-footer
-  ModuleLoader.global-footer__body(:node="{id:'--no-export%2Fglobal_footer'}")
+  footer.global-footer
+    ModuleLoader.global-footer__body(:node="{id:'--no-export%2Fglobal_footer'}")
 </template>
 
 <script lang="ts">
 import {Component, Vue, Prop} from "nuxt-property-decorator";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class GlobalFooterComp extends Vue {
 }
@@ -15,7 +15,6 @@ export default class GlobalFooterComp extends Vue {
 
 <style lang="scss">
 .global-footer {
-  //background: $color-gray-700;
   @include mediaquery-not-sm {
     //margin-top: 5rem;
   }
@@ -27,15 +26,11 @@ export default class GlobalFooterComp extends Vue {
     text-align: center;
     background: $color-gray-900;
     @include mediaquery-not-sm {
-      //margin-top: -5rem;
-      padding-top: 5rem;
-      padding-bottom: 3rem;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
       margin-bottom: 0;
     }
     @include mediaquery-sm {
-      //margin-top: -2rem;
-      padding-top: 2.5rem;
-      padding-bottom: 2.5rem;
     }
 
     .button-list {
@@ -43,14 +38,9 @@ export default class GlobalFooterComp extends Vue {
     }
   }
 
-  &__nav {
-    text-align: center;
-    margin-top: 0;
+  &__copy {
     color: $color-white;
-
-    > * {
-      margin: 0;
-    }
+    font-size: 12px;
   }
 
   .button {
@@ -63,57 +53,11 @@ export default class GlobalFooterComp extends Vue {
     }
   }
 
-  &__insta.button, &__tw.button, &__fb.button {
-    min-width: auto;
-    padding: 0.5rem;
-    border: none;
-    width: 3rem;
-    margin: 0;
-    text-decoration: none;
-
-    span, &:after {
-      display: none;
-    }
-  }
-
-  &__insta {
-    &:before {
-      @include icon-instagram;
-    }
-  }
-
-  &__tw {
-    &:before {
-      @include icon-twitter;
-    }
-  }
-
-  &__fb {
-    &:before {
-      @include icon-facebook;
-    }
-  }
-
-  //プラポリ
-  &__pp {
-    text-decoration: none;
-  }
-
   //.site-map
   .site-map {
-    @include mediaquery-sm {
-      display: none;
-    }
-    pointer-events: inherit;
-    height: auto;
-    text-align: left;
-    justify-content: center;
-
     &__body {
-      flex-direction: row;
-      border-bottom: 1px solid $color-gray-600;
-      padding-bottom: 2rem;
-      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
     }
 
     &__1st {
@@ -121,26 +65,13 @@ export default class GlobalFooterComp extends Vue {
       margin-bottom: 0;
 
       > .button {
-        font-weight: bolder;
         font-size: 18px;
-      }
-    }
+        color: $color-white;
+        text-decoration: none;
 
-    &__2nd {
-      padding-left: 0rem;
-
-      > .button {
-        font-size: 16px;
-        display: block;
-      }
-    }
-
-    &__link {
-      margin-left: 1rem;
-
-      > .button {
-        display: block;
-        font-size: 16px;
+        &:after {
+          display: none;
+        }
       }
     }
   }

@@ -83,7 +83,7 @@ export default class Box extends Module {
   }
 
   &.c-secondary {
-    background-color: $color-key2;
+    background-color: $color-gray-100;
     margin-bottom: 2rem;
 
     //@at-root .container & ,.section__body & {
