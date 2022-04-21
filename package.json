@@ -25,7 +25,8 @@
     "</molle:setup.node.js>": "",
     "site:ftp": "node site/deploy.js",
     "site:storage": "node ./molle-cms/storage.node.js site",
-    "deploy:cms": "firebase deploy --only hosting:site-cms"
+    "deploy:cms": "firebase deploy --only hosting:site-cms",
+    "supercar:deploy:cms": "firebase deploy --only hosting:supercar-cms"
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.1.0",

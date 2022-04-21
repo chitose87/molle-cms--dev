@@ -1,0 +1,181 @@
+.border {
+  border: 1px solid $color-border;
+  padding: $gtr;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.text {
+  &-left {
+    text-align: left;
+  }
+
+  &-center {
+    text-align: center;
+  }
+
+  &-right {
+    text-align: right;
+  }
+}
+
+.justify-content {
+  &-start {
+    justify-content: start;
+  }
+
+  &-center {
+    justify-content: center;
+  }
+
+  &-end {
+    justify-content: end;
+  }
+
+  &-between {
+    justify-content: space-between;
+  }
+
+  &-around {
+    justify-content: space-around;
+  }
+}
+
+/**
+
+ */
+.module {
+  //margin-top: 1rem;
+  //margin-bottom: 1.5rem;
+  //outline: 1px solid red;
+
+  //s-
+  &.s-0 {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  @mixin _func($label,$tb,$lr:false) {
+    &.s-#{$label} {
+      margin-bottom: $tb;
+    }
+    &.-zone {
+      &.s-#{$label} {
+        @if ($lr) {
+          padding-left: $lr;
+          padding-right: $lr;
+        }
+
+        &:before {
+          margin-bottom: $tb;
+        }
+
+        &:after {
+          margin-top: $tb;
+        }
+      }
+    }
+  }
+
+  @include mediaquery-not-sm {
+    @include _func("sm", 1rem, 1rem);
+    @include _func("md", 5rem, $gtr);
+    @include _func("lg", 10rem, 5rem);
+  }
+
+  @include mediaquery-sm {
+    @include _func("sm", 0.5rem, 0.5rem);
+    @include _func("md", 4rem, $gtr/2);
+    @include _func("lg", 8rem, 3rem);
+  }
+
+  // zone系
+  &.-zone {
+    margin-bottom: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+
+    @include mediaquery-not-sm {
+      padding-left: $gtr;
+      padding-right: $gtr;
+    }
+    @include mediaquery-sm {
+      padding-left: $gtr/2;
+      padding-right: $gtr/2;
+    }
+
+    &, &.s-0, &.s-sm, &.s-md, &.s-lg {
+      margin-top: 0;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      display: block;
+    }
+
+    &::before {
+      margin-bottom: $gtr;
+    }
+
+    &::after {
+      margin-top: $gtr;
+    }
+
+    //s-
+    &.s-0 {
+      padding-top: 0.1px;
+      padding-bottom: 0.1px;
+      padding-left: 0;
+      padding-right: 0;
+
+      &::before, &::after {
+        display: none;
+      }
+    }
+
+    //@mixin _func($label,$tb,$lr:false) {
+    //  &.s-#{$label} {
+    //    @if ($lr) {
+    //      padding-left: $lr;
+    //      padding-right: $lr;
+    //    }
+    //
+    //    &:before {
+    //      margin-bottom: $tb;
+    //    }
+    //
+    //    &:after {
+    //      margin-top: $tb;
+    //    }
+    //  }
+    //}
+    //
+    //@include mediaquery-not-sm {
+    //  @include _func("sm", $gtr, $gtr);
+    //  @include _func("md", 5rem, $gtr);
+    //  @include _func("lg", 10rem, 5rem);
+    //}
+    //
+    //@include mediaquery-sm {
+    //  @include _func("sm", $gtr/2, $gtr/2);
+    //  @include _func("md", 3rem, $gtr/2);
+    //  @include _func("lg", 5rem, 3rem);
+    //}
+  }
+
+
+}
+
+main > .module {
+  //margin-top: 0;
+  //margin-bottom: 0;
+}
