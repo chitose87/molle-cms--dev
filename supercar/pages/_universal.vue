@@ -4,7 +4,7 @@
   MolleEditerComp
   main
     article.l-content
-      MainVisual(:pageData="pageData")
+      //MainVisual(:pageData="pageData")
       ModuleLoader(v-if="pageData.itemId" :node="{id:pageData.itemId}")
 
   GlobalFooterComp

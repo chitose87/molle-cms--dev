@@ -1,5 +1,5 @@
 <template lang="pug">
-  footer.global-footer
+  //footer.global-footer
     ModuleLoader.global-footer__body(:node="{id:'--no-export%2Fglobal_footer'}")
 </template>
 

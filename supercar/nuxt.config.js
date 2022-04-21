@@ -66,8 +66,7 @@ export default {
       {rel: "icon", type: "image/x-icon", href: "/favicon.ico"},
       {rel: "preconnect", href: "https://fonts.gstatic.com"},
       {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;900&display=swap",
       },
       {
         rel: "stylesheet",
@@ -144,7 +143,7 @@ export default {
     },
   },
   router: {
-    scrollBehavior: function (to, from, savedPosition) {
+    scrollBehavior: function(to, from, savedPosition) {
       return {};
     },
   },

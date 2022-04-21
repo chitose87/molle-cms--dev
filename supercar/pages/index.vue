@@ -1,12 +1,12 @@
 <template lang="pug">
 .l-body.top
-  GlobalHeaderComp
-  MolleEditerComp
-  main
-    article.l-content
-      ModuleLoader(:node="{id:'--no-export%2Ftop'}" :isRoot="true")
-
-  GlobalFooterComp
+  //GlobalHeaderComp
+  //MolleEditerComp
+  //main
+  //  article.l-content
+  //    ModuleLoader(:node="{id:'--no-export%2Ftop'}" :isRoot="true")
+  //
+  //GlobalFooterComp
 </template>
 
 <script lang="ts">

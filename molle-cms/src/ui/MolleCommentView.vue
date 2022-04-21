@@ -1,14 +1,14 @@
 <template lang="pug">
-.molle-comment-view
-  .molle-comment-view__batch(
-    v-for="(item,id) in list"
-    v-if="item && item.count>0"
-    :style="{transform:`translate(${item.x}px, ${item.y}px)`}"
-    :key="id"
-    :title="id"
-  )
-    span(v-html="item.count" v-if="item.count>1")
-    b-icon(icon="chat-right-fill")
+  .molle-comment-view
+    .molle-comment-view__batch(
+      v-for="(item,id) in list"
+      v-if="item && item.count>0"
+      :style="{transform:`translate(${item.x}px, ${getY(item.y)}px)`}"
+      :key="id"
+      :title="id"
+    )
+      span(v-html="item.count" v-if="item.count>1")
+      b-icon(icon="chat-right-fill")
 </template>
 
 <script lang="ts">
@@ -31,9 +31,10 @@ export default class MolleCommentView extends Vue {
 
       if (loader.itemData.comment && Object.keys(loader.itemData.comment).length > 0) {
         let ele = <HTMLElement>loader.$el;
+        let rect = ele.getBoundingClientRect();
         let obj = {
-          y: ele.offsetTop,
-          x: ele.offsetLeft,
+          y: rect.top,
+          x: rect.left,
           count: Object.keys(loader.itemData.comment).length,
         };
 
@@ -49,6 +50,10 @@ export default class MolleCommentView extends Vue {
       }
     }
     requestAnimationFrame(this.enterframe);
+  }
+
+  getY(y: number) {
+    return y + window.pageYOffset - 16;
   }
 }
 </script>

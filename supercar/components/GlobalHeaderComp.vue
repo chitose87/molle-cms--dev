@@ -1,5 +1,5 @@
 <template lang="pug">
-  header.global-header(:aria-expanded="isMenuOpen")
+  //header.global-header(:aria-expanded="isMenuOpen")
     .container-fluid
       .global-header__body
         a.company-name(href="/")
