@@ -1,35 +1,35 @@
 <template lang="pug">
-component.module.background-box(
-  :is="itemData.option.tag||'div'",
-  :id="itemData.tagId",
-  :class="getClass(itemData)",
-  :style="getStyle(itemData)"
-)
-  picture
-    source(
-      :media="`(max-width:${breakPoint - 1}px)`"
-      :srcset="itemData.option.bgSp",
-      :alt="itemData.option.alt"
-    )
-    img.background-box__bg(
-      loading="lazy"
-      :src="itemData.option.bg"
-      :alt="itemData.option.alt"
-    )
-
-  .background-box__body.box
-    ModuleLoader(
-      v-for="node in itemData.value",
-      :key="node.id",
-      :node="node"
-    )
-
-  //
-  AddModuleComp(
-    :label="`BG-Box`"
-    :parentNode="loader.node"
+  component.module.background-box.-zone(
+    :is="itemData.option.tag||'div'",
+    :id="itemData.tagId",
+    :class="getClass(itemData)",
+    :style="getStyle(itemData)"
   )
-  style(v-if="itemData.css" v-html="itemData.css")
+    picture
+      source(
+        :media="`(max-width:${breakPoint - 1}px)`"
+        :srcset="itemData.option.bgSp",
+        :alt="itemData.option.alt"
+      )
+      img.background-box__bg(
+        loading="lazy"
+        :src="itemData.option.bg"
+        :alt="itemData.option.alt"
+      )
+
+    .background-box__body.box
+      ModuleLoader(
+        v-for="node in itemData.value",
+        :key="node.id",
+        :node="node"
+      )
+
+    //
+    AddModuleComp(
+      :label="`BG-Box`"
+      :parentNode="loader.node"
+    )
+    style(v-if="itemData.css" v-html="itemData.css")
 </template>
 
 <script lang="ts">

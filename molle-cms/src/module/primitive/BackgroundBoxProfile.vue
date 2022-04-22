@@ -1,17 +1,5 @@
 <template lang="pug">
 div
-  label.form-inline
-    span.mr-1 {{custom.tag.label}}:
-    select.form-control.form-control-sm(
-      v-model="itemData.option.tag"
-      @change="()=>$emit('change')"
-    )
-      option(v-for="item in custom.tag.select" :value="item" v-html="item")
-    details.molle-guide
-      summary
-      .molle-guide__body.caption
-        p 任意のhtmlタグをつける時に指定します。
-
   InputUrlByGS(
     :label="custom.bg.label+':'"
     v-model="itemData.option.bg"
@@ -56,16 +44,12 @@ export default class BackgroundBoxProfile extends Profile {
       label: Vue.prototype.$words.bg + "-" + Vue.prototype.$words.sp,
       value: Vue.prototype.$words.url,
     },
-    tag: {
-      label: Vue.prototype.$words.tag,
-      default: "",
-      select: ["", "section"],
-    },
   };
   //style setting
   static readonly stylePermission = {
     css: true,
     color: {default: "", select: ["", "-dark"]},
+    space: {default: "", select: [...StyleComp.spaceSelect]},
   };
 
   static settings = {

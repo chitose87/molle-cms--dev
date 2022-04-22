@@ -31,8 +31,8 @@ export default class Paragraph extends Module {
   }
 
   //color
-  &.-white {
-    color: $color-white;
+  &.-invert {
+    color: $color-black;
   }
 
   //

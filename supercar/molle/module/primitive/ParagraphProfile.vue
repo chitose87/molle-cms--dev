@@ -58,7 +58,7 @@ export default class ParagraphProfile extends Profile {
     margin: "",
     // padding: "",
     theme: {default: "", select: ["", "-caption"]},
-    color: {default: "", select: ["", "-white"]},
+    color: {default: "", select: ["", "-invert"]},
   };
   static settings = {
     type: "text",
