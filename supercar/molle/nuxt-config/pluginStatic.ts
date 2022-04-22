@@ -5,13 +5,15 @@
 
 import {Vue} from "nuxt-property-decorator";
 /* <imports */
+import ScrollTransFiexdBg from "~/molle/module/custom/ScrollTransFiexdBg.vue"
+import ScrollTransAnchor from "~/molle/module/custom/ScrollTransAnchor.vue"
 import Section from "~/molle-cms/src/module/primitive/Section.vue"
 import Box from "~/molle-cms/src/module/primitive/Box.vue"
 import BackgroundBox from "~/molle-cms/src/module/primitive/BackgroundBox.vue"
-import Headline from "~/molle-cms/src/module/primitive/Headline.vue"
-import Paragraph from "~/molle-cms/src/module/primitive/Paragraph.vue"
+import Headline from "~/molle/module/primitive/Headline.vue"
+import Paragraph from "~/molle/module/primitive/Paragraph.vue"
 import Picture from "~/molle-cms/src/module/primitive/Picture.vue"
-import Button from "~/molle-cms/src/module/primitive/Button.vue"
+import Button from "~/molle/module/primitive/Button.vue"
 import Column from "~/molle-cms/src/module/primitive/Column.vue"
 import ColumnBox from "~/molle-cms/src/module/primitive/ColumnBox.vue"
 import Embed from "~/molle-cms/src/module/primitive/Embed.vue"
@@ -37,6 +39,8 @@ import ModuleLoader from "~/molle/module/ModuleLoader.vue";
 import Blank from "~/molle-cms/src/Blank.vue";
 
 /* <molleModules */
+Vue.component("ScrollTransFiexdBg", ScrollTransFiexdBg);
+Vue.component("ScrollTransAnchor", ScrollTransAnchor);
 Vue.component("Section", Section);
 Vue.component("Box", Box);
 Vue.component("BackgroundBox", BackgroundBox);

@@ -28,6 +28,7 @@ section.section(
       :label="`Section`"
       :parentNode="loader.node"
     )
+  style(v-if="itemData.css" v-html="itemData.css")
 </template>
 
 <script lang="ts">

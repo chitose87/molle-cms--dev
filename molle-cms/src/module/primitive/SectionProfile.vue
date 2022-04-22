@@ -60,6 +60,7 @@ export default class SectionProfile extends Profile {
   };
   //style setting
   static readonly stylePermission = {
+    css: true,
     space: {default: "", select: [...StyleComp.spaceSelect]},
     theme: {default: "", select: ["", "bg -zone"]},
     color: {default: "", select: ["", "secondary -zone"]},
