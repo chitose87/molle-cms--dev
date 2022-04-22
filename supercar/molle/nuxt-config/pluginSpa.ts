@@ -3,6 +3,11 @@ import firebase from "firebase";
 import DevModuleGuide from "~/molle-cms/src/module/custom/DevModuleGuide.vue";
 import DevModuleGuideProfile from "~/molle-cms/src/module/custom/DevModuleGuideProfile.vue";
 /* <imports */
+import ScrollTransFiexdBg from "~/molle/module/custom/ScrollTransFiexdBg.vue";
+import ScrollTransFiexdBgProfile from "~/molle/module/custom/ScrollTransFiexdBgProfile.vue";
+import ScrollTransAnchor from "~/molle/module/custom/ScrollTransAnchor.vue";
+import ScrollTransAnchorProfile from "~/molle/module/custom/ScrollTransAnchorProfile.vue";
+
 import Section from "~/molle-cms/src/module/primitive/Section.vue";
 import SectionProfile from "~/molle-cms/src/module/primitive/SectionProfile.vue";
 import Box from "~/molle-cms/src/module/primitive/Box.vue";
@@ -184,6 +189,12 @@ let _molleModuleList: any[] = [];
 }, {
   ref: Reference,
   profile: ReferenceProfile,
+}, {
+  ref: ScrollTransFiexdBg,
+  profile: ScrollTransFiexdBgProfile,
+}, {
+  ref: ScrollTransAnchor,
+  profile: ScrollTransAnchorProfile,
 },
 ].forEach((attr: {ref: any; profile?: any;}) => {
   let v: any = {
