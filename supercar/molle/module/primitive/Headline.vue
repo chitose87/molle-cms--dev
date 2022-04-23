@@ -1,15 +1,16 @@
 <template lang="pug">
-component.headline(
-  :id="itemData.tagId",
-  :is="itemData.option.lv || 'h3'",
-  :class="getClass(itemData)",
-  :style="getStyle(itemData)"
-)
-  span(v-html="$getText(itemData.value || itemData.superValue || '')")
-  span.headline__sub(
-    v-if="itemData.option.text",
-    v-html="$getText(itemData.option.text)"
+  component.headline(
+    :id="itemData.tagId",
+    :is="itemData.option.lv || 'h3'",
+    :class="getClass(itemData)",
+    :style="getStyle(itemData)"
   )
+    span
+      span(v-html="$getText(itemData.value || itemData.superValue || '')")
+      span.headline__sub(
+        v-if="itemData.option.text",
+        v-html="$getText(itemData.option.text)"
+      )
 </template>
 
 <script lang="ts">
@@ -46,7 +47,7 @@ h6.headline {
   &.decorate, &.decorate-invert {
     margin-bottom: 3rem;
 
-    span {
+    > span {
       display: inline-block;
       border-bottom: solid 1px $color-border;
     }
@@ -66,33 +67,25 @@ h2 > .headline__sub {
 h3 {
   &.headline {
     &.decorate, &.decorate-invert {
-      margin-bottom: 3rem;
+      @include font-style;
+      font-size: 38px;
 
-      span {
+      > span {
         display: inline-block;
         position: relative;
-        z-index: 0;
-
-        &:after {
-          content: "";
-          display: block;
-          width: 100%;
-          height: 15px;
-          background-color: #dfecf0;
-          //background-color: $color-blue-gray-200;
-          position: absolute;
-          bottom: 0px;
-          z-index: -1;
-        }
+        padding-left: 1em;
+        padding-right: 1em;
+        line-height: 1.75;
+        background-color: rgba($color-black, 0.6);
+        min-width: 300px;
       }
+    }
 
-      .headline__sub {
-        display: block;
-
-        &:after {
-          display: none;
-        }
-      }
+    .headline__sub {
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1;
+      padding-bottom: 1rem;
     }
 
     &.decorate-invert {

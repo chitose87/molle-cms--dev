@@ -46,6 +46,14 @@
         @change="update"
       )
 
+      //
+      label.w-100
+        span cssPlugin:
+        textarea.form-control.form-control-sm(
+          v-model="pageData.cssPlugin"
+          @change="update"
+        )
+
       // サムネイル
       InputUrlByGS(
         :label="$words.thumbnail+':'"

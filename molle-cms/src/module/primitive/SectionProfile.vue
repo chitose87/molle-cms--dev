@@ -63,7 +63,7 @@ export default class SectionProfile extends Profile {
     css: true,
     space: {default: "", select: [...StyleComp.spaceSelect]},
     theme: {default: "", select: ["", "bg -zone"]},
-    color: {default: "", select: ["", "secondary -zone"]},
+    color: {default: "", select: ["", "secondary -zone", "black -zone", "white -zone"]},
   };
 
   static settings = {

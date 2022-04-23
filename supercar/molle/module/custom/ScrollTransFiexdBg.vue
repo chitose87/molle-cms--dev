@@ -1,48 +1,41 @@
 <template lang="pug">
   .scroll-trans-fiexd-bg(:data-css="opt.flag?'kou':'otu'" )
     // kou
-    .scroll-trans-fiexd-bg__kou(v-for="anchor in [anchors[opt.kou]]" v-if="anchor" @transitionend="transitionend")
+    .scroll-trans-fiexd-bg__kou(v-show="opt.kou")
       picture
         source(
-          v-if="anchor.itemData.option.sp"
+          v-if="opt.kou.sp"
           :media="`(max-width:${breakPoint - 1}px)`"
-          :srcset="anchor.itemData.option.sp",
-          :width="anchor.itemData.option.spSize?anchor.itemData.option.spSize.w/(anchor.itemData.option.scale||1)+'px':'auto'"
-          :height="anchor.itemData.option.spSize?anchor.itemData.option.spSize.h/(anchor.itemData.option.scale||1)+'px':'auto'"
-          :alt="anchor.itemData.option.alt"
+          :srcset="opt.kou.sp",
+          :alt="opt.kou.alt"
         )
         img(
-          :src="anchor.itemData.value",
-          :width="anchor.itemData.option.size?anchor.itemData.option.size.w/(anchor.itemData.option.scale||1)+'px':'auto'"
-          :height="anchor.itemData.option.size?anchor.itemData.option.size.h/(anchor.itemData.option.scale||1)+'px':'auto'"
-          :alt="anchor.itemData.option.alt")
+          :src="opt.kou.value",
+          :alt="opt.kou.alt"
+        )
 
     // otu
-    .scroll-trans-fiexd-bg__otu(v-for="anchor in [anchors[opt.otu]]" v-if="anchor" @transitionend="transitionend")
+    .scroll-trans-fiexd-bg__otu(v-show="opt.otu")
       picture
         source(
-          v-if="anchor.itemData.option.sp"
+          v-if="opt.otu.sp"
           :media="`(max-width:${breakPoint - 1}px)`"
-          :srcset="anchor.itemData.option.sp",
-          :width="anchor.itemData.option.spSize?anchor.itemData.option.spSize.w/(anchor.itemData.option.scale||1)+'px':'auto'"
-          :height="anchor.itemData.option.spSize?anchor.itemData.option.spSize.h/(anchor.itemData.option.scale||1)+'px':'auto'"
-          :alt="anchor.itemData.option.alt"
+          :srcset="opt.otu.sp",
+          :alt="opt.otu.alt"
         )
         img(
-          :src="anchor.itemData.value",
-          :width="anchor.itemData.option.size?anchor.itemData.option.size.w/(anchor.itemData.option.scale||1)+'px':'auto'"
-          :height="anchor.itemData.option.size?anchor.itemData.option.size.h/(anchor.itemData.option.scale||1)+'px':'auto'"
-          :alt="anchor.itemData.option.alt")
+          :src="opt.otu.value",
+          :alt="opt.otu.alt")
 
     // loading
-    .scroll-trans-fiexd-bg__next(v-for="anchor in [anchors[opt.next]]" v-if="anchor")
+    .scroll-trans-fiexd-bg__next(v-if="opt.next")
       picture
         source(
-          v-if="anchor.itemData.option.sp"
+          v-if="opt.next.sp"
           :media="`(max-width:${breakPoint - 1}px)`"
-          :srcset="anchor.itemData.option.sp",
+          :srcset="opt.next.sp",
         )
-        img(:src="anchor.itemData.value")
+        img(:src="opt.next.value")
 
 </template>
 
@@ -62,61 +55,81 @@ export default class ScrollTransFiexdBg extends Module {
 
   opt = {
     status: "none",
-    current: 0,
-    next: 0,
-    kou: 0,
-    otu: 0,
+    current: <any>false,
+    next: <any>false,
+    kou: <any>false,
+    otu: <any>false,
     flag: true,
   };
   lock = false;
 
   mounted() {
-    requestAnimationFrame(() => this.init());
+    requestAnimationFrame(() => {
+      window.addEventListener("scroll", (e: Event) => this.onScroll());
+      this.onScroll();
+      this.$set(this, "lock", false);
+    });
   }
 
-  transitionend() {
-    this.lock = false;
-  }
+  // transitionend() {
+  //   console.log("transitionend");
+  //   this.$set(this, "lock", false);
+  //
+  //   this.onScroll();
+  // }
 
-  private init() {
-    window.addEventListener("scroll", (e: Event) => {
-      let poji = Number.MAX_VALUE;
-      let nega = poji * -1;
-      let next = 1;
-      let current = 0;
-      this.anchors.forEach((anchor: ScrollTransAnchor, i: number) => {
-        let el = anchor.$el;
-        let rect = el.getBoundingClientRect();
+  private onScroll() {
+    let poji = Number.MAX_VALUE;
+    let nega = poji * -1;
+    let next = false;
+    let current: any;
+
+    // console.log("----")
+    document.querySelectorAll(".scroll-trans-anchor")
+      .forEach((anchor: any) => {
+        let rect = anchor.getBoundingClientRect();
         let _v = rect.top - (window.outerHeight / 2);
+        // console.log(_v)
         if (_v > 0) {
           if (poji > _v) {
             poji = _v;
-            next = i;
+            next = anchor;
           }
         } else {
           if (nega < _v) {
             nega = _v;
-            current = i;
+            current = anchor;
           }
         }
       });
-      // console.log(current);
+    console.log(current);
 
-      if (!this.lock && this.opt.current != current) {
-
-        if (this.opt.flag) {
-          this.$set(this.opt, "otu", current);
-        } else {
-          this.$set(this.opt, "kou", current);
-        }
-        this.opt.current = current;
-
-        this.lock = true;
-        this.$set(this.opt, "flag", !this.opt.flag);
-        this.$set(this.opt, "next", next);//loading
-        this.$set(this.opt, "status", "change");
+    if (!current) return;
+    let v = {
+      value: current.getAttribute("data-value"),
+      sp: current.getAttribute("data-sp"),
+      alt: current.getAttribute("data-alt"),
+    };
+    console.log(this.lock, this.opt.current != v.value, this.opt.flag);
+    if (!this.lock && this.opt.current != v.value) {
+      console.log("---");
+      if (this.opt.flag) {
+        this.$set(this.opt, "otu", v);
+      } else {
+        this.$set(this.opt, "kou", v);
       }
-    });
+      this.$set(this.opt, "current", v.value);
+
+      this.$set(this, "lock", true);
+      this.$set(this.opt, "flag", !this.opt.flag);
+      this.$set(this.opt, "next", next);//loading
+      this.$set(this.opt, "status", "change");
+
+      setTimeout(() => {
+        this.$set(this, "lock", false);
+        this.onScroll();
+      }, 1000 * 2);
+    }
   }
 }
 </script>
@@ -130,6 +143,20 @@ export default class ScrollTransFiexdBg extends Module {
   top: 0;
   left: 0;
   z-index: -1;
+  &:before{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: url("/img/pattern.png");
+    background-repeat: repeat;
+    background-size: 11px auto;
+    opacity: 0.3;
+    z-index: 1;
+  }
 
   &__kou, &__otu {
     position: absolute;
