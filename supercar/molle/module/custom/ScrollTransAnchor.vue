@@ -1,8 +1,10 @@
 <template lang="pug">
   .scroll-trans-anchor(
+    :id="itemData.tagId",
     :data-value="itemData.value"
     :data-sp="itemData.option.sp"
-    :data-alt="itemData.option.alt"
+    :data-alt="itemData.option.alt",
+    :class="getClass(itemData)",
   )
     p(v-if="$route.query.edit") {{itemData.value}}
 </template>

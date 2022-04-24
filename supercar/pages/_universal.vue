@@ -38,10 +38,12 @@ export default class UniversalPage extends Vue {
 
 .mv {
   height: 100vh;
-  background-color: $color-gray-900;
+  //background-color: $color-gray-900;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 0;
+  margin-bottom: 0;
 
   .section__body {
     width: 64%;
@@ -61,6 +63,46 @@ export default class UniversalPage extends Vue {
       padding-left: 0.5rem;
       padding-right: 0.5rem;
       backdrop-filter: blur(10px);
+    }
+  }
+}
+
+.sponsor {
+  &__list {
+    .column__item {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .link-box {
+      text-decoration: none;
+      color: $color-text-white;
+      height: auto;
+
+      .picture {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+
+  &__item--white {
+    .link-box {
+      .picture {
+        background-color: rgba($color-white,0.9);
+        padding: 0.75rem;
+        border-radius: 2px;
+      }
+    }
+  }
+
+  &__item--black {
+    .link-box {
+      .picture {
+        background-color: rgba($color-black,0.9);
+        padding: 0.75rem;
+        border-radius: 2px;
+      }
     }
   }
 }

@@ -49,6 +49,11 @@
 
     GoogleStorage
 
+    StyleComp(
+      :itemData="itemData"
+      @change="()=>$emit('change')"
+    )
+
 </template>
 
 <script lang="ts">
@@ -77,7 +82,7 @@ export default class ScrollTransAnchorProfile extends Profile {
   };
   //style setting
   static readonly stylePermission = {
-    // theme: {default: "", select: ["", "-caption"]},
+    theme: {default: "", select: ["", "mesh-none"]},
     // color: {default: "", select: ["", "-invert"]},
   };
   static settings = {

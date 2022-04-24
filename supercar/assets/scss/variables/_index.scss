@@ -35,7 +35,7 @@ $size-col: (
 
 @mixin font-style() {
   font-family: 'Lexend Zetta', YakuHanJP_Noto, 'Noto Serif JP', sans-serif;
-  //font-weight: 500;
+  font-weight: 500;
 }
 
 $spacer: 1rem !default;

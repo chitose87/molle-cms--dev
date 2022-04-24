@@ -1,5 +1,8 @@
 <template lang="pug">
-  .scroll-trans-fiexd-bg(:data-css="opt.flag?'kou':'otu'" )
+  .scroll-trans-fiexd-bg(
+    :data-css="opt.flag?'kou':'otu'"
+    :data-mesh="opt.mesh"
+  )
     // kou
     .scroll-trans-fiexd-bg__kou(v-show="opt.kou")
       picture
@@ -60,6 +63,7 @@ export default class ScrollTransFiexdBg extends Module {
     kou: <any>false,
     otu: <any>false,
     flag: true,
+    mesh: true,
   };
   lock = false;
 
@@ -102,7 +106,7 @@ export default class ScrollTransFiexdBg extends Module {
           }
         }
       });
-    console.log(current);
+    // console.log(current);
 
     if (!current) return;
     let v = {
@@ -110,15 +114,16 @@ export default class ScrollTransFiexdBg extends Module {
       sp: current.getAttribute("data-sp"),
       alt: current.getAttribute("data-alt"),
     };
-    console.log(this.lock, this.opt.current != v.value, this.opt.flag);
+    // console.log(this.lock, this.opt.current != v.value, this.opt.flag);
     if (!this.lock && this.opt.current != v.value) {
-      console.log("---");
+      // console.log("---");
       if (this.opt.flag) {
         this.$set(this.opt, "otu", v);
       } else {
         this.$set(this.opt, "kou", v);
       }
       this.$set(this.opt, "current", v.value);
+      this.$set(this.opt, "mesh", current.className.includes("mesh-none"));
 
       this.$set(this, "lock", true);
       this.$set(this.opt, "flag", !this.opt.flag);
@@ -143,7 +148,10 @@ export default class ScrollTransFiexdBg extends Module {
   top: 0;
   left: 0;
   z-index: -1;
-  &:before{
+  opacity: 0.6;
+  transition: opacity 1s $easeInOut 0s;
+
+  &:before {
     content: "";
     display: block;
     position: absolute;
@@ -154,8 +162,17 @@ export default class ScrollTransFiexdBg extends Module {
     background-image: url("/img/pattern.png");
     background-repeat: repeat;
     background-size: 11px auto;
-    opacity: 0.3;
+    opacity: 0.5;
     z-index: 1;
+    transition: opacity 1s $easeInOut 0s;
+  }
+
+  &[data-mesh="true"] {
+    opacity: 1;
+
+    &:before {
+      opacity: 0;
+    }
   }
 
   &__kou, &__otu {
@@ -165,7 +182,6 @@ export default class ScrollTransFiexdBg extends Module {
     top: 0;
     left: 0;
     transition: opacity 2s $easeInOut 0s;
-    opacity: 0.6;
 
     img {
       object-fit: cover;

@@ -66,9 +66,19 @@ h2 > .headline__sub {
 
 h3 {
   &.headline {
+    &.decorate, &.decorate-invert, &.t-font-style {
+      font-size: 38px;
+
+      .headline__sub {
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 1;
+        margin-bottom: 1rem;
+      }
+    }
+
     &.decorate, &.decorate-invert {
       @include font-style;
-      font-size: 38px;
 
       > span {
         display: inline-block;
@@ -79,13 +89,6 @@ h3 {
         background-color: rgba($color-black, 0.6);
         min-width: 300px;
       }
-    }
-
-    .headline__sub {
-      font-size: 22px;
-      font-weight: 600;
-      line-height: 1;
-      padding-bottom: 1rem;
     }
 
     &.decorate-invert {

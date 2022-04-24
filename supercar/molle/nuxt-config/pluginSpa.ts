@@ -8,10 +8,10 @@ import ScrollTransFiexdBgProfile from "~/molle/module/custom/ScrollTransFiexdBgP
 import ScrollTransAnchor from "~/molle/module/custom/ScrollTransAnchor.vue";
 import ScrollTransAnchorProfile from "~/molle/module/custom/ScrollTransAnchorProfile.vue";
 
-import Section from "~/molle-cms/src/module/primitive/Section.vue";
-import SectionProfile from "~/molle-cms/src/module/primitive/SectionProfile.vue";
-import Box from "~/molle-cms/src/module/primitive/Box.vue";
-import BoxProfile from "~/molle-cms/src/module/primitive/BoxProfile.vue";
+import Section from "~/molle/module/primitive/Section.vue";
+import SectionProfile from "~/molle/module/primitive/SectionProfile.vue";
+import Box from "~/molle/module/primitive/Box.vue";
+import BoxProfile from "~/molle/module/primitive/BoxProfile.vue";
 import BackgroundBox from "~/molle-cms/src/module/primitive/BackgroundBox.vue";
 import BackgroundBoxProfile from "~/molle-cms/src/module/primitive/BackgroundBoxProfile.vue";
 import Headline from "~/molle/module/primitive/Headline.vue";
