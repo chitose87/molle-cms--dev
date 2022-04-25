@@ -19,6 +19,13 @@ div
       @change="()=>$emit('change')"
     )
   label
+    span.mr-1 半径:
+    input.form-control.form-control-sm(
+      type="number"
+      v-model="itemData.value.rkm"
+      @change="()=>$emit('change')"
+    )
+  label
     span.mr-1 {{custom.markerTitle.label}}:
     details.molle-guide
       summary

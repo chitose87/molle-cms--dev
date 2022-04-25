@@ -67,6 +67,21 @@ export default class UniversalPage extends Vue {
   }
 }
 
+.youtube {
+  .embed {
+    padding-top: (315/560) * 100%;
+    position: relative;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}
+
 .sponsor {
   &__list {
     .column__item {
@@ -89,7 +104,7 @@ export default class UniversalPage extends Vue {
   &__item--white {
     .link-box {
       .picture {
-        background-color: rgba($color-white,0.9);
+        background-color: rgba($color-white, 0.9);
         padding: 0.75rem;
         border-radius: 2px;
       }
@@ -99,10 +114,38 @@ export default class UniversalPage extends Vue {
   &__item--black {
     .link-box {
       .picture {
-        background-color: rgba($color-black,0.9);
+        background-color: rgba($color-black, 0.9);
         padding: 0.75rem;
         border-radius: 2px;
       }
+    }
+  }
+}
+
+.footer {
+  background-color: $color-gray-900;
+  //margin-bottom: 0;
+  //padding-top: 3rem;
+  //padding-bottom: 3rem;
+}
+
+.powerd-molle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    margin-bottom: 0;
+    margin-right: 1rem;
+  }
+
+  .picture {
+    margin: 0;
+    height: 2rem;
+
+    img {
+      height: 100%;
+      width: auto;
     }
   }
 }

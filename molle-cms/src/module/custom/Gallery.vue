@@ -9,7 +9,7 @@
 
   .gallery__thumbs
     .row
-      .gallery__thumb.col-3(
+      .gallery__thumb.col-2(
         v-for="(node, index) in itemData.value",
         :class="{'-current': index == current}",
         @click="current = index"

@@ -1,11 +1,11 @@
 <template lang="pug">
-.module.google-map(
-  :id="itemData.tagId",
-  :class="getClass(itemData)",
-  :style="getStyle(itemData)"
-)
-  .google-map__body
-    .google-map__embed(ref="embed")
+  .module.google-map(
+    :id="itemData.tagId",
+    :class="getClass(itemData)",
+    :style="getStyle(itemData)"
+  )
+    .google-map__body
+      .google-map__embed(ref="embed")
 
 
 </template>
@@ -13,6 +13,7 @@
 <script lang="ts">
 import {Component, Prop} from "nuxt-property-decorator";
 import {Module} from "../Module";
+
 declare const google: any;
 
 @Component({
@@ -34,9 +35,9 @@ export default class GoogleMap extends Module {
       case "none":
         GoogleMap.pluginStatus = "loading";
 
-        let tag = document.createElement('script');
+        let tag = document.createElement("script");
         tag.src = "https://maps.googleapis.com/maps/api/js?key=" + process.env.apiKey + "&callback=initMap";
-        let firstScriptTag: HTMLScriptElement = document.getElementsByTagName('script')[0];
+        let firstScriptTag: HTMLScriptElement = document.getElementsByTagName("script")[0];
         firstScriptTag!.parentNode!.insertBefore(tag, firstScriptTag);
         // @ts-ignore
         window.initMap = () => {
@@ -63,13 +64,13 @@ export default class GoogleMap extends Module {
     let lng1km = calc1kmDegreeinLong();
     // console.log(lat1km,lng1km);
     map.fitBounds(new google.maps.LatLngBounds(
-      new google.maps.LatLng(this.center.lat + lat1km, this.center.lng - lng1km),
-      new google.maps.LatLng(this.center.lat - lat1km, this.center.lng + lng1km)
+      new google.maps.LatLng(this.center.lat + (0.0090133729745762 * Number.parseFloat(this.itemData.value.rkm)), this.center.lng),
+      new google.maps.LatLng(this.center.lat - (0.0090133729745762 * Number.parseFloat(this.itemData.value.rkm)), this.center.lng),
     ), 0);
 
     let marker = new google.maps.Marker({
       position: this.center,
-      map: map
+      map: map,
     });
 
     // label
@@ -79,24 +80,24 @@ export default class GoogleMap extends Module {
 
     if (label) {
       let infoWindow = new google.maps.InfoWindow({
-        content: `<div class="google-map__info-window">${label}</div>`
+        content: `<div class="google-map__info-window">${label}</div>`,
       });
       infoWindow.open(map, marker);
     }
 
     function calc1kmDegreeinLatitude(lat: number) {
       let eRadius = 6378.137;
-      let r = eRadius * (Math.cos(lat * Math.PI / 180))
-      let cm = 2 * Math.PI * r
-      let kd = 360 / cm
-      return kd
+      let r = eRadius * (Math.cos(lat * Math.PI / 180));
+      let cm = 2 * Math.PI * r;
+      let kd = 360 / cm;
+      return kd;
     }
 
     function calc1kmDegreeinLong() {
-      let eRadius = 6378.137
-      let pc = 2 * Math.PI * eRadius
-      let dLat = 360 / pc
-      return dLat
+      let eRadius = 6378.137;
+      let pc = 2 * Math.PI * eRadius;
+      let dLat = 360 / pc;
+      return dLat;
     }
   }
 
@@ -130,7 +131,7 @@ export default class GoogleMap extends Module {
     left: 0;
   }
 
-  &__info-window{
+  &__info-window {
 
   }
 }
