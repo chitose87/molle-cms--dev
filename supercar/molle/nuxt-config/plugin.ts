@@ -1,6 +1,6 @@
 import {Vue} from "nuxt-property-decorator";
 import firebase from "firebase";
-import VueScrollTo from 'vue-scrollto';
+import VueScrollTo from "vue-scrollto";
 
 // firebase
 if (!firebase.apps.length) {
@@ -12,9 +12,9 @@ if (!firebase.apps.length) {
     storageBucket: process.env.storageBucket,
     messagingSenderId: process.env.messagingSenderId,
     appId: process.env.appId,
-    measurementId: process.env.measurementId
+    measurementId: process.env.measurementId,
   });
-  // firebase.analytics();
+  firebase.analytics();
 }
 
 // Setting Vue Molle-Module
@@ -22,7 +22,7 @@ if (!firebase.apps.length) {
 Vue.use(VueScrollTo, {
   duration: 600,
   offset: -100,
-  easing: [0.25, 0.0, 0.4, 1.0]
+  easing: [0.25, 0.0, 0.4, 1.0],
 });
 
 import "./_isview";

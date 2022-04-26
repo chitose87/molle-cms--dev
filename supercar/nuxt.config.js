@@ -56,11 +56,11 @@ export default {
       {hid: "og:site_name", property: "og:site_name", content: molle.siteName},
       {hid: "og:type", property: "og:type", content: "article"},
       {hid: "og:description", property: "og:description", content: molle.description},
-      {hid: "og:image", property: "og:image", content: molle.domain + "og_img.png"},
+      {hid: "og:image", property: "og:image", content: molle.domain + "og_img.jpg"},
       {hid: "og:url", property: "og:url", content: molle.domain},
 
       {hid: "twitter:card", property: "twitter:card", content: `summary`},
-      {hid: "twitter:image", property: "twitter:image", content: molle.domain + "og_img.png"},
+      {hid: "twitter:image", property: "twitter:image", content: molle.domain + "og_img.jpg"},
     ],
     link: [
       {rel: "icon", type: "image/x-icon", href: "/favicon.ico"},

@@ -1,13 +1,13 @@
 <template lang="pug">
-a.button(
-  :id="itemData.tagId",
-  :class="getClass(itemData)",
-  :style="getStyle(itemData)",
-  :href="itemData.option.href",
-  v-scroll-to="itemData.option.href.substr(0,1)=='#'?itemData.option.href:false"
-  :target="itemData.option.target"
-)
-  span(v-html="$getText(itemData.value)")
+  a.button(
+    :id="itemData.tagId",
+    :class="getClass(itemData)",
+    :style="getStyle(itemData)",
+    :href="itemData.option.href",
+    v-scroll-to="itemData.option.href.substr(0,1)=='#'?itemData.option.href:false"
+    :target="itemData.option.target"
+  )
+    span(v-html="$getText(itemData.value)")
 </template>
 
 <script lang="ts">
@@ -28,7 +28,7 @@ export default class Button extends Module {
 .button {
   cursor: pointer;
   position: relative;
-  color: $color-text-black;
+  //color: $color-text-black;
   display: inline-block;
   max-width: 100%;
   transition: all $tick $easeIn;
@@ -47,13 +47,13 @@ export default class Button extends Module {
   }
 
   &:hover {
-    color: $color-link;
+    color: $color-text-white;
     text-decoration: underline;
-    transition-timing-function: $easeOut;
+    //transition-timing-function: $easeOut;
 
     &:after {
-      transform: translateX(4px);
-      transition-timing-function: $easeOut;
+      //transform: translateX(4px);
+      //transition-timing-function: $easeOut;
     }
   }
 
@@ -67,32 +67,22 @@ export default class Button extends Module {
   }
 
   &.-primary, &.-secondary {
+    @include font-style;
     text-decoration: none;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     background-color: transparent;
-    line-height: 1.5;
-    border: solid 2px $color-text-black;
-    color: $color-text-black;
-    padding: 0.5rem 2rem;
+    border: solid 3px $color-gray-900;
+    padding: 1rem 2rem;
     text-decoration: none;
-
     font-weight: 500;
-    font-size: 14px;
 
     @include mediaquery-not-sm {
-      letter-spacing: 2.5px;
     }
     @include mediaquery-sm {
-      letter-spacing: 1px;
     }
-
-    //&:hover {
-    //  transition-timing-function: $easeOut;
-    //  text-decoration: none;
-    //}
 
     span {
     }
@@ -114,27 +104,19 @@ export default class Button extends Module {
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
       }
-
-      &:before {
-        border-radius: 3px;
-      }
     }
 
     // ラージ
     &.-lg {
       @include mediaquery-not-sm {
-        min-width: 23rem;
-        min-height: 50px;
+        min-width: 20rem;
+        min-height: 40px;
         //padding: 1.5rem 1rem;
       }
       @include mediaquery-sm {
         min-width: 15rem;
         min-height: 50px;
         //padding: 1rem 1rem;
-      }
-
-      &:before {
-        border-radius: 5px;
       }
     }
   }
@@ -146,20 +128,18 @@ export default class Button extends Module {
 
   // color
   &.-primary {
-    background: $color-white;
-    border-radius: 2px;
+    background-color: $color-gray-900;
+    color: $color-text-white;
 
     &:hover {
-      border-color: $color-black;
-      background: $color-black;
-      color: $color-text-white;
+      background: rgba($color-gray-900, 0.2);
+      border-color: $color-white;
     }
   }
 
   &.-secondary {
     color: $color-text-white;
     background: $color-black;
-    border-radius: 20px;
 
     &:hover {
       border-color: $color-black;
