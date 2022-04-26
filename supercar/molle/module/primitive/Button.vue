@@ -129,6 +129,7 @@ export default class Button extends Module {
   // color
   &.-primary {
     background-color: $color-gray-900;
+    border-color: $color-white;
     color: $color-text-white;
 
     &:hover {
