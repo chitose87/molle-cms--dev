@@ -5,7 +5,7 @@
   :style="getStyle(itemData)"
 )
   .row
-    .col-4.col-sm-12
+    .col-5.col-sm-12
       ModuleLoader.horizon-card__img(:node="itemData.value.img")
     .col.col-sm-12.horizon-card__body
       div
@@ -56,7 +56,7 @@ export default class HorizonCard extends Module {
   &__body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    //justify-content: center;
     align-items: start;
 
     div {

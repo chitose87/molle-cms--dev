@@ -4,7 +4,7 @@
     :data-mesh="opt.mesh"
   )
     // kou
-    .scroll-trans-fiexd-bg__kou(v-show="opt.kou")
+    .scroll-trans-fiexd-bg__kou(v-show="opt.kou" :style="`transform-origin: ${opt.kou.v}% ${opt.kou.h}%`")
       picture
         source(
           v-if="opt.kou.sp"
@@ -18,7 +18,7 @@
         )
 
     // otu
-    .scroll-trans-fiexd-bg__otu(v-show="opt.otu")
+    .scroll-trans-fiexd-bg__otu(v-show="opt.otu" :style="`transform-origin: ${opt.otu.v}% ${opt.otu.h}%`")
       picture
         source(
           v-if="opt.otu.sp"
@@ -113,7 +113,11 @@ export default class ScrollTransFiexdBg extends Module {
       value: current.getAttribute("data-value"),
       sp: current.getAttribute("data-sp"),
       alt: current.getAttribute("data-alt"),
+      v: current.getAttribute("data-v"),
+      h: current.getAttribute("data-h"),
     };
+    if (!v.v && v.v !== 0) v.v = 50;
+    if (!v.h && v.h !== 0) v.h = 50;
     // console.log(this.lock, this.opt.current != v.value, this.opt.flag);
     if (!this.lock && this.opt.current != v.value) {
       // console.log("---");
@@ -182,6 +186,7 @@ export default class ScrollTransFiexdBg extends Module {
     top: 0;
     left: 0;
     transition: opacity 2s $easeInOut 0s;
+    animation: 60s linear 0s infinite alternate hoge;
 
     img {
       object-fit: cover;
@@ -196,8 +201,20 @@ export default class ScrollTransFiexdBg extends Module {
     visibility: hidden;
   }
 
+  @keyframes hoge {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.4);
+    }
+  }
+
   &[data-css="kou"] {
     .scroll-trans-fiexd-bg {
+      &__kou {
+      }
+
       &__otu {
         opacity: 0;
       }
@@ -208,6 +225,9 @@ export default class ScrollTransFiexdBg extends Module {
     .scroll-trans-fiexd-bg {
       &__kou {
         opacity: 0;
+      }
+
+      &__otu {
       }
     }
   }

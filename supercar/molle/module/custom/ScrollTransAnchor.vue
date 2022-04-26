@@ -4,6 +4,8 @@
     :data-value="itemData.value"
     :data-sp="itemData.option.sp"
     :data-alt="itemData.option.alt",
+    :data-v="itemData.option.v",
+    :data-h="itemData.option.h",
     :class="getClass(itemData)",
   )
     p(v-if="$route.query.edit") {{itemData.value}}

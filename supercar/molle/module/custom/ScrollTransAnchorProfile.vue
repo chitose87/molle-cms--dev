@@ -35,19 +35,22 @@
       @change="()=>$emit('change')"
     )
 
-    label.form-inline color:
-      input.form-control.form-control-sm.w-25(
-        type="color"
-        v-model="itemData.style['background-color']"
+    GoogleStorage
+
+    label
+      span.mr-1 v:
+      input.form-control.form-control-sm(
+        type="number"
+        v-model="itemData.option.v"
         @change="()=>$emit('change')"
       )
-      button.form-control.form-control-sm(
-        v-if="itemData.style['background-color']"
-        @click="bgClear()"
+    label
+      span.mr-1 h:
+      input.form-control.form-control-sm(
+        type="number"
+        v-model="itemData.option.h"
+        @change="()=>$emit('change')"
       )
-        span clear
-
-    GoogleStorage
 
     StyleComp(
       :itemData="itemData"
