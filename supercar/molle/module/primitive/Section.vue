@@ -189,10 +189,9 @@ export default class Section extends Module {
   }
 
   &.c-black {
-    background-color: rgba($color-gray-900, 0.85);
     backdrop-filter: blur(10px);
     transform: skewY(-7deg);
-    background: linear-gradient(-90deg, rgba($color-gray-900,0.5) 0%, rgba($color-gray-900,0.85) 100%);
+    background: linear-gradient(-90deg, rgba($color-black,0.5) 0%, rgba($color-black,0.85) 100%);
 
     .section__body {
       transform: skewY(7deg);

@@ -46,16 +46,22 @@ export default class UniversalPage extends Vue {
   margin-bottom: 0;
 
   .section__body {
-    width: 64%;
-
+    @include mediaquery-not-sm() {
+      width: 64%;
+    }
   }
 
   &__text {
     display: flex;
     flex-direction: column;
     align-items: start;
-    font-size: 18px;
-    margin-top: 10rem;
+    @include mediaquery-not-sm() {
+      font-size: 18px;
+      margin-top: 10rem;
+    }
+    @include mediaquery-sm() {
+      margin-top: 4rem;
+    }
 
     p {
       background-color: rgba($color-black, 0.8);

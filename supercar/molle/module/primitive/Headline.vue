@@ -67,7 +67,13 @@ h2 > .headline__sub {
 h3 {
   &.headline {
     &.decorate, &.decorate-invert, &.t-font-style {
-      font-size: 38px;
+      @include mediaquery-not-sm {
+        font-size: 38px;
+      }
+
+      @include mediaquery-sm {
+        font-size: 28px;
+      }
 
       .headline__sub {
         font-size: 22px;
@@ -83,11 +89,18 @@ h3 {
       > span {
         display: inline-block;
         position: relative;
-        padding-left: 1em;
-        padding-right: 1em;
         line-height: 1.75;
         background-color: rgba($color-black, 0.6);
-        min-width: 300px;
+        @include mediaquery-not-sm {
+          padding-left: 1em;
+          padding-right: 1em;
+          min-width: 300px;
+        }
+        @include mediaquery-sm {
+          padding-left: 0.5em;
+          padding-right: 0.5em;
+          max-width: 100%;
+        }
       }
     }
 

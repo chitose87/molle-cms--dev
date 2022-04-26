@@ -148,7 +148,7 @@ export default class ScrollTransFiexdBg extends Module {
   top: 0;
   left: 0;
   z-index: -1;
-  opacity: 0.6;
+  opacity: 0.5;
   transition: opacity 1s $easeInOut 0s;
 
   &:before {
