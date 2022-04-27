@@ -90,7 +90,5 @@ sw.*
 *.swp
 public
 public-cms
-functions/site
 .runtimeconfig.json
 */molle-cms
-functions

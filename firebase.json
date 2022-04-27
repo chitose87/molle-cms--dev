@@ -3,6 +3,12 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
+  "functions": {
+    "functions": {
+      "source": "functions"
+    },
+    "source": "functions"
+  },
   "hosting": [
     {
       "target": "site-static",

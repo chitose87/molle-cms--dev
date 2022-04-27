@@ -1,0 +1,14 @@
+{
+  "site": {
+    "molleProjectID": "corporate",
+    "molleBrunch": "v1",
+    "cron": "every day 10:00",
+    "ghRepository": "NCT-Companay/corporate"
+  },
+  "supercar": {
+    "molleProjectID": "japansupercar",
+    "molleBrunch": "v1",
+    "cron": "every day 10:00",
+    "ghRepository": "NCT-Companay/corporate"
+  }
+}

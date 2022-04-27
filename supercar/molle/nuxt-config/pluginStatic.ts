@@ -7,8 +7,8 @@ import {Vue} from "nuxt-property-decorator";
 /* <imports */
 import ScrollTransFiexdBg from "~/molle/module/custom/ScrollTransFiexdBg.vue"
 import ScrollTransAnchor from "~/molle/module/custom/ScrollTransAnchor.vue"
-import Section from "~/molle-cms/src/module/primitive/Section.vue"
-import Box from "~/molle-cms/src/module/primitive/Box.vue"
+import Section from "~/molle/module/primitive/Section.vue"
+import Box from "~/molle/module/primitive/Box.vue"
 import BackgroundBox from "~/molle-cms/src/module/primitive/BackgroundBox.vue"
 import Headline from "~/molle/module/primitive/Headline.vue"
 import Paragraph from "~/molle/module/primitive/Paragraph.vue"
