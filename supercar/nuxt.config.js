@@ -60,7 +60,7 @@ export default {
       {hid: "og:url", property: "og:url", content: molle.domain},
 
       {hid: "twitter:card", property: "twitter:card", content: `summary`},
-      {hid: "twitter:image", property: "twitter:image", content: molle.domain + "og_img.jpg"},
+      {hid: "twitter:image", property: "twitter:image", content: molle.domain + "og_img_v1.jpg"},
     ],
     link: [
       {rel: "icon", type: "image/x-icon", href: "/favicon.ico"},
