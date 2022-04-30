@@ -31,9 +31,8 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import Box from "./Box.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
 
 @Component({
   components: {StyleComp},
@@ -41,7 +40,7 @@ import Box from "./Box.vue";
 export default class BoxProfile extends Profile {
   static readonly CLASS_NAME = "BoxProfile";
   static readonly LANGS = {
-    en: Box.CLASS_NAME,
+    en: "Box",
     jp: "ボックス",
   };
   // custom

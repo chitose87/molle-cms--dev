@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import {Component, Prop} from "nuxt-property-decorator";
-import {Module} from "../Module";
+import {Module} from "~/molle-cms/src/module/Module";
 
 declare const google: any;
 

@@ -10,8 +10,7 @@ div
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import AnchorNavi from "./AnchorNavi.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
 import {StyleAlign} from "~/molle-cms/src/Singleton";
 
 @Component({
@@ -20,7 +19,7 @@ import {StyleAlign} from "~/molle-cms/src/Singleton";
 export default class AnchorNaviProfile extends Profile {
   static readonly CLASS_NAME = "AnchorNaviProfile";
   static readonly LANGS = {
-    en: AnchorNavi.CLASS_NAME,
+    en: "Anchor Navi",
     jp: "アンカーナビ",
   };
 

@@ -29,10 +29,9 @@ div
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import DevModuleGuide from "./DevModuleGuide.vue";
-import TextAreaQuill from "../../ui/property/TextAreaQuill.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 
 @Component({
   components: {TextAreaQuill, StyleComp},
@@ -40,7 +39,7 @@ import TextAreaQuill from "../../ui/property/TextAreaQuill.vue";
 export default class DevModuleGuideProfile extends Profile {
   static readonly CLASS_NAME = "DevModuleGuideProfile";
   static readonly LANGS = {
-    en: DevModuleGuide.CLASS_NAME,
+    en: "DevModuleGuide",
     jp: "モジュールガイド",
   };
   //style setting

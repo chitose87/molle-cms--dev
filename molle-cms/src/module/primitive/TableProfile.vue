@@ -39,10 +39,9 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import {StyleAlign} from "../../Singleton";
-import Table from "./Table.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import {StyleAlign} from "~/molle-cms/src/Singleton";
 
 @Component({
   components: {StyleComp},
@@ -50,7 +49,7 @@ import Table from "./Table.vue";
 export default class TableProfile extends Profile {
   static readonly CLASS_NAME = "TableProfile";
   static readonly LANGS = {
-    en: Table.CLASS_NAME,
+    en: "Table",
     jp: "表",
   };
   // custom

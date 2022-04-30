@@ -35,8 +35,7 @@ div
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import Section from "./Section.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
 import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
 import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
 import ImageChecker from "~/molle-cms/src/ui/property/ImageChecker.vue";
@@ -47,7 +46,7 @@ import ImageChecker from "~/molle-cms/src/ui/property/ImageChecker.vue";
 export default class SectionProfile extends Profile {
   static readonly CLASS_NAME = "SectionProfile";
   static readonly LANGS = {
-    en: Section.CLASS_NAME,
+    en: "Section",
     jp: "セクション",
   };
   // custom

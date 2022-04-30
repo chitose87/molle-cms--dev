@@ -14,10 +14,9 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import {StyleAlign} from "../../Singleton";
-import Card from "./Card.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import {StyleAlign} from "~/molle-cms/src/Singleton";
 
 @Component({
   components: {StyleComp},
@@ -25,7 +24,7 @@ import Card from "./Card.vue";
 export default class CardProfile extends Profile {
   static readonly CLASS_NAME = "CardProfile";
   static readonly LANGS = {
-    en: Card.CLASS_NAME,
+    en: "Card",
     jp: "カード",
   };
 

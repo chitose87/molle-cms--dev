@@ -8,9 +8,8 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import DataBox from "./DataBox.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
 
 @Component({
   components: {StyleComp},
@@ -18,7 +17,7 @@ import DataBox from "./DataBox.vue";
 export default class DataBoxProfile extends Profile {
   static readonly CLASS_NAME = "DataBoxProfile";
   static readonly LANGS = {
-    en: DataBox.CLASS_NAME,
+    en: "DataBox",
     jp: "データセット",
   };
   // custom

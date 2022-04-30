@@ -27,11 +27,10 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import {StyleAlign} from "../../Singleton";
-import TextAreaQuill from "../../ui/property/TextAreaQuill.vue";
-import Paragraph from "./Paragraph.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import {StyleAlign} from "~/molle-cms/src/Singleton";
+import TextAreaQuill from "~/molle-cms/src/ui/property/TextAreaQuill.vue";
 
 @Component({
   components: {TextAreaQuill, StyleComp},
@@ -39,7 +38,7 @@ import Paragraph from "./Paragraph.vue";
 export default class ParagraphProfile extends Profile {
   static readonly CLASS_NAME = "ParagraphProfile";
   static readonly LANGS = {
-    en: Paragraph.CLASS_NAME,
+    en: "Paragraph",
     jp: "段落",
   };
   // custom

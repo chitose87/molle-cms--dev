@@ -9,9 +9,8 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import List from "./List.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
 
 @Component({
   components: {StyleComp},
@@ -19,7 +18,7 @@ import List from "./List.vue";
 export default class ListProfile extends Profile {
   static readonly CLASS_NAME = "ListProfile";
   static readonly LANGS = {
-    en: List.CLASS_NAME,
+    en: "List",
     jp: "リスト",
   };
   // custom

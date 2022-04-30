@@ -24,9 +24,8 @@ div
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import {Profile} from "../Profile";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import Gallery from "./Gallery.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 
 @Component({
   components: {StyleComp},
@@ -34,7 +33,7 @@ import Gallery from "./Gallery.vue";
 export default class GalleryProfile extends Profile {
   static readonly CLASS_NAME = "GalleryProfile";
   static readonly LANGS = {
-    en:  Gallery.CLASS_NAME,
+    en:  "Gallery",
     jp: "ギャラリー",
   };
 
