@@ -135,8 +135,7 @@ export default {
     },
   },
   generate: {
-    // dir: molle.isMolleCms ? `../functions/${SITE_DIR}` : "public",
-    dir: molle.isMolleCms ? `public-cms` : "public",
+    dir: molle.isMolleCms ? `../functions/${SITE_DIR}` : "public",
     crawler: false,
     staticAssets: {
       "version": molle.molleProjectID + "/" + molle.molleBrunch,

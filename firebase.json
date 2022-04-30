@@ -26,6 +26,12 @@
         "firebase.json",
         "**/.*",
         "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "function": "corporate_rewrites"
+        }
       ]
     },
     {
@@ -44,6 +50,12 @@
         "firebase.json",
         "**/.*",
         "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "function": "japansupercar_rewrites"
+        }
       ]
     }
   ],
