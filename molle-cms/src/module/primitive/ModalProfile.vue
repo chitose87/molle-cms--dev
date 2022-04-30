@@ -9,9 +9,8 @@ div
 
 <script lang="ts">
 import {Component} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import Modal from "./Modal.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
 
 @Component({
   components: {StyleComp},
@@ -19,7 +18,7 @@ import Modal from "./Modal.vue";
 export default class ModalProfile extends Profile {
   static readonly CLASS_NAME = "ModalProfile";
   static readonly LANGS = {
-    en: Modal.CLASS_NAME,
+    en: "Modal",
     jp: "モーダル",
   };
 

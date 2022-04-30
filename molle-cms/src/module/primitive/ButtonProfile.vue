@@ -67,11 +67,10 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Profile} from "../Profile";
-import {StyleAlign} from "../../Singleton";
-import Button from "./Button.vue";
-import GoogleStorage from "../../ui/GoogleStorage.vue";
-import StyleComp from "../../ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import {StyleAlign} from "~/molle-cms/src/Singleton";
+import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 
 @Component({
   components: {StyleComp, GoogleStorage},
@@ -79,7 +78,7 @@ import StyleComp from "../../ui/property/StyleComp.vue";
 export default class ButtonProfile extends Profile {
   static readonly CLASS_NAME = "ButtonProfile";
   static readonly LANGS = {
-    en: Button.CLASS_NAME,
+    en: "Button",
     jp: "ボタン",
   };
   // custom

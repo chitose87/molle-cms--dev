@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import {Prop, Vue, Watch} from "nuxt-property-decorator";
-import {IItemData, INodeObject} from "../interface";
+import {IItemData, INodeObject} from "~/molle-cms/src/interface";
 
 export class Profile extends Vue {
   get custom(): any {

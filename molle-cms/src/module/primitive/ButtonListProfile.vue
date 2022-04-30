@@ -9,10 +9,9 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Profile} from "../Profile";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {StyleAlign} from "../../Singleton";
-import ButtonList from "./ButtonList.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {StyleAlign} from "~/molle-cms/src/Singleton";
 
 @Component({
   components: {StyleComp},
@@ -20,7 +19,7 @@ import ButtonList from "./ButtonList.vue";
 export default class ButtonListProfile extends Profile {
   static readonly CLASS_NAME = "ButtonListProfile";
   static readonly LANGS = {
-    en: ButtonList.CLASS_NAME,
+    en: "ButtonList",
     jp: "ボタンリスト",
   };
   static readonly custom = {

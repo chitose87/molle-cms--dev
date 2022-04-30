@@ -22,9 +22,8 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import IsviewBox from "./IsviewBox.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
 
 @Component({
   components: {StyleComp},
@@ -32,7 +31,7 @@ import IsviewBox from "./IsviewBox.vue";
 export default class IsviewBoxProfile extends Profile {
   static readonly CLASS_NAME = "IsviewBoxProfile";
   static readonly LANGS = {
-    en: IsviewBox.CLASS_NAME,
+    en: "IsviewBox",
     jp: "アニメーションボックス",
   };
 

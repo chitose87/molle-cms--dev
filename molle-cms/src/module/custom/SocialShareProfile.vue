@@ -23,10 +23,9 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Profile} from "../Profile";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {StyleAlign} from "../../Singleton";
-import SocialShare from "./SocialShare.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {StyleAlign} from "~/molle-cms/src/Singleton";
 
 @Component({
   components: {StyleComp},
@@ -34,7 +33,7 @@ import SocialShare from "./SocialShare.vue";
 export default class SocialShareProfile extends Profile {
   static readonly CLASS_NAME = "SocialShareProfile";
   static readonly LANGS = {
-    en: SocialShare.CLASS_NAME,
+    en: "SocialShare",
     jp: "SNSシェア",
   };
   // custom

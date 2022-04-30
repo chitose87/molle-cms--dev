@@ -49,10 +49,9 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {StyleAlign} from "../../Singleton";
-import Column from "./Column.vue";
-import {Profile} from "../Profile";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {StyleAlign} from "~/molle-cms/src/Singleton";
+import {Profile} from "~/molle-cms/src/module/Profile";
 
 @Component({
   components: {StyleComp},
@@ -60,7 +59,7 @@ import {Profile} from "../Profile";
 export default class ColumnProfile extends Profile {
   static readonly CLASS_NAME = "ColumnProfile";
   static readonly LANGS = {
-    en: Column.CLASS_NAME,
+    en: "Column",
     jp: "カラム",
   };
   // custom

@@ -85,13 +85,12 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import {StyleAlign} from "../../Singleton";
-import GoogleStorage from "../../ui/GoogleStorage.vue";
-import InputUrlByGS from "../../ui/property/InputUrlByGS.vue";
-import ImageChecker from "../../ui/property/ImageChecker.vue";
-import Picture from "./Picture.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import {StyleAlign} from "~/molle-cms/src/Singleton";
+import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
+import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
+import ImageChecker from "~/molle-cms/src/ui/property/ImageChecker.vue";
 
 @Component({
   components: {ImageChecker, InputUrlByGS, GoogleStorage, StyleComp},
@@ -99,7 +98,7 @@ import Picture from "./Picture.vue";
 export default class PictureProfile extends Profile {
   static readonly CLASS_NAME = "PictureProfile";
   static readonly LANGS = {
-    en: Picture.CLASS_NAME,
+    en: "Picture",
     jp: "画像",
   };
 

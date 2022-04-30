@@ -118,8 +118,8 @@
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import {Module} from "../Module";
-import {StyleAlign} from "../../Singleton";
+import {Module} from "~/molle-cms/src/module/Module";
+import {StyleAlign} from "~/molle-cms/src/Singleton";
 
 @Component({
   components: {},

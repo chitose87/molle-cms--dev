@@ -7,7 +7,7 @@ ModuleLoader(
 
 <script lang="ts">
 import {Component, Prop, Vue} from "nuxt-property-decorator";
-import {Module} from "../Module";
+import {Module} from "~/molle-cms/src/module/Module";
 
 @Component({
   components: {},

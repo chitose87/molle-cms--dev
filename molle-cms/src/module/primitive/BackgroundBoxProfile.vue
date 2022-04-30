@@ -22,11 +22,10 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import BackgroundBox from "./BackgroundBox.vue";
-import GoogleStorage from "../../ui/GoogleStorage.vue";
-import InputUrlByGS from "../../ui/property/InputUrlByGS.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import GoogleStorage from "~/molle-cms/src/ui/GoogleStorage.vue";
+import InputUrlByGS from "~/molle-cms/src/ui/property/InputUrlByGS.vue";
 
 @Component({
   components: {StyleComp, GoogleStorage, InputUrlByGS},
@@ -34,7 +33,7 @@ import InputUrlByGS from "../../ui/property/InputUrlByGS.vue";
 export default class BackgroundBoxProfile extends Profile {
   static readonly CLASS_NAME = "BackgroundBoxProfile";
   static readonly LANGS = {
-    en: BackgroundBox.CLASS_NAME,
+    en: "BackgroundBox",
     jp: "背景ボックス",
   };
   // custom

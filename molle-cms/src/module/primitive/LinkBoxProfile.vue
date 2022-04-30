@@ -34,9 +34,8 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import LinkBox from "./LinkBox.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
 
 @Component({
   components: {StyleComp},
@@ -44,7 +43,7 @@ import LinkBox from "./LinkBox.vue";
 export default class LinkBoxProfile extends Profile {
   static readonly CLASS_NAME = "LinkBoxProfile";
   static readonly LANGS = {
-    en: LinkBox.CLASS_NAME,
+    en: "LinkBox",
     jp: "リンクボックス",
   };
   // custom

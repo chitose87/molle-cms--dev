@@ -56,9 +56,8 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import GoogleMap from "./GoogleMap.vue";
-import {Profile} from "../Profile";
-import StyleComp from "../../ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
 
 @Component({
   components: {StyleComp},
@@ -66,7 +65,7 @@ import StyleComp from "../../ui/property/StyleComp.vue";
 export default class GoogleMapProfile extends Profile {
   static readonly CLASS_NAME = "GoogleMapProfile";
   static readonly LANGS = {
-    en: GoogleMap.CLASS_NAME,
+    en: "GoogleMap",
     jp: "GoogleMap",
   };
   // custom

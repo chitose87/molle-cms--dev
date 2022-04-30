@@ -1,5 +1,5 @@
 import {Prop, Vue, Watch} from "nuxt-property-decorator";
-import {IItemData, INodeObject, IPayload} from "../interface";
+import {IItemData, INodeObject, IPayload} from "~/molle-cms/src/interface";
 
 export class Module extends Vue {
   get loader(): any {

@@ -10,8 +10,7 @@ div
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
 import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import HorizonCard from "./HorizonCard.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
 
 @Component({
   components: {StyleComp},
@@ -19,7 +18,7 @@ import HorizonCard from "./HorizonCard.vue";
 export default class HorizonCardProfile extends Profile {
   static readonly CLASS_NAME = "HorizonCardProfile";
   static readonly LANGS = {
-    en: HorizonCard.CLASS_NAME,
+    en: "HorizonCard",
     jp: "カード横",
   };
 

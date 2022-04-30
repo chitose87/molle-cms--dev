@@ -13,9 +13,8 @@ div
 
 <script lang="ts">
 import {Component, Vue} from "nuxt-property-decorator";
-import StyleComp from "../../ui/property/StyleComp.vue";
-import {Profile} from "../Profile";
-import ListBox from "./ListBox.vue";
+import StyleComp from "~/molle-cms/src/ui/property/StyleComp.vue";
+import {Profile} from "~/molle-cms/src/module/Profile";
 
 @Component({
   components: {StyleComp},
@@ -23,7 +22,7 @@ import ListBox from "./ListBox.vue";
 export default class ListBoxProfile extends Profile {
   static readonly CLASS_NAME = "ListBoxProfile";
   static readonly LANGS = {
-    en: ListBox.CLASS_NAME,
+    en: "ListBox",
     jp: "リストボックス",
   };
   // custom
