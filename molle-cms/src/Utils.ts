@@ -15,6 +15,7 @@ export class Utils {
     let obj: any = {
       title: "",
       meta: <any>[],
+      link: [],
     };
     obj.title = pageData.title || pageData.displayTitle || "";
     if (pageData.description) {
@@ -28,6 +29,17 @@ export class Utils {
         {hid: "og:image", property: "og:image", content: pageData.ogpImg},
         {hid: "twitter:image", property: "twitter:image", content: pageData.ogpImg},
       );
+    }
+    if (pageData.cssPlugin) {
+      pageData.cssPlugin.split(/\r\n|\n/)
+        .forEach((css) => {
+          obj.link.push(
+            {
+              rel: "stylesheet",
+              href: css,
+            },
+          );
+        });
     }
     return obj;
   }

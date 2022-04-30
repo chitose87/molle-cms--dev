@@ -7,6 +7,7 @@ export interface IPageData {
   displayTitle?: string;//title
   displayTitleSub?: string;//title
   ogpImg?: string;//SNS用画像パス
+  cssPlugin?: string;
 
   date?: string;//サイト日付設定
   utc?: string;//

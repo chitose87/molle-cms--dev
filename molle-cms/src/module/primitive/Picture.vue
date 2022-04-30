@@ -6,6 +6,7 @@
 )
   picture
     source(
+      v-if="itemData.option.sp"
       :media="`(max-width:${breakPoint - 1}px)`"
       :srcset="itemData.option.sp",
       :width="itemData.option.spSize?itemData.option.spSize.w/(itemData.option.scale||1)+'px':'auto'"

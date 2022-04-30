@@ -1,26 +1,26 @@
 <template lang="pug">
-.module.gallery(
-  :id="itemData.tagId",
-  :class="getClass(itemData)",
-  :style="getStyle(itemData)"
-)
-  .gallery__body(data-gallery="body")
-     ModuleLoader(:node="itemData.value[0]")
-
-  .gallery__thumbs
-    .row
-      .gallery__thumb.col-3(
-        v-for="(node, index) in itemData.value",
-        :class="{'-current': index == current}",
-        @click="current = index"
-      )
-        ModuleLoader(:node="node", :key="node.id", :data-gallery="index")
-
-  AddModuleComp(
-    :parentNode="loader.node"
-    :label="`Gallery`",
-    :style="{width: '100%'}"
+  .module.gallery(
+    :id="itemData.tagId",
+    :class="getClass(itemData)",
+    :style="getStyle(itemData)"
   )
+    .gallery__body(data-gallery="body")
+      ModuleLoader(:node="itemData.value[0]")
+
+    .gallery__thumbs
+      .row
+        .gallery__thumb.col-2.col-sm-3(
+          v-for="(node, index) in itemData.value",
+          :class="{'-current': index == current}",
+          @click="current = index"
+        )
+          ModuleLoader(:node="node", :key="node.id", :data-gallery="index")
+
+    AddModuleComp(
+      :parentNode="loader.node"
+      :label="`Gallery`",
+      :style="{width: '100%'}"
+    )
 </template>
 
 <script lang="ts">
@@ -48,12 +48,20 @@ export default class Gallery extends Module {
 
 <style lang="scss">
 .gallery {
+  .picture {
+    margin-bottom: 0;
+  }
+
   &__body {
   }
+
   &__thumbs {
+    margin-top: 1rem;
   }
+
   &__thumb {
-    &-current {
+    &.-current {
+      opacity: 0.5;
     }
   }
 }

@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  div(v-if="itemData.class.theme=='bg'")
+  div(v-if="itemData.class.theme=='bg -zone'")
     InputUrlByGS(
       :label="custom.bg.label+':'"
       v-model="itemData.option.bg"
