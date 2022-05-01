@@ -116,10 +116,10 @@ export default class MolleEditerComp extends Vue {
     top: 0,
     // height: 100,
     left: {
-      value: 200,
+      value: MoUtils.ls.panel.left || 200,
     },
     right: {
-      value: 200,
+      value: MoUtils.ls.panel.right || 200,
     },
   };
 
@@ -407,7 +407,11 @@ export default class MolleEditerComp extends Vue {
     let flag = true;
     let value = lr == "right" ? window.innerWidth - event.clientX : event.clientX;
     let enter = () => {
-      this.$set(option, "value", value > 50 ? value : 0);
+      let v = value > 50 ? value : 0;
+      this.$set(option, "value", v);
+      //@ts-ignore
+      MoUtils.ls.panel[lr] = v;
+      MoUtils.lsSave();
       if (flag) requestAnimationFrame(() => enter());
     };
     let move = (e: MouseEvent) => {

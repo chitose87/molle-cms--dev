@@ -12,6 +12,7 @@ export class MoUtils {
       this._ls = JSON.parse(localStorage.getItem("molle") || "{}");
       if (!this._ls.history) this._ls.history = [];
       if (!this._ls.copyItem) this._ls.copyItem = {};
+      if (!this._ls.panel) this._ls.panel = {};
     }
     return this._ls;
   }
@@ -21,6 +22,10 @@ export class MoUtils {
   }
 
   private static _ls: {
+    panel: {
+      left?: number,
+      right?: number,
+    },
     history: {
       cmd: string,
       id: string,
