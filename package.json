@@ -23,7 +23,7 @@
     "supercar:gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate supercar",
     "supercar:deploy": "firebase deploy --only hosting:supercar-static",
     "</molle:setup.node.js>": "",
-    "site:ftp": "node site/deploy.js",
+    "site:ftp": "node site/deploy.js"
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.1.0",
