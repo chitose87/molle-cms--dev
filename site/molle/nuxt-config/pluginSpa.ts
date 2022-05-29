@@ -77,7 +77,8 @@ declare module "vue/types/vue" {
       [key: string]: {
         ref: any;
         profile?: any;
-        def: any;
+        def: any;// todo TBD
+        getItemData: () => any;
         convert?: any[];
         black?: any[];
         white?: any[];
@@ -88,7 +89,8 @@ declare module "vue/types/vue" {
     $molleModuleList: {
       ref: any;
       profile?: any;
-      def: any;
+      def: any;// todo TBD
+      getItemData: () => any;
       convert?: any[];
       black?: any[];
       white?: any[];
@@ -185,7 +187,7 @@ let _molleModuleList: any[] = [];
   ref: Reference,
   profile: ReferenceProfile,
 },
-].forEach((attr: { ref: any; profile?: any; }) => {
+].forEach((attr: {ref: any; profile?: any;}) => {
   let v: any = {
     moduleId: attr.ref.CLASS_NAME,
     type: attr.profile.settings.type,
@@ -228,7 +230,8 @@ let _molleModuleList: any[] = [];
     white: attr.profile.settings.white,
     convert: attr.profile.settings.convert,
     icon: attr.profile.settings.icon,
-    def: v,
+    def: v,// todo TBD
+    getItemData: () => JSON.parse(JSON.stringify(v)),
   };
   _molleModuleList.push(_molleModules[attr.ref.CLASS_NAME]);
 
@@ -243,7 +246,7 @@ Vue.prototype.$molleModuleList = _molleModuleList;
 
 //
 
-let datalist = <{ id: string, value: string }[]>[];
+let datalist = <{id: string, value: string}[]>[];
 Singleton.systemDocRef
   .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
     let siteData: any = snap.data();
@@ -252,7 +255,7 @@ Singleton.systemDocRef
 Vue.prototype.$getText = (str: string) => {
   for (let item of datalist) {
     if (!str.includes("${")) break;
-    str = str.replace(new RegExp("\\${" + item.id+"}", "g"), item.value);
+    str = str.replace(new RegExp("\\${" + item.id + "}", "g"), item.value);
   }
   return str;
-}
+};

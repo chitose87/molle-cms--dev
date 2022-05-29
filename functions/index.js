@@ -23,18 +23,20 @@ for (let siteId in molleExport) {
 exports.getHtml = functions
   // .region('asia-northeast1')
   .https.onRequest(async (req, res) => {
+    console.log(req.query.url)
     if (checkOrign(req.headers.origin, res)) {
       // req.query.text
       const feed = await doRequest({
         url: decodeURIComponent(req.query.url || ""),
-        method: "GET",
+        method: "GET"
       });
+      console.log("comp")
       res.json(feed);
     }
 
     function doRequest(options) {
-      return new Promise(function(resolve, reject) {
-        request(options, function(error, res, body) {
+      return new Promise(function (resolve, reject) {
+        request(options, function (error, res, body) {
           if (!error && res.statusCode == 200) {
             resolve(body);
           } else {
@@ -44,6 +46,7 @@ exports.getHtml = functions
       });
     }
   });
+
 
 /**
  * プロジェクトごとの関数
@@ -152,8 +155,10 @@ function setProject(args) {
 }
 
 function checkOrign(origin, res) {
+  console.log(origin)
   switch (origin) {
-    case "https://molle-cms---dev.web.app"://molle 2021/03/02
+    case "http://localhost:5649":
+    case "https://nct-comthink-cms.web.app/":
       res.set("Access-Control-Allow-Origin", origin);
       res.set("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST");
       res.set("Access-Control-Allow-Headers", "Content-Type, authorization");
