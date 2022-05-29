@@ -77,7 +77,7 @@ declare module "vue/types/vue" {
       [key: string]: {
         ref: any;
         profile?: any;
-        def: any;// todo TBD
+        def: any;
         getItemData: () => any;
         convert?: any[];
         black?: any[];
@@ -89,7 +89,7 @@ declare module "vue/types/vue" {
     $molleModuleList: {
       ref: any;
       profile?: any;
-      def: any;// todo TBD
+      def: any;
       getItemData: () => any;
       convert?: any[];
       black?: any[];
@@ -230,7 +230,7 @@ let _molleModuleList: any[] = [];
     white: attr.profile.settings.white,
     convert: attr.profile.settings.convert,
     icon: attr.profile.settings.icon,
-    def: v,// todo TBD
+    def: v,
     getItemData: () => JSON.parse(JSON.stringify(v)),
   };
   _molleModuleList.push(_molleModules[attr.ref.CLASS_NAME]);

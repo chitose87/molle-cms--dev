@@ -39,7 +39,7 @@ export class MoUtils {
    * @param itemId
    */
   static createItemData(itemId: string, opt?: {enabled: string[]}) {
-    let data: IItemData = Object.assign({}, Vue.prototype.$molleModules[itemId].def);
+    let data: IItemData = Vue.prototype.$molleModules[itemId].getItemData();
     if (opt) {
       data.dev = opt;
       // 使えるモジュールが限定されている場合

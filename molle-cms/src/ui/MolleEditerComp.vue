@@ -442,7 +442,7 @@ export default class MolleEditerComp extends Vue {
       noExport: !path.indexOf("--no-export/"),
     });
     //items作成
-    MoUtils.updateItem(pageId, this.$molleModules.Box.def, true);
+    MoUtils.updateItem(pageId, this.$molleModules.Box.getItemData(), true);
   }
 }
 </script>
