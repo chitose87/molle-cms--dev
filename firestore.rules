@@ -13,6 +13,7 @@ service cloud.firestore {
                     request.auth.uid=="EH6g7lTMVqSsqGXTHpiC9CjzUPg1" ||
                     request.auth.uid=="Tln4xcERqBYUMgQK5otzmjjALTx2" ||
                     request.auth.uid=="gKnwJEwcbqZbmSTZOaIMmmH2atG3" ||
+                    request.auth.uid=="EdaXiG67BpXvEjNzW1gPGo2yi883" ||
                     request.auth.uid=="vIDI7VkgJFdEpZV7nLWNst7tzke2" ;
       allow write: if request.auth.uid=="oKk8Usum7vexqYqTGLqYR6oXZGp1" ||
                     request.auth.uid=="E0RtRFvSNqVSMJ5R8cmcz2S5I3o2" ||
@@ -23,6 +24,7 @@ service cloud.firestore {
                     request.auth.uid=="EH6g7lTMVqSsqGXTHpiC9CjzUPg1" ||
                     request.auth.uid=="Tln4xcERqBYUMgQK5otzmjjALTx2" ||
                     request.auth.uid=="gKnwJEwcbqZbmSTZOaIMmmH2atG3" ||
+                    request.auth.uid=="EdaXiG67BpXvEjNzW1gPGo2yi883" ||
                     request.auth.uid=="vIDI7VkgJFdEpZV7nLWNst7tzke2" ;
     }
   }
