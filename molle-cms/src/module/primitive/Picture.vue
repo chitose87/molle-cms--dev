@@ -55,8 +55,7 @@ export default class Picture extends Module {
   }
 
   &.border {
-    padding: 0;
-  }
+    padding: 0;}
 
   &.text-left {
     margin-right: auto;

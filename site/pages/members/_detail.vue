@@ -1,12 +1,14 @@
 <template lang="pug">
-.l-body.universal(:class="pageData.theme?'theme--'+pageData.theme:''")
-  GlobalHeaderComp(v-if="false")
-  MolleEditerComp
-  main
-    article.l-content
-      ModuleLoader(v-if="pageData.itemId" :node="{id:pageData.itemId}")
+  .l-body
+    GlobalHeaderComp
+    MolleEditerComp
+    main
+      article.l-content
+        MainVisual(:pageData="pageData")
+        ModuleLoader(v-if="pageData.itemId" :node="{id:pageData.itemId}")
+        ModuleLoader(:node="{id:'--no-export%2Fcommon-members-under'}" :isRoot="true")
 
-  GlobalFooterComp(v-if="false")
+    GlobalFooterComp
 </template>
 
 <script lang="ts">
@@ -17,7 +19,7 @@ import {IPageData} from "~/molle-cms/src/interface";
 @Component({
   components: {},
 })
-export default class NoExportPage extends Vue {
+export default class NewsDetailPage extends Vue {
   @Prop({default: () => ({})}) pageDataByEditer?: any;// use editer.vue
   pageData = <IPageData>{};
 
@@ -32,4 +34,9 @@ export default class NoExportPage extends Vue {
 </script>
 
 <style lang="scss">
+.news-detail {
+  &__date {
+  }
+
+}
 </style>

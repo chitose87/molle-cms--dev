@@ -173,7 +173,7 @@ export default class ModulePropertyComp extends Vue {
     let update: any = {};
     let before: any = this.itemDataBefore;
     let after: any = JSON.parse(JSON.stringify(this.itemData));
-    let obj: any = Object.assign({}, before, after);
+    let obj: any = Object.assign(JSON.parse(JSON.stringify(before)), after);
     Object.keys(obj).forEach((key) => {
       // console.log(key,before[key],after[key])
       if (typeof before[key] != typeof after[key]) {

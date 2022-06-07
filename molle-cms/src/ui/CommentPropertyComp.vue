@@ -138,7 +138,7 @@ export default class CommentPropertyComp extends Vue {
     this.addData.holder = "";
     this.addData.itemId = this.itemId;
     // this.addData.reply = [];
-    let update: any = {comment: Object.assign({}, this.itemData.comment)};
+    let update: any = {comment: JSON.parse(JSON.stringify(this.itemData.comment))};
     update.comment[id] = {
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     };
@@ -186,7 +186,7 @@ export default class CommentPropertyComp extends Vue {
    * 解決にする
    */
   resolve(commentId: string) {
-    let update: any = {comment: Object.assign({}, this.itemData.comment)};
+    let update: any = {comment: JSON.parse(JSON.stringify(this.itemData.comment))};
     delete update.comment[commentId];
     MoUtils.updateBatch([
       {

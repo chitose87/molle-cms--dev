@@ -126,8 +126,8 @@ export class MoUtils {
     let lsData = {
       cmd: cmd,
       id: id,
-      before: Object.assign({}, before),
-      data: Object.assign({}, update),
+      before: JSON.parse(JSON.stringify(before)),
+      data: JSON.parse(JSON.stringify(update)),
     };
 
     delete lsData.before.createTime;
@@ -187,7 +187,7 @@ export class MoUtils {
     //   case "move":
     this.updateItem(
       history.id,
-      Object.assign({}, history.before, history.data),
+      Object.assign(JSON.parse(JSON.stringify(history.before)), JSON.parse(JSON.stringify(history.data))),
       false,
     );
     // break;

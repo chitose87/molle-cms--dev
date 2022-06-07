@@ -1,14 +1,16 @@
 <template lang="pug">
-.module.universal-card(
-  :id="itemData.tagId",
-  :class="getClass(itemData)",
-  :style="getStyle(itemData)"
-)
-  ModuleLoader.universal-card__img(:node="itemData.value.img")
+  .module.universal-card(
+    :id="itemData.tagId",
+    :class="getClass(itemData)",
+    :style="getStyle(itemData)"
+  )
 
-  ModuleLoader.universal-card__title(:node="itemData.value.headline")
-  ModuleLoader.universal-card__text(:node="itemData.value.text")
-  ModuleLoader.universal-card__btn-list(:node="itemData.value.btnList")
+    ModuleLoader.universal-card__img(:node="itemData.value.img")
+    ModuleLoader.universal-card__title(:node="itemData.value.headline")
+    ModuleLoader.universal-card__text(:node="itemData.value.text")
+    ModuleLoader.universal-card__btn-list(:node="itemData.value.btnList")
+    .universal-card__new(v-if="itemData.class['status-new']" role="presentation")
+      span NEW
 
 </template>
 
@@ -32,6 +34,7 @@ export default class Card extends Module {
   height: 100%;
   border: 2px solid $color-black;
   overflow: hidden;
+  position: relative;
   //margin-top: 0;
   //margin-bottom: 0;
   @include mediaquery-not-sm {
@@ -89,6 +92,19 @@ export default class Card extends Module {
     //margin-bottom: 1rem;
 
     .button {
+    }
+  }
+
+  &__new {
+    position: absolute;
+    background-color: $color-red;
+    top: 0;
+    right: 0;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    span {
+      color: $color-white;
     }
   }
 

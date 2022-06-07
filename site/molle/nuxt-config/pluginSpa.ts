@@ -21,6 +21,8 @@ import Column from "~/molle-cms/src/module/primitive/Column.vue";
 import ColumnProfile from "~/molle-cms/src/module/primitive/ColumnProfile.vue";
 import ColumnBox from "~/molle-cms/src/module/primitive/ColumnBox.vue";
 import ColumnBoxProfile from "~/molle-cms/src/module/primitive/ColumnBoxProfile.vue";
+import Carousel from "~/molle-cms/src/module/primitive/Carousel.vue";
+import CarouselProfile from "~/molle-cms/src/module/primitive/CarouselProfile.vue";
 import Embed from "~/molle-cms/src/module/primitive/Embed.vue";
 import EmbedProfile from "~/molle-cms/src/module/primitive/EmbedProfile.vue";
 import LinkBox from "~/molle-cms/src/module/primitive/LinkBox.vue";
@@ -31,6 +33,8 @@ import ButtonList from "~/molle-cms/src/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle-cms/src/module/primitive/ButtonListProfile.vue";
 import Modal from "~/molle-cms/src/module/primitive/Modal.vue";
 import ModalProfile from "~/molle-cms/src/module/primitive/ModalProfile.vue";
+import Float from "~/molle-cms/src/module/primitive/Float.vue";
+import FloatProfile from "~/molle-cms/src/module/primitive/FloatProfile.vue";
 import List from "~/molle-cms/src/module/primitive/List.vue";
 import ListProfile from "~/molle-cms/src/module/primitive/ListProfile.vue";
 import ListBox from "~/molle-cms/src/module/primitive/ListBox.vue";
@@ -142,6 +146,9 @@ let _molleModuleList: any[] = [];
   ref: ColumnBox,
   profile: ColumnBoxProfile,
 }, {
+  ref: Carousel,
+  profile: CarouselProfile,
+}, {
   ref: Table,
   profile: TableProfile,
 }, {
@@ -150,6 +157,9 @@ let _molleModuleList: any[] = [];
 }, {
   ref: Modal,
   profile: ModalProfile,
+}, {
+  ref: Float,
+  profile: FloatProfile,
 }, {
   ref: Gallery,
   profile: GalleryProfile,
