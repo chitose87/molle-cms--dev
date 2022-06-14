@@ -218,6 +218,14 @@ export default class MolleEditerComp extends Vue {
               q.hover = loader.$props.node.id;
               break;
             case "click":
+              if (q.focus != loader.$props.node.id) {
+                let d: any = {};
+                d[`users.${firebase.auth().currentUser!.uid}`] = {
+                  id: loader.$props.node.id,
+                  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                };
+                Singleton.systemDocRef.update(d);
+              }
               q.focus = loader.$props.node.id;
               e.preventDefault();
               break;
