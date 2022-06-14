@@ -14,11 +14,13 @@ import Picture from "~/molle-cms/src/module/primitive/Picture.vue"
 import Button from "~/molle-cms/src/module/primitive/Button.vue"
 import Column from "~/molle-cms/src/module/primitive/Column.vue"
 import ColumnBox from "~/molle-cms/src/module/primitive/ColumnBox.vue"
+import Carousel from "~/molle-cms/src/module/primitive/Carousel.vue"
 import Embed from "~/molle-cms/src/module/primitive/Embed.vue"
 import LinkBox from "~/molle-cms/src/module/primitive/LinkBox.vue"
 import IsviewBox from "~/molle-cms/src/module/primitive/IsviewBox.vue"
 import ButtonList from "~/molle-cms/src/module/primitive/ButtonList.vue"
 import Modal from "~/molle-cms/src/module/primitive/Modal.vue"
+import Float from "~/molle-cms/src/module/primitive/Float.vue"
 import List from "~/molle-cms/src/module/primitive/List.vue"
 import ListBox from "~/molle-cms/src/module/primitive/ListBox.vue"
 import Gallery from "~/molle-cms/src/module/custom/Gallery.vue"
@@ -46,11 +48,13 @@ Vue.component("Picture", Picture);
 Vue.component("Button", Button);
 Vue.component("Column", Column);
 Vue.component("ColumnBox", ColumnBox);
+Vue.component("Carousel", Carousel);
 Vue.component("Embed", Embed);
 Vue.component("LinkBox", LinkBox);
 Vue.component("IsviewBox", IsviewBox);
 Vue.component("ButtonList", ButtonList);
 Vue.component("Modal", Modal);
+Vue.component("Float", Float);
 Vue.component("List", List);
 Vue.component("ListBox", ListBox);
 Vue.component("Gallery", Gallery);
@@ -72,10 +76,12 @@ Vue.component("AddModuleComp", Blank);
 Vue.component("ModuleLoader", ModuleLoader);
 
 import allData from "~/molle/nuxt-config/firestore-snap.json";
+
 Vue.prototype.$getText = (str: string) => {
+  // @ts-ignore
   for (let item of allData.datalist) {
     if (!str.includes("${")) break;
-    str = str.replace(new RegExp("\\${" + item.id+"}", "g"), item.value);
+    str = str.replace(new RegExp("\\${" + item.id + "}", "g"), item.value);
   }
   return str;
-}
+};

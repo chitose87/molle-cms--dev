@@ -46,11 +46,15 @@
     @include bg-variant(".bg-#{$color}", $value, true);
   }
 
+  color: $color-text-black;
+  font-family: YakuHanJP_Noto, sans-serif;
+
   .card {
     margin-top: 0;
     margin-bottom: 0;
   }
-  .popover-header{
+
+  .popover-header {
     margin-top: 0;
   }
 

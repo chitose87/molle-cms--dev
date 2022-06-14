@@ -1,33 +1,34 @@
 <template lang="pug">
-section.section(
-  :id="itemData.tagId",
-  :class="getClass(itemData)",
-  :style="getStyle(itemData)"
-)
-  picture(v-if="itemData.class.theme=='bg -zone'")
-    source(
-      :media="`(max-width:${breakPoint - 1}px)`"
-      :srcset="itemData.option.sp",
-      :width="itemData.option.spSize?itemData.option.spSize.w+'px':'auto'"
-      :height="itemData.option.spSize?itemData.option.spSize.h+'px':'auto'"
-      :alt="itemData.option.alt")
-    img.section__bg(
-      loading="lazy"
-      :src="itemData.option.bg"
-      :width="itemData.option.size?itemData.option.size.w+'px':'auto'"
-      :height="itemData.option.size?itemData.option.size.h+'px':'auto'")
+  section.section(
+    :id="itemData.tagId",
+    :class="getClass(itemData)",
+    :style="getStyle(itemData)"
+  )
+    picture(v-if="itemData.class.theme=='bg -zone'")
+      source(
+        :media="`(max-width:${breakPoint - 1}px)`"
+        :srcset="itemData.option.sp",
+        :width="itemData.option.spSize?itemData.option.spSize.w+'px':'auto'"
+        :height="itemData.option.spSize?itemData.option.spSize.h+'px':'auto'"
+        :alt="itemData.option.alt")
+      img.section__bg(
+        loading="lazy"
+        :src="itemData.option.bg"
+        :width="itemData.option.size?itemData.option.size.w+'px':'auto'"
+        :height="itemData.option.size?itemData.option.size.h+'px':'auto'")
 
-  .section__body
-    ModuleLoader(
-      v-for="node in itemData.value",
-      :key="node.id",
-      :node="node"
-    )
+    .section__body
+      ModuleLoader(
+        v-for="node in itemData.value",
+        :key="node.id",
+        :node="node"
+      )
 
-    AddModuleComp(
-      :label="`Section`"
-      :parentNode="loader.node"
-    )
+      AddModuleComp(
+        :label="`Section`"
+        :parentNode="loader.node"
+      )
+    style(v-if="itemData.css" v-html="itemData.css")
 </template>
 
 <script lang="ts">
@@ -184,7 +185,21 @@ export default class Section extends Module {
 
   //color
   &.c-secondary {
-    background-color: $color-key2;
+    background-color: $color-gray-100;
+  }
+
+  &.c-black {
+    background-color: rgba($color-gray-900, 0.85);
+    backdrop-filter: blur(10px);
+    transform: skewY(-7deg);
+
+    .section__body {
+      transform: skewY(7deg);
+    }
+  }
+
+  &.c-white {
+    background-color: $color-white;
   }
 
   //theme

@@ -10,18 +10,6 @@
         ],
         "site-cms": [
           "molle-cms---dev"
-        ],
-        "comthink-static": [
-          "molle-it"
-        ],
-        "comthink-cms": [
-          "molle-it-cms"
-        ],
-        "labo-static": [
-          "molle-labo"
-        ],
-        "labo-cms": [
-          "molle-labo-cms"
         ]
       }
     }

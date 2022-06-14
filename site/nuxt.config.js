@@ -143,7 +143,7 @@ export default {
     },
   },
   router: {
-    scrollBehavior: function(to, from, savedPosition) {
+    scrollBehavior: function (to, from, savedPosition) {
       return {};
     },
   },

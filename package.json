@@ -18,18 +18,9 @@
     "site:gen": "node ./molle-cms/before.node.js site && nuxt-ts generate site",
     "site:gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate site",
     "site:deploy": "firebase deploy --only hosting:site-static",
-    "comthink:dev": "cross-env NUXT_PORT=1234 IS_MOLLE_CMS=true nuxt-ts dev comthink",
-    "comthink:gen": "node ./molle-cms/before.node.js comthink && nuxt-ts generate comthink",
-    "comthink:gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate comthink",
-    "comthink:deploy": "firebase deploy --only hosting:comthink-static",
-    "labo:dev": "cross-env NUXT_PORT=1234 IS_MOLLE_CMS=true nuxt-ts dev labo",
-    "labo:gen": "node ./molle-cms/before.node.js labo && nuxt-ts generate labo",
-    "labo:gen:cms": "cross-env IS_MOLLE_CMS=true nuxt-ts generate labo",
-    "labo:deploy": "firebase deploy --only hosting:labo-static",
     "</molle:setup.node.js>": "",
-    "site:ftp": "node site/deploy.js",
-    "site:storage": "node ./molle-cms/storage.node.js site",
-    "deploy:cms": "firebase deploy --only functions"
+    "deploy:functions": "firebase deploy --only functions",
+    "site:ftp": "node site/deploy.js"
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.1.0",

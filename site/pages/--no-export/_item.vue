@@ -1,12 +1,12 @@
 <template lang="pug">
 .l-body.universal(:class="pageData.theme?'theme--'+pageData.theme:''")
-  GlobalHeaderComp(v-show="false")
+  GlobalHeaderComp(v-if="false")
   MolleEditerComp
   main
     article.l-content
       ModuleLoader(v-if="pageData.itemId" :node="{id:pageData.itemId}")
 
-  GlobalFooterComp(v-show="false")
+  GlobalFooterComp(v-if="false")
 </template>
 
 <script lang="ts">

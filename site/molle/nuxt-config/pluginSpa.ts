@@ -21,6 +21,8 @@ import Column from "~/molle-cms/src/module/primitive/Column.vue";
 import ColumnProfile from "~/molle-cms/src/module/primitive/ColumnProfile.vue";
 import ColumnBox from "~/molle-cms/src/module/primitive/ColumnBox.vue";
 import ColumnBoxProfile from "~/molle-cms/src/module/primitive/ColumnBoxProfile.vue";
+import Carousel from "~/molle-cms/src/module/primitive/Carousel.vue";
+import CarouselProfile from "~/molle-cms/src/module/primitive/CarouselProfile.vue";
 import Embed from "~/molle-cms/src/module/primitive/Embed.vue";
 import EmbedProfile from "~/molle-cms/src/module/primitive/EmbedProfile.vue";
 import LinkBox from "~/molle-cms/src/module/primitive/LinkBox.vue";
@@ -31,6 +33,8 @@ import ButtonList from "~/molle-cms/src/module/primitive/ButtonList.vue";
 import ButtonListProfile from "~/molle-cms/src/module/primitive/ButtonListProfile.vue";
 import Modal from "~/molle-cms/src/module/primitive/Modal.vue";
 import ModalProfile from "~/molle-cms/src/module/primitive/ModalProfile.vue";
+import Float from "~/molle-cms/src/module/primitive/Float.vue";
+import FloatProfile from "~/molle-cms/src/module/primitive/FloatProfile.vue";
 import List from "~/molle-cms/src/module/primitive/List.vue";
 import ListProfile from "~/molle-cms/src/module/primitive/ListProfile.vue";
 import ListBox from "~/molle-cms/src/module/primitive/ListBox.vue";
@@ -78,6 +82,7 @@ declare module "vue/types/vue" {
         ref: any;
         profile?: any;
         def: any;
+        getItemData: () => any;
         convert?: any[];
         black?: any[];
         white?: any[];
@@ -89,6 +94,7 @@ declare module "vue/types/vue" {
       ref: any;
       profile?: any;
       def: any;
+      getItemData: () => any;
       convert?: any[];
       black?: any[];
       white?: any[];
@@ -140,6 +146,9 @@ let _molleModuleList: any[] = [];
   ref: ColumnBox,
   profile: ColumnBoxProfile,
 }, {
+  ref: Carousel,
+  profile: CarouselProfile,
+}, {
   ref: Table,
   profile: TableProfile,
 }, {
@@ -148,6 +157,9 @@ let _molleModuleList: any[] = [];
 }, {
   ref: Modal,
   profile: ModalProfile,
+}, {
+  ref: Float,
+  profile: FloatProfile,
 }, {
   ref: Gallery,
   profile: GalleryProfile,
@@ -185,7 +197,7 @@ let _molleModuleList: any[] = [];
   ref: Reference,
   profile: ReferenceProfile,
 },
-].forEach((attr: { ref: any; profile?: any; }) => {
+].forEach((attr: {ref: any; profile?: any;}) => {
   let v: any = {
     moduleId: attr.ref.CLASS_NAME,
     type: attr.profile.settings.type,
@@ -229,6 +241,7 @@ let _molleModuleList: any[] = [];
     convert: attr.profile.settings.convert,
     icon: attr.profile.settings.icon,
     def: v,
+    getItemData: () => JSON.parse(JSON.stringify(v)),
   };
   _molleModuleList.push(_molleModules[attr.ref.CLASS_NAME]);
 
@@ -243,7 +256,7 @@ Vue.prototype.$molleModuleList = _molleModuleList;
 
 //
 
-let datalist = <{ id: string, value: string }[]>[];
+let datalist = <{id: string, value: string}[]>[];
 Singleton.systemDocRef
   .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
     let siteData: any = snap.data();
@@ -252,7 +265,7 @@ Singleton.systemDocRef
 Vue.prototype.$getText = (str: string) => {
   for (let item of datalist) {
     if (!str.includes("${")) break;
-    str = str.replace(new RegExp("\\${" + item.id+"}", "g"), item.value);
+    str = str.replace(new RegExp("\\${" + item.id + "}", "g"), item.value);
   }
   return str;
-}
+};

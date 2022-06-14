@@ -16,30 +16,30 @@
       //予約deploy用
       "cron": "every day 10:00",
       "ghRepository": "chitose87/molle-cms--dev"
-    },
-    //
-    "comthink": {
-      "port": 1234,
-      "static": {
-        "hosting": "molle-it"
-      },
-      "cms": {
-        "hosting": "molle-it-cms"
-      },
-      "cron": "every day 10:00",
-      "ghRepository": "chitose87/molle-cms--dev"
-    },
-    //
-    "labo": {
-      "port": 1234,
-      "static": {
-        "hosting": "molle-labo"
-      },
-      "cms": {
-        "hosting": "molle-labo-cms"
-      },
-      "cron": "every day 10:00",
-      "ghRepository": "chitose87/molle-cms--dev"
     }
+    //
+    //    "comthink": {
+    //      "port": 1234,
+    //      "static": {
+    //        "hosting": "molle-it"
+    //      },
+    //      "cms": {
+    //        "hosting": "molle-it-cms"
+    //      },
+    //      "cron": "every day 10:00",
+    //      "ghRepository": "chitose87/molle-cms--dev"
+    //    },
+    //
+    //    "labo": {
+    //      "port": 1234,
+    //      "static": {
+    //        "hosting": "molle-labo"
+    //      },
+    //      "cms": {
+    //        "hosting": "molle-labo-cms"
+    //      },
+    //      "cron": "every day 10:00",
+    //      "ghRepository": "chitose87/molle-cms--dev"
+    //    }
   }
 }

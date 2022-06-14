@@ -44,7 +44,7 @@ export class MoUtils {
    * @param itemId
    */
   static createItemData(itemId: string, opt?: {enabled: string[]}) {
-    let data: IItemData = Object.assign({}, Vue.prototype.$molleModules[itemId].def);
+    let data: IItemData = Vue.prototype.$molleModules[itemId].getItemData();
     if (opt) {
       data.dev = opt;
       // 使えるモジュールが限定されている場合
@@ -131,8 +131,8 @@ export class MoUtils {
     let lsData = {
       cmd: cmd,
       id: id,
-      before: Object.assign({}, before),
-      data: Object.assign({}, update),
+      before: JSON.parse(JSON.stringify(before)),
+      data: JSON.parse(JSON.stringify(update)),
     };
 
     delete lsData.before.createTime;
@@ -192,7 +192,7 @@ export class MoUtils {
     //   case "move":
     this.updateItem(
       history.id,
-      Object.assign({}, history.before, history.data),
+      Object.assign(JSON.parse(JSON.stringify(history.before)), JSON.parse(JSON.stringify(history.data))),
       false,
     );
     // break;

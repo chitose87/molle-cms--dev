@@ -1,71 +1,71 @@
 <template lang="pug">
-.bootstrap.molle-editer
-  MolleBase
-  .molle-editer__wrap(:style="style")
-    .molle-editer__fiexd-tl
-      a.btn.btn-outline-secondary(href="/--molle/")
-        b-icon(icon="house-door")
+  .bootstrap.molle-editer(:data-molle-edit="$route.query.edit")
+    MolleBase
+    .molle-editer__wrap(:style="style")
+      .molle-editer__fiexd-tl
+        a.btn.btn-outline-secondary(href="/--molle/")
+          b-icon(icon="house-door")
 
-      button.btn.btn-info(@click="editerToggle")
-        span(v-if="$route.query.edit")
-          b-icon(icon="display")
-        span(v-else)
-          b-icon(icon="pencil")
+        button.btn.btn-info(@click="editerToggle")
+          span(v-if="$route.query.edit")
+            b-icon(icon="display")
+          span(v-else)
+            b-icon(icon="pencil")
 
-      button.btn.btn-outline-info(@click="openMobileWindow")
-        span
-          b-icon(icon="phone")
+        button.btn.btn-outline-info(@click="openMobileWindow")
+          span
+            b-icon(icon="phone")
 
-    .molle-editer__body(v-show="$route.query.edit")
-      style(v-if="$route.query.edit")
-        | @media screen and (min-width: 768px)  {
-        | .molle-editer__wrap{
-        |   height: calc(100% - {{panelOption.top}}px);
-        | }
-        | .molle-editer + * {
-        |   margin-left: {{panelOption.left.value+8}}px;
-        |   margin-right: {{panelOption.right.value+8}}px;
-        | }
-        | }
+      .molle-editer__body(v-show="$route.query.edit")
+        style(v-if="$route.query.edit")
+          | @media screen and (min-width: 768px)  {
+          | .molle-editer__wrap{
+          |   height: calc(100% - {{panelOption.top}}px);
+          | }
+          | .molle-editer + * {
+          |   margin-left: {{panelOption.left.value+8}}px;
+          |   margin-right: {{panelOption.right.value+8}}px;
+          | }
+          | }
 
-      // left
-      .molle-editer__left.shadow(:style="{width:panelOption.left.value+'px'}")
-        .molle-editer__scroll.pb-4.pt-2hr(ref="left")
+        // left
+        .molle-editer__left.shadow(:style="{width:panelOption.left.value+'px'}")
+          .molle-editer__scroll.pb-4.pt-2hr(ref="left")
 
-          PageListComp
+            PageListComp
 
-          PagePropertyComp(
-            v-if="vobj.pageData && vobj.pageId"
-            :pageData="vobj.pageData", :pageId="vobj.pageId"
-          )
-
-          .card.bg-light
-            .card-header.pt-1.pb-1.pl-3.pr-3 {{$words.structure}}
-            ItemListViewComp(
-              v-if="vobj.pageData"
-              :itemId="vobj.pageData.itemId"
+            PagePropertyComp(
+              v-if="vobj.pageData && vobj.pageId"
+              :pageData="vobj.pageData", :pageId="vobj.pageId"
             )
-            ItemListViewComp(
-              v-for="(loader,id) in moduleLoaderCms.modules"
-              v-if="loader.isRoot"
-              :itemId="id"
-              :key="id"
-            )
-        .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'left')")
 
-      // right
-      .molle-editer__right.shadow(:style="{width:panelOption.right.value+'px'}")
-        .molle-editer__scroll
-          EditorOptionComp
+            .card.bg-light
+              .card-header.pt-1.pb-1.pl-3.pr-3 {{$words.structure}}
+              ItemListViewComp(
+                v-if="vobj.pageData"
+                :itemId="vobj.pageData.itemId"
+              )
+              ItemListViewComp(
+                v-for="(loader,id) in moduleLoaderCms.modules"
+                v-if="loader.isRoot"
+                :itemId="id"
+                :key="id"
+              )
+          .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'left')")
 
-          ModulePropertyComp
-        .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'right')")
-      GoogleStorageModalComp
+        // right
+        .molle-editer__right.shadow(:style="{width:panelOption.right.value+'px'}")
+          .molle-editer__scroll
+            EditorOptionComp
 
-      FocusExtension
-      #bootstrap-container
+            ModulePropertyComp
+          .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'right')")
+        GoogleStorageModalComp
 
-  MolleCommentView(v-if="$route.query.edit")
+        FocusExtension
+        #bootstrap-container
+
+    MolleCommentView(v-if="$route.query.edit")
 
 </template>
 
@@ -241,6 +241,7 @@ export default class MolleEditerComp extends Vue {
 
     let _check = () => {
       var current = <HTMLElement>document.activeElement;
+      console.log(current);
       return current.tagName == "TEXTAREA" ||
         (current.tagName == "INPUT" && ["text", "url", "number"].includes(current.getAttribute("type")!)) ||
         current.getAttribute("contenteditable") == "true";
@@ -269,6 +270,7 @@ export default class MolleEditerComp extends Vue {
       MoUtils.ls.copyItem.id = <string>this.$route.query.focus;
       MoUtils.ls.copyItem.key = "KeyC";
       MoUtils.lsSave();
+      console.log("copy:" + this.$route.query.focus);
 
       // e.clipboardData.setData("text/plain", this.$route.query.focus);
       // e.preventDefault();
@@ -454,7 +456,7 @@ export default class MolleEditerComp extends Vue {
       noExport: !path.indexOf("--no-export/"),
     });
     //items作成
-    MoUtils.updateItem(pageId, this.$molleModules.Box.def, true);
+    MoUtils.updateItem(pageId, this.$molleModules.Box.getItemData(), true);
   }
 }
 </script>

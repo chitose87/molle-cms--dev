@@ -1,14 +1,22 @@
 <template lang="pug">
-div
-  details.molle-guide
-    summary
-    .molle-guide__body.caption
-      p Picture、Headline、Paragraph、Buttonをグループ化したモジュールです。
+  div
+    details.molle-guide
+      summary
+      .molle-guide__body.caption
+        p Picture、Headline、Paragraph、Buttonをグループ化したモジュールです。
 
-  StyleComp(
-    :itemData="itemData"
-    @change="()=>$emit('change')"
-  )
+    label.form-inline
+      span.mr-1 {{custom.isNew.label}}:
+      input.form-control.form-control-sm(
+        v-model="itemData.class['status-new']",
+        type="checkbox",
+        @change="() => $emit('change')"
+      )
+
+    StyleComp(
+      :itemData="itemData"
+      @change="()=>$emit('change')"
+    )
 
 </template>
 
@@ -29,7 +37,13 @@ export default class CardProfile extends Profile {
   };
 
   // custom
-  static readonly custom = {};
+  static readonly custom = {
+    isNew: {
+      label: "NEW",
+      default: Vue.prototype.$words.false,
+      select: [Vue.prototype.$words.true, Vue.prototype.$words.false],
+    },
+  };
 
   //style setting
   static readonly stylePermission = {
