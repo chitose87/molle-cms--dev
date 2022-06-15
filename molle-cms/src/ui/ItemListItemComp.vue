@@ -1,7 +1,7 @@
 <template lang="pug">
 .item-list-item-comp(
   v-if="itemData.moduleId"
-  :class="{_current:$route.query.focus === node.id}"
+  :class="{_current:isCurrent}"
   :data-item-id="node.id"
   :data-drag-over="isDragOver"
 )
@@ -13,7 +13,7 @@
     )
 
     button.btn.btn-sm.btn-link.btn-block.text-left.pt-0.pb-0(
-      :class="{active: $route.query.focus === node.id}",
+      :class="{active: isCurrent}",
       :title="node.id",
       @click="onClick"
       @dblclick="expanded = !expanded"
@@ -61,7 +61,7 @@
     //削除
       v-if="!$parent.notDeleted"
     button.btn.btn-sm.btn-danger.item-list-item-comp__delete(
-      v-if="!isRoot && $route.query.focus === node.id",
+      v-if="!isRoot && isCurrent",
       @click="deleteModule()"
     ) x
 
@@ -132,6 +132,7 @@ export default class ItemListItemComp extends Vue {
   expanded = true;
   isDragOver = false;
   isDragOverLast = false;
+  isCurrent = false;
 
   static dragItem: ItemListItemComp;
 
@@ -167,9 +168,27 @@ export default class ItemListItemComp extends Vue {
             return;
           }
         }
+        if (!this.beforeValue) {
+          requestAnimationFrame(() => this.onChangeFocusModuleNode());
+        }
+
         this.$set(this, "itemData", itemData);
         this.beforeValue = itemData.value;
       });
+  }
+
+  @Watch("$route.query.focus")
+  onChangeFocusModuleNode() {
+    this.$set(this, "isCurrent", this.$route.query.focus === this.node.id);
+    if (this.isCurrent) {
+      let via: any = this;
+      while (via.hasOwnProperty("expanded")) {
+        via.expanded = true;
+        via = via.$parent;
+      }
+      // scroll
+      this.$root.$emit("ITEM_LIST_FOCUS", this);
+    }
   }
 
   private checkLoop(p: any): any {
@@ -196,6 +215,9 @@ export default class ItemListItemComp extends Vue {
     );
   }
 
+  /**
+   * 子要素のorderに準じてソート
+   */
   private groupChildSort(groupValue: any) {
     let v: any[] = [];
     for (let i in groupValue) {
@@ -234,7 +256,7 @@ export default class ItemListItemComp extends Vue {
   }
 
   /**
-   * 
+   *
    * @param e
    * @param to
    * @param before

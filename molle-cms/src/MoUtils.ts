@@ -9,10 +9,15 @@ import firebase from "firebase";
 export class MoUtils {
   static get ls() {
     if (!this._ls) {
-      this._ls = JSON.parse(localStorage.getItem("molle") || "{}");
-      if (!this._ls.history) this._ls.history = [];
-      if (!this._ls.copyItem) this._ls.copyItem = {};
-      if (!this._ls.panel) this._ls.panel = {};
+      let func = () => {
+        this._ls = JSON.parse(localStorage.getItem("molle") || "{}");
+        if (!this._ls.history) this._ls.history = [];
+        if (!this._ls.copyItem) this._ls.copyItem = {};
+        if (!this._ls.panel) this._ls.panel = {};
+      };
+
+      window.addEventListener("storage", func);
+      func();
     }
     return this._ls;
   }

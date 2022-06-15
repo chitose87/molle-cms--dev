@@ -51,6 +51,7 @@ export default class AddModuleComp extends Vue {
   mounted() {
     Singleton.itemsRef.doc(this.parentNode.id)
       .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+        if (!snap.exists) return;
         this.$set(this, "itemData", snap.data());
 
         // @ts-ignore

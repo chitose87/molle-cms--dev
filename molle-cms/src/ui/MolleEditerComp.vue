@@ -1,71 +1,71 @@
 <template lang="pug">
-  .bootstrap.molle-editer(:data-molle-edit="$route.query.edit")
-    MolleBase
-    .molle-editer__wrap(:style="style")
-      .molle-editer__fiexd-tl
-        a.btn.btn-outline-secondary(href="/--molle/")
-          b-icon(icon="house-door")
+.bootstrap.molle-editer(:data-molle-edit="$route.query.edit")
+  MolleBase
+  .molle-editer__wrap(:style="style")
+    .molle-editer__fiexd-tl
+      a.btn.btn-outline-secondary(href="/--molle/")
+        b-icon(icon="house-door")
 
-        button.btn.btn-info(@click="editerToggle")
-          span(v-if="$route.query.edit")
-            b-icon(icon="display")
-          span(v-else)
-            b-icon(icon="pencil")
+      button.btn.btn-info(@click="editerToggle")
+        span(v-if="$route.query.edit")
+          b-icon(icon="display")
+        span(v-else)
+          b-icon(icon="pencil")
 
-        button.btn.btn-outline-info(@click="openMobileWindow")
-          span
-            b-icon(icon="phone")
+      button.btn.btn-outline-info(@click="openMobileWindow")
+        span
+          b-icon(icon="phone")
 
-      .molle-editer__body(v-show="$route.query.edit")
-        style(v-if="$route.query.edit")
-          | @media screen and (min-width: 768px)  {
-          | .molle-editer__wrap{
-          |   height: calc(100% - {{panelOption.top}}px);
-          | }
-          | .molle-editer + * {
-          |   margin-left: {{panelOption.left.value+8}}px;
-          |   margin-right: {{panelOption.right.value+8}}px;
-          | }
-          | }
+    .molle-editer__body(v-show="$route.query.edit")
+      style(v-if="$route.query.edit")
+        | @media screen and (min-width: 768px)  {
+        | .molle-editer__wrap{
+        |   height: calc(100% - {{panelOption.top}}px);
+        | }
+        | .molle-editer + * {
+        |   margin-left: {{panelOption.left.value+8}}px;
+        |   margin-right: {{panelOption.right.value+8}}px;
+        | }
+        | }
 
-        // left
-        .molle-editer__left.shadow(:style="{width:panelOption.left.value+'px'}")
-          .molle-editer__scroll.pb-4.pt-2hr(ref="left")
+      // left
+      .molle-editer__left.shadow(:style="{width:panelOption.left.value+'px'}")
+        .molle-editer__scroll.pb-4.pt-2hr(ref="left")
 
-            PageListComp
+          PageListComp
 
-            PagePropertyComp(
-              v-if="vobj.pageData && vobj.pageId"
-              :pageData="vobj.pageData", :pageId="vobj.pageId"
+          PagePropertyComp(
+            v-if="vobj.pageData && vobj.pageId"
+            :pageData="vobj.pageData", :pageId="vobj.pageId"
+          )
+
+          .card.bg-light
+            .card-header.pt-1.pb-1.pl-3.pr-3 {{$words.structure}}
+            ItemListViewComp(
+              v-if="vobj.pageData"
+              :itemId="vobj.pageData.itemId"
             )
+            ItemListViewComp(
+              v-for="(loader,id) in moduleLoaderCms.modules"
+              v-if="loader.isRoot"
+              :itemId="id"
+              :key="id"
+            )
+        .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'left')")
 
-            .card.bg-light
-              .card-header.pt-1.pb-1.pl-3.pr-3 {{$words.structure}}
-              ItemListViewComp(
-                v-if="vobj.pageData"
-                :itemId="vobj.pageData.itemId"
-              )
-              ItemListViewComp(
-                v-for="(loader,id) in moduleLoaderCms.modules"
-                v-if="loader.isRoot"
-                :itemId="id"
-                :key="id"
-              )
-          .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'left')")
+      // right
+      .molle-editer__right.shadow(:style="{width:panelOption.right.value+'px'}")
+        .molle-editer__scroll
+          EditorOptionComp
 
-        // right
-        .molle-editer__right.shadow(:style="{width:panelOption.right.value+'px'}")
-          .molle-editer__scroll
-            EditorOptionComp
+          ModulePropertyComp
+        .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'right')")
+      GoogleStorageModalComp
 
-            ModulePropertyComp
-          .molle-editer__side-bar(@mousedown="(e)=>onSidebar(e,'right')")
-        GoogleStorageModalComp
+      FocusExtension
+      #bootstrap-container
 
-        FocusExtension
-        #bootstrap-container
-
-    MolleCommentView(v-if="$route.query.edit")
+  MolleCommentView(v-if="$route.query.edit")
 
 </template>
 
@@ -103,7 +103,7 @@ export default class MolleEditerComp extends Vue {
   style: any = {};
 
   theme: string = "";
-  private unsubscribe!: () => void;
+  private unsubscribes = <(() => void)[]>[];
 
   vobj = <{
     pageData: IPageData,
@@ -129,70 +129,70 @@ export default class MolleEditerComp extends Vue {
    *
    **/
   mounted() {
-    // 一時的コード
-    // Singleton.logsRef.get().then((snap: firebase.firestore.QuerySnapshot) => {
-    //   let batchQue: any = [];
-    //
-    //   snap.forEach((_snap: firebase.firestore.DocumentSnapshot) => {
-    //     let id = _snap.id;
-    //     let data: any = _snap.data();
-    //
-    //     if (data.history) {
-    //       for (let item of data.history) {
-    //         if(!item.timestamp)continue;
-    //         let uniq = item.timestamp.seconds * 1000 + "-" + Math.floor(Math.random() * 1000);
-    //         let hoge: any = {};
-    //         if (item.update) {
-    //           if (item.update.value) hoge.value = item.update.value;
-    //           if (item.update.option) hoge.option = item.update.option;
-    //           if (item.update.class) hoge.class = item.update.class;
-    //           if (item.update.moduleId) hoge.moduleId = item.update.moduleId;
-    //           if (item.update.name) hoge.name = item.update.name;
-    //         }
-    //         let obj = {
-    //           id: id,
-    //           timestamp: 0,
-    //           uid: item.uid,
-    //           data: hoge,
-    //         };
-    //         batchQue.push({
-    //           cmd: "set",
-    //           ref: Singleton.logsRef.doc(uniq),
-    //           data: obj,
-    //         });
-    //       }
-    //     }
-    //     // console.log(id, data);
-    //   });
-    //   console.log(batchQue);
-    //   MoUtils.updateBatch(batchQue).then(() => {
-    //     alert("complete");
-    //   });
-    // });
-
     // pageData
     let id = Singleton.getPageIdByPath(this.$route);
     if (id) {
-      Singleton.pagesRef.doc(id)
-        .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
-          if (!snap.exists) {
-            if (confirm(`${id}:ページを作成しますか？`)) {
-              this.addPage(id);
-            } else {
-              // console.log("no page data", this.$route.path, id);
-              window.history.go(-1);
+      this.unsubscribes.push(
+        Singleton.pagesRef.doc(id)
+          .onSnapshot((snap: firebase.firestore.DocumentSnapshot) => {
+            if (!snap.exists) {
+              if (confirm(`${id}:ページを作成しますか？`)) {
+                this.addPage(id);
+              } else {
+                // console.log("no page data", this.$route.path, id);
+                window.history.go(-1);
+              }
+              return;
             }
-            return;
-          }
-          // console.log(id, snap.data());
-          this.$set(this.vobj, "pageId", id);
-          this.$set(this.vobj, "pageData", snap.data());
-        });
+            // console.log(id, snap.data());
+            this.$set(this.vobj, "pageId", id);
+            this.$set(this.vobj, "pageData", snap.data());
+          }));
     }
 
     this.enterFrame();
 
-    let listener = (e: any) => {
+    this.userAction();
+    //
+    let listener = (current: Vue) => {
+      let leftPanel = <HTMLElement>this.$refs.left;
+      let h = leftPanel.offsetHeight;
+      let v = current.$el.getBoundingClientRect().top - leftPanel.getBoundingClientRect().top;
+      if (v < h * 0.1 || v > h * 0.9) {
+        v -= h * 0.4;
+        v += leftPanel.scrollTop;
+        leftPanel.scrollTo({top: v, behavior: "smooth"});
+      }
+    };
+    this.$root.$on("ITEM_LIST_FOCUS", listener);
+    this.unsubscribes.push(() => {
+      this.$root.$off("ITEM_LIST_FOCUS", listener);
+    });
+  }
+
+  /**
+   *
+   */
+  private enterFrame() {
+    if (!this.$el) return;
+    try {
+      // let el = <HTMLElement>document.querySelector(".molle-editer + *");
+      let v = this.$el.querySelector(".molle-editer__wrap")!.getBoundingClientRect().top;
+      if (this.panelOption.top != v) {
+        this.$set(this.panelOption, "top", v);
+      }
+    } catch (e) {
+    }
+
+    setTimeout(() => this.enterFrame(), Math.floor(1000 / 10));
+  }
+
+  /**
+   * ユーザー操作
+   */
+  private userAction() {
+    // マウス操作
+    let mouseListener = (e: any) => {
       // if (e.type == "click") console.log(e.target);
       if (!this.$route.query.edit) return;
 
@@ -236,19 +236,19 @@ export default class MolleEditerComp extends Vue {
         }
       }
     };
-    this.$parent.$el.addEventListener("mouseover", listener);
-    this.$parent.$el.addEventListener("click", listener);
+    this.$parent.$el.addEventListener("mouseover", mouseListener);
+    this.$parent.$el.addEventListener("click", mouseListener);
 
+    // キーボード操作
     let _check = () => {
       var current = <HTMLElement>document.activeElement;
-      console.log(current);
       return current.tagName == "TEXTAREA" ||
         (current.tagName == "INPUT" && ["text", "url", "number"].includes(current.getAttribute("type")!)) ||
         current.getAttribute("contenteditable") == "true";
     };
 
     //
-    document.addEventListener("keydown", (e: KeyboardEvent) => {
+    let keydown = (e: KeyboardEvent) => {
       if (_check()) return;
       if (e.ctrlKey || e.metaKey) {
         //ctrl + z
@@ -259,12 +259,13 @@ export default class MolleEditerComp extends Vue {
             break;
         }
       }
-    });
+    };
+    document.addEventListener("keydown", keydown);
 
     /**
      * ctrl + c
      */
-    document.addEventListener("copy", (e: any) => {
+    let copy = (e: any) => {
       if (_check() || !this.$route.query.focus) return;
 
       MoUtils.ls.copyItem.id = <string>this.$route.query.focus;
@@ -274,12 +275,13 @@ export default class MolleEditerComp extends Vue {
 
       // e.clipboardData.setData("text/plain", this.$route.query.focus);
       // e.preventDefault();
-    });
+    };
+    document.addEventListener("copy", copy);
 
     /**
      * ctrl + x
      */
-    document.addEventListener("cut", (e: any) => {
+    let cut = (e: any) => {
       if (_check() || !this.$route.query.focus) return;
 
       let id = <string>this.$route.query.focus;
@@ -307,12 +309,13 @@ export default class MolleEditerComp extends Vue {
       } catch (e) {
         // console.log(e)
       }
-    });
+    };
+    document.addEventListener("cut", cut);
 
     /**
      * ctrl + v
      */
-    document.addEventListener("paste", (e: any) => {
+    let paste = (e: any) => {
       // console.log(e.clipboardData);
       // console.log(e.clipboardData.getData("text/plain"));
       if (_check() || !this.$route.query.focus) return;
@@ -323,27 +326,19 @@ export default class MolleEditerComp extends Vue {
       // }else{
       //   //MoUtils.ls.copyItem.idでやる
       // }
+    };
+    document.addEventListener("paste", paste);
 
-      /**
-       * ls
-       */
+    //
+    this.unsubscribes.push(() => {
+      this.$parent.$el.removeEventListener("mouseover", mouseListener);
+      this.$parent.$el.removeEventListener("click", mouseListener);
+      //
+      document.removeEventListener("keydown", keydown);
+      document.removeEventListener("copy", copy);
+      document.removeEventListener("cut", cut);
+      document.removeEventListener("paste", paste);
     });
-  }
-
-  /**
-   *
-   */
-  private enterFrame() {
-    try {
-      // let el = <HTMLElement>document.querySelector(".molle-editer + *");
-      let v = this.$el.querySelector(".molle-editer__wrap")!.getBoundingClientRect().top;
-      if (this.panelOption.top != v) {
-        this.$set(this.panelOption, "top", v);
-      }
-    } catch (e) {
-    }
-
-    setTimeout(() => this.enterFrame(), Math.floor(1000 / 10));
   }
 
 
@@ -357,18 +352,6 @@ export default class MolleEditerComp extends Vue {
     console.log("onChangeFocusModuleNode", newer);
     if (!newer) return;
     let h = window.innerHeight;
-    try {
-      let leftPanel = <HTMLElement>this.$refs.left;
-      let current = <HTMLElement>leftPanel.querySelector(`[data-item-id="${newer}"]`);
-      let v = current.getBoundingClientRect().top;
-      if (v < h * 0.1 || v > h * 0.9) {
-        v -= h * 0.2;
-        v += leftPanel.scrollTop;
-        leftPanel.scrollTo({top: v, behavior: "smooth"});
-      }
-    } catch (e) {
-      console.log(e);
-    }
 
     try {
       let current = <HTMLElement>this.$el.nextElementSibling!.querySelector(`[data-item-id="${newer}"]`);
@@ -398,6 +381,9 @@ export default class MolleEditerComp extends Vue {
     this.$router.push(q);
   }
 
+  /**
+   * モバイル画面展開
+   */
   openMobileWindow() {
     window.open(location.origin + location.pathname + "?mode=sp",
       "MOLLE-SPview",
@@ -405,7 +391,7 @@ export default class MolleEditerComp extends Vue {
   }
 
   /**
-   *
+   * スライダーの移動
    * @param event
    * @param lr
    */
@@ -442,10 +428,11 @@ export default class MolleEditerComp extends Vue {
     };
   }
 
-  beforeDestroy() {
-    this.unsubscribe && this.unsubscribe();
-  }
-
+  /**
+   * ページ追加
+   * @param pageId
+   * @private
+   */
   private addPage(pageId: any) {
     let path = decodeURIComponent(pageId);
     //pages作成
@@ -457,6 +444,12 @@ export default class MolleEditerComp extends Vue {
     });
     //items作成
     MoUtils.updateItem(pageId, this.$molleModules.Box.getItemData(), true);
+  }
+
+  beforeDestroy() {
+    this.unsubscribes.forEach((unsubscribe: () => void) => {
+      unsubscribe();
+    });
   }
 }
 </script>

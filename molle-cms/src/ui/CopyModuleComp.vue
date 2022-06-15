@@ -1,16 +1,16 @@
 <template lang="pug">
-  .copy-module-comp.bootstrap
-    .text-right
-      span.small.mr-2 選択中のモジュールを
-      button.btn.btn-sm.btn-outline-info(type="button", @click="onClone") {{$words.copy}}
-      div(v-if="copyItem.key === 'KeyC' || copyItem.key === 'KeyX'")
-        hr
-        span.small.mr-2 {{copyItem.id}}を
-        button.btn.btn-sm.btn-outline-info(
-          type="button",
-          @click="onPaste",
-        )
-          span(v-html="copyItem.key === 'KeyC'?'Paste':'Move'")
+.copy-module-comp.bootstrap
+  .text-right
+    span.small.mr-2 選択中のモジュールを
+    button.btn.btn-sm.btn-outline-info(type="button", @click="onClone") {{$words.copy}}
+    div(v-if="copyItem.key === 'KeyC' || copyItem.key === 'KeyX'")
+      hr
+      span.small.mr-2 {{copyItem.id}}を
+      button.btn.btn-sm.btn-outline-info(
+        type="button",
+        @click="onPaste",
+      )
+        span(v-html="copyItem.key === 'KeyC'?'Paste':'Move'")
 
 </template>
 
@@ -30,10 +30,8 @@ export default class CopyModuleComp extends Vue {
   @Prop() beforeNode?: INodeObject;
   @Prop() afterNode?: INodeObject;
 
-  private copyItem = MoUtils.ls.copyItem;
-
-  mounted() {
-    this.$set(this, "copyItem", MoUtils.ls.copyItem);
+  get copyItem(): any {
+    return MoUtils.ls.copyItem;
   }
 
   onClone() {
