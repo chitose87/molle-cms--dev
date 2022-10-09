@@ -67,8 +67,8 @@ export default class Section extends Module {
       padding-right: $gtr;
     }
     @include mediaquery-sm {
-      padding-left: $gtr/2;
-      padding-right: $gtr/2;
+      padding-left: $gtr*0.5;
+      padding-right: $gtr*0.5;
     }
 
     & & {
@@ -161,7 +161,7 @@ export default class Section extends Module {
   }
   @include mediaquery-sm {
     @include _func("sm", 0.5rem, 0.5rem);
-    @include _func("md", 4rem, $gtr/2);
+    @include _func("md", 4rem, $gtr*0.5);
     @include _func("lg", 8rem, 3rem);
     //&.s-sm {
     //  @at-root .section__body &,.container & {
@@ -228,8 +228,8 @@ export default class Section extends Module {
         //  }
         //
         //  @include mediaquery-sm {
-        //    @include _func("sm", $gtr/2);
-        //    @include _func("md", $gtr/2);
+        //    @include _func("sm", $gtr*0.5);
+        //    @include _func("md", $gtr*0.5);
         //    @include _func("lg", 3rem);
         //  }
       }

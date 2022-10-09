@@ -1,9 +1,11 @@
 $rem: 16px;
 $gtr: ($gutter * 1px);
+$gap: ($gutter * 1px);
 $size-container: ($rem * 4.5 * 12) + ($gutter * 11) + ($gutter * 2);
 $header-height: 4rem;
 $header-height-sp: 3rem;
 
+// TBD
 $size-col: (
   1: calc(100% / 12 - 0.01px),
   2: calc(100% / 6 - 0.01px),
@@ -18,6 +20,14 @@ $size-col: (
   11: calc(100% / 12 * 11 - 0.01px),
   12: 100%
 );
+
+@function getColSize($i) {
+  @if $i==12 {
+    @return 100%;
+  } @else {
+    @return calc((#{$i*100%} - #{(12 - $i)*$gap}) / 12);
+  }
+}
 
 @mixin col($v) {
   //-ms-flex: 0 $v;

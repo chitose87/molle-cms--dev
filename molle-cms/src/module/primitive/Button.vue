@@ -43,7 +43,7 @@ export default class Button extends Module {
     @include icon-right-open;
     display: inline-block;
     margin-left: 0.5em;
-    transition: transform $tick/2 $easeIn;
+    transition: transform $tick*0.5 $easeIn;
   }
 
   &:hover {

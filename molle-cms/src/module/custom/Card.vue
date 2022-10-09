@@ -51,7 +51,7 @@ export default class Card extends Module {
   &__img.picture {
     width: auto;
     position: relative;
-    padding-top: (9/16*100%);
+    //padding-top: (9/16*100%);
     overflow: hidden;
     //margin-top: 0;
     @include mediaquery-not-sm {
